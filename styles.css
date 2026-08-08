@@ -113,7 +113,12 @@ body {
 /* Sidebar section */
 
 .sidebar-section {
+    flex: 1;
+    min-height: 0;
+
     padding: 22px 12px;
+
+    overflow-y: auto;
 }
 
 .section-title {
@@ -205,6 +210,29 @@ body {
     text-overflow: ellipsis;
 }
 
+.sidebar-footer {
+    padding: 12px;
+
+    border-top: 1px solid var(--border);
+}
+
+.sidebar-action {
+    background: var(--text);
+    color: white;
+
+    text-decoration: none;
+}
+
+.sidebar-action:hover {
+    background: #2d3035;
+    color: white;
+}
+
+.sidebar-action .document-icon {
+    background: rgba(255, 255, 255, 0.14);
+    color: white;
+}
+
 
 /* Main */
 
@@ -259,6 +287,19 @@ body {
     min-height: 0;
 
     padding: 20px;
+}
+
+.site-footer {
+    padding: 10px 28px;
+
+    background: var(--surface);
+
+    border-top: 1px solid var(--border);
+
+    color: var(--text-tertiary);
+
+    font-size: 11px;
+    text-align: center;
 }
 
 #pdfViewer {
@@ -347,9 +388,35 @@ body {
         padding: 12px;
     }
 
+    .site-footer {
+        padding: 10px 20px;
+    }
+
 }
 
 /* Upload Page */
+
+.upload-page {
+    height: auto;
+    min-height: 100vh;
+
+    overflow-y: auto;
+}
+
+.upload-page .app {
+    min-height: 100vh;
+    height: auto;
+}
+
+.upload-page .sidebar {
+    position: sticky;
+    top: 0;
+}
+
+.upload-page .main {
+    height: auto;
+    min-height: 100vh;
+}
 
 .upload-card {
     width: min(700px, 100%);
