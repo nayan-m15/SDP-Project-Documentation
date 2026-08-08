@@ -1,8 +1,14 @@
 [
-    {
-        "name": "test.pdf",
-        "path": "pdfs/test.pdf",
-        "size": 123456,
-        "data": "2026-08-08T12:34:56Z"
-    }
+  {
+    "name": "test.pdf",
+    "path": "pdfs/test.pdf",
+    "size": 123456,
+    "data": "2026-08-08T12:34:56Z"
+  },
+  {
+    "name": "OS_Outline (2).pdf",
+    "path": "pdfs/OS_Outline (2).pdf",
+    "size": 109145,
+    "date": "2026-08-08T09:20:58.164Z"
+  }
 ]
