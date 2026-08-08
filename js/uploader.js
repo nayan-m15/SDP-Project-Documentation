@@ -417,6 +417,190 @@ async function getManifest(
     }
 }
 
+async function loadExistingDocuments() {
+
+    const existingDocuments =
+        document.getElementById("existingDocuments");
+
+
+    if (!existingDocuments) {
+        return;
+    }
+
+
+    try {
+
+        const owner =
+            ownerInput.value.trim();
+
+        const repo =
+            repoInput.value.trim();
+
+        const token =
+            tokenInput.value.trim();
+
+
+        /*
+         * We need all three values
+         * before requesting the manifest.
+         */
+        if (!owner || !repo || !token) {
+
+            existingDocuments.innerHTML = `
+                <p class="documents-empty">
+                    Enter your GitHub details above
+                    to view existing documents.
+                </p>
+            `;
+
+            return;
+        }
+
+
+        existingDocuments.textContent =
+            "Loading documents...";
+
+
+        const {
+            manifest
+        } = await getManifest(
+            token,
+            owner,
+            repo
+        );
+
+
+        /*
+         * No documents.
+         */
+        if (manifest.length === 0) {
+
+            existingDocuments.innerHTML = `
+                <p class="documents-empty">
+                    No documents have been uploaded yet.
+                </p>
+            `;
+
+            return;
+        }
+
+
+        /*
+         * Create the document list.
+         */
+        existingDocuments.innerHTML = "";
+
+
+        manifest.forEach((pdf) => {
+
+            const item =
+                document.createElement("div");
+
+            item.className =
+                "existing-document";
+
+
+            const date =
+                new Date(pdf.date);
+
+
+            item.innerHTML = `
+
+                <div class="existing-document-icon">
+                    PDF
+                </div>
+
+                <div class="existing-document-info">
+
+                    <div class="existing-document-name">
+                        ${pdf.name}
+                    </div>
+
+                    <div class="existing-document-meta">
+                        ${formatFileSize(pdf.size)}
+                        ·
+                        ${formatDate(date)}
+                    </div>
+
+                </div>
+
+            `;
+
+
+            existingDocuments.appendChild(
+                item
+            );
+
+        });
+
+
+    } catch (error) {
+
+        console.error(
+            "Failed to load documents:",
+            error
+        );
+
+
+        existingDocuments.innerHTML = `
+            <p class="documents-error">
+                ${error.message}
+            </p>
+        `;
+
+    }
+
+}
+function formatFileSize(bytes) {
+
+    if (!bytes) {
+        return "Unknown size";
+    }
+
+
+    const units = [
+        "B",
+        "KB",
+        "MB",
+        "GB"
+    ];
+
+
+    let size = bytes;
+    let unitIndex = 0;
+
+
+    while (
+        size >= 1024 &&
+        unitIndex < units.length - 1
+    ) {
+
+        size /= 1024;
+        unitIndex++;
+
+    }
+
+
+    return `${size.toFixed(1)} ${units[unitIndex]}`;
+}
+
+
+function formatDate(date) {
+
+    if (Number.isNaN(date.getTime())) {
+        return "Unknown date";
+    }
+
+
+    return date.toLocaleDateString(
+        undefined,
+        {
+            year: "numeric",
+            month: "short",
+            day: "numeric"
+        }
+    );
+}
 
 /*Update manifest.json. */
 async function updateManifest(
@@ -690,4 +874,19 @@ uploadButton.addEventListener(
         }
 
     }
+);
+
+ownerInput.addEventListener(
+    "change",
+    loadExistingDocuments
+);
+
+repoInput.addEventListener(
+    "change",
+    loadExistingDocuments
+);
+
+tokenInput.addEventListener(
+    "change",
+    loadExistingDocuments
 );
