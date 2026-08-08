@@ -17,15 +17,11 @@ const uploadStatus =
     document.getElementById("uploadStatus");
 
 
-/*Set Max size of PDF to 25 MB. */
- 
 const MAX_FILE_SIZE =
     25 * 1024 * 1024;
 
 
-/*
- * Display a status message.
- */
+/* Display a status message. */
 function showStatus(message, type) {
 
     uploadStatus.hidden = false;
@@ -37,9 +33,7 @@ function showStatus(message, type) {
 }
 
 
-/*
- * Validate the form.
- */
+/*Validate the form.*/
 function validateForm() {
 
     const owner =
@@ -123,10 +117,12 @@ function validateForm() {
         return false;
     }
 
+
     return true;
 }
 
-/* Convert a File into a Base64 string. */
+
+/*Convert a File to Base64. */
 function fileToBase64(file) {
 
     return new Promise((resolve, reject) => {
@@ -146,6 +142,7 @@ function fileToBase64(file) {
             resolve(base64);
         };
 
+
         reader.onerror = () => {
 
             reject(
@@ -155,11 +152,30 @@ function fileToBase64(file) {
             );
 
         };
+
+
         reader.readAsDataURL(file);
 
     });
 }
 
+
+/* Build a GitHub Contents API URL.*/
+function getContentsUrl(
+    owner,
+    repo,
+    path
+) {
+
+    return (
+        `https://api.github.com/repos/` +
+        `${owner}/${repo}/contents/` +
+        `${path}`
+    );
+}
+
+
+/* Upload the PDF to GitHub.*/
 async function uploadPDF(
     token,
     owner,
@@ -176,7 +192,11 @@ async function uploadPDF(
 
 
     const apiUrl =
-        `https://api.github.com/repos/${owner}/${repo}/contents/${encodeURIComponent(path)}`;
+        getContentsUrl(
+            owner,
+            repo,
+            encodeURIComponent(path)
+        );
 
 
     const response =
@@ -209,6 +229,7 @@ async function uploadPDF(
 
         });
 
+
     const result =
         await response.json();
 
@@ -217,13 +238,212 @@ async function uploadPDF(
 
         throw new Error(
             result.message ||
-            "GitHub rejected the upload."
+            "GitHub rejected the PDF upload."
         );
 
     }
+
+
     return result;
 }
 
+
+/*Get the existing manifest. */
+async function getManifest(
+    token,
+    owner,
+    repo
+) {
+
+    const path =
+        "pdfs/manifest.json";
+
+
+    const apiUrl =
+        getContentsUrl(
+            owner,
+            repo,
+            path
+        );
+
+
+    const response =
+        await fetch(apiUrl, {
+
+            headers: {
+
+                "Authorization":
+                    `Bearer ${token}`,
+
+                "Accept":
+                    "application/vnd.github+json"
+
+            }
+
+        });
+
+
+    const result =
+        await response.json();
+
+
+    if (!response.ok) {
+
+        throw new Error(
+            result.message ||
+            "Unable to retrieve manifest."
+        );
+
+    }
+
+
+    /*GitHub returns the file contents Base64 encoded. */
+    const decoded =
+        atob(
+            result.content.replace(/\n/g, "")
+        );
+
+
+    const manifest =
+        JSON.parse(decoded);
+
+
+    return {
+        manifest,
+        sha: result.sha
+    };
+}
+
+
+/*Update manifest.json. */
+async function updateManifest(
+    token,
+    owner,
+    repo,
+    file
+) {
+
+    const {
+        manifest,
+        sha
+    } = await getManifest(
+        token,
+        owner,
+        repo
+    );
+
+
+    const path =
+        `pdfs/${file.name}`;
+
+
+    /*Check whether this file already exists.*/
+    const existingIndex =
+        manifest.findIndex(
+            (item) =>
+                item.path === path
+        );
+
+
+    if (existingIndex !== -1) {
+
+        throw new Error(
+            `A document named "${file.name}" already exists.`
+        );
+
+    }
+
+
+    /*Add the new document. */
+    manifest.push({
+
+        name:
+            file.name,
+
+        path:
+            path,
+
+        size:
+            file.size,
+
+        date:
+            new Date().toISOString()
+
+    });
+
+
+    /*Convert the updated manifest back into Base64. */
+    const content =
+        btoa(
+            JSON.stringify(
+                manifest,
+                null,
+                2
+            )
+        );
+
+
+    const apiUrl =
+        getContentsUrl(
+            owner,
+            repo,
+            "pdfs/manifest.json"
+        );
+
+
+    const response =
+        await fetch(apiUrl, {
+
+            method: "PUT",
+
+            headers: {
+
+                "Authorization":
+                    `Bearer ${token}`,
+
+                "Accept":
+                    "application/vnd.github+json",
+
+                "Content-Type":
+                    "application/json"
+
+            },
+
+            body: JSON.stringify({
+
+                message:
+                    `Update manifest for ${file.name}`,
+
+                content:
+                    content,
+
+                sha:
+                    sha
+
+            })
+
+        });
+
+
+    const result =
+        await response.json();
+
+
+    if (!response.ok) {
+
+        throw new Error(
+            result.message ||
+            "Unable to update manifest."
+        );
+
+    }
+
+
+    return result;
+}
+
+
+/*Handle the Upload button. */
 uploadButton.addEventListener(
     "click",
     async () => {
@@ -231,7 +451,6 @@ uploadButton.addEventListener(
         uploadStatus.hidden = true;
 
 
-        /* Validate everything first. */
         if (!validateForm()) {
             return;
         }
@@ -250,15 +469,13 @@ uploadButton.addEventListener(
             fileInput.files[0];
 
 
-        /* Disable the button while the upload is happening.*/
         uploadButton.disabled = true;
 
         uploadButton.textContent =
             "Uploading...";
 
 
-        try {
-
+        try {            
             showStatus(
                 "Uploading PDF to GitHub...",
                 "info"
@@ -272,20 +489,32 @@ uploadButton.addEventListener(
                 file
             );
 
+            showStatus(
+                "PDF uploaded. Updating document list...",
+                "info"
+            );
+
+
+            await updateManifest(
+                token,
+                owner,
+                repo,
+                file
+            );
 
             showStatus(
-                "PDF uploaded successfully. The documentation site will update shortly.",
+                "Upload complete. GitHub Pages will publish the document shortly.",
                 "success"
             );
 
 
-            /* Clear the file input. */
             fileInput.value = "";
 
 
         } catch (error) {
 
             console.error(error);
+
 
             showStatus(
                 error.message ||
