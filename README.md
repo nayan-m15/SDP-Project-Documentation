@@ -31,6 +31,22 @@ The upload page requires:
 After validation, the uploader sends the PDF to the `pdfs/` folder and updates
 `pdfs/manifest.json` so the document appears in the library.
 
+## How to get a Github Token
+Go to your GitHub account's:
+
+Settings → Developer settings → Personal access tokens → Fine-grained tokens
+
+Create a token with access to only this repository.
+
+For permissions, give it:
+```bash
+Contents
+    Read and write
+```
+Add an expiry period for some level of security. 
+
+KEEP THIS TOKEN PRIVATE
+
 ## Running Locally
 
 This is a static site, so it can be opened directly in a browser. For the most
