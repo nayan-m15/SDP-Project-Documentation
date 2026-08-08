@@ -7,37 +7,73 @@
         <link rel="stylesheet" href="styles.css">
     </head>
     <body>
-        <header>
-            <h1>Welcome to SDP Interlude Documentation</h1>
-        </header>
-        <main>
-            <section>
-                <h2>About</h2>
-                <p>This website contains all SDP Interlude's documentation for the SDP project.</p>
-            </section>
-            <section>
-                <h1>PDF Documentation</h1>
 
-                <p>Select a document:</p>
+        <div class="app">
+            <!-- Sidebar -->
+            <aside class="sidebar">
 
-                <div id="documents"></div>
+                <div class="brand">
+                    <div class="brand-icon">
+                        PDF
+                    </div>
 
-                <hr>
+                    <div>
+                        <h1>SDP Interlude</h1>
+                        <span>Document Library</span>
+                    </div>
+                </div>
 
-                <iframe
-                    id="pdfViewer"
-                    width="100%"
-                    height="700"
-                    style="border: none;"
-                ></iframe>
+                <div class="sidebar-section">
+                    <div class="section-title">
+                        Documents
+                    </div>
 
-                <script src="./js/viewer.js"></script>
+                    <div id="documents" class="documents"></div>
+                </div>
+            </aside>
 
-            </section>
-        </main>
-        <footer>
-            <p>&copy; 2026 SDP Interlude</p>
-        </footer>
+            <!-- Main content -->
+            <main class="main">
+
+                <header class="topbar">
+                    <div>
+                        <h2 id="viewerTitle">
+                            Select a document
+                        </h2>
+
+                        <p id="viewerSubtitle">
+                            Choose a document from the sidebar to begin reading.
+                        </p>
+                    </div>
+                </header>
+
+                <section class="viewer-container">
+
+                    <div id="emptyState" class="empty-state">
+
+                        <div class="empty-icon">
+                            PDF
+                        </div>
+
+                        <h3>No document selected</h3>
+
+                        <p>
+                            Select a document from the sidebar
+                            to view it here.
+                        </p>
+                    </div>
+
+                    <iframe
+                        id="pdfViewer"
+                        title="PDF Viewer"
+                    ></iframe>
+
+                </section>
+            </main>
+        </div>
+
+        <script src="./js/viewer.js"></script>
+
     </body>
 
 </html>

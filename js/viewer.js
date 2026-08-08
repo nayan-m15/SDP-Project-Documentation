@@ -1,39 +1,137 @@
-const documentsContainer = document.getElementById("documents");
-const pdfViewer = document.getElementById("pdfViewer");
+const documentsContainer =
+    document.getElementById("documents");
+
+const pdfViewer =
+    document.getElementById("pdfViewer");
+
+const emptyState =
+    document.getElementById("emptyState");
+
+const viewerTitle =
+    document.getElementById("viewerTitle");
+
+const viewerSubtitle =
+    document.getElementById("viewerSubtitle");
+
 
 async function loadDocuments() {
+
     try {
-        const response = await fetch("./pdfs/manifest.json");
+
+        const response =
+            await fetch("./pdfs/manifest.json");
 
         if (!response.ok) {
-            throw new Error("Failed to load manifest");
+            throw new Error(
+                "Failed to load manifest"
+            );
         }
 
-        const documents = await response.json();
+        const documents =
+            await response.json();
 
         documentsContainer.innerHTML = "";
 
+
         documents.forEach((pdf) => {
-            const button = document.createElement("button");
 
-            button.textContent = pdf.name;
+            const button =
+                document.createElement("button");
 
-            button.addEventListener("click", () => {
-                pdfViewer.src = `./${pdf.path}`;
-            });
+            button.className =
+                "document-button";
 
-            documentsContainer.appendChild(button);
-            documentsContainer.appendChild(
-                document.createElement("br")
+
+            button.innerHTML = `
+                <span class="document-icon">
+                    PDF
+                </span>
+
+                <span class="document-name">
+                    ${pdf.name}
+                </span>
+            `;
+
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    selectDocument(
+                        pdf,
+                        button
+                    );
+
+                }
             );
+
+
+            documentsContainer.appendChild(
+                button
+            );
+
         });
 
+
     } catch (error) {
+
         console.error(error);
 
-        documentsContainer.textContent =
-            "Unable to load documents.";
+        documentsContainer.innerHTML = `
+            <div style="
+                padding: 10px;
+                color: #b42318;
+                font-size: 12px;
+            ">
+                Unable to load documents.
+            </div>
+        `;
+
     }
+
 }
 
+
+/* Select and display a PDF.*/
+function selectDocument(pdf, button) {
+
+    /* Remove active state from all document buttons. */
+    document
+        .querySelectorAll(".document-button")
+        .forEach((item) => {
+
+            item.classList.remove("active");
+
+        });
+
+
+    /*Mark selected document as active. */
+    button.classList.add("active");
+
+
+    /*Update viewer information.*/
+    viewerTitle.textContent =
+        pdf.name;
+
+    viewerSubtitle.textContent =
+        "Document preview";
+
+
+    /* Hide empty state. */
+    emptyState.style.display =
+        "none";
+
+
+    /* Show PDF viewer. */
+    pdfViewer.style.display =
+        "block";
+
+
+    /* Load PDF.*/
+    pdfViewer.src =
+        `./${pdf.path}`;
+}
+
+
+/*Load documents when page starts. */
 loadDocuments();
