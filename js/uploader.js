@@ -229,7 +229,6 @@ async function uploadPDF(
 
         });
 
-
     const result =
         await response.json();
 
@@ -240,13 +239,84 @@ async function uploadPDF(
             result.message ||
             "GitHub rejected the PDF upload."
         );
-
     }
-
-
     return result;
 }
 
+async function verifyGitHubAccess(
+    token,
+    owner,
+    repo
+) {
+
+    const apiUrl =
+        `https://api.github.com/repos/${owner}/${repo}`;
+
+
+    const response =
+        await fetch(apiUrl, {
+
+            headers: {
+
+                "Authorization":
+                    `Bearer ${token}`,
+
+                "Accept":
+                    "application/vnd.github+json"
+
+            }
+
+        });
+
+    const result =
+        await response.json();
+
+
+    if (!response.ok) {
+
+        if (response.status === 401) {
+
+            throw new Error(
+                "Invalid or expired GitHub token."
+            );
+        }
+
+        if (response.status === 403) {
+
+            throw new Error(
+                "GitHub denied access. Check your token permissions."
+            );
+        }
+
+        if (response.status === 404) {
+
+            throw new Error(
+                "Repository not found. Check the GitHub username and repository name."
+            );
+        }
+
+        throw new Error(
+            result.message ||
+            "Unable to access the GitHub repository."
+        );
+    }
+    return result;
+}
+
+function documentExists(
+    manifest,
+    file
+) {
+
+    const path =
+        `pdfs/${file.name}`;
+
+
+    return manifest.some(
+        (item) =>
+            item.path === path
+    );
+}
 
 /*Get the existing manifest. */
 async function getManifest(
@@ -255,15 +325,11 @@ async function getManifest(
     repo
 ) {
 
-    const path =
-        "pdfs/manifest.json";
-
-
     const apiUrl =
         getContentsUrl(
             owner,
             repo,
-            path
+            "pdfs/manifest.json"
         );
 
 
@@ -289,29 +355,66 @@ async function getManifest(
 
     if (!response.ok) {
 
+        if (response.status === 401) {
+
+            throw new Error(
+                "Invalid or expired GitHub token."
+            );
+        }
+
+        if (response.status === 403) {
+
+            throw new Error(
+                "GitHub denied access to the repository."
+            );
+        }
+
+        if (response.status === 404) {
+
+            throw new Error(
+                "manifest.json was not found. Make sure the pdfs folder and manifest.json exist."
+            );
+        }
+
         throw new Error(
             result.message ||
-            "Unable to retrieve manifest."
+            "Unable to retrieve manifest.json."
         );
-
     }
 
 
-    /*GitHub returns the file contents Base64 encoded. */
-    const decoded =
-        atob(
-            result.content.replace(/\n/g, "")
+    try {
+
+        const decoded =
+            atob(
+                result.content.replace(/\n/g, "")
+            );
+
+
+        const manifest =
+            JSON.parse(decoded);
+
+
+        if (!Array.isArray(manifest)) {
+
+            throw new Error(
+                "Manifest must contain an array."
+            );
+        }
+
+
+        return {
+            manifest,
+            sha: result.sha
+        };
+
+    } catch (error) {
+
+        throw new Error(
+            "manifest.json contains invalid JSON."
         );
 
-
-    const manifest =
-        JSON.parse(decoded);
-
-
-    return {
-        manifest,
-        sha: result.sha
-    };
+    }
 }
 
 
@@ -320,41 +423,15 @@ async function updateManifest(
     token,
     owner,
     repo,
-    file
+    file,
+    manifest,
+    sha
 ) {
-
-    const {
-        manifest,
-        sha
-    } = await getManifest(
-        token,
-        owner,
-        repo
-    );
-
 
     const path =
         `pdfs/${file.name}`;
 
 
-    /*Check whether this file already exists.*/
-    const existingIndex =
-        manifest.findIndex(
-            (item) =>
-                item.path === path
-        );
-
-
-    if (existingIndex !== -1) {
-
-        throw new Error(
-            `A document named "${file.name}" already exists.`
-        );
-
-    }
-
-
-    /*Add the new document. */
     manifest.push({
 
         name:
@@ -372,7 +449,6 @@ async function updateManifest(
     });
 
 
-    /*Convert the updated manifest back into Base64. */
     const content =
         btoa(
             JSON.stringify(
@@ -431,11 +507,34 @@ async function updateManifest(
 
     if (!response.ok) {
 
+        if (response.status === 409) {
+
+            throw new Error(
+                "The document list changed while uploading. Please try again."
+            );
+        }
+
+
+        if (response.status === 401) {
+
+            throw new Error(
+                "Your GitHub token is invalid or expired."
+            );
+        }
+
+
+        if (response.status === 403) {
+
+            throw new Error(
+                "Your GitHub token does not have permission to modify the manifest."
+            );
+        }
+
+
         throw new Error(
             result.message ||
-            "Unable to update manifest."
+            "Failed to update manifest.json."
         );
-
     }
 
 
@@ -451,6 +550,9 @@ uploadButton.addEventListener(
         uploadStatus.hidden = true;
 
 
+        /*
+         * Validate local inputs first.
+         */
         if (!validateForm()) {
             return;
         }
@@ -472,10 +574,56 @@ uploadButton.addEventListener(
         uploadButton.disabled = true;
 
         uploadButton.textContent =
-            "Uploading...";
+            "Checking...";
 
 
-        try {            
+        try {
+
+
+            showStatus(
+                "Checking GitHub access...",
+                "info"
+            );
+
+
+            await verifyGitHubAccess(
+                token,
+                owner,
+                repo
+            );
+
+            showStatus(
+                "Checking existing documents...",
+                "info"
+            );
+
+
+            const {
+                manifest,
+                sha
+            } = await getManifest(
+                token,
+                owner,
+                repo
+            );
+
+
+            if (
+                documentExists(
+                    manifest,
+                    file
+                )
+            ) {
+
+                throw new Error(
+                    `A document named "${file.name}" already exists. Rename the PDF and try again.`
+                );
+            }
+
+            uploadButton.textContent =
+                "Uploading...";
+
+
             showStatus(
                 "Uploading PDF to GitHub...",
                 "info"
@@ -489,6 +637,10 @@ uploadButton.addEventListener(
                 file
             );
 
+            uploadButton.textContent =
+                "Publishing...";
+
+
             showStatus(
                 "PDF uploaded. Updating document list...",
                 "info"
@@ -499,11 +651,13 @@ uploadButton.addEventListener(
                 token,
                 owner,
                 repo,
-                file
+                file,
+                manifest,
+                sha
             );
 
             showStatus(
-                "Upload complete. GitHub Pages will publish the document shortly.",
+                "Upload complete. GitHub Pages is now publishing the document. This usually takes about a minute.",
                 "success"
             );
 
@@ -513,7 +667,10 @@ uploadButton.addEventListener(
 
         } catch (error) {
 
-            console.error(error);
+            console.error(
+                "Upload error:",
+                error
+            );
 
 
             showStatus(
