@@ -348,3 +348,233 @@ body {
     }
 
 }
+
+/* Upload Page */
+
+.upload-card {
+    width: min(700px, 100%);
+
+    margin: 0 auto;
+
+    padding: 28px;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: 12px;
+}
+
+
+.upload-header {
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+
+    padding-bottom: 24px;
+
+    margin-bottom: 24px;
+
+    border-bottom: 1px solid var(--border);
+}
+
+
+.upload-icon {
+    width: 46px;
+    height: 46px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+
+    background: var(--text);
+
+    color: white;
+
+    font-size: 10px;
+    font-weight: 700;
+}
+
+
+.upload-header h3 {
+    font-size: 16px;
+    font-weight: 650;
+}
+
+
+.upload-header p {
+    margin-top: 4px;
+
+    color: var(--text-secondary);
+
+    font-size: 12px;
+}
+
+
+/* Form */
+
+.form-section {
+    margin-bottom: 20px;
+}
+
+
+.form-section label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+
+.form-section input[type="text"],
+.form-section input[type="password"] {
+    width: 100%;
+
+    height: 42px;
+
+    padding: 0 12px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 7px;
+
+    outline: none;
+
+    background: var(--surface);
+
+    color: var(--text);
+
+    font-family: inherit;
+    font-size: 13px;
+
+    transition:
+        border-color 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+
+.form-section input[type="text"]:focus,
+.form-section input[type="password"]:focus {
+    border-color: var(--accent);
+
+    box-shadow:
+        0 0 0 3px rgba(37, 99, 235, 0.10);
+}
+
+
+.form-section input[type="file"] {
+    width: 100%;
+
+    padding: 12px;
+
+    border: 1px dashed var(--border);
+
+    border-radius: 7px;
+
+    background: var(--background);
+
+    font-family: inherit;
+
+    font-size: 12px;
+}
+
+
+.input-help {
+    margin-top: 6px;
+
+    color: var(--text-tertiary);
+
+    font-size: 11px;
+
+    line-height: 1.5;
+}
+
+
+/* Upload button */
+
+.upload-button {
+    width: 100%;
+
+    height: 44px;
+
+    margin-top: 4px;
+
+    border: none;
+
+    border-radius: 7px;
+
+    background: var(--text);
+
+    color: white;
+
+    font-family: inherit;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        opacity 0.15s ease,
+        transform 0.1s ease;
+}
+
+
+.upload-button:hover {
+    opacity: 0.88;
+}
+
+
+.upload-button:active {
+    transform: scale(0.99);
+}
+
+
+.upload-button:disabled {
+    opacity: 0.5;
+
+    cursor: not-allowed;
+
+    transform: none;
+}
+
+
+/* Status */
+
+.upload-status {
+    margin-top: 16px;
+
+    padding: 12px;
+
+    border-radius: 7px;
+
+    font-size: 12px;
+
+    line-height: 1.5;
+}
+
+
+.upload-status.success {
+    background: #ecfdf3;
+
+    color: #067647;
+}
+
+
+.upload-status.error {
+    background: #fef3f2;
+
+    color: #b42318;
+}
+
+
+.upload-status.info {
+    background: #eff8ff;
+
+    color: #175cd3;
+}

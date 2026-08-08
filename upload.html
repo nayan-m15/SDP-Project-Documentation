@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Upload Document</title>
+
+    <link
+        rel="stylesheet"
+        href="./styles.css"
+    >
+
+</head>
+
+
+<body>
+
+    <div class="app">
+
+        <!-- Sidebar -->
+
+        <aside class="sidebar">
+
+            <div class="brand">
+
+                <div class="brand-icon">
+                    PDF
+                </div>
+
+                <div>
+
+                    <h1>Documentation</h1>
+
+                    <span>
+                        Team Portal
+                    </span>
+
+                </div>
+            </div>
+
+
+            <div class="sidebar-section">
+
+                <div class="section-title">
+                    Navigation
+                </div>
+
+                <div class="documents">
+
+                    <a
+                        href="./index.html"
+                        class="document-button"
+                    >
+
+                        <span class="document-icon">
+                            DOC
+                        </span>
+
+                        <span class="document-name">
+                            Documents
+                        </span>
+
+                    </a>
+
+                    <a
+                        href="./upload.html"
+                        class="document-button active"
+                    >
+
+                        <span class="document-icon">
+                            +
+                        </span>
+
+                        <span class="document-name">
+                            Upload PDF
+                        </span>
+
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+
+        <!-- Main content -->
+
+        <main class="main">
+
+            <header class="topbar">
+
+                <div>
+
+                    <h2>
+                        Upload document
+                    </h2>
+
+                    <p>
+                        Add a PDF to the documentation library.
+                    </p>
+
+                </div>
+            </header>
+
+            <section class="viewer-container">
+
+                <div class="upload-card">
+
+                    <div class="upload-header">
+
+                        <div class="upload-icon">
+                            PDF
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                Add a new document
+                            </h3>
+
+                            <p>
+                                Upload a PDF to the repository.
+                            </p>
+
+                        </div>
+                    </div>
+
+                    <!-- GitHub configuration -->
+
+                    <div class="form-section">
+
+                        <label for="owner">
+                            GitHub username / organisation
+                        </label>
+
+                        <input
+                            id="owner"
+                            type="text"
+                            placeholder="your-username"
+                            autocomplete="off"
+                        >
+
+                    </div>
+
+                    <div class="form-section">
+
+                        <label for="repo">
+                            Repository name
+                        </label>
+
+                        <input
+                            id="repo"
+                            type="text"
+                            placeholder="pdf-documentation-site"
+                            autocomplete="off"
+                        >
+
+                    </div>
+
+                    <div class="form-section">
+
+                        <label for="token">
+                            GitHub token
+                        </label>
+
+                        <input
+                            id="token"
+                            type="password"
+                            placeholder="github_pat_..."
+                            autocomplete="off"
+                        >
+
+                        <p class="input-help">
+                            Your token is only used in this browser session and is never stored in the repository.
+                        </p>
+
+                    </div>
+
+                    <!-- File -->
+
+                    <div class="form-section">
+
+                        <label for="pdfFile">
+                            PDF document
+                        </label>
+
+                        <input
+                            id="pdfFile"
+                            type="file"
+                            accept="application/pdf,.pdf"
+                        >
+                    </div>
+
+                    <!-- Upload button -->
+
+                    <button
+                        id="uploadButton"
+                        class="upload-button"
+                        type="button"
+                    >
+                        Upload PDF
+                    </button>
+                    <!-- Status -->
+
+                    <div id="uploadStatus" class="upload-status" hidden></div>
+
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="./js/uploader.js"></script>
+
+</body>
+
+</html>
