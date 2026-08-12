@@ -17,19 +17,49 @@ GitHub Contents API.
 
 ## How It Works
 
-The document viewer reads `pdfs/manifest.json` and builds the sidebar document
-list from that file. Selecting a document loads the matching PDF path into the
-embedded viewer.
+The document viewer fetches `pdfs/manifest.json` from the live GitHub Pages
+deployment so every team member always sees the latest documents without needing
+to pull local changes. If the site is unreachable (e.g. offline development),
+it falls back to the local manifest file. Selecting a document loads the
+matching PDF from GitHub Pages into the embedded viewer.
 
-The upload page requires:
+The upload page comes pre-filled with the repository owner and name. Team
+members only need to provide:
 
-- A GitHub username or organisation.
-- The repository name.
-- A GitHub token with permission to write repository contents.
+- A GitHub fine-grained personal access token with write access to this
+  repository.
 - A PDF file no larger than 25 MB.
 
 After validation, the uploader sends the PDF to the `pdfs/` folder and updates
 `pdfs/manifest.json` so the document appears in the library.
+
+## Team Setup Guide
+
+The viewer works for anyone — no token required. Only the upload page needs
+authentication.
+
+### For viewers (read-only)
+
+Open the deployed GitHub Pages URL. The document list and PDFs load
+automatically from the live site.
+
+### For uploaders (team members)
+
+Each team member must create their own fine-grained personal access token:
+
+1. Go to **Settings → Developer settings → Personal access tokens →
+   Fine-grained tokens**.
+2. Click **Generate new token**.
+3. Set **Repository access** to this repository only
+   (`nayan-m15/SDP-Project-Documentation`).
+4. Under **Repository permissions**, set **Contents** to **Read and write**.
+5. Choose an expiration period.
+6. Copy the generated `github_pat_...` token and keep it private.
+7. Open the upload page, paste the token into the GitHub token field, select a
+   PDF, and click **Upload PDF**.
+
+The owner and repository fields are already filled in — just add your token and
+you are ready to upload.
 
 ## How to get a Github Token
 Go to your GitHub account's:
@@ -85,3 +115,7 @@ Keep the manifest valid JSON so the viewer can load the document list.
 This repository contains AI-generated code.
 
 This README was AI-generated and reviewed by Codex using the GPT-5 model.
+
+Code in `js/viewer.js` and `upload.html` was modified with AI assistance (Qoder) to
+add GitHub Pages fetching and pre-filled repository configuration. All changes
+were reviewed by the repository owner before commit.
