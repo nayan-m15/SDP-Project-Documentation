@@ -13,13 +13,29 @@ const viewerTitle =
 const viewerSubtitle =
     document.getElementById("viewerSubtitle");
 
+const PAGES_BASE =
+    "https://nayan-m15.github.io/SDP-Project-Documentation";
+
 
 async function loadDocuments() {
 
     try {
 
-        const response =
-            await fetch("./pdfs/manifest.json");
+        
+        let response =
+            await fetch(
+                `${PAGES_BASE}/pdfs/manifest.json`
+            );
+
+
+        if (!response.ok) {
+
+            response =
+                await fetch(
+                    "./pdfs/manifest.json"
+                );
+        }
+
 
         if (!response.ok) {
             throw new Error(
@@ -127,9 +143,28 @@ function selectDocument(pdf, button) {
         "block";
 
 
-    /* Load PDF.*/
-    pdfViewer.src =
+    
+    const remoteSrc =
+        `${PAGES_BASE}/${pdf.path}`;
+
+    const localSrc =
         `./${pdf.path}`;
+
+    let usedFallback = false;
+
+
+    pdfViewer.onerror = () => {
+
+        if (!usedFallback) {
+
+            usedFallback = true;
+            pdfViewer.src = localSrc;
+        }
+
+    };
+
+
+    pdfViewer.src = remoteSrc;
 }
 
 
