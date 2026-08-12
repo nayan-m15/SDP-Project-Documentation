@@ -45,14 +45,35 @@ automatically from the live site.
 
 ### For uploaders (team members)
 
-Each team member must create their own fine-grained personal access token:
+Each team member must create their own fine-grained personal access token.
+
+#### Prerequisites
+
+Before creating a token, make sure you have **accepted the collaboration
+invitation** for this repository. The repo owner must invite you as a
+collaborator and you must accept the invitation (check your email or visit
+the repository page while logged in). Without an accepted invitation, the
+repository will not appear in the token's repository access list.
+
+#### Creating the token
 
 1. Go to **Settings → Developer settings → Personal access tokens →
    Fine-grained tokens**.
 2. Click **Generate new token**.
-3. Set **Repository access** to this repository only
-   (`nayan-m15/SDP-Project-Documentation`).
+3. Under **Repository access**, choose one of the following options:
+
+   - **Only select repositories** — search for
+     `nayan-m15/SDP-Project-Documentation` in the dropdown. This option only
+     works if you have accepted the collaboration invite. If the repository
+     does not appear, use the "All repositories" option below.
+   - **All repositories** — if the repo does not show up under "Only select
+     repositories", choose this instead. The token's permissions (set in the
+     next step) still limit what it can do. Since the only permission granted
+     is Contents read and write, the token cannot affect any other aspect of
+     your repositories.
+
 4. Under **Repository permissions**, set **Contents** to **Read and write**.
+   Leave all other permissions at **No access**.
 5. Choose an expiration period.
 6. Copy the generated `github_pat_...` token and keep it private.
 7. Open the upload page, paste the token into the GitHub token field, select a
