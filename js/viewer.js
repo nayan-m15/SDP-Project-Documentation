@@ -59,7 +59,7 @@ async function resolveWorkingUrl(path) {
 
     for (const url of candidateUrls) {
         try {
-            const res = await fetch(url);
+            const res = await fetch(url, { cache: 'no-store' });
             if (res.ok) return url;
         } catch (e) {}
     }
@@ -69,9 +69,9 @@ async function resolveWorkingUrl(path) {
 // Fetch Manifest & Load Documents
 async function loadDocuments() {
     try {
-        let response = await fetch(`${PAGES_BASE}/pdfs/manifest.json`);
+        let response = await fetch(`${PAGES_BASE}/pdfs/manifest.json`, { cache: 'no-store' });
         if (!response.ok) {
-            response = await fetch("./pdfs/manifest.json");
+            response = await fetch("./pdfs/manifest.json", { cache: 'no-store' });
         }
         if (!response.ok) {
             throw new Error("Failed to load manifest.json");
@@ -273,7 +273,7 @@ async function selectDocument(doc, activeBtn) {
 
             for (const url of sources) {
                 try {
-                    const res = await fetch(url);
+                    const res = await fetch(url, { cache: 'no-store' });
                     if (res.ok) {
                         rawText = await res.text();
                         fetchSuccess = true;

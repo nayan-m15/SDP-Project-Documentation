@@ -376,7 +376,7 @@ async function updateManifestOnGitHub(token, owner, repo, newDocEntry) {
 }
 
 // Upload Button Click Handler
-uploadButton.addEventListener("click", async () => {
+if (uploadButton) uploadButton.addEventListener("click", async () => {
     const owner = ownerInput.value.trim();
     const repo = repoInput.value.trim();
     const token = tokenInput.value.trim();
@@ -474,18 +474,205 @@ uploadButton.addEventListener("click", async () => {
     }
 });
 
-// Load Existing Documents List in Right Card
+// GitHub API: Delete a file from the repository
+async function deleteFileFromGitHub(token, owner, repo, path, commitMessage) {
+    const url = getContentsUrl(owner, repo, path);
+
+    const getRes = await fetch(url, {
+        headers: {
+            "Authorization": `Bearer ${token}`,
+            "Accept": "application/vnd.github+json"
+        }
+    });
+
+    if (!getRes.ok) return null; // File doesn't exist, nothing to delete
+
+    const fileData = await getRes.json();
+
+    const delRes = await fetch(url, {
+        method: "DELETE",
+        headers: {
+            "Authorization": `Bearer ${token}`,
+            "Accept": "application/vnd.github+json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            message: commitMessage || `Delete ${path}`,
+            sha: fileData.sha
+        })
+    });
+
+    if (!delRes.ok) {
+        const errResult = await delRes.json();
+        throw new Error(errResult.message || `Failed to delete ${path}`);
+    }
+
+    return true;
+}
+
+// GitHub API: Update manifest.json with a callback function
+async function updateManifestWithCallback(token, owner, repo, updateFn) {
+    const manifestUrl = getContentsUrl(owner, repo, "pdfs/manifest.json");
+
+    const getRes = await fetch(manifestUrl, {
+        headers: {
+            "Authorization": `Bearer ${token}`,
+            "Accept": "application/vnd.github+json"
+        }
+    });
+
+    if (!getRes.ok) throw new Error("Failed to fetch manifest.json");
+
+    const manifestData = await getRes.json();
+    const decodedStr = atob(manifestData.content.replace(/\n/g, ""));
+    let manifest = JSON.parse(decodedStr);
+    if (!Array.isArray(manifest)) manifest = [];
+
+    manifest = updateFn(manifest);
+
+    const updatedBase64 = btoa(JSON.stringify(manifest, null, 2));
+
+    const putRes = await fetch(manifestUrl, {
+        method: "PUT",
+        headers: {
+            "Authorization": `Bearer ${token}`,
+            "Accept": "application/vnd.github+json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            message: "Update manifest.json",
+            content: updatedBase64,
+            sha: manifestData.sha
+        })
+    });
+
+    if (!putRes.ok) {
+        const errorResult = await putRes.json();
+        throw new Error(errorResult.message || "Failed to update manifest.json");
+    }
+
+    return manifest;
+}
+
+// Delete Document Handler
+async function handleDeleteDocument(doc) {
+    const owner = ownerInput.value.trim();
+    const repo = repoInput.value.trim();
+    let token = tokenInput.value.trim();
+
+    if (!token) {
+        token = prompt("Enter your GitHub Personal Access Token to delete this document:");
+        if (!token) return;
+        tokenInput.value = token;
+        sessionStorage.setItem("github_token", token);
+    }
+
+    if (!confirm(`Are you sure you want to permanently delete "${doc.name}"?\n\nThis will remove both the converted markdown and the original uploaded file from the repository.`)) {
+        return;
+    }
+
+    showStatus(`Deleting "${doc.name}" from repository...`, "info");
+
+    try {
+        // Delete converted .md file
+        await deleteFileFromGitHub(token, owner, repo, doc.path, `Delete document: ${doc.name}`);
+
+        // Delete raw original file if it's different from the .md file
+        if (doc.originalPath && doc.originalPath !== doc.path) {
+            await deleteFileFromGitHub(token, owner, repo, doc.originalPath, `Delete raw file for: ${doc.name}`);
+        }
+
+        // Remove from manifest.json
+        await updateManifestWithCallback(token, owner, repo, (manifest) => {
+            return manifest.filter(m => m.path !== doc.path);
+        });
+
+        showStatus(`✅ Successfully deleted "${doc.name}".`, "success");
+        loadExistingDocuments();
+
+    } catch (error) {
+        console.error("Delete error:", error);
+        showStatus(`Delete failed: ${error.message}`, "error");
+    }
+}
+
+// Rename Document Handler
+async function handleRenameDocument(doc) {
+    const owner = ownerInput.value.trim();
+    const repo = repoInput.value.trim();
+    let token = tokenInput.value.trim();
+
+    if (!token) {
+        token = prompt("Enter your GitHub Personal Access Token to rename this document:");
+        if (!token) return;
+        tokenInput.value = token;
+        sessionStorage.setItem("github_token", token);
+    }
+
+    const newTitle = prompt("Enter new document display title:", doc.name);
+    if (!newTitle || newTitle.trim() === doc.name) return;
+
+    const newFolder = prompt("Enter target folder / category:", doc.folder || "General");
+    if (newFolder === null) return; // cancelled
+
+    showStatus(`Renaming "${doc.name}" to "${newTitle.trim()}"...`, "info");
+
+    try {
+        const safeTitle = newTitle.trim().replace(/[^a-zA-Z0-9-_ ]/g, "").replace(/\s+/g, "-");
+        const newPath = `docs/${newFolder.trim() || "General"}/${safeTitle}.md`;
+
+        // Read old file content from GitHub
+        const oldUrl = getContentsUrl(owner, repo, doc.path);
+        const oldRes = await fetch(oldUrl, {
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Accept": "application/vnd.github+json"
+            }
+        });
+
+        if (oldRes.ok) {
+            const oldData = await oldRes.json();
+            // Create file at new path with same content
+            await uploadFileToGitHub(token, owner, repo, newPath, oldData.content, `Rename: ${doc.name} → ${newTitle.trim()}`);
+            // Delete old file
+            await deleteFileFromGitHub(token, owner, repo, doc.path, `Remove old path after rename: ${doc.path}`);
+        }
+
+        // Update manifest entry
+        await updateManifestWithCallback(token, owner, repo, (manifest) => {
+            const idx = manifest.findIndex(m => m.path === doc.path);
+            const updatedEntry = {
+                ...doc,
+                name: newTitle.trim(),
+                path: newPath,
+                folder: (newFolder.trim() || "General"),
+                date: new Date().toISOString()
+            };
+            if (idx >= 0) manifest[idx] = updatedEntry;
+            else manifest.push(updatedEntry);
+            return manifest;
+        });
+
+        showStatus(`✅ Successfully renamed "${doc.name}" → "${newTitle.trim()}".`, "success");
+        loadExistingDocuments();
+
+    } catch (error) {
+        console.error("Rename error:", error);
+        showStatus(`Rename failed: ${error.message}`, "error");
+    }
+}
+
+
 async function loadExistingDocuments() {
     if (!existingDocuments) return;
 
     try {
-        const cacheBuster = Date.now();
-        let response = await fetch(`./pdfs/manifest.json?v=${cacheBuster}`);
+        let response = await fetch(`./pdfs/manifest.json`, { cache: 'no-store' });
         if (!response.ok) {
-            response = await fetch(`https://nayan-m15.github.io/SDP-Project-Documentation/pdfs/manifest.json?v=${cacheBuster}`);
+            response = await fetch(`https://nayan-m15.github.io/SDP-Project-Documentation/pdfs/manifest.json`, { cache: 'no-store' });
         }
         if (!response.ok) {
-            response = await fetch(`https://raw.githubusercontent.com/nayan-m15/SDP-Project-Documentation/main/pdfs/manifest.json?v=${cacheBuster}`);
+            response = await fetch(`https://raw.githubusercontent.com/nayan-m15/SDP-Project-Documentation/main/pdfs/manifest.json`, { cache: 'no-store' });
         }
         if (!response.ok) {
             existingDocuments.innerHTML = `<p style="font-size: 12px; color: var(--text-tertiary);">No documents registered yet.</p>`;
@@ -514,12 +701,20 @@ async function loadExistingDocuments() {
                     <div class="existing-document-name">${doc.name}</div>
                     <div class="existing-document-meta">${doc.folder || "Docs"} · ${date.toLocaleDateString()}</div>
                 </div>
+                <div class="existing-doc-actions">
+                    <button class="doc-action-btn rename-btn" title="Rename Document">✏️</button>
+                    <button class="doc-action-btn delete-btn" title="Delete Document">🗑️</button>
+                </div>
             `;
+
+            item.querySelector(".rename-btn").addEventListener("click", () => handleRenameDocument(doc));
+            item.querySelector(".delete-btn").addEventListener("click", () => handleDeleteDocument(doc));
+
             existingDocuments.appendChild(item);
         });
     } catch (err) {
         console.error("Failed to load existing documents:", err);
-        existingDocuments.innerHTML = `<p style="font-size: 12px; color: var(--text-tertiary);">Unable to load existing documents list.</p>`;
+        existingDocuments.innerHTML = `<p style="font-size: 12px; color: var(--danger);">Unable to load existing documents list.</p>`;
     }
 }
 
