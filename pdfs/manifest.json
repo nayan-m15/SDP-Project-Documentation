@@ -42,5 +42,13 @@
     "size": 48890,
     "date": "2026-08-13T17:00:14.472Z",
     "type": "md"
+  },
+  {
+    "name": "lab one",
+    "path": "docs/Ai Declaration/lab-one.md",
+    "folder": "Ai Declaration",
+    "size": 56449,
+    "date": "2026-08-13T17:05:04.711Z",
+    "type": "md"
   }
 ]
