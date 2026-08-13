@@ -247,6 +247,9 @@ function convertPdfToMarkdown(file) {
         };
         reader.onerror = () => reject(new Error("Failed to read PDF file"));
         reader.readAsArrayBuffer(file);
+    });
+}
+
 // Helper: Convert binary File object to Base64
 function fileToBase64(file) {
     return new Promise((resolve, reject) => {
@@ -273,9 +276,35 @@ function getContentsUrl(owner, repo, path) {
     return `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
 }
 
-// GitHub API: Upload file
+// GitHub API: Upload file (supports create & update via SHA check)
 async function uploadFileToGitHub(token, owner, repo, path, contentBase64, commitMessage) {
     const url = getContentsUrl(owner, repo, path);
+
+    // Check if file exists to fetch sha (required by GitHub API for updates)
+    let sha = null;
+    try {
+        const getRes = await fetch(url, {
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Accept": "application/vnd.github+json"
+            }
+        });
+        if (getRes.ok) {
+            const fileData = await getRes.json();
+            sha = fileData.sha;
+        }
+    } catch (e) {
+        // File does not exist yet
+    }
+
+    const payload = {
+        message: commitMessage,
+        content: contentBase64
+    };
+    if (sha) {
+        payload.sha = sha;
+    }
+
     const response = await fetch(url, {
         method: "PUT",
         headers: {
@@ -283,10 +312,7 @@ async function uploadFileToGitHub(token, owner, repo, path, contentBase64, commi
             "Accept": "application/vnd.github+json",
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({
-            message: commitMessage,
-            content: contentBase64
-        })
+        body: JSON.stringify(payload)
     });
 
     const result = await response.json();
@@ -453,7 +479,14 @@ async function loadExistingDocuments() {
     if (!existingDocuments) return;
 
     try {
-        let response = await fetch("./pdfs/manifest.json");
+        const cacheBuster = Date.now();
+        let response = await fetch(`./pdfs/manifest.json?v=${cacheBuster}`);
+        if (!response.ok) {
+            response = await fetch(`https://nayan-m15.github.io/SDP-Project-Documentation/pdfs/manifest.json?v=${cacheBuster}`);
+        }
+        if (!response.ok) {
+            response = await fetch(`https://raw.githubusercontent.com/nayan-m15/SDP-Project-Documentation/main/pdfs/manifest.json?v=${cacheBuster}`);
+        }
         if (!response.ok) {
             existingDocuments.innerHTML = `<p style="font-size: 12px; color: var(--text-tertiary);">No documents registered yet.</p>`;
             return;
@@ -462,12 +495,18 @@ async function loadExistingDocuments() {
         const manifest = await response.json();
         existingDocuments.innerHTML = "";
 
+        if (manifest.length === 0) {
+            existingDocuments.innerHTML = `<p style="font-size: 12px; color: var(--text-tertiary);">No documents uploaded yet.</p>`;
+            return;
+        }
+
         manifest.forEach((doc) => {
             const item = document.createElement("div");
             item.className = "existing-document";
             const date = new Date(doc.date);
-            const badgeClass = doc.type === "md" || doc.path.endsWith(".md") ? "md" : "pdf";
-            const badgeText = doc.type === "md" || doc.path.endsWith(".md") ? "MD" : "PDF";
+            const isMd = doc.type === "md" || doc.path.endsWith(".md");
+            const badgeClass = isMd ? "md" : "pdf";
+            const badgeText = isMd ? "MD" : "PDF";
 
             item.innerHTML = `
                 <span class="doc-badge ${badgeClass}">${badgeText}</span>
@@ -479,6 +518,7 @@ async function loadExistingDocuments() {
             existingDocuments.appendChild(item);
         });
     } catch (err) {
+        console.error("Failed to load existing documents:", err);
         existingDocuments.innerHTML = `<p style="font-size: 12px; color: var(--text-tertiary);">Unable to load existing documents list.</p>`;
     }
 }

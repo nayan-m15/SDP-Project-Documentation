@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload & Convert Document - SDP Interlude</title>
+    <!-- Instant Theme Synchronization -->
+    <script>
+        (function() {
+            const saved = localStorage.getItem("sdp_theme") || "light";
+            document.documentElement.setAttribute("data-theme", saved);
+        })();
+    </script>
     <link rel="stylesheet" href="./styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
 </head>
@@ -154,7 +161,7 @@
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
     <!-- Uploader Application Logic -->
-    <script src="./js/uploader.js"></script>
+    <script src="./js/uploader.js?v=4"></script>
 
 </body>
 </html>
