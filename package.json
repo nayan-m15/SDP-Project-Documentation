@@ -1,0 +1,9 @@
+{
+  "name": "sdp-project-documentation",
+  "version": "1.0.0",
+  "description": "SDP Interlude Documentation Portal",
+  "scripts": {
+    "dev": "npx serve .",
+    "start": "npx serve ."
+  }
+}

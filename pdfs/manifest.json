@@ -1,38 +1,58 @@
 [
   {
-    "name": "test.pdf",
-    "path": "pdfs/test.pdf",
-    "size": 123456,
-    "data": "2026-08-08T12:34:56Z"
+    "name": "Getting Started",
+    "path": "docs/Getting-Started.md",
+    "folder": "General",
+    "size": 1280,
+    "date": "2026-08-13T18:50:00.000Z",
+    "type": "md"
   },
   {
-    "name": "OS_Outline (2).pdf",
-    "path": "pdfs/OS_Outline (2).pdf",
-    "size": 109145,
-    "date": "2026-08-08T09:20:58.164Z"
+    "name": "System Architecture Overview",
+    "path": "docs/Architecture/Overview.md",
+    "folder": "Architecture",
+    "size": 1542,
+    "date": "2026-08-13T18:50:00.000Z",
+    "type": "md"
   },
   {
-    "name": "Documentation of GrubFlow.pdf",
+    "name": "Documentation of GrubFlow",
     "path": "pdfs/Documentation of GrubFlow.pdf",
+    "folder": "Project Planning",
     "size": 418394,
-    "date": "2026-08-08T10:18:40.855Z"
+    "date": "2026-08-08T10:18:40.855Z",
+    "type": "pdf"
   },
   {
-    "name": "git-methodology.pdf",
+    "name": "OS Outline",
+    "path": "pdfs/OS_Outline (2).pdf",
+    "folder": "Specifications",
+    "size": 109145,
+    "date": "2026-08-08T09:20:58.164Z",
+    "type": "pdf"
+  },
+  {
+    "name": "Git Methodology",
     "path": "pdfs/git-methodology.pdf",
+    "folder": "Guidelines",
     "size": 135641,
-    "date": "2026-08-12T11:03:12.641Z"
+    "date": "2026-08-12T11:03:12.641Z",
+    "type": "pdf"
   },
   {
-    "name": "Sprint 1 planning.pdf",
+    "name": "Sprint 1 Planning",
     "path": "pdfs/Sprint 1 planning.pdf",
+    "folder": "Project Planning",
     "size": 96224,
-    "date": "2026-08-12T12:28:43.020Z"
+    "date": "2026-08-12T12:28:43.020Z",
+    "type": "pdf"
   },
   {
-    "name": "sport-coaching-tool-stack-v2.md.pdf",
+    "name": "Sport Coaching Tool Stack",
     "path": "pdfs/sport-coaching-tool-stack-v2.md.pdf",
+    "folder": "Specifications",
     "size": 290213,
-    "date": "2026-08-13T07:02:52.003Z"
+    "date": "2026-08-13T07:02:52.003Z",
+    "type": "pdf"
   }
 ]
