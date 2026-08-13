@@ -79,5 +79,40 @@
     "size": 290213,
     "date": "2026-08-13T07:02:52.003Z",
     "type": "pdf"
+    "date": "2026-08-13T07:02:52.003Z"
+  },
+  {
+    "name": "Testing MD",
+    "path": "docs/General/Testing-MD.md",
+    "folder": "General",
+    "size": 48890,
+    "date": "2026-08-13T17:00:14.472Z",
+    "type": "md"
+  },
+  {
+    "name": "lab one",
+    "path": "docs/Ai Declaration/lab-one.md",
+    "folder": "Ai Declaration",
+    "size": 56449,
+    "date": "2026-08-13T17:05:04.711Z",
+    "type": "md"
+  },
+  {
+    "name": "ML Formula Sheet",
+    "path": "docs/Test/ML-Formula-Sheet.md",
+    "originalPath": "pdfs/ML_Formula_Sheet.pdf",
+    "folder": "Test",
+    "size": 177029,
+    "date": "2026-08-13T20:09:37.313Z",
+    "type": "md"
+  },
+  {
+    "name": "COMS3006A CGV SM2 2026  Project Brief   MS",
+    "path": "docs/Test/COMS3006A-CGV-SM2-2026-Project-Brief-MS.md",
+    "originalPath": "pdfs/COMS3006A-CGV-SM2-2026_ Project Brief _ MS.pdf",
+    "folder": "Test",
+    "size": 759166,
+    "date": "2026-08-13T20:16:07.890Z",
+    "type": "md"
   }
 ]
