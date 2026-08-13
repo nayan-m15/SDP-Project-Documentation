@@ -47,13 +47,27 @@ themeToggleBtn.addEventListener("click", () => {
     updateThemeUI(newTheme);
 });
 
-// Configure Marked.js options if available
-if (window.marked) {
-    marked.setOptions({
-        gfm: true,
-        breaks: true,
-        headerIds: true
-    });
+// Helper to probe local filesystem vs GitHub repository sources for a working raw URL
+async function resolveWorkingUrl(path) {
+    const encoded = encodeURI(path);
+    const candidateUrls = [
+        `./${encoded}`,
+        `${PAGES_BASE}/${encoded}`,
+        `https://raw.githubusercontent.com/${GITHUB_REPO}/main/${encoded}`,
+        `https://raw.githubusercontent.com/${GITHUB_REPO}/Ui-Improvements/${encoded}`
+    ];
+
+    for (const url of candidateUrls) {
+        try {
+            const res = await fetch(url, { method: "HEAD" });
+            if (res.ok) return url;
+        } catch (e) {}
+        try {
+            const res = await fetch(url);
+            if (res.ok) return url;
+        } catch (e) {}
+    }
+    return `./${encoded}`;
 }
 
 // Fetch Manifest & Load Documents
@@ -215,12 +229,25 @@ async function selectDocument(doc, activeBtn) {
         <span class="breadcrumb-item active">${doc.name}</span>
     `;
 
-    // Configure topbar action links
+    // Encode URI path safely for URLs with spaces/special characters
+    const encodedPath = encodeURI(doc.path);
+    const targetRawPath = doc.originalPath || doc.path;
+    const encodedRawPath = encodeURI(targetRawPath);
+
+    // Topbar action links setup
     rawLink.style.display = "inline-flex";
-    rawLink.href = `./${doc.path}`;
+    rawLink.target = "_blank";
+    rawLink.href = `./${encodedRawPath}`;
+    rawLink.title = `View original file: ${targetRawPath}`;
+
+    // Asynchronously resolve working URL for rawLink (local disk vs GitHub repository)
+    resolveWorkingUrl(targetRawPath).then(workingUrl => {
+        rawLink.href = workingUrl;
+    });
 
     githubEditLink.style.display = "inline-flex";
-    githubEditLink.href = `https://github.com/${GITHUB_REPO}/blob/main/${doc.path}`;
+    githubEditLink.target = "_blank";
+    githubEditLink.href = `https://github.com/${GITHUB_REPO}/blob/main/${encodedPath}`;
 
     // Show Reader Layout & Hide Empty State
     emptyState.style.display = "none";
@@ -237,16 +264,34 @@ async function selectDocument(doc, activeBtn) {
         markdownViewer.innerHTML = `<div style="color: var(--text-tertiary);">Loading markdown content...</div>`;
 
         try {
-            let response = await fetch(`./${doc.path}`);
-            if (!response.ok) {
-                response = await fetch(`${PAGES_BASE}/${doc.path}`);
-            }
-            if (!response.ok) {
-                throw new Error("Failed to fetch markdown file");
+            // Probe sources in priority order to find working Markdown content
+            const sources = [
+                `./${encodedPath}`,
+                `${PAGES_BASE}/${encodedPath}`,
+                `https://raw.githubusercontent.com/${GITHUB_REPO}/Ui-Improvements/${encodedPath}`,
+                `https://raw.githubusercontent.com/${GITHUB_REPO}/main/${encodedPath}`
+            ];
+
+            let rawText = "";
+            let fetchSuccess = false;
+
+            for (const url of sources) {
+                try {
+                    const res = await fetch(url);
+                    if (res.ok) {
+                        rawText = await res.text();
+                        fetchSuccess = true;
+                        break;
+                    }
+                } catch (e) {
+                    // Continue to next fallback source
+                }
             }
 
-            const rawText = await response.text();
-            
+            if (!fetchSuccess) {
+                throw new Error(`Document file not found at ${doc.path}`);
+            }
+
             // Render HTML via Marked.js
             if (window.marked) {
                 markdownViewer.innerHTML = marked.parse(rawText);
@@ -293,7 +338,11 @@ async function selectDocument(doc, activeBtn) {
         markdownWrapper.style.display = "none";
         tocSidebar.style.display = "none";
         pdfViewer.style.display = "block";
-        pdfViewer.src = `./${doc.path}`;
+
+        resolveWorkingUrl(targetRawPath).then(workingUrl => {
+            pdfViewer.src = workingUrl;
+            rawLink.href = workingUrl;
+        });
     }
 }
 

@@ -247,6 +247,17 @@ function convertPdfToMarkdown(file) {
         };
         reader.onerror = () => reject(new Error("Failed to read PDF file"));
         reader.readAsArrayBuffer(file);
+// Helper: Convert binary File object to Base64
+function fileToBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+            const result = reader.result;
+            const base64 = result.split(",")[1];
+            resolve(base64);
+        };
+        reader.onerror = () => reject(new Error("Failed to read binary file"));
+        reader.readAsDataURL(file);
     });
 }
 
@@ -372,7 +383,7 @@ uploadButton.addEventListener("click", async () => {
         const safeTitle = docTitle.replace(/[^a-zA-Z0-9-_ ]/g, "").replace(/\s+/g, "-");
         const docPath = `docs/${folder}/${safeTitle}.md`;
 
-        // 1. Upload .md document file
+        // 1. Upload converted .md document file
         const base64Content = utf8ToBase64(finalMdContent);
         await uploadFileToGitHub(
             token,
@@ -383,12 +394,34 @@ uploadButton.addEventListener("click", async () => {
             `Add document: ${docTitle}`
         );
 
+        // 2. Upload raw original file if selected (e.g. original PDF or DOCX)
+        let originalPath = docPath;
+        if (file) {
+            try {
+                showStatus("Saving original uploaded file to repository...", "info");
+                const rawPath = `pdfs/${file.name}`;
+                const rawBase64 = await fileToBase64(file);
+                await uploadFileToGitHub(
+                    token,
+                    owner,
+                    repo,
+                    rawPath,
+                    rawBase64,
+                    `Add raw file: ${file.name}`
+                );
+                originalPath = rawPath;
+            } catch (rawErr) {
+                console.warn("Could not save original binary file, defaulting to markdown path:", rawErr);
+            }
+        }
+
         showStatus("Document saved! Updating library manifest...", "info");
 
-        // 2. Update manifest.json
+        // 3. Update manifest.json with path and originalPath
         const newEntry = {
             name: docTitle,
             path: docPath,
+            originalPath: originalPath,
             folder: folder,
             size: file ? file.size : finalMdContent.length,
             date: new Date().toISOString(),
