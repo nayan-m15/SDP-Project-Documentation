@@ -59,10 +59,6 @@ async function resolveWorkingUrl(path) {
 
     for (const url of candidateUrls) {
         try {
-            const res = await fetch(url, { method: "HEAD" });
-            if (res.ok) return url;
-        } catch (e) {}
-        try {
             const res = await fetch(url);
             if (res.ok) return url;
         } catch (e) {}
