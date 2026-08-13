@@ -1,98 +1,124 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>SDP Interlude Documentation</title>
-        <link rel="stylesheet" href="styles.css">
-    </head>
-    <body>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SDP Interlude Documentation</title>
+    <!-- Instant Theme Synchronization -->
+    <script>
+        (function() {
+            const saved = localStorage.getItem("sdp_theme") || "light";
+            document.documentElement.setAttribute("data-theme", saved);
+        })();
+    </script>
+    <!-- Modern Styling -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- Highlight.js CSS for Syntax Highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
 
-        <div class="app">
-            <!-- Sidebar -->
-            <aside class="sidebar">
+    <div class="app">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
 
-                <div class="brand">
-                    <div class="brand-icon">
-                        PDF
-                    </div>
+            <div class="brand">
+                <div class="brand-icon">SDP</div>
+                <div>
+                    <h1>SDP Interlude</h1>
+                    <span>Document Portal</span>
+                </div>
+            </div>
 
-                    <div>
-                        <h1>SDP Interlude</h1>
-                        <span>Document Library</span>
-                    </div>
+            <!-- Search Filter -->
+            <div class="sidebar-search">
+                <div class="search-input-wrapper">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="treeSearch" class="search-input" placeholder="Search documentation..." autocomplete="off">
+                </div>
+            </div>
+
+            <!-- Document Tree -->
+            <div class="sidebar-section">
+                <div class="section-title">Documentation Tree</div>
+                <div id="treeContainer" class="tree-container">
+                    <!-- Dynamic folder tree rendered by viewer.js -->
+                </div>
+            </div>
+
+            <!-- Sidebar Actions & Theme Toggle -->
+            <div class="sidebar-footer">
+                <button id="themeToggleBtn" class="theme-toggle-btn" type="button">
+                    <span id="themeIcon">🌙</span> <span id="themeText">Dark Mode</span>
+                </button>
+                <a href="./upload.html" class="sidebar-action">
+                    <span>+</span> Upload Document
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content View -->
+        <main class="main">
+
+            <!-- Topbar Header & Breadcrumbs -->
+            <header class="topbar">
+                <div class="breadcrumbs" id="breadcrumbs">
+                    <span class="breadcrumb-item">Docs</span>
+                    <span class="breadcrumb-separator">/</span>
+                    <span class="breadcrumb-item active" id="viewerTitle">Select a document</span>
                 </div>
 
-                <div class="sidebar-section">
-                    <div class="section-title">
-                        Documents
-                    </div>
-
-                    <div id="documents" class="documents"></div>
-                </div>
-
-                <div class="sidebar-footer">
-                    <a
-                        href="./upload.html"
-                        class="document-button sidebar-action"
-                    >
-                        <span class="document-icon">
-                            +
-                        </span>
-
-                        <span class="document-name">
-                            Upload PDF
-                        </span>
+                <div class="topbar-actions">
+                    <a id="rawLink" class="action-btn" href="#" target="_blank" style="display: none;">
+                        📄 Raw Content
+                    </a>
+                    <a id="githubEditLink" class="action-btn" href="#" target="_blank" style="display: none;">
+                        ✏️ Edit on GitHub
                     </a>
                 </div>
-            </aside>
+            </header>
 
-            <!-- Main content -->
-            <main class="main">
+            <!-- Viewer Area -->
+            <section class="viewer-container">
 
-                <header class="topbar">
-                    <div>
-                        <h2 id="viewerTitle">
-                            Select a document
-                        </h2>
+                <div id="emptyState" class="empty-state">
+                    <div class="empty-icon">📁</div>
+                    <h3>No Document Selected</h3>
+                    <p>Choose a document from the folder tree on the sidebar to read its documentation.</p>
+                </div>
 
-                        <p id="viewerSubtitle">
-                            Choose a document from the sidebar to begin reading.
-                        </p>
-                    </div>
-                </header>
-
-                <section class="viewer-container">
-
-                    <div id="emptyState" class="empty-state">
-
-                        <div class="empty-icon">
-                            PDF
-                        </div>
-
-                        <h3>No document selected</h3>
-
-                        <p>
-                            Select a document from the sidebar
-                            to view it here.
-                        </p>
+                <div id="readerLayout" class="reader-layout" style="display: none;">
+                    
+                    <!-- Markdown Reader Container -->
+                    <div id="markdownWrapper" class="markdown-wrapper">
+                        <article id="markdownViewer" class="markdown-body"></article>
                     </div>
 
-                    <iframe
-                        id="pdfViewer"
-                        title="PDF Viewer"
-                    ></iframe>
+                    <!-- PDF Viewer Container (Fallback for binary PDF files) -->
+                    <iframe id="pdfViewer" title="PDF Viewer"></iframe>
 
-                </section>
+                    <!-- Sticky Table of Contents Sidebar -->
+                    <aside id="tocSidebar" class="toc-sidebar">
+                        <div class="toc-title">On This Page</div>
+                        <ul id="tocList" class="toc-list"></ul>
+                    </aside>
 
-                <footer class="site-footer">
-                    &copy; 2026 SDP Interlude
-                </footer>
-            </main>
-        </div>
+                </div>
 
-        <script src="./js/viewer.js"></script>
+            </section>
 
-    </body>
+            <footer class="site-footer">
+                &copy; 2026 SDP Interlude Team Documentation
+            </footer>
+        </main>
+    </div>
 
+    <!-- External Markdown Parsing & Syntax Highlighting Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <!-- Viewer Application Logic -->
+    <script src="./js/viewer.js?v=5"></script>
+
+</body>
 </html>

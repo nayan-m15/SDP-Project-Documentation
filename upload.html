@@ -1,243 +1,167 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" data-theme="light">
 <head>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>Upload Document</title>
-
-    <link
-        rel="stylesheet"
-        href="./styles.css"
-    >
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload & Convert Document - SDP Interlude</title>
+    <!-- Instant Theme Synchronization -->
+    <script>
+        (function() {
+            const saved = localStorage.getItem("sdp_theme") || "light";
+            document.documentElement.setAttribute("data-theme", saved);
+        })();
+    </script>
+    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
 </head>
-
-
 <body class="upload-page">
 
     <div class="app">
 
         <!-- Sidebar -->
-
         <aside class="sidebar">
-
             <div class="brand">
-
-                <div class="brand-icon">
-                    PDF
-                </div>
-
+                <div class="brand-icon">SDP</div>
                 <div>
-
-                    <h1>Documentation</h1>
-
-                    <span>
-                        Team Portal
-                    </span>
-
+                    <h1>SDP Interlude</h1>
+                    <span>Document Portal</span>
                 </div>
             </div>
 
-
             <div class="sidebar-section">
-
-                <div class="section-title">
-                    Navigation
-                </div>
-
-                <div class="documents">
-
-                    <a
-                        href="./index.html"
-                        class="document-button"
-                    >
-
-                        <span class="document-icon">
-                            DOC
-                        </span>
-
-                        <span class="document-name">
-                            Documents
-                        </span>
-
+                <div class="section-title">Navigation</div>
+                <div class="tree-container">
+                    <a href="./index.html" class="document-button active">
+                        <span class="doc-badge md">DOC</span>
+                        <span class="document-name">Back to Documentation</span>
                     </a>
-
-                    
                 </div>
+            </div>
+
+            <div class="sidebar-footer">
+                <button id="themeToggleBtn" class="theme-toggle-btn" type="button">
+                    <span id="themeIcon">🌙</span> <span id="themeText">Dark Mode</span>
+                </button>
             </div>
         </aside>
 
-
-        <!-- Main content -->
-
+        <!-- Main Upload Area -->
         <main class="main">
 
             <header class="topbar">
-
-                <div>
-
-                    <h2>
-                        Upload document
-                    </h2>
-
-                    <p>
-                        Add a PDF to the documentation library.
-                    </p>
-
+                <div class="breadcrumbs">
+                    <span class="breadcrumb-item">Docs</span>
+                    <span class="breadcrumb-separator">/</span>
+                    <span class="breadcrumb-item active">Upload & Convert Document</span>
                 </div>
             </header>
 
             <section class="viewer-container">
 
+                <!-- Left Card: Form & Document Converter -->
                 <div class="upload-card">
 
                     <div class="upload-header">
-
-                        <div class="upload-icon">
-                            PDF
-                        </div>
-
+                        <div class="upload-icon">CONV</div>
                         <div>
-
-                            <h3>
-                                Add a new document
-                            </h3>
-
-                            <p>
-                                Upload a PDF to the repository.
-                            </p>
-
+                            <h3>Upload & Convert to Markdown</h3>
+                            <p>Upload a PDF, DOCX, TXT, or MD file. We'll extract and format it into clean Markdown.</p>
                         </div>
                     </div>
 
-                    <!-- GitHub configuration -->
+                    <!-- GitHub Configuration -->
+                    <div class="form-grid">
+                        <div class="form-section">
+                            <label for="owner">GitHub Owner / Org</label>
+                            <input id="owner" type="text" value="nayan-m15" autocomplete="off">
+                        </div>
 
-                    <div class="form-section">
-
-                        <label for="owner">
-                            GitHub username / organisation
-                        </label>
-
-                        <input
-                            id="owner"
-                            type="text"
-                            value="nayan-m15"
-                            autocomplete="off"
-                        >
-
+                        <div class="form-section">
+                            <label for="repo">Repository Name</label>
+                            <input id="repo" type="text" value="SDP-Project-Documentation" autocomplete="off">
+                        </div>
                     </div>
 
                     <div class="form-section">
+                        <label for="token">GitHub Token (PAT)</label>
+                        <input id="token" type="password" placeholder="github_pat_..." autocomplete="off">
+                        <p class="input-help">Stored only in your browser session; never saved publicly.</p>
+                    </div>
 
-                        <label for="repo">
-                            Repository name
-                        </label>
+                    <!-- Document Metadata & File Picker -->
+                    <div class="form-grid">
+                        <div class="form-section">
+                            <label for="folder">Target Folder / Category</label>
+                            <input id="folder" type="text" value="General" placeholder="e.g. Architecture, API, General">
+                        </div>
 
-                        <input
-                            id="repo"
-                            type="text"
-                            value="SDP-Project-Documentation"
-                            autocomplete="off"
-                        >
-
+                        <div class="form-section">
+                            <label for="docTitle">Document Display Title</label>
+                            <input id="docTitle" type="text" placeholder="Auto-filled from file name">
+                        </div>
                     </div>
 
                     <div class="form-section">
-
-                        <label for="token">
-                            GitHub token
-                        </label>
-
-                        <input
-                            id="token"
-                            type="password"
-                            placeholder="github_pat_..."
-                            autocomplete="off"
-                        >
-
-                        <p class="input-help">
-                            Your token is only used in this browser session and is never stored in the repository.
-                        </p>
-
+                        <label for="docFile">Select File (PDF, DOCX, TXT, MD)</label>
+                        <input id="docFile" type="file" accept=".pdf,.docx,.txt,.md,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain,text/markdown">
                     </div>
 
-                    <!-- File -->
+                    <!-- Conversion Live Preview Container -->
+                    <div id="conversionContainer" class="conversion-preview-container">
+                        <div class="preview-tabs">
+                            <button id="tabEdit" class="preview-tab active" type="button">Markdown Editor</button>
+                            <button id="tabPreview" class="preview-tab" type="button">Live Rendered Preview</button>
+                        </div>
 
-                    <div class="form-section">
+                        <div id="paneEdit" class="preview-pane active">
+                            <textarea id="markdownTextarea" class="markdown-editor" placeholder="Converted Markdown will appear here. You can edit it before uploading."></textarea>
+                        </div>
 
-                        <label for="pdfFile">
-                            PDF document
-                        </label>
-
-                        <input
-                            id="pdfFile"
-                            type="file"
-                            accept="application/pdf,.pdf"
-                        >
+                        <div id="panePreview" class="preview-pane">
+                            <div id="livePreviewBody" class="markdown-body"></div>
+                        </div>
                     </div>
 
-                    <!-- Upload button -->
-
-                    <button
-                        id="uploadButton"
-                        class="upload-button"
-                        type="button"
-                    >
-                        Upload PDF
+                    <!-- Submit Button & Status -->
+                    <button id="uploadButton" class="upload-button" type="button">
+                        Upload Document to GitHub
                     </button>
-                    <!-- Status -->
 
                     <div id="uploadStatus" class="upload-status" hidden></div>
 
                 </div>
 
-                <div class="upload-card documents-card">
-
+                <!-- Right Card: Existing Library Documents -->
+                <div class="upload-card">
                     <div class="upload-header">
-
-                        <div class="upload-icon">
-                            DOC
-                        </div>
-
+                        <div class="upload-icon" style="background: var(--text);">LIB</div>
                         <div>
-
-                            <h3>
-                                Existing documents
-                            </h3>
-
-                            <p>
-                                Documents currently in the library.
-                            </p>
-
+                            <h3>Existing Library Documents</h3>
+                            <p>Documents currently registered in manifest.json.</p>
                         </div>
-
                     </div>
-
 
                     <div id="existingDocuments">
                         Loading documents...
                     </div>
-
                 </div>
 
-            </div>
             </section>
 
             <footer class="site-footer">
-                &copy; 2026 SDP Interlude
+                &copy; 2026 SDP Interlude Team Documentation
             </footer>
         </main>
     </div>
 
-    <script src="./js/uploader.js"></script>
+    <!-- Client-Side Document Conversion Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://unpkg.com/turndown/dist/turndown.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <!-- Uploader Application Logic -->
+    <script src="./js/uploader.js?v=4"></script>
 
 </body>
-
 </html>
