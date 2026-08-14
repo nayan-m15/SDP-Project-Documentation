@@ -43,5 +43,14 @@
     "size": 115520,
     "date": "2026-08-14T08:43:08.783Z",
     "type": "md"
+  },
+  {
+    "name": "Git methodology",
+    "path": "docs/General/Git-methodology.md",
+    "originalPath": "pdfs/git-methodology.pdf",
+    "folder": "General",
+    "size": 135641,
+    "date": "2026-08-14T08:44:35.239Z",
+    "type": "md"
   }
 ]
