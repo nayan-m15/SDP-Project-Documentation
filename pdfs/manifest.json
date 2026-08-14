@@ -43,5 +43,14 @@
     "size": 129571,
     "date": "2026-08-14T08:28:21.698Z",
     "type": "md"
+  },
+  {
+    "name": "SDP Meeting 1",
+    "path": "docs/Meetings/SDP-Meeting-1.md",
+    "originalPath": "pdfs/SDP Meeting 1.pdf",
+    "folder": "Meetings",
+    "size": 115520,
+    "date": "2026-08-14T08:43:08.783Z",
+    "type": "md"
   }
 ]
