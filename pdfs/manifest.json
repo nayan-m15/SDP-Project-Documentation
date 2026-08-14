@@ -36,12 +36,12 @@
     "type": "md"
   },
   {
-    "name": "Git methodology",
-    "path": "docs/General/Git-methodology.md",
+    "name": "Git Methodology",
+    "path": "docs/Architecture/Git-Methodology.md",
     "originalPath": "pdfs/git-methodology.pdf",
-    "folder": "General",
+    "folder": "Architecture",
     "size": 135641,
-    "date": "2026-08-14T08:44:35.239Z",
+    "date": "2026-08-14T08:55:05.258Z",
     "type": "md"
   },
   {
