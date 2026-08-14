@@ -20,14 +20,9 @@ with the project and is referenced   as evidence of project methodology per the 
 
 Commits use scoped commit naming, in the following format:
 
-
-<type>(<scope>): <description>
-
-
-[optional body]
-
-
-Assisted - by: <tool>[<model>]
+- <type>(<scope>): <description>
+- [optional body]
+- Assisted - by: <tool>[<model>]
 
 The description is written in the imperative mood, lowercase, with no trailing period. The optional body explains the
 
