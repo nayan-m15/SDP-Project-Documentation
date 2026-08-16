@@ -70,5 +70,14 @@
     "size": 23955,
     "date": "2026-08-14T09:28:19.891Z",
     "type": "md"
+  },
+  {
+    "name": "Team Tech Guide",
+    "path": "docs/Arichitecture/Team-Tech-Guide.md",
+    "originalPath": "pdfs/team-tech-guide.md",
+    "folder": "Arichitecture",
+    "size": 6008,
+    "date": "2026-08-16T20:49:36.691Z",
+    "type": "md"
   }
 ]
