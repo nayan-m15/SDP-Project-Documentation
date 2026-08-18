@@ -72,12 +72,12 @@
     "type": "md"
   },
   {
-    "name": "Team Tech Guide",
-    "path": "docs/Arichitecture/Team-Tech-Guide.md",
+    "name": "Team Tech Stack Guide",
+    "path": "docs/Architecture/Team-Tech-Stack-Guide.md",
     "originalPath": "pdfs/team-tech-guide.md",
-    "folder": "Arichitecture",
+    "folder": "Architecture",
     "size": 6008,
-    "date": "2026-08-16T20:49:36.691Z",
+    "date": "2026-08-18T21:10:17.625Z",
     "type": "md"
   }
 ]
