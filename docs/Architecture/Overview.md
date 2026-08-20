@@ -1,6 +1,6 @@
 # System Architecture Overview
 
-This document provides a high-level overview of the system architecture for the SDP Interlude project.
+This document provides a high-level overview of the system architecture for the **Gaffer** amateur football coaching platform.
 
 ---
 

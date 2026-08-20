@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload & Convert Document - SDP Interlude</title>
+    <title>Upload & Manage Documents - Gaffer</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/logo.png">
     <!-- Instant Theme Synchronization -->
     <script>
         (function() {
@@ -11,36 +13,51 @@
             document.documentElement.setAttribute("data-theme", saved);
         })();
     </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <!-- Lucide Vector Icons Library -->
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body class="upload-page">
+
+    <!-- Mobile Sidebar Backdrop Overlay -->
+    <div id="sidebarBackdrop" class="sidebar-backdrop"></div>
 
     <div class="app">
 
         <!-- Sidebar -->
-        <aside class="sidebar">
+        <aside id="sidebar" class="sidebar">
             <div class="brand">
-                <div class="brand-icon">SDP</div>
-                <div>
-                    <h1>SDP Interlude</h1>
-                    <span>Document Portal</span>
-                </div>
+                <a href="./index.html" class="brand-link">
+                    <div class="brand-icon">
+                        <img src="assets/logo.png" alt="Gaffer Logo" class="brand-logo-img">
+                    </div>
+                    <div>
+                        <h1>Gaffer</h1>
+                        <span>Documentation Portal</span>
+                    </div>
+                </a>
             </div>
 
             <div class="sidebar-section">
-                <div class="section-title">Navigation</div>
+                <div class="section-title-wrapper">
+                    <div class="section-title">Navigation</div>
+                </div>
                 <div class="tree-container">
                     <a href="./index.html" class="document-button active">
-                        <span class="doc-badge md">DOC</span>
+                        <i data-lucide="arrow-left" class="svg-icon-sm"></i>
                         <span class="document-name">Back to Documentation</span>
                     </a>
                 </div>
             </div>
 
             <div class="sidebar-footer">
-                <button id="themeToggleBtn" class="theme-toggle-btn" type="button">
-                    <span id="themeIcon">🌙</span> <span id="themeText">Dark Mode</span>
+                <button id="themeToggleBtn" class="theme-toggle-btn" type="button" aria-label="Toggle theme">
+                    <span id="themeIcon"></span> <span id="themeText">Dark Mode</span>
                 </button>
             </div>
         </aside>
@@ -49,10 +66,15 @@
         <main class="main">
 
             <header class="topbar">
-                <div class="breadcrumbs">
-                    <span class="breadcrumb-item">Docs</span>
-                    <span class="breadcrumb-separator">/</span>
-                    <span class="breadcrumb-item active">Upload & Convert Document</span>
+                <div class="topbar-left">
+                    <button id="mobileMenuBtn" class="mobile-menu-btn" type="button" aria-label="Toggle menu">
+                        <i data-lucide="menu"></i>
+                    </button>
+                    <div class="breadcrumbs">
+                        <span class="breadcrumb-item">Docs</span>
+                        <span class="breadcrumb-separator">/</span>
+                        <span class="breadcrumb-item active">Upload & Manage Documents</span>
+                    </div>
                 </div>
             </header>
 
@@ -62,10 +84,44 @@
                 <div class="upload-card">
 
                     <div class="upload-header">
-                        <div class="upload-icon">CONV</div>
+                        <div class="upload-icon">
+                            <i data-lucide="file-up" class="svg-icon-lg"></i>
+                        </div>
                         <div>
                             <h3>Upload & Convert to Markdown</h3>
-                            <p>Upload a PDF, DOCX, TXT, or MD file. We'll extract and format it into clean Markdown.</p>
+                            <p>Upload PDF, DOCX, TXT, or MD documents. We extract and convert them into clean GitHub Markdown.</p>
+                        </div>
+                    </div>
+
+                    <!-- Drag & Drop Zone -->
+                    <div id="dropzone" class="dropzone-container">
+                        <div class="dropzone-icon">
+                            <i data-lucide="upload-cloud" class="svg-icon-xl"></i>
+                        </div>
+                        <div class="dropzone-text" id="dropzoneText">Drag & drop your file here, or click to browse</div>
+                        <div class="dropzone-subtext">Supports .pdf, .docx, .txt, .md (Up to 25 MB)</div>
+                        <input id="docFile" type="file" class="dropzone-input" accept=".pdf,.docx,.txt,.md,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain,text/markdown">
+                    </div>
+
+                    <!-- Document Metadata & Category Chips -->
+                    <div class="form-grid">
+                        <div class="form-section">
+                            <label for="folder">
+                                <span>Target Folder / Category</span>
+                            </label>
+                            <input id="folder" type="text" value="General" placeholder="e.g. Architecture, API, General">
+                            <div class="category-chips">
+                                <button type="button" class="category-chip" data-folder="Architecture">Architecture</button>
+                                <button type="button" class="category-chip" data-folder="Meetings">Meetings</button>
+                                <button type="button" class="category-chip" data-folder="General">General</button>
+                                <button type="button" class="category-chip" data-folder="API">API</button>
+                                <button type="button" class="category-chip" data-folder="Guides">Guides</button>
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <label for="docTitle">Document Display Title</label>
+                            <input id="docTitle" type="text" placeholder="Auto-filled from file name">
                         </div>
                     </div>
 
@@ -83,34 +139,21 @@
                     </div>
 
                     <div class="form-section">
-                        <label for="token">GitHub Token (PAT)</label>
-                        <input id="token" type="password" placeholder="github_pat_..." autocomplete="off">
-                        <p class="input-help">Stored only in your browser session; never saved publicly.</p>
-                    </div>
-
-                    <!-- Document Metadata & File Picker -->
-                    <div class="form-grid">
-                        <div class="form-section">
-                            <label for="folder">Target Folder / Category</label>
-                            <input id="folder" type="text" value="General" placeholder="e.g. Architecture, API, General">
-                        </div>
-
-                        <div class="form-section">
-                            <label for="docTitle">Document Display Title</label>
-                            <input id="docTitle" type="text" placeholder="Auto-filled from file name">
-                        </div>
-                    </div>
-
-                    <div class="form-section">
-                        <label for="docFile">Select File (PDF, DOCX, TXT, MD)</label>
-                        <input id="docFile" type="file" accept=".pdf,.docx,.txt,.md,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain,text/markdown">
+                        <label for="token">
+                            <span>GitHub Token (Personal Access Token)</span>
+                        </label>
+                        <input id="token" type="password" placeholder="github_pat_... or ghp_..." autocomplete="off">
+                        <p class="input-help">Stored only in your local browser session; required for uploading, renaming, and deleting.</p>
                     </div>
 
                     <!-- Conversion Live Preview Container -->
                     <div id="conversionContainer" class="conversion-preview-container">
                         <div class="preview-tabs">
-                            <button id="tabEdit" class="preview-tab active" type="button">Markdown Editor</button>
-                            <button id="tabPreview" class="preview-tab" type="button">Live Rendered Preview</button>
+                            <div class="preview-tabs-left">
+                                <button id="tabEdit" class="preview-tab active" type="button">Markdown Editor</button>
+                                <button id="tabPreview" class="preview-tab" type="button">Live Rendered Preview</button>
+                            </div>
+                            <span id="editorStats" class="editor-stats">0 words · 0 chars</span>
                         </div>
 
                         <div id="paneEdit" class="preview-pane active">
@@ -122,23 +165,34 @@
                         </div>
                     </div>
 
-                    <!-- Submit Button & Status -->
-                    <button id="uploadButton" class="upload-button" type="button">
-                        Upload Document to GitHub
-                    </button>
+                    <!-- Action Buttons -->
+                    <div class="upload-button-group">
+                        <button id="uploadButton" class="upload-button" type="button">
+                            <i data-lucide="upload" class="svg-icon-sm"></i> Upload Document to GitHub
+                        </button>
+                        <button id="downloadMdBtn" class="upload-button secondary" type="button" style="display: none;">
+                            <i data-lucide="download" class="svg-icon-sm"></i> Download .MD File
+                        </button>
+                    </div>
 
                     <div id="uploadStatus" class="upload-status" hidden></div>
 
                 </div>
 
-                <!-- Right Card: Existing Library Documents -->
+                <!-- Right Card: Document Manager -->
                 <div class="upload-card">
                     <div class="upload-header">
-                        <div class="upload-icon" style="background: var(--text);">LIB</div>
-                        <div>
-                            <h3>Existing Library Documents</h3>
-                            <p>Documents currently registered in manifest.json.</p>
+                        <div class="upload-icon" style="background: var(--surface-hover); color: var(--accent);">
+                            <i data-lucide="folder-cog" class="svg-icon-lg"></i>
                         </div>
+                        <div>
+                            <h3>Document Manager</h3>
+                            <p>Edit names, categories, or delete files from the portal repository.</p>
+                        </div>
+                    </div>
+
+                    <div class="doc-manager-search">
+                        <input type="text" id="docManagerSearch" placeholder="Filter existing documents..." autocomplete="off">
                     </div>
 
                     <div id="existingDocuments">
@@ -149,19 +203,23 @@
             </section>
 
             <footer class="site-footer">
-                &copy; 2026 SDP Interlude Team Documentation
+                &copy; 2026 Gaffer Team Documentation Portal
             </footer>
         </main>
     </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toastContainer" class="toast-container"></div>
 
     <!-- Client-Side Document Conversion Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script src="https://unpkg.com/turndown/dist/turndown.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 
     <!-- Uploader Application Logic -->
-    <script src="./js/uploader.js?v=4"></script>
+    <script src="./js/uploader.js?v=7"></script>
 
 </body>
 </html>
