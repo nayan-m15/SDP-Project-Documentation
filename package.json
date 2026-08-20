@@ -1,7 +1,7 @@
 {
-  "name": "sdp-project-documentation",
+  "name": "gaffer-documentation",
   "version": "1.0.0",
-  "description": "SDP Interlude Documentation Portal",
+  "description": "Gaffer Documentation Portal",
   "scripts": {
     "dev": "npx serve .",
     "start": "npx serve ."

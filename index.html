@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SDP Interlude Documentation</title>
+    <title>Gaffer - Documentation Portal</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/logo.png">
     <!-- Instant Theme Synchronization -->
     <script>
         (function() {
@@ -11,36 +13,58 @@
             document.documentElement.setAttribute("data-theme", saved);
         })();
     </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
     <!-- Modern Styling -->
     <link rel="stylesheet" href="styles.css">
     <!-- Highlight.js CSS for Syntax Highlighting -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <!-- Lucide Vector Icons Library -->
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
 
+    <!-- Reading Progress Indicator -->
+    <div class="reading-progress-track">
+        <div id="readingProgressBar" class="reading-progress-bar"></div>
+    </div>
+
+    <!-- Mobile Sidebar Backdrop Overlay -->
+    <div id="sidebarBackdrop" class="sidebar-backdrop"></div>
+
     <div class="app">
         <!-- Sidebar Navigation -->
-        <aside class="sidebar">
+        <aside id="sidebar" class="sidebar">
 
             <div class="brand">
-                <div class="brand-icon">SDP</div>
-                <div>
-                    <h1>SDP Interlude</h1>
-                    <span>Document Portal</span>
-                </div>
+                <a href="./index.html" class="brand-link">
+                    <div class="brand-icon">
+                        <img src="assets/logo.png" alt="Gaffer Logo" class="brand-logo-img">
+                    </div>
+                    <div>
+                        <h1>Gaffer</h1>
+                        <span>Documentation Portal</span>
+                    </div>
+                </a>
             </div>
 
-            <!-- Search Filter -->
+            <!-- Search Filter & Shortcut -->
             <div class="sidebar-search">
                 <div class="search-input-wrapper">
-                    <span class="search-icon">🔍</span>
+                    <span class="search-icon"><i data-lucide="search" class="svg-icon-sm"></i></span>
                     <input type="text" id="treeSearch" class="search-input" placeholder="Search documentation..." autocomplete="off">
+                    <span id="searchShortcutPill" class="search-shortcut-pill" title="Open Global Spotlight Search">Ctrl K</span>
                 </div>
             </div>
 
             <!-- Document Tree -->
             <div class="sidebar-section">
-                <div class="section-title">Documentation Tree</div>
+                <div class="section-title-wrapper">
+                    <div class="section-title">Documentation Tree</div>
+                    <span id="docCountBadge" class="tree-stats-badge">Loading...</span>
+                </div>
                 <div id="treeContainer" class="tree-container">
                     <!-- Dynamic folder tree rendered by viewer.js -->
                 </div>
@@ -48,11 +72,11 @@
 
             <!-- Sidebar Actions & Theme Toggle -->
             <div class="sidebar-footer">
-                <button id="themeToggleBtn" class="theme-toggle-btn" type="button">
-                    <span id="themeIcon">🌙</span> <span id="themeText">Dark Mode</span>
+                <button id="themeToggleBtn" class="theme-toggle-btn" type="button" aria-label="Toggle theme">
+                    <span id="themeIcon"></span> <span id="themeText">Dark Mode</span>
                 </button>
                 <a href="./upload.html" class="sidebar-action">
-                    <span>+</span> Upload Document
+                    <i data-lucide="plus" class="svg-icon-sm"></i> Upload Document
                 </a>
             </div>
         </aside>
@@ -62,18 +86,32 @@
 
             <!-- Topbar Header & Breadcrumbs -->
             <header class="topbar">
-                <div class="breadcrumbs" id="breadcrumbs">
-                    <span class="breadcrumb-item">Docs</span>
-                    <span class="breadcrumb-separator">/</span>
-                    <span class="breadcrumb-item active" id="viewerTitle">Select a document</span>
+                <div class="topbar-left">
+                    <button id="mobileMenuBtn" class="mobile-menu-btn" type="button" aria-label="Toggle navigation menu">
+                        <i data-lucide="menu"></i>
+                    </button>
+                    <div class="breadcrumbs" id="breadcrumbs">
+                        <span class="breadcrumb-item">Docs</span>
+                        <span class="breadcrumb-separator">/</span>
+                        <span class="breadcrumb-item active" id="viewerTitle">Select a document</span>
+                    </div>
                 </div>
 
                 <div class="topbar-actions">
-                    <a id="rawLink" class="action-btn" href="#" target="_blank" style="display: none;">
-                        📄 Raw Content
+                    <button id="spotlightTriggerBtn" class="action-btn" type="button" title="Quick Search (Ctrl + K)">
+                        <i data-lucide="search" class="svg-icon-sm"></i> <span>Search</span>
+                    </button>
+                    <button id="shareDocBtn" class="action-btn" type="button" style="display: none;" title="Share link to this document">
+                        <i data-lucide="link-2" class="svg-icon-sm"></i> <span>Share</span>
+                    </button>
+                    <button id="printDocBtn" class="action-btn action-btn-icon-only" type="button" style="display: none;" title="Print or Save as PDF">
+                        <i data-lucide="printer" class="svg-icon-sm"></i>
+                    </button>
+                    <a id="rawLink" class="action-btn" href="#" target="_blank" style="display: none;" title="View raw document file">
+                        <i data-lucide="file-code" class="svg-icon-sm"></i> <span>Raw</span>
                     </a>
-                    <a id="githubEditLink" class="action-btn" href="#" target="_blank" style="display: none;">
-                        ✏️ Edit on GitHub
+                    <a id="githubEditLink" class="action-btn" href="#" target="_blank" style="display: none;" title="Edit this document on GitHub">
+                        <i data-lucide="edit-3" class="svg-icon-sm"></i> <span>Edit</span>
                     </a>
                 </div>
             </header>
@@ -82,16 +120,26 @@
             <section class="viewer-container">
 
                 <div id="emptyState" class="empty-state">
-                    <div class="empty-icon">📁</div>
+                    <div class="empty-icon"><i data-lucide="folder-open" class="svg-icon-xl"></i></div>
                     <h3>No Document Selected</h3>
-                    <p>Choose a document from the folder tree on the sidebar to read its documentation.</p>
+                    <p>Choose a document from the folder tree on the left or press <strong>Ctrl + K</strong> to search the knowledge base.</p>
                 </div>
 
                 <div id="readerLayout" class="reader-layout" style="display: none;">
                     
                     <!-- Markdown Reader Container -->
                     <div id="markdownWrapper" class="markdown-wrapper">
+                        <!-- Document Meta Bar -->
+                        <div id="docMetaHeader" class="doc-meta-header" style="display: none;">
+                            <span id="metaCategory" class="doc-meta-item"></span>
+                            <span id="metaReadTime" class="doc-meta-item"></span>
+                            <span id="metaWords" class="doc-meta-item"></span>
+                        </div>
+
                         <article id="markdownViewer" class="markdown-body"></article>
+
+                        <!-- Previous / Next Document Pagination -->
+                        <div id="docPagination" class="doc-pagination" style="display: none;"></div>
                     </div>
 
                     <!-- PDF Viewer Container (Fallback for binary PDF files) -->
@@ -99,7 +147,9 @@
 
                     <!-- Sticky Table of Contents Sidebar -->
                     <aside id="tocSidebar" class="toc-sidebar">
-                        <div class="toc-title">On This Page</div>
+                        <div class="toc-title">
+                            <i data-lucide="list" class="svg-icon-sm"></i> On This Page
+                        </div>
                         <ul id="tocList" class="toc-list"></ul>
                     </aside>
 
@@ -108,17 +158,47 @@
             </section>
 
             <footer class="site-footer">
-                &copy; 2026 SDP Interlude Team Documentation
+                &copy; 2026 Gaffer Team Documentation Portal
             </footer>
         </main>
     </div>
 
-    <!-- External Markdown Parsing & Syntax Highlighting Libraries -->
+    <!-- Back to Top Floating Action Button -->
+    <button id="backToTopBtn" class="back-to-top-btn" type="button" aria-label="Back to top" title="Back to top">
+        <i data-lucide="arrow-up" class="svg-icon-sm"></i>
+    </button>
+
+    <!-- Global Spotlight Search Modal -->
+    <div id="spotlightModal" class="spotlight-backdrop">
+        <div class="spotlight-modal" role="dialog" aria-modal="true" aria-labelledby="spotlightInput">
+            <div class="spotlight-search-header">
+                <span class="spotlight-icon"><i data-lucide="search"></i></span>
+                <input type="text" id="spotlightInput" class="spotlight-input" placeholder="Search documentation, categories, files..." autocomplete="off">
+            </div>
+            <div id="spotlightResults" class="spotlight-results">
+                <!-- Search matches rendered by viewer.js -->
+            </div>
+            <div class="spotlight-footer">
+                <span>Navigate with keyboard</span>
+                <div class="spotlight-shortcuts">
+                    <span><kbd>↑</kbd> <kbd>↓</kbd> to navigate</span>
+                    <span><kbd>↵</kbd> to select</span>
+                    <span><kbd>esc</kbd> to close</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- External Markdown Parsing, Syntax Highlighting & Mermaid Diagrams -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 
     <!-- Viewer Application Logic -->
-    <script src="./js/viewer.js?v=5"></script>
+    <script src="./js/viewer.js?v=7"></script>
 
 </body>
 </html>

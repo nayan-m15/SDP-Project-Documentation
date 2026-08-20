@@ -16,6 +16,8 @@ const tokenInput = document.getElementById("token");
 const folderInput = document.getElementById("folder");
 const docTitleInput = document.getElementById("docTitle");
 const docFileInput = document.getElementById("docFile");
+const dropzone = document.getElementById("dropzone");
+const dropzoneText = document.getElementById("dropzoneText");
 
 const conversionContainer = document.getElementById("conversionContainer");
 const tabEdit = document.getElementById("tabEdit");
@@ -24,17 +26,49 @@ const paneEdit = document.getElementById("paneEdit");
 const panePreview = document.getElementById("panePreview");
 const markdownTextarea = document.getElementById("markdownTextarea");
 const livePreviewBody = document.getElementById("livePreviewBody");
+const editorStats = document.getElementById("editorStats");
 
 const uploadButton = document.getElementById("uploadButton");
+const downloadMdBtn = document.getElementById("downloadMdBtn");
 const uploadStatus = document.getElementById("uploadStatus");
 const existingDocuments = document.getElementById("existingDocuments");
+const docManagerSearch = document.getElementById("docManagerSearch");
 
 const themeToggleBtn = document.getElementById("themeToggleBtn");
 const themeIcon = document.getElementById("themeIcon");
 const themeText = document.getElementById("themeText");
+const mobileMenuBtn = document.getElementById("mobileMenuBtn");
+const sidebar = document.getElementById("sidebar");
+const sidebarBackdrop = document.getElementById("sidebarBackdrop");
+const toastContainer = document.getElementById("toastContainer");
 
 let convertedMarkdown = "";
+let loadedManifestDocuments = [];
 const MAX_FILE_SIZE = 25 * 1024 * 1024; // 25 MB
+const PAGES_BASE = "https://nayan-m15.github.io/SDP-Project-Documentation";
+
+function refreshIcons() {
+    if (window.lucide) {
+        lucide.createIcons();
+    }
+}
+
+// Toast Helper
+function showToast(message, iconName = "check") {
+    if (!toastContainer) return;
+    const toast = document.createElement("div");
+    toast.className = "toast";
+    toast.innerHTML = `<i data-lucide="${iconName}" class="svg-icon-sm"></i> <span>${message}</span>`;
+    toastContainer.appendChild(toast);
+    refreshIcons();
+
+    setTimeout(() => {
+        toast.style.opacity = "0";
+        toast.style.transform = "translateY(10px)";
+        toast.style.transition = "all 0.2s ease";
+        setTimeout(() => toast.remove(), 250);
+    }, 2800);
+}
 
 // Theme Toggle
 function initTheme() {
@@ -45,12 +79,13 @@ function initTheme() {
 
 function updateThemeUI(theme) {
     if (theme === "dark") {
-        themeIcon.textContent = "☀️";
+        themeIcon.innerHTML = `<i data-lucide="sun" class="svg-icon-sm"></i>`;
         themeText.textContent = "Light Mode";
     } else {
-        themeIcon.textContent = "🌙";
+        themeIcon.innerHTML = `<i data-lucide="moon" class="svg-icon-sm"></i>`;
         themeText.textContent = "Dark Mode";
     }
+    refreshIcons();
 }
 
 themeToggleBtn.addEventListener("click", () => {
@@ -60,6 +95,23 @@ themeToggleBtn.addEventListener("click", () => {
     localStorage.setItem("sdp_theme", newTheme);
     updateThemeUI(newTheme);
 });
+
+// Mobile Sidebar Drawer
+function toggleMobileMenu(open) {
+    const shouldOpen = open !== undefined ? open : !sidebar.classList.contains("open");
+    if (shouldOpen) {
+        sidebar.classList.add("open");
+        sidebarBackdrop.classList.add("active");
+        document.body.style.overflow = "hidden";
+    } else {
+        sidebar.classList.remove("open");
+        sidebarBackdrop.classList.remove("active");
+        document.body.style.overflow = "";
+    }
+}
+
+if (mobileMenuBtn) mobileMenuBtn.addEventListener("click", () => toggleMobileMenu());
+if (sidebarBackdrop) sidebarBackdrop.addEventListener("click", () => toggleMobileMenu(false));
 
 // Save PAT in Session Storage for Convenience
 if (sessionStorage.getItem("github_token")) {
@@ -71,20 +123,60 @@ tokenInput.addEventListener("change", () => {
     }
 });
 
-// UI Helper functions
+function getOrPromptToken() {
+    let token = tokenInput.value.trim();
+    if (!token) {
+        token = sessionStorage.getItem("github_token") || "";
+    }
+    if (!token) {
+        token = prompt("Please enter your GitHub Personal Access Token (PAT) to perform this action:");
+        if (token && token.trim()) {
+            token = token.trim();
+            tokenInput.value = token;
+            sessionStorage.setItem("github_token", token);
+        }
+    }
+    return token;
+}
+
+// Quick Category Chips
+document.querySelectorAll(".category-chip").forEach((chip) => {
+    chip.addEventListener("click", () => {
+        const folder = chip.dataset.folder;
+        folderInput.value = folder;
+        document.querySelectorAll(".category-chip").forEach(c => c.classList.remove("active"));
+        chip.classList.add("active");
+    });
+});
+
+// Status helper
 function showStatus(message, type) {
     uploadStatus.hidden = false;
     uploadStatus.innerHTML = message;
     uploadStatus.className = `upload-status ${type}`;
+    refreshIcons();
 }
 
+// Update Editor Statistics & Live Preview
 function updateLivePreview() {
     const md = markdownTextarea.value;
+    const words = md.trim() ? md.trim().split(/\s+/).length : 0;
+    const chars = md.length;
+
+    if (editorStats) {
+        editorStats.textContent = `${words.toLocaleString()} words · ${chars.toLocaleString()} chars`;
+    }
+
     if (window.marked) {
         livePreviewBody.innerHTML = marked.parse(md);
     } else {
         livePreviewBody.textContent = md;
     }
+
+    if (downloadMdBtn) {
+        downloadMdBtn.style.display = md.trim() ? "inline-flex" : "none";
+    }
+    refreshIcons();
 }
 
 markdownTextarea.addEventListener("input", updateLivePreview);
@@ -105,14 +197,51 @@ tabPreview.addEventListener("click", () => {
     updateLivePreview();
 });
 
-// Handle File Selection & Client-Side Conversion (Approach A)
-docFileInput.addEventListener("change", async (e) => {
-    const file = e.target.files[0];
+// Drag & Drop Handling
+if (dropzone) {
+    dropzone.addEventListener("click", () => docFileInput.click());
+
+    ["dragenter", "dragover"].forEach((eventName) => {
+        dropzone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            dropzone.classList.add("drag-over");
+        });
+    });
+
+    ["dragleave", "drop"].forEach((eventName) => {
+        dropzone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            dropzone.classList.remove("drag-over");
+        });
+    });
+
+    dropzone.addEventListener("drop", (e) => {
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            handleFileSelection(files[0]);
+        }
+    });
+}
+
+docFileInput.addEventListener("change", (e) => {
+    if (e.target.files.length > 0) {
+        handleFileSelection(e.target.files[0]);
+    }
+});
+
+// Process Selected File
+async function handleFileSelection(file) {
     if (!file) return;
 
     if (file.size > MAX_FILE_SIZE) {
         showStatus("File is too large. Maximum size is 25 MB.", "error");
         return;
+    }
+
+    if (dropzoneText) {
+        dropzoneText.textContent = `Selected: ${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
     }
 
     // Auto-fill Title if empty
@@ -128,13 +257,10 @@ docFileInput.addEventListener("change", async (e) => {
 
     try {
         if (fileNameLower.endsWith(".txt") || fileNameLower.endsWith(".md")) {
-            // Text or Markdown file
             convertedMarkdown = await readTextFile(file);
         } else if (fileNameLower.endsWith(".docx")) {
-            // Word document conversion using mammoth + turndown
             convertedMarkdown = await convertDocxToMarkdown(file);
         } else if (fileNameLower.endsWith(".pdf")) {
-            // PDF conversion using pdfjs-dist
             convertedMarkdown = await convertPdfToMarkdown(file);
         } else {
             throw new Error("Unsupported file type. Please select a .pdf, .docx, .txt, or .md file.");
@@ -143,14 +269,14 @@ docFileInput.addEventListener("change", async (e) => {
         markdownTextarea.value = convertedMarkdown;
         updateLivePreview();
         showStatus(`Successfully converted "${file.name}" to Markdown! Review or edit below before saving.`, "success");
+        showToast(`Converted "${file.name}" to Markdown`, "file-check");
 
     } catch (error) {
         console.error("Conversion error:", error);
         showStatus(`Conversion failed: ${error.message}`, "error");
     }
-});
+}
 
-// Conversion Helper: Read plain text / markdown file
 function readTextFile(file) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -160,7 +286,6 @@ function readTextFile(file) {
     });
 }
 
-// Conversion Helper: DOCX to Markdown via Mammoth & Turndown
 function convertDocxToMarkdown(file) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -175,7 +300,6 @@ function convertDocxToMarkdown(file) {
 
                 let md = turndownService ? turndownService.turndown(html) : html;
                 
-                // Add top header if missing
                 const docTitle = docTitleInput.value.trim() || file.name;
                 if (!md.startsWith("#")) {
                     md = `# ${docTitle}\n\n${md}`;
@@ -190,18 +314,16 @@ function convertDocxToMarkdown(file) {
     });
 }
 
-// Conversion Helper: PDF to Markdown via PDF.js
 function convertPdfToMarkdown(file) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.onload = async (e) => {
             try {
-                const arrayBuffer = e.target.result;
                 if (!window.pdfjsLib) {
                     throw new Error("PDF.js library not loaded");
                 }
 
-                const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
+                const loadingTask = pdfjsLib.getDocument({ data: e.target.result });
                 const pdf = await loadingTask.promise;
 
                 let extractedMarkdown = `# ${docTitleInput.value.trim() || file.name}\n\n`;
@@ -214,7 +336,6 @@ function convertPdfToMarkdown(file) {
                     let pageText = "";
 
                     textContent.items.forEach((item) => {
-                        // Check if item is on a new line
                         if (lastY !== null && Math.abs(item.transform[5] - lastY) > 6) {
                             pageText += "\n";
                         }
@@ -222,7 +343,6 @@ function convertPdfToMarkdown(file) {
                         lastY = item.transform[5];
                     });
 
-                    // Format paragraphs and headers
                     const lines = pageText.split("\n");
                     lines.forEach((line) => {
                         const trimmed = line.trim();
@@ -250,293 +370,137 @@ function convertPdfToMarkdown(file) {
     });
 }
 
-// Helper: Convert binary File object to Base64
-function fileToBase64(file) {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => {
-            const result = reader.result;
-            const base64 = result.split(",")[1];
-            resolve(base64);
-        };
-        reader.onerror = () => reject(new Error("Failed to read binary file"));
-        reader.readAsDataURL(file);
+// One-Click Direct Download as .MD file
+if (downloadMdBtn) {
+    downloadMdBtn.addEventListener("click", () => {
+        const content = markdownTextarea.value;
+        if (!content.trim()) return;
+
+        const title = docTitleInput.value.trim() || "document";
+        const sanitizedFilename = title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") + ".md";
+
+        const blob = new Blob([content], { type: "text/markdown;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = sanitizedFilename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+        showToast(`Downloaded ${sanitizedFilename}`, "download");
     });
 }
 
-// Base64 helper for UTF-8 strings
-function utf8ToBase64(str) {
-    return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, (match, p1) => {
-        return String.fromCharCode("0x" + p1);
-    }));
-}
-
-// GitHub API: Build contents URL
-function getContentsUrl(owner, repo, path) {
-    return `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
-}
-
-// GitHub API: Upload file (supports create & update via SHA check)
-async function uploadFileToGitHub(token, owner, repo, path, contentBase64, commitMessage) {
-    const url = getContentsUrl(owner, repo, path);
-
-    // Check if file exists to fetch sha (required by GitHub API for updates)
+// GitHub API: Commit/Upload a file
+async function commitFileToGitHub(owner, repo, token, path, content, message) {
+    const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+    
     let sha = null;
     try {
-        const getRes = await fetch(url, {
+        const checkRes = await fetch(url, {
             headers: {
                 "Authorization": `Bearer ${token}`,
-                "Accept": "application/vnd.github+json"
+                "Accept": "application/vnd.github.v3+json"
             }
         });
-        if (getRes.ok) {
-            const fileData = await getRes.json();
-            sha = fileData.sha;
+        if (checkRes.ok) {
+            const data = await checkRes.json();
+            sha = data.sha;
         }
-    } catch (e) {
-        // File does not exist yet
-    }
+    } catch (e) {}
 
-    const payload = {
-        message: commitMessage,
-        content: contentBase64
+    const body = {
+        message: message,
+        content: btoa(unescape(encodeURIComponent(content))),
+        ...(sha && { sha })
     };
-    if (sha) {
-        payload.sha = sha;
-    }
 
-    const response = await fetch(url, {
+    const res = await fetch(url, {
         method: "PUT",
         headers: {
             "Authorization": `Bearer ${token}`,
-            "Accept": "application/vnd.github+json",
+            "Accept": "application/vnd.github.v3+json",
             "Content-Type": "application/json"
         },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(body)
     });
 
-    const result = await response.json();
-    if (!response.ok) {
-        throw new Error(result.message || "GitHub API rejected upload");
+    if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.message || "Failed to commit file to GitHub");
     }
-    return result;
+
+    return await res.json();
 }
 
-// GitHub API: Fetch & update manifest.json
-async function updateManifestOnGitHub(token, owner, repo, newDocEntry) {
-    const manifestUrl = getContentsUrl(owner, repo, "pdfs/manifest.json");
-
-    const getRes = await fetch(manifestUrl, {
+// GitHub API: Delete a file
+async function deleteFileFromGitHub(token, owner, repo, path, message) {
+    const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+    
+    const checkRes = await fetch(url, {
         headers: {
             "Authorization": `Bearer ${token}`,
-            "Accept": "application/vnd.github+json"
+            "Accept": "application/vnd.github.v3+json"
         }
     });
 
-    if (!getRes.ok) {
-        throw new Error("Failed to fetch manifest.json from repository");
+    if (!checkRes.ok) {
+        return true;
     }
 
-    const manifestData = await getRes.json();
-    const decodedStr = atob(manifestData.content.replace(/\n/g, ""));
-    let manifest = JSON.parse(decodedStr);
-
-    if (!Array.isArray(manifest)) manifest = [];
-
-    // Replace if existing path exists, else push
-    const existingIndex = manifest.findIndex(item => item.path === newDocEntry.path);
-    if (existingIndex >= 0) {
-        manifest[existingIndex] = newDocEntry;
-    } else {
-        manifest.push(newDocEntry);
-    }
-
-    const updatedBase64 = btoa(JSON.stringify(manifest, null, 2));
-
-    const putRes = await fetch(manifestUrl, {
-        method: "PUT",
-        headers: {
-            "Authorization": `Bearer ${token}`,
-            "Accept": "application/vnd.github+json",
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            message: `Update documentation manifest for ${newDocEntry.name}`,
-            content: updatedBase64,
-            sha: manifestData.sha
-        })
-    });
-
-    if (!putRes.ok) {
-        const errorResult = await putRes.json();
-        throw new Error(errorResult.message || "Failed to update manifest.json on GitHub");
-    }
-
-    return manifest;
-}
-
-// Upload Button Click Handler
-if (uploadButton) uploadButton.addEventListener("click", async () => {
-    const owner = ownerInput.value.trim();
-    const repo = repoInput.value.trim();
-    const token = tokenInput.value.trim();
-    const folder = folderInput.value.trim() || "General";
-    const docTitle = docTitleInput.value.trim();
-    const file = docFileInput.files[0];
-    const finalMdContent = markdownTextarea.value.trim();
-
-    if (!owner || !repo || !token) {
-        showStatus("Please enter your GitHub owner, repo, and access token.", "error");
-        return;
-    }
-
-    if (!docTitle) {
-        showStatus("Please enter a document display title.", "error");
-        return;
-    }
-
-    if (!finalMdContent) {
-        showStatus("No markdown content to upload. Please select a file to convert first.", "error");
-        return;
-    }
-
-    uploadButton.disabled = true;
-    uploadButton.textContent = "Uploading to GitHub...";
-    showStatus("Committing converted document to repository...", "info");
-
-    try {
-        // Sanitize filename
-        const safeTitle = docTitle.replace(/[^a-zA-Z0-9-_ ]/g, "").replace(/\s+/g, "-");
-        const docPath = `docs/${folder}/${safeTitle}.md`;
-
-        // 1. Upload converted .md document file
-        const base64Content = utf8ToBase64(finalMdContent);
-        await uploadFileToGitHub(
-            token,
-            owner,
-            repo,
-            docPath,
-            base64Content,
-            `Add document: ${docTitle}`
-        );
-
-        // 2. Upload raw original file if selected (e.g. original PDF or DOCX)
-        let originalPath = docPath;
-        if (file) {
-            try {
-                showStatus("Saving original uploaded file to repository...", "info");
-                const rawPath = `pdfs/${file.name}`;
-                const rawBase64 = await fileToBase64(file);
-                await uploadFileToGitHub(
-                    token,
-                    owner,
-                    repo,
-                    rawPath,
-                    rawBase64,
-                    `Add raw file: ${file.name}`
-                );
-                originalPath = rawPath;
-            } catch (rawErr) {
-                console.warn("Could not save original binary file, defaulting to markdown path:", rawErr);
-            }
-        }
-
-        showStatus("Document saved! Updating library manifest...", "info");
-
-        // 3. Update manifest.json with path and originalPath
-        const newEntry = {
-            name: docTitle,
-            path: docPath,
-            originalPath: originalPath,
-            folder: folder,
-            size: file ? file.size : finalMdContent.length,
-            date: new Date().toISOString(),
-            type: "md"
-        };
-
-        await updateManifestOnGitHub(token, owner, repo, newEntry);
-
-        showStatus(`
-            🎉 <strong>Success!</strong> "${docTitle}" has been converted and published.<br>
-            <a href="./index.html#${encodeURIComponent(docPath)}" style="color: var(--accent); text-decoration: underline; margin-top: 6px; display: inline-block;">
-                Click here to view it in the Documentation Reader →
-            </a>
-        `, "success");
-
-        loadExistingDocuments();
-
-    } catch (error) {
-        console.error("Upload error:", error);
-        showStatus(`Upload failed: ${error.message}`, "error");
-    } finally {
-        uploadButton.disabled = false;
-        uploadButton.textContent = "Upload Document to GitHub";
-    }
-});
-
-// GitHub API: Delete a file from the repository
-async function deleteFileFromGitHub(token, owner, repo, path, commitMessage) {
-    const url = getContentsUrl(owner, repo, path);
-
-    const getRes = await fetch(url, {
-        headers: {
-            "Authorization": `Bearer ${token}`,
-            "Accept": "application/vnd.github+json"
-        }
-    });
-
-    if (!getRes.ok) return null; // File doesn't exist, nothing to delete
-
-    const fileData = await getRes.json();
+    const data = await checkRes.json();
+    const sha = data.sha;
 
     const delRes = await fetch(url, {
         method: "DELETE",
         headers: {
             "Authorization": `Bearer ${token}`,
-            "Accept": "application/vnd.github+json",
+            "Accept": "application/vnd.github.v3+json",
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            message: commitMessage || `Delete ${path}`,
-            sha: fileData.sha
+            message: message,
+            sha: sha
         })
     });
 
     if (!delRes.ok) {
-        const errResult = await delRes.json();
-        throw new Error(errResult.message || `Failed to delete ${path}`);
+        const err = await delRes.json();
+        throw new Error(err.message || "Failed to delete file from GitHub");
     }
 
     return true;
 }
 
-// GitHub API: Update manifest.json with a callback function
+// GitHub API: Update manifest.json with a modifier callback function
 async function updateManifestWithCallback(token, owner, repo, updateFn) {
-    const manifestUrl = getContentsUrl(owner, repo, "pdfs/manifest.json");
+    const manifestUrl = `https://api.github.com/repos/${owner}/${repo}/contents/pdfs/manifest.json`;
 
     const getRes = await fetch(manifestUrl, {
         headers: {
             "Authorization": `Bearer ${token}`,
-            "Accept": "application/vnd.github+json"
+            "Accept": "application/vnd.github.v3+json"
         }
     });
 
-    if (!getRes.ok) throw new Error("Failed to fetch manifest.json");
+    if (!getRes.ok) throw new Error("Failed to fetch manifest.json from GitHub");
 
     const manifestData = await getRes.json();
-    const decodedStr = atob(manifestData.content.replace(/\n/g, ""));
-    let manifest = JSON.parse(decodedStr);
+    const rawManifestText = decodeURIComponent(escape(atob(manifestData.content.replace(/\s/g, ""))));
+    let manifest = JSON.parse(rawManifestText);
     if (!Array.isArray(manifest)) manifest = [];
 
     manifest = updateFn(manifest);
 
-    const updatedBase64 = btoa(JSON.stringify(manifest, null, 2));
+    const updatedBase64 = btoa(unescape(encodeURIComponent(JSON.stringify(manifest, null, 2))));
 
     const putRes = await fetch(manifestUrl, {
         method: "PUT",
         headers: {
             "Authorization": `Bearer ${token}`,
-            "Accept": "application/vnd.github+json",
+            "Accept": "application/vnd.github.v3+json",
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
@@ -547,105 +511,163 @@ async function updateManifestWithCallback(token, owner, repo, updateFn) {
     });
 
     if (!putRes.ok) {
-        const errorResult = await putRes.json();
-        throw new Error(errorResult.message || "Failed to update manifest.json");
+        const err = await putRes.json();
+        throw new Error(err.message || "Failed to update manifest.json on GitHub");
     }
 
     return manifest;
 }
 
-// Delete Document Handler
-async function handleDeleteDocument(doc) {
+// Submit / Upload New Document to GitHub
+uploadButton.addEventListener("click", async () => {
     const owner = ownerInput.value.trim();
     const repo = repoInput.value.trim();
-    let token = tokenInput.value.trim();
+    const token = getOrPromptToken();
+    const folder = folderInput.value.trim() || "General";
+    const title = docTitleInput.value.trim();
+    const markdownContent = markdownTextarea.value.trim();
 
-    if (!token) {
-        token = prompt("Enter your GitHub Personal Access Token to delete this document:");
-        if (!token) return;
-        tokenInput.value = token;
-        sessionStorage.setItem("github_token", token);
-    }
-
-    if (!confirm(`Are you sure you want to permanently delete "${doc.name}"?\n\nThis will remove both the converted markdown and the original uploaded file from the repository.`)) {
+    if (!title) {
+        showStatus("Please provide a Document Display Title.", "error");
         return;
     }
 
-    showStatus(`Deleting "${doc.name}" from repository...`, "info");
+    if (!token) {
+        showStatus("A GitHub Personal Access Token (PAT) is required to commit to the repository.", "error");
+        return;
+    }
+
+    if (!markdownContent) {
+        showStatus("Markdown content is empty. Please convert or write a document first.", "error");
+        return;
+    }
+
+    uploadButton.disabled = true;
+    uploadButton.innerHTML = `<i data-lucide="loader-2" class="svg-icon-sm"></i> Uploading to GitHub...`;
+    refreshIcons();
+    showStatus("Connecting to GitHub API and committing files...", "info");
 
     try {
-        // Delete converted .md file
-        await deleteFileFromGitHub(token, owner, repo, doc.path, `Delete document: ${doc.name}`);
+        const sanitizedFilename = title.replace(/[^a-zA-Z0-9-_ ]/g, "").replace(/\s+/g, "-") + ".md";
+        const docPath = `docs/${folder}/${sanitizedFilename}`;
 
-        // Delete raw original file if it's different from the .md file
-        if (doc.originalPath && doc.originalPath !== doc.path) {
-            await deleteFileFromGitHub(token, owner, repo, doc.originalPath, `Delete raw file for: ${doc.name}`);
-        }
+        // 1. Commit Markdown file
+        await commitFileToGitHub(
+            owner,
+            repo,
+            token,
+            docPath,
+            markdownContent,
+            `docs: add ${title} in ${folder}`
+        );
 
-        // Remove from manifest.json
+        // 2. Update manifest.json
+        const newDocEntry = {
+            name: title,
+            path: docPath,
+            originalPath: docPath,
+            folder: folder,
+            size: new Blob([markdownContent]).size,
+            date: new Date().toISOString(),
+            type: "md"
+        };
+
         await updateManifestWithCallback(token, owner, repo, (manifest) => {
-            return manifest.filter(m => m.path !== doc.path);
+            const existingIdx = manifest.findIndex(d => d.path === docPath);
+            if (existingIdx >= 0) {
+                manifest[existingIdx] = newDocEntry;
+            } else {
+                manifest.push(newDocEntry);
+            }
+            return manifest;
         });
 
-        showStatus(`✅ Successfully deleted "${doc.name}".`, "success");
+        showStatus(`Successfully uploaded "<strong>${title}</strong>"! It will be available in the portal shortly.`, "success");
+        showToast(`Published "${title}" to GitHub!`, "check-circle-2");
         loadExistingDocuments();
 
-    } catch (error) {
-        console.error("Delete error:", error);
-        showStatus(`Delete failed: ${error.message}`, "error");
+    } catch (err) {
+        console.error("Upload error:", err);
+        showStatus(`Upload failed: ${err.message}`, "error");
+    } finally {
+        uploadButton.disabled = false;
+        uploadButton.innerHTML = `<i data-lucide="upload" class="svg-icon-sm"></i> Upload Document to GitHub`;
+        refreshIcons();
     }
-}
+});
 
-// Rename Document Handler
+// Rename / Move Document Handler
 async function handleRenameDocument(doc) {
     const owner = ownerInput.value.trim();
     const repo = repoInput.value.trim();
-    let token = tokenInput.value.trim();
+    const token = getOrPromptToken();
 
     if (!token) {
-        token = prompt("Enter your GitHub Personal Access Token to rename this document:");
-        if (!token) return;
-        tokenInput.value = token;
-        sessionStorage.setItem("github_token", token);
+        showToast("GitHub token required to rename document", "alert-circle");
+        return;
     }
 
     const newTitle = prompt("Enter new document display title:", doc.name);
-    if (!newTitle || newTitle.trim() === doc.name) return;
+    if (!newTitle || newTitle.trim() === "") return;
 
     const newFolder = prompt("Enter target folder / category:", doc.folder || "General");
-    if (newFolder === null) return; // cancelled
+    if (newFolder === null) return;
 
-    showStatus(`Renaming "${doc.name}" to "${newTitle.trim()}"...`, "info");
+    const cleanTitle = newTitle.trim();
+    const cleanFolder = newFolder.trim() || "General";
+
+    if (cleanTitle === doc.name && cleanFolder === (doc.folder || "General")) {
+        return;
+    }
+
+    showStatus(`Renaming "${doc.name}" → "${cleanTitle}"...`, "info");
+    showToast(`Renaming "${doc.name}"...`, "clock");
 
     try {
-        const safeTitle = newTitle.trim().replace(/[^a-zA-Z0-9-_ ]/g, "").replace(/\s+/g, "-");
-        const newPath = `docs/${newFolder.trim() || "General"}/${safeTitle}.md`;
+        const safeTitle = cleanTitle.replace(/[^a-zA-Z0-9-_ ]/g, "").replace(/\s+/g, "-") + ".md";
+        const newPath = `docs/${cleanFolder}/${safeTitle}`;
 
-        // Read old file content from GitHub
-        const oldUrl = getContentsUrl(owner, repo, doc.path);
-        const oldRes = await fetch(oldUrl, {
-            headers: {
-                "Authorization": `Bearer ${token}`,
-                "Accept": "application/vnd.github+json"
+        const isMd = doc.type === "md" || doc.path.endsWith(".md");
+        if (isMd && doc.path !== newPath) {
+            const oldUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${doc.path}`;
+            const oldRes = await fetch(oldUrl, {
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Accept": "application/vnd.github.v3+json"
+                }
+            });
+
+            if (oldRes.ok) {
+                const oldData = await oldRes.json();
+                const rawContent = decodeURIComponent(escape(atob(oldData.content.replace(/\s/g, ""))));
+
+                await commitFileToGitHub(
+                    owner,
+                    repo,
+                    token,
+                    newPath,
+                    rawContent,
+                    `docs: rename ${doc.name} → ${cleanTitle}`
+                );
+
+                await deleteFileFromGitHub(
+                    token,
+                    owner,
+                    repo,
+                    doc.path,
+                    `docs: remove old path after rename: ${doc.path}`
+                );
             }
-        });
-
-        if (oldRes.ok) {
-            const oldData = await oldRes.json();
-            // Create file at new path with same content
-            await uploadFileToGitHub(token, owner, repo, newPath, oldData.content, `Rename: ${doc.name} → ${newTitle.trim()}`);
-            // Delete old file
-            await deleteFileFromGitHub(token, owner, repo, doc.path, `Remove old path after rename: ${doc.path}`);
         }
 
-        // Update manifest entry
+        // Update manifest.json
         await updateManifestWithCallback(token, owner, repo, (manifest) => {
             const idx = manifest.findIndex(m => m.path === doc.path);
             const updatedEntry = {
                 ...doc,
-                name: newTitle.trim(),
-                path: newPath,
-                folder: (newFolder.trim() || "General"),
+                name: cleanTitle,
+                path: (isMd ? newPath : doc.path),
+                folder: cleanFolder,
                 date: new Date().toISOString()
             };
             if (idx >= 0) manifest[idx] = updatedEntry;
@@ -653,71 +675,143 @@ async function handleRenameDocument(doc) {
             return manifest;
         });
 
-        showStatus(`✅ Successfully renamed "${doc.name}" → "${newTitle.trim()}".`, "success");
+        showStatus(`Successfully renamed "${doc.name}" → "${cleanTitle}".`, "success");
+        showToast(`Renamed "${cleanTitle}"!`, "check");
         loadExistingDocuments();
 
     } catch (error) {
         console.error("Rename error:", error);
         showStatus(`Rename failed: ${error.message}`, "error");
+        showToast(`Rename failed: ${error.message}`, "alert-triangle");
     }
 }
 
+// Delete Document Handler
+async function handleDeleteDocument(doc) {
+    const owner = ownerInput.value.trim();
+    const repo = repoInput.value.trim();
+    const token = getOrPromptToken();
 
-async function loadExistingDocuments() {
-    if (!existingDocuments) return;
+    if (!token) {
+        showToast("GitHub token required to delete document", "alert-circle");
+        return;
+    }
+
+    if (!confirm(`Are you sure you want to permanently delete "${doc.name}"?\n\nThis will remove the document file and its entry from the portal manifest.`)) {
+        return;
+    }
+
+    showStatus(`Deleting "${doc.name}" from repository...`, "info");
+    showToast(`Deleting "${doc.name}"...`, "clock");
 
     try {
-        let response = await fetch(`./pdfs/manifest.json`, { cache: 'no-store' });
-        if (!response.ok) {
-            response = await fetch(`https://nayan-m15.github.io/SDP-Project-Documentation/pdfs/manifest.json`, { cache: 'no-store' });
-        }
-        if (!response.ok) {
-            response = await fetch(`https://raw.githubusercontent.com/nayan-m15/SDP-Project-Documentation/main/pdfs/manifest.json`, { cache: 'no-store' });
-        }
-        if (!response.ok) {
-            existingDocuments.innerHTML = `<p style="font-size: 12px; color: var(--text-tertiary);">No documents registered yet.</p>`;
-            return;
+        await deleteFileFromGitHub(token, owner, repo, doc.path, `docs: delete ${doc.name}`);
+
+        if (doc.originalPath && doc.originalPath !== doc.path) {
+            await deleteFileFromGitHub(token, owner, repo, doc.originalPath, `docs: delete raw source for ${doc.name}`);
         }
 
-        const manifest = await response.json();
-        existingDocuments.innerHTML = "";
-
-        if (manifest.length === 0) {
-            existingDocuments.innerHTML = `<p style="font-size: 12px; color: var(--text-tertiary);">No documents uploaded yet.</p>`;
-            return;
-        }
-
-        manifest.forEach((doc) => {
-            const item = document.createElement("div");
-            item.className = "existing-document";
-            const date = new Date(doc.date);
-            const isMd = doc.type === "md" || doc.path.endsWith(".md");
-            const badgeClass = isMd ? "md" : "pdf";
-            const badgeText = isMd ? "MD" : "PDF";
-
-            item.innerHTML = `
-                <span class="doc-badge ${badgeClass}">${badgeText}</span>
-                <div class="existing-document-info">
-                    <div class="existing-document-name">${doc.name}</div>
-                    <div class="existing-document-meta">${doc.folder || "Docs"} · ${date.toLocaleDateString()}</div>
-                </div>
-                <div class="existing-doc-actions">
-                    <button class="doc-action-btn rename-btn" title="Rename Document">✏️</button>
-                    <button class="doc-action-btn delete-btn" title="Delete Document">🗑️</button>
-                </div>
-            `;
-
-            item.querySelector(".rename-btn").addEventListener("click", () => handleRenameDocument(doc));
-            item.querySelector(".delete-btn").addEventListener("click", () => handleDeleteDocument(doc));
-
-            existingDocuments.appendChild(item);
+        await updateManifestWithCallback(token, owner, repo, (manifest) => {
+            return manifest.filter(m => m.path !== doc.path);
         });
-    } catch (err) {
-        console.error("Failed to load existing documents:", err);
-        existingDocuments.innerHTML = `<p style="font-size: 12px; color: var(--danger);">Unable to load existing documents list.</p>`;
+
+        showStatus(`Successfully deleted "${doc.name}".`, "success");
+        showToast(`Deleted "${doc.name}"`, "trash-2");
+        loadExistingDocuments();
+
+    } catch (error) {
+        console.error("Delete error:", error);
+        showStatus(`Delete failed: ${error.message}`, "error");
+        showToast(`Delete failed: ${error.message}`, "alert-triangle");
     }
 }
 
-// Initialize Uploader Page
+// Render Document Manager List
+function renderExistingDocumentsList(docs) {
+    if (!existingDocuments) return;
+    existingDocuments.innerHTML = "";
+
+    if (!docs || docs.length === 0) {
+        existingDocuments.innerHTML = `<div style="padding: 16px; text-align: center; color: var(--text-tertiary); font-size: 12.5px;">No documents found.</div>`;
+        return;
+    }
+
+    docs.forEach((doc) => {
+        const item = document.createElement("div");
+        item.className = "existing-document";
+        const isMd = doc.type === "md" || doc.path.endsWith(".md");
+        const badgeClass = isMd ? "md" : "pdf";
+        const badgeText = isMd ? "MD" : "PDF";
+
+        const dateStr = doc.date ? new Date(doc.date).toLocaleDateString() : "Recent";
+        const sizeStr = doc.size ? `${(doc.size / 1024).toFixed(1)} KB` : "";
+
+        item.innerHTML = `
+            <span class="doc-badge ${badgeClass}">${badgeText}</span>
+            <div class="existing-document-info">
+                <div class="existing-document-name" title="${doc.name}">${doc.name}</div>
+                <div class="existing-document-meta">
+                    <span><i data-lucide="folder" class="svg-icon-sm"></i> ${doc.folder || "General"}</span>
+                    <span><i data-lucide="calendar" class="svg-icon-sm"></i> ${dateStr}</span>
+                    ${sizeStr ? `<span><i data-lucide="hard-drive" class="svg-icon-sm"></i> ${sizeStr}</span>` : ""}
+                </div>
+            </div>
+            <div class="existing-doc-actions">
+                <a href="./index.html#${encodeURIComponent(doc.path)}" class="doc-action-btn view-btn" title="View in Portal" target="_blank">
+                    <i data-lucide="eye" class="svg-icon-sm"></i> <span>View</span>
+                </a>
+                <button type="button" class="doc-action-btn edit-btn" title="Edit name or category">
+                    <i data-lucide="pencil" class="svg-icon-sm"></i> <span>Edit</span>
+                </button>
+                <button type="button" class="doc-action-btn delete-btn" title="Delete document">
+                    <i data-lucide="trash-2" class="svg-icon-sm"></i>
+                </button>
+            </div>
+        `;
+
+        item.querySelector(".edit-btn").addEventListener("click", () => handleRenameDocument(doc));
+        item.querySelector(".delete-btn").addEventListener("click", () => handleDeleteDocument(doc));
+
+        existingDocuments.appendChild(item);
+    });
+
+    refreshIcons();
+}
+
+// Load and render existing documents
+async function loadExistingDocuments() {
+    try {
+        let res = await fetch(`${PAGES_BASE}/pdfs/manifest.json`, { cache: 'no-store' });
+        if (!res.ok) res = await fetch("./pdfs/manifest.json", { cache: 'no-store' });
+        if (!res.ok) throw new Error("Could not load manifest.json");
+
+        loadedManifestDocuments = await res.json();
+        renderExistingDocumentsList(loadedManifestDocuments);
+    } catch (e) {
+        console.error("Failed to load existing documents:", e);
+        if (existingDocuments) {
+            existingDocuments.innerHTML = `<div style="color: var(--danger); font-size: 12px; padding: 12px;">Could not load document manifest.</div>`;
+        }
+    }
+}
+
+// Filter existing documents
+if (docManagerSearch) {
+    docManagerSearch.addEventListener("input", (e) => {
+        const q = e.target.value.toLowerCase().trim();
+        if (!q) {
+            renderExistingDocumentsList(loadedManifestDocuments);
+        } else {
+            const filtered = loadedManifestDocuments.filter(d => 
+                d.name.toLowerCase().includes(q) || 
+                (d.folder && d.folder.toLowerCase().includes(q)) ||
+                d.path.toLowerCase().includes(q)
+            );
+            renderExistingDocumentsList(filtered);
+        }
+    });
+}
+
+// Initialize
 initTheme();
 loadExistingDocuments();

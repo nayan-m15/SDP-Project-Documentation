@@ -1,6 +1,6 @@
-# Getting Started with SDP Interlude
+# Getting Started with Gaffer
 
-Welcome to the **SDP Interlude Documentation Portal**! This portal serves as the central hub for all technical documentation, architectural specifications, API references, and project planning materials.
+Welcome to the **Gaffer Documentation Portal**! This portal serves as the central hub for all technical documentation, architectural specifications, API references, and project planning materials for the Gaffer amateur football coaching platform.
 
 > [!NOTE]
 > All documents in this repository are formatted in Markdown (`.md`), enabling full-text search, version control history, code syntax highlighting, and mobile responsiveness.
@@ -10,7 +10,7 @@ Welcome to the **SDP Interlude Documentation Portal**! This portal serves as the
 ## Key Features
 
 - **Hierarchical Navigation**: Organize files into subfolders such as `Architecture`, `API`, `Sprint Planning`, and `Guides`.
-- **Instant Search**: Use the search bar to quickly filter documents by name or path.
+- **Instant Search**: Use the search bar or press **Ctrl + K** to quickly filter documents by name or path.
 - **Syntax Highlighting**: Code snippets support automatic syntax highlighting across multiple programming languages.
 - **Client-Side Document Conversion**: Upload `.pdf`, `.docx`, `.txt`, or `.md` files on the Upload page and automatically convert them into clean Markdown.
 
@@ -23,7 +23,7 @@ Below is an example of initializing the project client configuration:
 ```javascript
 // Example JavaScript configuration
 const config = {
-    projectName: "SDP Interlude",
+    projectName: "Gaffer",
     version: "2.0.0",
     docsFolder: "docs/",
     theme: "dark"
