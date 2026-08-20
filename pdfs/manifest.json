@@ -18,15 +18,6 @@
     "type": "md"
   },
   {
-    "name": "Testing MD",
-    "path": "docs/General/Testing-MD.md",
-    "originalPath": "docs/General/Testing-MD.md",
-    "folder": "General",
-    "size": 48890,
-    "date": "2026-08-13T17:00:14.472Z",
-    "type": "md"
-  },
-  {
     "name": "SDP Meeting 1",
     "path": "docs/Meetings/SDP-Meeting-1.md",
     "originalPath": "pdfs/SDP Meeting 1.pdf",
@@ -60,6 +51,24 @@
     "folder": "Architecture",
     "size": 135641,
     "date": "2026-08-14T08:52:00.121Z",
+    "type": "md"
+  },
+  {
+    "name": "Amateur Football Coaching Platform Product and Systems Design",
+    "path": "docs/General/Amateur-Football-Coaching-Platform-Product-and-Systems-Design.md",
+    "originalPath": "pdfs/Amateur Football Coaching Platform_Product and Systems Design.pdf",
+    "folder": "General",
+    "size": 23955,
+    "date": "2026-08-14T09:28:19.891Z",
+    "type": "md"
+  },
+  {
+    "name": "Team Tech Stack Guide",
+    "path": "docs/Architecture/Team-Tech-Stack-Guide.md",
+    "originalPath": "pdfs/team-tech-guide.md",
+    "folder": "Architecture",
+    "size": 6008,
+    "date": "2026-08-18T21:10:17.625Z",
     "type": "md"
   }
 ]
