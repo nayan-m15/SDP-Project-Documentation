@@ -97,5 +97,14 @@
     "size": 7790,
     "date": "2026-08-24T07:54:26.540Z",
     "type": "md"
+  },
+  {
+    "name": "Sport Coaching Tool Database Schema",
+    "path": "docs/Architecture/Sport-Coaching-Tool-Database-Schema.md",
+    "originalPath": "docs/Architecture/Sport-Coaching-Tool-Database-Schema.md",
+    "folder": "Architecture",
+    "size": 10983,
+    "date": "2026-08-24T07:56:29.328Z",
+    "type": "md"
   }
 ]
