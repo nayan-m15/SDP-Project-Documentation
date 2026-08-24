@@ -115,5 +115,14 @@
     "size": 18290,
     "date": "2026-08-24T10:48:47.496Z",
     "type": "md"
+  },
+  {
+    "name": "Gaffer Database Schema",
+    "path": "docs/Architecture/Gaffer-Database-Schema.md",
+    "originalPath": "docs/Architecture/Gaffer-Database-Schema.md",
+    "folder": "Architecture",
+    "size": 11927,
+    "date": "2026-08-24T10:55:28.125Z",
+    "type": "md"
   }
 ]
