@@ -1,4 +1,7 @@
 # UML Diagrams
+#### Created the UML diagrams by extracting the actual architectural information from the codebase using Cursor [Grok 4.6], then using Mermaid AI (An AI-assisted tool for creating diagrams from text/code) and Claude [Sonnet 5 Medium] to structure, format, and visually style each diagram.
+
+---
 
 ## 1. Class Diagram
 
