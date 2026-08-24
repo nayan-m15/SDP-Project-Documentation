@@ -41,7 +41,7 @@
 - Each sprint must include:
   - Sprint planning session: summary of what was discussed, screenshot/record of the meeting as evidence
   - Sprint backlog: user stories with assignees per feature/requirement
-  - Regular standups: every 3 days (agreed by the team)
+  - Regular standups: 3 per week (agreed by the team)
   - Standup format: voice notes or meetings; progress updates only, no need for excessive detail
   - Sprint review/retrospective: to be scheduled by scrum master
 - Scrum master responsibilities:
