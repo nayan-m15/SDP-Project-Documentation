@@ -1,46 +1,35 @@
 # Wireframes
 
-
 ## 1. Login / Sign In
 
-Wireframe — Sport Coaching Tool (Gaffer) — layout only, no styling
-
+<img src="https://github.com/nayan-m15/SDP-Project-Documentation/blob/main/assets/login.wireframe.png?raw=true" alt="Login wireframe" width="500">
 
 ---
-
 
 ## 2. Dashboard
 
-Wireframe — Sport Coaching Tool (Gaffer) — layout only, no styling
-
+<img src="https://github.com/nayan-m15/SDP-Project-Documentation/blob/main/assets/dashboard.wireframe.png?raw=true" alt="Dashboard wireframe" width="500">
 
 ---
-
 
 ## 3. Roster Command
 
-Wireframe — Sport Coaching Tool (Gaffer) — layout only, no styling
-
+<img src="https://github.com/nayan-m15/SDP-Project-Documentation/blob/main/assets/roster.wireframe.png?raw=true" alt="Roster wireframe" width="500">
 
 ---
-
 
 ## 4. Events
 
-Wireframe — Sport Coaching Tool (Gaffer) — layout only, no styling
-
+<img src="https://github.com/nayan-m15/SDP-Project-Documentation/blob/main/assets/events.wireframe.png?raw=true" alt="Events wireframe" width="500">
 
 ---
-
 
 ## 5. Statistics
 
-Wireframe — Sport Coaching Tool (Gaffer) — layout only, no styling
-
+<img src="https://github.com/nayan-m15/SDP-Project-Documentation/blob/main/assets/statistics.wireframe.png?raw=true" alt="Statistics wireframe" width="500">
 
 ---
 
-
 ## 6. Team Management
 
-Wireframe — Sport Coaching Tool (Gaffer) — layout only, no styling
+<img src="https://github.com/nayan-m15/SDP-Project-Documentation/blob/main/assets/team.wireframe.png?raw=true" alt="Team Management wireframe" width="500">
