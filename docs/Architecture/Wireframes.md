@@ -1,4 +1,7 @@
 # Wireframes
+#### Created simple black-and-white wireframes in Figma to outline the basic layout and content of each page, with assistance from Claude [Sonnet 5 Medium] to help prompt and guide the design process.
+
+---
 
 ## 1. Login / Sign In
 
