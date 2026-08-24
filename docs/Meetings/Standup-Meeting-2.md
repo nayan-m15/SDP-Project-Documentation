@@ -91,4 +91,6 @@ The team's immediate Sprint 1 focus includes:
 
 *Meeting commenced at:** 15:30 on 18/08/2026*
 
-Meeting Held In Person.
+Discord voice call
+
+<img src="https://github.com/nayan-m15/SDP-Project-Documentation/blob/main/assets/StandUp_2_Meeting.png?raw=true" alt="Stand Up Meeting 2">
