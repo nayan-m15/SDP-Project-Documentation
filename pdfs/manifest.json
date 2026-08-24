@@ -133,5 +133,14 @@
     "size": 597,
     "date": "2026-08-24T12:43:48.943Z",
     "type": "md"
+  },
+  {
+    "name": "Standup Meeting 3",
+    "path": "docs/Meetings/Standup-Meeting-3.md",
+    "originalPath": "docs/Meetings/Standup-Meeting-3.md",
+    "folder": "Meetings",
+    "size": 2558,
+    "date": "2026-08-24T12:50:06.911Z",
+    "type": "md"
   }
 ]
