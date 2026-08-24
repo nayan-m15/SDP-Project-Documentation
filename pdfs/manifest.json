@@ -97,5 +97,14 @@
     "size": 11927,
     "date": "2026-08-24T10:55:28.125Z",
     "type": "md"
+  },
+  {
+    "name": "Wireframes",
+    "path": "docs/Architecture/Wireframes.md",
+    "originalPath": "docs/Architecture/Wireframes.md",
+    "folder": "Architecture",
+    "size": 597,
+    "date": "2026-08-24T12:38:51.076Z",
+    "type": "md"
   }
 ]
