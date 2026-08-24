@@ -91,7 +91,7 @@ A branch may be merged into `main` only when **all** of the following conditions
 - The branch is up to date with `main`
 - All review comments have been resolved
 
-Merges are performed using **squash-merge**, producing a single, scoped commit on `main` per feature.
+Merges are performed using **merge-commit**, producing a commit history on `main` per feature.
 
 ## 5. Versioning Scheme
 
