@@ -151,5 +151,14 @@
     "size": 859,
     "date": "2026-08-24T13:04:57.498Z",
     "type": "md"
+  },
+  {
+    "name": "Architectural Diagrams",
+    "path": "docs/Architecture/Architectural-Diagrams.md",
+    "originalPath": "docs/Architecture/Architectural-Diagrams.md",
+    "folder": "Architecture",
+    "size": 1252,
+    "date": "2026-08-24T13:29:08.344Z",
+    "type": "md"
   }
 ]
