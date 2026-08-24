@@ -8,7 +8,7 @@
 
 ## 2. State Diagram
 
-<img src="https://github.com/nayan-m15/SDP-Project-Documentation/blob/main/assets/state-diagram.svg?raw=true" alt="State diagram" width="700">
+<img src="https://github.com/nayan-m15/SDP-Project-Documentation/blob/main/assets/state-diagram%20(1).svg?raw=true" alt="State diagram" width="700">
 
 ---
 
@@ -20,7 +20,7 @@
 
 ## 4. Sequence Diagram
 
-<img src="https://github.com/nayan-m15/SDP-Project-Documentation/blob/main/assets/sequence-diagram.svg?raw=true" alt="Sequence diagram" width="700">
+<img src="https://github.com/nayan-m15/SDP-Project-Documentation/blob/main/assets/sequence-diagram%20(1).svg?raw=true" alt="Sequence diagram" width="700">
 
 ---
 
