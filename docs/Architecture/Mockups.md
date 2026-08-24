@@ -1,4 +1,7 @@
 # Mockups
+#### Developed the wireframes into detailed UI mockups in Figma by adding functionality, colours, icons, and visual styling, with assistance for prompting from Claude [Sonnet 5 Medium].
+
+---
 
 ## 1. Login / Sign In
 
