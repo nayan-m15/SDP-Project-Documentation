@@ -142,5 +142,14 @@
     "size": 2558,
     "date": "2026-08-24T12:50:06.911Z",
     "type": "md"
+  },
+  {
+    "name": "Mockups",
+    "path": "docs/Architecture/Mockups.md",
+    "originalPath": "docs/Architecture/Mockups.md",
+    "folder": "Architecture",
+    "size": 859,
+    "date": "2026-08-24T13:04:57.498Z",
+    "type": "md"
   }
 ]
