@@ -89,4 +89,6 @@ The team's immediate Sprint 1 focus includes:
 
 ## Proof of Meeting
 
-**Meeting commenced at:** 15:30
+*Meeting commenced at:** 15:30 on 18/08/2026*
+
+Meeting Held In Person.
