@@ -160,5 +160,14 @@
     "size": 2382,
     "date": "2026-08-24T13:36:50.844Z",
     "type": "md"
+  },
+  {
+    "name": "Project Database Schema",
+    "path": "docs/Architecture/Project-Database-Schema.md",
+    "originalPath": "pdfs/Sport_Coaching_Tool_Database_Schema.pdf",
+    "folder": "Architecture",
+    "size": 215562,
+    "date": "2026-08-24T13:48:42.730Z",
+    "type": "md"
   }
 ]
