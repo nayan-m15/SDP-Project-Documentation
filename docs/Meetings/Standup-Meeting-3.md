@@ -65,3 +65,10 @@ Jan reviewed the documentation site and work tracker. Key feedback:
 - Team: fill out Google Form after sprint review
 - Jan: send any additional feedback he thinks of after the meeting
 - Team: message Jan the night before or morning of each standup with the time so he can join
+
+---
+
+## Proof of Meeting
+
+Meeting commenced at 12:30
+Meeting Held In Person
