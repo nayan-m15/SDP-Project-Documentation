@@ -53,11 +53,4 @@
 
 Discord voice call — **General** channel, **SDP Interlude** server (27:13 elapsed):
 
-| Participant |
-|---|
-| Ayesha |
-| Jai_Par |
-| lilsebastian_21 |
-| nayan.m15 |
-| RokoVidjak |
-| SauravIall |
+<img src="https://github.com/nayan-m15/SDP-Project-Documentation/blob/main/assets/Sprint_Planning_Meeting.png?raw=true" alt="Sprint Planning Meeting">
