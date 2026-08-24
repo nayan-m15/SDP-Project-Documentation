@@ -44,6 +44,7 @@ const toastContainer = document.getElementById("toastContainer");
 
 let convertedMarkdown = "";
 let loadedManifestDocuments = [];
+let selectedSourceFile = null;
 const MAX_FILE_SIZE = 25 * 1024 * 1024; // 25 MB
 const PAGES_BASE = "https://nayan-m15.github.io/SDP-Project-Documentation";
 
@@ -267,11 +268,13 @@ async function handleFileSelection(file) {
         }
 
         markdownTextarea.value = convertedMarkdown;
+        selectedSourceFile = file;
         updateLivePreview();
         showStatus(`Successfully converted "${file.name}" to Markdown! Review or edit below before saving.`, "success");
         showToast(`Converted "${file.name}" to Markdown`, "file-check");
 
     } catch (error) {
+        selectedSourceFile = null;
         console.error("Conversion error:", error);
         showStatus(`Conversion failed: ${error.message}`, "error");
     }
@@ -435,6 +438,65 @@ async function commitFileToGitHub(owner, repo, token, path, content, message) {
     return await res.json();
 }
 
+// GitHub API: Commit/Upload a base64-encoded file (for binary files such as PDFs)
+async function commitBase64FileToGitHub(owner, repo, token, path, base64Content, message) {
+    const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+
+    let sha = null;
+    try {
+        const checkRes = await fetch(url, {
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Accept": "application/vnd.github.v3+json"
+            }
+        });
+        if (checkRes.ok) {
+            const data = await checkRes.json();
+            sha = data.sha;
+        }
+    } catch (e) {}
+
+    const body = {
+        message: message,
+        content: base64Content,
+        ...(sha && { sha })
+    };
+
+    const res = await fetch(url, {
+        method: "PUT",
+        headers: {
+            "Authorization": `Bearer ${token}`,
+            "Accept": "application/vnd.github.v3+json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(body)
+    });
+
+    if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.message || "Failed to commit file to GitHub");
+    }
+
+    return await res.json();
+}
+
+function readFileAsBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+            const dataUrl = String(reader.result || "");
+            const commaIndex = dataUrl.indexOf(",");
+            if (commaIndex < 0) {
+                reject(new Error("Failed to encode source file"));
+                return;
+            }
+            resolve(dataUrl.slice(commaIndex + 1));
+        };
+        reader.onerror = () => reject(new Error("Failed to read source file"));
+        reader.readAsDataURL(file);
+    });
+}
+
 // GitHub API: Delete a file
 async function deleteFileFromGitHub(token, owner, repo, path, message) {
     const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
@@ -550,6 +612,9 @@ uploadButton.addEventListener("click", async () => {
     try {
         const sanitizedFilename = title.replace(/[^a-zA-Z0-9-_ ]/g, "").replace(/\s+/g, "-") + ".md";
         const docPath = `docs/${folder}/${sanitizedFilename}`;
+        const sourceFile = selectedSourceFile;
+        const hasPdfSource = !!(sourceFile && sourceFile.name.toLowerCase().endsWith(".pdf"));
+        let originalPath = docPath;
 
         // 1. Commit Markdown file
         await commitFileToGitHub(
@@ -561,13 +626,33 @@ uploadButton.addEventListener("click", async () => {
             `docs: add ${title} in ${folder}`
         );
 
-        // 2. Update manifest.json
+        // 2. If source is a PDF, store the original PDF for true "Raw Document" access.
+        if (hasPdfSource) {
+            const safePdfName = sourceFile.name
+                .replace(/[^a-zA-Z0-9._\- ]/g, "")
+                .replace(/\s+/g, "-");
+            const pdfPath = `pdfs/${safePdfName}`;
+            const pdfBase64 = await readFileAsBase64(sourceFile);
+
+            await commitBase64FileToGitHub(
+                owner,
+                repo,
+                token,
+                pdfPath,
+                pdfBase64,
+                `docs: add source PDF for ${title}`
+            );
+
+            originalPath = pdfPath;
+        }
+
+        // 3. Update manifest.json
         const newDocEntry = {
             name: title,
             path: docPath,
-            originalPath: docPath,
+            originalPath,
             folder: folder,
-            size: new Blob([markdownContent]).size,
+            size: sourceFile ? sourceFile.size : new Blob([markdownContent]).size,
             date: new Date().toISOString(),
             type: "md"
         };
@@ -584,6 +669,8 @@ uploadButton.addEventListener("click", async () => {
 
         showStatus(`Successfully uploaded "<strong>${title}</strong>"! It will be available in the portal shortly.`, "success");
         showToast(`Published "${title}" to GitHub!`, "check-circle-2");
+        selectedSourceFile = null;
+        if (docFileInput) docFileInput.value = "";
         loadExistingDocuments();
 
     } catch (err) {
