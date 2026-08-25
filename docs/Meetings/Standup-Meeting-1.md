@@ -64,4 +64,6 @@
 
 ## Proof of Meeting
 
-Meeting commenced at 20:05
+Meeting commenced at:* 20:05 on 17/08/2026*
+
+Discord voice call
