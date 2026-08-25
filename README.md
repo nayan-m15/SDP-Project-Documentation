@@ -140,3 +140,5 @@ This README was AI-generated and reviewed by Codex using the GPT-5 model.
 Code in `js/viewer.js` and `upload.html` was modified with AI assistance (Qoder) to
 add GitHub Pages fetching and pre-filled repository configuration. All changes
 were reviewed by the repository owner before commit.
+
+Granola AI was used to record and transcribe selected project meetings and to assist in generating structured meeting notes. Generated meeting notes were subsequently reviewed by the team for accuracy before being included in the project documentation.
