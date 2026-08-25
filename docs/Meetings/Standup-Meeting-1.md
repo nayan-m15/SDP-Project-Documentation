@@ -68,3 +68,5 @@
 Discord voice call
 
 ![Proof of Standup Meeting 1](../../assets/Standup_meeting_1.png)
+
+*AI Declaration: Meeting transcription and notes were generated with the assistance of Granola AI and subsequently reviewed by the team for accuracy.*
