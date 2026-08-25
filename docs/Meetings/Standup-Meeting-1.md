@@ -64,6 +64,7 @@
 
 ## Proof of Meeting
 
-Meeting commenced at:* 20:05 on 17/08/2026*
-
+*Meeting commenced at:* 20:05 on 17/08/2026<br>
 Discord voice call
+
+![Proof of Standup Meeting 1](../../assets/Standup_meeting_1.png)
