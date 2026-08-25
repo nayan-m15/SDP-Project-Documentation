@@ -60,3 +60,5 @@ Sprint 1 retrospective meeting. Team confirmed they are done with Sprint 1 work.
 Meeting commenced at 14:30
 
 <img src="https://github.com/nayan-m15/SDP-Project-Documentation/blob/main/assets/Sprint1_Retrospective_Meeting.png?raw=true" alt="Sprint 1 Retrospective Meeting">
+
+*AI Declaration: Meeting transcription and notes were generated with the assistance of Granola AI and subsequently reviewed by the team for accuracy.*
