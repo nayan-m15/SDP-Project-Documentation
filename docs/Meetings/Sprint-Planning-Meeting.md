@@ -54,3 +54,5 @@
 Discord voice call — **General** channel, **SDP Interlude** server (27:13 elapsed):
 
 <img src="https://github.com/nayan-m15/SDP-Project-Documentation/blob/main/assets/Sprint_Planning_Meeting.png?raw=true" alt="Sprint Planning Meeting">
+
+*AI Declaration: Meeting transcription and notes were generated with the assistance of Granola AI and subsequently reviewed by the team for accuracy.*
