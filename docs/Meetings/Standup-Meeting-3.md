@@ -72,3 +72,5 @@ Jan reviewed the documentation site and work tracker. Key feedback:
 
 Meeting commenced at 12:30
 Meeting Held In Person
+
+*AI Declaration: Meeting transcription and notes were generated with the assistance of Granola AI and subsequently reviewed by the team for accuracy.*
