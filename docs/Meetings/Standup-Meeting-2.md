@@ -94,3 +94,5 @@ The team's immediate Sprint 1 focus includes:
 Discord voice call
 
 <img src="https://github.com/nayan-m15/SDP-Project-Documentation/blob/main/assets/StandUp_2_Meeting.png?raw=true" alt="Stand Up Meeting 2">
+
+*AI Declaration: Meeting transcription and notes were generated with the assistance of Granola AI and subsequently reviewed by the team for accuracy.*
