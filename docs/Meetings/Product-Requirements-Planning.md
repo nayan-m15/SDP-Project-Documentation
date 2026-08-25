@@ -148,3 +148,5 @@
 - Confirm standup schedule (every 3 days) and begin standups
 - Finalise product decisions (roles, athlete details, stats scope, delete/archive logic) and send Jan a written summary
 - Confirm any unclear requirements with Brendan; loop Jan in if there is a conflict
+
+*AI Declaration: Meeting transcription and notes were generated with the assistance of Granola AI and subsequently reviewed by the team for accuracy.*
