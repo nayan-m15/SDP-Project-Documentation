@@ -9,7 +9,7 @@
     "type": "md"
   },
   {
-    "name": "Product and Systems Design",
+    "name": "Product Overview",
     "path": "docs/Overview/02-product-overview.md",
     "originalPath": "pdfs/Amateur Football Coaching Platform_Product and Systems Design.pdf",
     "folder": "Overview",
@@ -36,15 +36,6 @@
     "type": "md"
   },
   {
-    "name": "Team Tech Stack Guide",
-    "path": "docs/Architecture/tech-stack/team-tool-stack-guide.md",
-    "originalPath": "docs/Architecture/tech-stack/team-tool-stack-guide.md",
-    "folder": "Architecture",
-    "size": 6088,
-    "date": "2026-08-18T21:10:17.625Z",
-    "type": "md"
-  },
-  {
     "name": "Tech Stack Integration Plan",
     "path": "docs/Architecture/tech-stack/tool-stack-plan.md",
     "originalPath": "pdfs/git-methodology.pdf",
@@ -54,30 +45,30 @@
     "type": "md"
   },
   {
-    "name": "Git Methodology",
-    "path": "docs/Architecture/Git-Methodology.md",
-    "originalPath": "pdfs/git-methodology.pdf",
+    "name": "Team Tech Stack Guide",
+    "path": "docs/Architecture/tech-stack/team-tool-stack-guide.md",
+    "originalPath": "docs/Architecture/tech-stack/team-tool-stack-guide.md",
     "folder": "Architecture",
-    "size": 3572,
-    "date": "2026-08-24T13:30:59.437Z",
+    "size": 6088,
+    "date": "2026-08-18T21:10:17.625Z",
     "type": "md"
   },
   {
-    "name": "Gaffer Database Schema",
+    "name": "Project Database Schema",
     "path": "docs/Architecture/data/database-schema.md",
     "originalPath": "pdfs/Sport_Coaching_Tool_Database_Schema.pdf",
     "folder": "Architecture",
     "size": 12225,
-    "date": "2026-08-24T10:55:28.125Z",
+    "date": "2026-08-24T13:48:42.730Z",
     "type": "md"
   },
   {
-    "name": "Architectural Diagrams",
-    "path": "docs/Architecture/design/architectural-diagrams.md",
-    "originalPath": "docs/Architecture/design/architectural-diagrams.md",
+    "name": "Wireframes",
+    "path": "docs/Architecture/design/wireframes.md",
+    "originalPath": "docs/Architecture/design/wireframes.md",
     "folder": "Architecture",
-    "size": 1603,
-    "date": "2026-08-24T13:29:08.344Z",
+    "size": 1370,
+    "date": "2026-08-24T12:38:51.076Z",
     "type": "md"
   },
   {
@@ -90,12 +81,21 @@
     "type": "md"
   },
   {
-    "name": "Wireframes",
-    "path": "docs/Architecture/design/wireframes.md",
-    "originalPath": "docs/Architecture/design/wireframes.md",
+    "name": "Architectural Diagrams",
+    "path": "docs/Architecture/design/architectural-diagrams.md",
+    "originalPath": "docs/Architecture/design/architectural-diagrams.md",
     "folder": "Architecture",
-    "size": 1370,
-    "date": "2026-08-24T12:38:51.076Z",
+    "size": 1603,
+    "date": "2026-08-24T13:29:08.344Z",
+    "type": "md"
+  },
+  {
+    "name": "Git Methodology",
+    "path": "docs/Architecture/git-methodology.md",
+    "originalPath": "pdfs/git-methodology.pdf",
+    "folder": "Architecture",
+    "size": 3572,
+    "date": "2026-08-24T13:30:59.437Z",
     "type": "md"
   },
   {
@@ -114,15 +114,6 @@
     "folder": "Meetings",
     "size": 3265,
     "date": "2026-08-14T08:45:01.732Z",
-    "type": "md"
-  },
-  {
-    "name": "Sprint 1 Retrospective Meeting",
-    "path": "docs/Meetings/retrospectives/sprint-1-retrospective.md",
-    "originalPath": "docs/Meetings/retrospectives/sprint-1-retrospective.md",
-    "folder": "Meetings",
-    "size": 2558,
-    "date": "2026-08-24T13:36:50.844Z",
     "type": "md"
   },
   {
@@ -153,9 +144,18 @@
     "type": "md"
   },
   {
+    "name": "Sprint 1 Retrospective Meeting",
+    "path": "docs/Meetings/retrospectives/sprint-1-retrospective.md",
+    "originalPath": "docs/Meetings/retrospectives/sprint-1-retrospective.md",
+    "folder": "Meetings",
+    "size": 2558,
+    "date": "2026-08-24T13:36:50.844Z",
+    "type": "md"
+  },
+  {
     "name": "Product Backlog",
-    "path": "docs/Project Management/Product-Backlog.md",
-    "originalPath": "docs/Project Management/Product-Backlog.md",
+    "path": "docs/Project Management/product-backlog.md",
+    "originalPath": "docs/Project Management/product-backlog.md",
     "folder": "Project Management",
     "size": 7691,
     "date": "2026-08-24T07:54:26.540Z",
