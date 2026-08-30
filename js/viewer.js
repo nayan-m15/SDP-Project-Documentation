@@ -223,27 +223,53 @@ async function loadDocuments() {
     }
 }
 
-// Render Folder Tree Sidebar
-function renderTree(documents) {
-    treeContainer.innerHTML = "";
+// Render Folder Tree Sidebar with Multi-Level Subfolder Hierarchy
+function buildDocTree(documents) {
+    const root = { name: "root", folders: {}, docs: [] };
 
-    // Group documents by folder
-    const groups = {};
     documents.forEach((doc) => {
-        let folderName = doc.folder;
-        if (!folderName) {
-            const parts = doc.path.split("/");
-            folderName = parts.length > 2 ? parts[1] : "General";
+        let pathStr = doc.path;
+        if (pathStr.startsWith("docs/")) {
+            pathStr = pathStr.slice(5);
+        } else if (pathStr.startsWith("./docs/")) {
+            pathStr = pathStr.slice(7);
         }
-        if (!groups[folderName]) {
-            groups[folderName] = [];
+
+        const parts = pathStr.split("/").filter(Boolean);
+        let curr = root;
+
+        for (let i = 0; i < parts.length - 1; i++) {
+            const folderName = parts[i];
+            if (!curr.folders[folderName]) {
+                curr.folders[folderName] = {
+                    name: folderName,
+                    folders: {},
+                    docs: []
+                };
+            }
+            curr = curr.folders[folderName];
         }
-        groups[folderName].push(doc);
+
+        curr.docs.push(doc);
     });
 
-    // Create tree elements
-    Object.keys(groups).forEach((folderName) => {
-        const folderDocs = groups[folderName];
+    return root;
+}
+
+function countTreeDocs(node) {
+    let total = node.docs.length;
+    Object.values(node.folders).forEach(childFolder => {
+        total += countTreeDocs(childFolder);
+    });
+    return total;
+}
+
+function renderTreeBranch(node, containerElement) {
+    // 1. Render child subfolders
+    Object.keys(node.folders).forEach((folderName) => {
+        const folderNode = node.folders[folderName];
+        const count = countTreeDocs(folderNode);
+
         const folderDiv = document.createElement("div");
         folderDiv.className = "tree-folder open";
         folderDiv.dataset.folder = folderName.toLowerCase();
@@ -255,45 +281,55 @@ function renderTree(documents) {
             <i data-lucide="chevron-right" class="svg-icon-sm folder-arrow"></i>
             <i data-lucide="folder" class="svg-icon-sm folder-icon"></i>
             <span class="folder-name">${folderName}</span>
-            <span class="folder-count-badge">${folderDocs.length}</span>
+            <span class="folder-count-badge">${count}</span>
         `;
 
-        folderHeader.addEventListener("click", () => {
+        folderHeader.addEventListener("click", (e) => {
+            e.stopPropagation();
             folderDiv.classList.toggle("open");
         });
 
         const contentsDiv = document.createElement("div");
         contentsDiv.className = "tree-folder-contents";
 
-        folderDocs.forEach((doc) => {
-            const docBtn = document.createElement("button");
-            docBtn.className = "document-button";
-            docBtn.type = "button";
-            docBtn.dataset.path = doc.path;
-            docBtn.dataset.name = doc.name.toLowerCase();
-
-            const isMd = doc.type === "md" || doc.path.endsWith(".md");
-            const badgeClass = isMd ? "md" : "pdf";
-            const badgeText = isMd ? "MD" : "PDF";
-
-            docBtn.innerHTML = `
-                <span class="doc-badge ${badgeClass}">${badgeText}</span>
-                <span class="document-name">${doc.name}</span>
-            `;
-
-            docBtn.addEventListener("click", () => {
-                selectDocument(doc, docBtn);
-                toggleMobileMenu(false);
-            });
-
-            contentsDiv.appendChild(docBtn);
-        });
+        renderTreeBranch(folderNode, contentsDiv);
 
         folderDiv.appendChild(folderHeader);
         folderDiv.appendChild(contentsDiv);
-        treeContainer.appendChild(folderDiv);
+        containerElement.appendChild(folderDiv);
     });
 
+    // 2. Render direct documents in this directory
+    node.docs.forEach((doc) => {
+        const docBtn = document.createElement("button");
+        docBtn.className = "document-button";
+        docBtn.type = "button";
+        docBtn.dataset.path = doc.path;
+        docBtn.dataset.name = doc.name.toLowerCase();
+
+        const isMd = doc.type === "md" || doc.path.endsWith(".md");
+        const badgeClass = isMd ? "md" : "pdf";
+        const badgeText = isMd ? "MD" : "PDF";
+
+        docBtn.innerHTML = `
+            <span class="doc-badge ${badgeClass}">${badgeText}</span>
+            <span class="document-name">${doc.name}</span>
+        `;
+
+        docBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            selectDocument(doc, docBtn);
+            toggleMobileMenu(false);
+        });
+
+        containerElement.appendChild(docBtn);
+    });
+}
+
+function renderTree(documents) {
+    treeContainer.innerHTML = "";
+    const rootNode = buildDocTree(documents);
+    renderTreeBranch(rootNode, treeContainer);
     refreshIcons();
 }
 
