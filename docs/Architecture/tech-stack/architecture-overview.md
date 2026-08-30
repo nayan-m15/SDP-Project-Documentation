@@ -44,9 +44,9 @@ The project organizes documentation files under `docs/` and `pdfs/`. The file in
 ```json
 {
   "name": "System Architecture Overview",
-  "path": "docs/Architecture/Overview.md",
+  "path": "docs/Architecture/tech-stack/architecture-overview.md",
   "folder": "Architecture",
-  "size": 1542,
+  "size": 2317,
   "date": "2026-08-13T18:50:00.000Z",
   "type": "md"
 }

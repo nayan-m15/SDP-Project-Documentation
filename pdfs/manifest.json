@@ -1,74 +1,155 @@
 [
   {
     "name": "Getting Started",
-    "path": "docs/Getting-Started.md",
-    "originalPath": "docs/Getting-Started.md",
-    "folder": "General",
-    "size": 1280,
+    "path": "docs/Overview/01-getting-started.md",
+    "originalPath": "docs/Overview/01-getting-started.md",
+    "folder": "Overview",
+    "size": 1717,
     "date": "2026-08-13T18:50:00.000Z",
+    "type": "md"
+  },
+  {
+    "name": "Product and Systems Design",
+    "path": "docs/Overview/02-product-overview.md",
+    "originalPath": "pdfs/Amateur Football Coaching Platform_Product and Systems Design.pdf",
+    "folder": "Overview",
+    "size": 18023,
+    "date": "2026-08-24T11:02:46.730Z",
     "type": "md"
   },
   {
     "name": "System Architecture Overview",
-    "path": "docs/Architecture/Overview.md",
-    "originalPath": "docs/Architecture/Overview.md",
+    "path": "docs/Architecture/tech-stack/architecture-overview.md",
+    "originalPath": "docs/Architecture/tech-stack/architecture-overview.md",
     "folder": "Architecture",
-    "size": 1542,
+    "size": 2317,
     "date": "2026-08-13T18:50:00.000Z",
     "type": "md"
   },
   {
-    "name": "Product Requirements Planning",
-    "path": "docs/Meetings/Product-Requirements-Planning.md",
-    "originalPath": "pdfs/SDP Meeting 1.pdf",
-    "folder": "Meetings",
-    "size": 115520,
-    "date": "2026-08-24T11:03:30.810Z",
+    "name": "Project Tech Stack",
+    "path": "docs/Architecture/tech-stack/web-app-tool-stack.md",
+    "originalPath": "pdfs/sport-coaching-tool-stack-v2.md.pdf",
+    "folder": "Architecture",
+    "size": 18498,
+    "date": "2026-08-24T10:48:47.496Z",
+    "type": "md"
+  },
+  {
+    "name": "Team Tech Stack Guide",
+    "path": "docs/Architecture/tech-stack/team-tool-stack-guide.md",
+    "originalPath": "docs/Architecture/tech-stack/team-tool-stack-guide.md",
+    "folder": "Architecture",
+    "size": 6088,
+    "date": "2026-08-18T21:10:17.625Z",
+    "type": "md"
+  },
+  {
+    "name": "Tech Stack Integration Plan",
+    "path": "docs/Architecture/tech-stack/tool-stack-plan.md",
+    "originalPath": "pdfs/git-methodology.pdf",
+    "folder": "Architecture",
+    "size": 10658,
+    "date": "2026-08-30T10:33:10.547Z",
     "type": "md"
   },
   {
     "name": "Git Methodology",
     "path": "docs/Architecture/Git-Methodology.md",
-    "originalPath": "docs/Architecture/Git-Methodology.md",
+    "originalPath": "pdfs/git-methodology.pdf",
     "folder": "Architecture",
-    "size": 3459,
+    "size": 3572,
     "date": "2026-08-24T13:30:59.437Z",
     "type": "md"
   },
   {
+    "name": "Gaffer Database Schema",
+    "path": "docs/Architecture/data/database-schema.md",
+    "originalPath": "pdfs/Sport_Coaching_Tool_Database_Schema.pdf",
+    "folder": "Architecture",
+    "size": 12225,
+    "date": "2026-08-24T10:55:28.125Z",
+    "type": "md"
+  },
+  {
+    "name": "Architectural Diagrams",
+    "path": "docs/Architecture/design/architectural-diagrams.md",
+    "originalPath": "docs/Architecture/design/architectural-diagrams.md",
+    "folder": "Architecture",
+    "size": 1603,
+    "date": "2026-08-24T13:29:08.344Z",
+    "type": "md"
+  },
+  {
+    "name": "Mockups",
+    "path": "docs/Architecture/design/mockups.md",
+    "originalPath": "docs/Architecture/design/mockups.md",
+    "folder": "Architecture",
+    "size": 1286,
+    "date": "2026-08-24T13:04:57.498Z",
+    "type": "md"
+  },
+  {
+    "name": "Wireframes",
+    "path": "docs/Architecture/design/wireframes.md",
+    "originalPath": "docs/Architecture/design/wireframes.md",
+    "folder": "Architecture",
+    "size": 1370,
+    "date": "2026-08-24T12:38:51.076Z",
+    "type": "md"
+  },
+  {
+    "name": "Product Requirements Planning",
+    "path": "docs/Meetings/planning/product-requirements.md",
+    "originalPath": "pdfs/SDP Meeting 1.pdf",
+    "folder": "Meetings",
+    "size": 8560,
+    "date": "2026-08-24T11:03:30.810Z",
+    "type": "md"
+  },
+  {
     "name": "Sprint Planning Meeting",
-    "path": "docs/Meetings/Sprint-Planning-Meeting.md",
+    "path": "docs/Meetings/planning/sprint-1-planning.md",
     "originalPath": "pdfs/Sprint Planning Meeting.pdf",
     "folder": "Meetings",
-    "size": 129571,
+    "size": 3265,
     "date": "2026-08-14T08:45:01.732Z",
     "type": "md"
   },
   {
-    "name": "Tech Stack Integration Plan.md",
-    "path": "docs/Architecture/Tech-Stack-Integration-Planmd.md",
-    "originalPath": "pdfs/git-methodology.pdf",
-    "folder": "Architecture",
-    "size": 135641,
-    "date": "2026-08-30T10:33:10.547Z",
+    "name": "Sprint 1 Retrospective Meeting",
+    "path": "docs/Meetings/retrospectives/sprint-1-retrospective.md",
+    "originalPath": "docs/Meetings/retrospectives/sprint-1-retrospective.md",
+    "folder": "Meetings",
+    "size": 2558,
+    "date": "2026-08-24T13:36:50.844Z",
     "type": "md"
   },
   {
-    "name": "Product and Systems Design",
-    "path": "docs/General/Product-and-Systems-Design.md",
-    "originalPath": "pdfs/Amateur Football Coaching Platform_Product and Systems Design.pdf",
-    "folder": "General",
-    "size": 23955,
-    "date": "2026-08-24T11:02:46.730Z",
+    "name": "Standup Meeting 1",
+    "path": "docs/Meetings/standups/2026-08-11-standup-1.md",
+    "originalPath": "docs/Meetings/standups/2026-08-11-standup-1.md",
+    "folder": "Meetings",
+    "size": 2308,
+    "date": "2026-08-24T12:41:11.713Z",
     "type": "md"
   },
   {
-    "name": "Team Tech Stack Guide",
-    "path": "docs/Architecture/Team-Tech-Stack-Guide.md",
-    "originalPath": "pdfs/team-tech-guide.md",
-    "folder": "Architecture",
-    "size": 6008,
-    "date": "2026-08-18T21:10:17.625Z",
+    "name": "Standup Meeting 2",
+    "path": "docs/Meetings/standups/2026-08-18-standup-2.md",
+    "originalPath": "docs/Meetings/standups/2026-08-18-standup-2.md",
+    "folder": "Meetings",
+    "size": 4678,
+    "date": "2026-08-24T12:44:13.242Z",
+    "type": "md"
+  },
+  {
+    "name": "Standup Meeting 3",
+    "path": "docs/Meetings/standups/2026-08-25-standup-3.md",
+    "originalPath": "docs/Meetings/standups/2026-08-25-standup-3.md",
+    "folder": "Meetings",
+    "size": 2695,
+    "date": "2026-08-24T12:50:06.911Z",
     "type": "md"
   },
   {
@@ -76,98 +157,8 @@
     "path": "docs/Project Management/Product-Backlog.md",
     "originalPath": "docs/Project Management/Product-Backlog.md",
     "folder": "Project Management",
-    "size": 7790,
+    "size": 7691,
     "date": "2026-08-24T07:54:26.540Z",
-    "type": "md"
-  },
-  {
-    "name": "Project Tech Stack",
-    "path": "docs/Architecture/Project-Tech-Stack.md",
-    "originalPath": "docs/Architecture/Tech-stack.md",
-    "folder": "Architecture",
-    "size": 18290,
-    "date": "2026-08-24T10:48:47.496Z",
-    "type": "md"
-  },
-  {
-    "name": "Gaffer Database Schema",
-    "path": "docs/Architecture/Gaffer-Database-Schema.md",
-    "originalPath": "docs/Architecture/Gaffer-Database-Schema.md",
-    "folder": "Architecture",
-    "size": 11927,
-    "date": "2026-08-24T10:55:28.125Z",
-    "type": "md"
-  },
-  {
-    "name": "Wireframes",
-    "path": "docs/Architecture/Wireframes.md",
-    "originalPath": "docs/Architecture/Wireframes.md",
-    "folder": "Architecture",
-    "size": 597,
-    "date": "2026-08-24T12:38:51.076Z",
-    "type": "md"
-  },
-  {
-    "name": "Standup Meeting 1",
-    "path": "docs/Meetings/Standup-Meeting-1.md",
-    "originalPath": "docs/Meetings/Standup-Meeting-1.md",
-    "folder": "Meetings",
-    "size": 2132,
-    "date": "2026-08-24T12:41:11.713Z",
-    "type": "md"
-  },
-  {
-    "name": "Standup Meeting 2",
-    "path": "docs/Meetings/Standup-Meeting-2.md",
-    "originalPath": "docs/Meetings/Standup-Meeting-2.md",
-    "folder": "Meetings",
-    "size": 2558,
-    "date": "2026-08-24T12:44:13.242Z",
-    "type": "md"
-  },
-  {
-    "name": "Standup Meeting 3",
-    "path": "docs/Meetings/Standup-Meeting-3.md",
-    "originalPath": "docs/Meetings/Standup-Meeting-3.md",
-    "folder": "Meetings",
-    "size": 2558,
-    "date": "2026-08-24T12:50:06.911Z",
-    "type": "md"
-  },
-  {
-    "name": "Mockups",
-    "path": "docs/Architecture/Mockups.md",
-    "originalPath": "docs/Architecture/Mockups.md",
-    "folder": "Architecture",
-    "size": 859,
-    "date": "2026-08-24T13:04:57.498Z",
-    "type": "md"
-  },
-  {
-    "name": "Architectural Diagrams",
-    "path": "docs/Architecture/Architectural-Diagrams.md",
-    "originalPath": "docs/Architecture/Architectural-Diagrams.md",
-    "folder": "Architecture",
-    "size": 1252,
-    "date": "2026-08-24T13:29:08.344Z",
-    "type": "md"
-  },
-  {
-    "name": "Sprint 1 Retrospective Meeting",
-    "path": "docs/Meetings/Sprint-1-Retrospective-Meeting.md",
-    "originalPath": "docs/Meetings/Sprint-1-Retrospective-Meeting.md",
-    "folder": "Meetings",
-    "size": 2382,
-    "date": "2026-08-24T13:36:50.844Z",
-    "type": "md"
-  },
-  {
-    "name": "Project Database Schema",
-    "path": "docs/Architecture/Project-Database-Schema.md",
-    "originalPath": "pdfs/Sport_Coaching_Tool_Database_Schema.pdf",
-    "folder": "Architecture",
-    "size": 215562,
-    "date": "2026-08-24T13:48:42.730Z",
     "type": "md"
   }
 ]
