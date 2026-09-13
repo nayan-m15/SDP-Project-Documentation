@@ -1,114 +1,54 @@
-# Git Methodology
+# Git Methodology and Observed Workflow
 
-**Sport Coaching Tool — Project 2, COMS3011A**
-**Version:** 26.08.12
+## Evidence snapshot
 
-## 1. Purpose
+The repositories do not contain a single enforceable workflow policy. Earlier documents conflict: some describe trunk-based work from `main` with squash merges, while the application has both `main` and `development` and its recent first-parent history contains merge commits from feature/fix branches into `development`. At the inspected snapshot, local `development` was one commit ahead of local `main`.
 
-This document defines the git methodology followed by the team for the duration of the project: commit conventions, branching strategy, merge requirements, and versioning scheme. It applies to all repositories associated with the project and is referenced as evidence of project methodology per the course rubric.
+No `.github/workflows` files were found in the application or documentation repository. No repository file proves branch protection, required reviews, automated checks, deployment triggers, Trello/Gitea linkage, release tagging or a universal squash policy.
 
-## 2. Commit Conventions
+## Safe working convention pending confirmation
 
-Commits use scoped commit naming, in the following format:
+This is practical guidance, not a claim of team agreement:
 
-```
-<type>(<scope>): <description>
+1. Confirm the target branch on the tracker or pull request before starting; do not assume `main` or `development`.
+2. Use a short-lived branch such as `feat/<scope>`, `fix/<scope>` or `docs/<scope>`.
+3. Keep commits scoped and explain behavioural/test/documentation impact.
+4. Open a review request into the confirmed target. Include linked work item, screenshots/API notes as relevant, test commands/results, database impact and known limitations.
+5. Choose squash, rebase or merge according to the explicitly confirmed repository policy. Current history shows merge commits and direct single-parent commits, so one method cannot be inferred.
+6. Do not claim CI passed when no workflow/run link exists. Record locally run checks accurately.
+7. Promote between `development` and `main` only through the team's confirmed release process.
 
-[optional body]
+## Commit messages
 
-Assisted-by: <tool>[<model>]
-```
+Recent history commonly uses Conventional Commit-style prefixes (`feat`, `fix`, `docs`) with optional scopes. Continue that style where the team agrees, for example:
 
-The description is written in the imperative mood, lowercase, with no trailing period. The optional body explains the reasoning behind the change where it is not self-evident. The `Assisted-by` footer is included only when the commit contains AI-generated code, per the course AI policy.
-
-### 2.1 Commit Types
-
-| Type | Use |
-|------|-----|
-| `feat` | A new feature or capability |
-| `fix` | A bug fix |
-| `docs` | Documentation changes only |
-| `test` | Adding or correcting tests |
-| `refactor` | Code restructuring with no behavioural change |
-| `style` | Formatting only, no logic change |
-| `chore` | Tooling, dependencies, configuration |
-| `ci` | CI/CD pipeline changes |
-
-### 2.2 Commit Scopes
-
-Scopes correspond to project modules: `auth`, `roster`, `events`, `stats`, `docs`, `ci`.
-
-### 2.3 Commit Frequency
-
-Commits are made per logically complete, working unit of work, rather than on a fixed schedule. A change requiring the word "and" to describe should typically be split into separate commits.
-
-### 2.4 Examples
-
-```
-feat(events): add live goal logging endpoint
-fix(auth): handle expired session tokens
-docs(readme): declare AI code generation usage
+```text
+docs(api): describe cookie authentication and OpenAPI limits
+fix(events): reject duplicate opponent shirt numbers
+feat(stats): add season comparison filters
 ```
 
-## 3. Branching Strategy
+AI assistance should follow the repository's existing evidence policy and commit trailers. Do not infer a tool/model after the fact.
 
-The team follows a trunk-based workflow with short-lived feature branches created from `main`.
+## Review checklist
 
-### 3.1 When to Branch
+- [ ] Correct target/base branch confirmed
+- [ ] Scope and acceptance criteria linked
+- [ ] No secrets, generated junk or unrelated files
+- [ ] Relevant build/lint/test commands and exact results recorded
+- [ ] Stateful tests used a disposable database
+- [ ] API/schema/migration and deployment impact explained
+- [ ] Documentation and screenshots updated where behaviour changed
+- [ ] Accessibility/security/team-isolation risks reviewed
+- [ ] Merge method follows an explicit current decision
 
-- Work exceeds a trivial, single-line change
-- Two or more team members may edit overlapping files concurrently
+## Team decisions still required
 
-### 3.2 Branch Naming
+- Is day-to-day integration into `development`, direct to `main`, or conditional by change type?
+- Which merge methods are allowed, and when?
+- What reviews/checks/branch protections are mandatory?
+- Which system is authoritative for backlog/bugs: Trello, Gitea, GitHub, or another tracker?
+- What promotion/tag/release/deployment evidence must be retained?
 
-```
-<type>/<scope>-<short-description>
-```
+Until those answers are recorded, documentation should describe observed history and link actual pull requests/runs rather than presenting a proposed policy as fact.
 
-Examples:
-
-```
-feat/events-live-logging
-fix/auth-session-expiry
-feat/12-live-logging   (when tied to an issue number)
-```
-
-### 3.3 Pull Request Description
-
-Each pull request description must include:
-
-- Summary of what changed and why
-- Testing performed
-- Link to the related issue
-- AI attribution, where applicable
-
-## 4. Merge Requirements
-
-A branch may be merged into `main` only when **all** of the following conditions are met:
-
-- Continuous integration passes (lint and automated tests)
-- At least one team member approval has been given
-- The branch is up to date with `main`
-- All review comments have been resolved
-
-Merges are performed using **merge-commit**, producing a commit history on `main` per feature.
-
-## 5. Versioning Scheme
-
-The project uses **Calendar Versioning (CalVer)**, in the format `YY.MM.DD`, in place of Semantic Versioning. This reflects the milestone-driven nature of the project rather than a versioned public API, and produces a dated project history aligned with the course's milestone structure.
-
-### 5.1 Release Tags
-
-| Tag | Milestone |
-|-----|-----------|
-| `26.08.25` | Milestone 1: Sprint 1 |
-| `26.09.15` | Milestone 2: Sprint 2 |
-| `26.09.29` | Milestone 3: Sprint 3 |
-| `26.10.11` | Milestone 4: Submission |
-
-### 5.2 Tagging Procedure
-
-```bash
-git tag -a 26.08.25 -m "Milestone 1: Sprint 1"
-git push origin 26.08.25
-```

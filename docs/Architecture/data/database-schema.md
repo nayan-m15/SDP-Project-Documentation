@@ -1,299 +1,205 @@
-# Sport Coaching Tool — Database Schema
+# Current PostgreSQL Database Schema
 
-## Quick Overview
+**Source of truth:** `backend/src/database/schema/index.ts` at application commit `aadf745e`, checked 13 September 2026. The schema defines **19 tables and 14 PostgreSQL enums**. SQL migrations `0000`–`0019` were inspected but were not executed during this documentation update.
 
-- **Database**: PostgreSQL (Neon)
-- **ORM / migrations**: Drizzle ORM / drizzle-kit
-- **Total tables**: 12 (4 authentication, 8 application)
-- **Enums**: 5
+## Entity relationships
 
-The database is centered around **users** and **teams**. Better Auth manages identity, sessions, authentication accounts and verification records. Application tables then model team membership, athletes, scheduled events, competitions, match details, per-athlete match statistics and competition standings.
-
-A user may belong to multiple teams through the `team_members` junction table. Each team owns its athletes, events and competitions. Match-specific data extends an event through a one-to-one `matches` record. Athlete statistics are captured per match through `athlete_match_stats`.
-
-> **Scope note**: this reflects the current repository schema at the time of analysis. It separates Better Auth infrastructure from Sport Coaching Tool application data.
-
----
-
-## Entity Relationship Diagram
-
-```
-verification            session
-  id PK                   id PK
-  identifier    1:N        token UK
-  value                    user_id FK
-       \                  /
-        \                /
-         user ──────────┘
-          id PK
-          name
-          email UK          account
-          image               id PK
-          phone_number  1:N   provider_id
-          sex                 user_id FK
-          date_of_birth
-            │
-            │ 1:N
-            ▼
-      team_members
-        id PK
-        team_id FK
-        user_id FK
-        role
-            ▲
-            │ 1:N
-      ┌─────┴─────┐
-    teams        athletes ──────────┐
-     id PK          id PK           │
-     name            team_id FK     │ 1:N
-       │              first_name    ▼
-       │ 1:N          last_name   athlete_match_stats
-       ▼              position       id PK
-     events           squad_number   match_id FK
-      id PK           archived_at    athlete_id FK
-      team_id FK           │         goals
-      title                │ 1:0..1  assists
-      type                 ▼         cards
-      status             matches ────┘
-      scheduled_at         id PK       1:N
-       │                   event_id FK+UK
-       │ 1:N               competition_id FK
-       ▼                   opponent_name
-    competitions            team_score
-      id PK                 opponent_score
-      team_id FK
-      name         1:N
-      type    ───────────► standings
-      season                 id PK
-                             competition_id FK
-                             team_name
-                             position
-                             points
+```mermaid
+erDiagram
+  user ||--o{ session : has
+  user ||--o{ account : has
+  user ||--o| team_members : joins
+  teams ||--o{ team_members : contains
+  teams ||--o{ athletes : owns
+  user ||--o{ athletes : claims
+  athletes ||--o{ player_claim_invites : targeted_by
+  teams ||--o{ team_invites : issues
+  teams ||--o{ game_plans : saves
+  teams ||--o{ events : schedules
+  events ||--o{ event_rsvps : receives
+  athletes ||--o{ event_rsvps : submits
+  teams ||--o{ seasons : defines
+  teams ||--o{ competitions : enters
+  seasons ||--o{ competitions : groups
+  competitions ||--o{ events : classifies
+  events ||--o| matches : becomes
+  competitions ||--o{ matches : classifies
+  game_plans ||--o{ matches : snapshots
+  matches ||--o{ opponent_match_players : contains
+  matches ||--o{ athlete_match_stats : aggregates
+  athletes ||--o{ athlete_match_stats : receives
+  competitions ||--o{ standings : contains
+  matches ||--o{ match_events : records
+  athletes ||--o{ match_events : attributed_to
+  opponent_match_players ||--o{ match_events : attributed_to
+  user ||--o{ match_events : logs
 ```
 
-Diagram labels show primary keys (PK), foreign keys (FK), unique keys (UK), and high-level relationship cardinalities.
+`verification` is a stand-alone Better Auth token table. Invitation creator/consumer fields also reference `user`, although those edges are omitted above for readability.
 
----
+## Type notation
 
-## Better Auth Tables (What Handles Identity)
+- `PK` primary key; `FK` foreign key; `UQ` unique constraint/index; `NN` not null.
+- All application UUID primary keys use `defaultRandom()`. Better Auth identity keys are text.
+- Unless stated otherwise, `created_at` and `updated_at` are `timestamptz NN DEFAULT now()`.
+- A column without `NN` is nullable and defaults to `NULL` unless another default is shown.
 
-### user
+## Authentication and identity tables
 
-Registered users and core identity data, extended with profile information.
+### `user`
 
-| Column | Type | Key | Nullable | Description |
-|---|---|---|---|---|
-| id | text | PK | No | Better Auth user identifier |
-| name | text | - | No | Display name |
-| email | text | Unique | No | Login identifier |
-| email_verified | boolean | - | No | Email verification status |
-| image | text | - | Yes | Avatar URL |
-| phone_number | text | - | Yes | Profile phone number |
-| sex | sex enum | - | Yes | male / female / prefer_not_to_say |
-| date_of_birth | date | - | Yes | Profile date of birth |
-| created_at | timestamptz | - | No | Created timestamp |
-| updated_at | timestamptz | - | No | Updated timestamp |
+`id text PK`; `name text NN`; `email text NN UQ`; `email_verified boolean NN DEFAULT false`; `image text`; `phone_number text`; `sex sex`; `date_of_birth date`; timestamps.
 
-### session
+### `session`
 
-Active authentication sessions associated with a user.
+`id text PK`; `expires_at timestamptz NN`; `token text NN UQ`; timestamps; `ip_address text`; `user_agent text`; `user_id text NN FK → user.id ON DELETE CASCADE`.
 
-| Column | Type | Key | Nullable | Description |
-|---|---|---|---|---|
-| id | text | PK | No | Session identifier |
-| expires_at | timestamptz | - | No | Session expiry |
-| token | text | Unique | No | Session token |
-| ip_address | text | - | Yes | Client IP |
-| user_agent | text | - | Yes | Browser user agent |
-| user_id | text | FK -> user.id | No | Session owner |
+Index: `session_user_id_index(user_id)`.
 
-### account
+### `account`
 
-Credential and OAuth account information associated with a user.
+`id text PK`; `account_id text NN`; `provider_id text NN`; `user_id text NN FK → user.id ON DELETE CASCADE`; `access_token text`; `refresh_token text`; `id_token text`; `access_token_expires_at timestamptz`; `refresh_token_expires_at timestamptz`; `scope text`; `password text`; timestamps.
 
-| Column | Type | Key | Nullable | Description |
-|---|---|---|---|---|
-| id | text | PK | No | Account identifier |
-| account_id | text | - | No | External/provider account id |
-| provider_id | text | - | No | credential / google |
-| user_id | text | FK -> user.id | No | Account owner |
-| access_token | text | - | Yes | OAuth token |
-| refresh_token | text | - | Yes | OAuth refresh token |
-| password | text | - | Yes | Password hash for credential provider |
+Index: `account_user_id_index(user_id)`.
 
-### verification
+### `verification`
 
-One-time verification records such as email verification tokens.
+`id text PK`; `identifier text NN`; `value text NN`; `expires_at timestamptz NN`; timestamps.
 
-| Column | Type | Key | Nullable | Description |
-|---|---|---|---|---|
-| id | text | PK | No | Verification record id |
-| identifier | text | - | No | Usually the email address |
-| value | text | - | No | Verification token/hash |
-| expires_at | timestamptz | - | No | Expiry time |
+Index: `verification_identifier_index(identifier)`.
 
----
+## Team, roster and invitation tables
 
-## Application Tables (What You'll Actually Use)
+### `teams`
 
-### teams
+`id uuid PK DEFAULT random`; `name text NN`; `primary_color text`; timestamps.
 
-A football team and the central organizational entity in the application.
+### `team_members`
 
-| Column | Type | Key | Nullable | Description |
-|---|---|---|---|---|
-| id | uuid | PK | No | Team id |
-| name | text | - | No | Team name |
-| created_at | timestamptz | - | No | Created timestamp |
-| updated_at | timestamptz | - | No | Updated timestamp |
+`id uuid PK DEFAULT random`; `team_id uuid NN FK → teams.id ON DELETE CASCADE`; `user_id text NN FK → user.id ON DELETE CASCADE`; `role team_role NN DEFAULT assistant`; timestamps.
 
-### team_members
+Indexes/uniques: indexes on `team_id` and `user_id`; `team_members_user_unique(user_id)` currently limits a user to one membership; `team_members_team_user_unique(team_id,user_id)` prevents duplicate membership.
 
-Junction table linking users to teams and assigning coach/assistant roles.
+### `athletes`
 
-| Column | Type | Key | Nullable | Description |
-|---|---|---|---|---|
-| id | uuid | PK | No | Membership row id |
-| team_id | uuid | FK -> teams.id | No | Team |
-| user_id | text | FK -> user.id | No | User |
-| role | team_role enum | - | No | coach / assistant |
+`id uuid PK DEFAULT random`; `team_id uuid NN FK → teams.id ON DELETE CASCADE`; `first_name text NN`; `last_name text NN`; `date_of_birth date`; `position text`; `squad_number integer`; `status athlete_status NN DEFAULT available`; `archived_at timestamptz`; `user_id text FK → user.id ON DELETE SET NULL`; timestamps.
 
-### athletes
+Indexes/uniques: `team_id`; `(team_id,last_name,first_name)`; `user_id`; partial UQ `(team_id,user_id) WHERE user_id IS NOT NULL`. One person may therefore claim athlete records on different teams, but not two records on one team.
 
-Players belonging to a team, with soft archive support.
+### `player_claim_invites`
 
-| Column | Type | Key | Nullable | Description |
-|---|---|---|---|---|
-| id | uuid | PK | No | Athlete id |
-| team_id | uuid | FK -> teams.id | No | Owning team |
-| first_name | text | - | No | First name |
-| last_name | text | - | No | Last name |
-| date_of_birth | date | - | Yes | Date of birth |
-| position | text | - | Yes | Playing position |
-| squad_number | integer | - | Yes | Jersey number |
-| archived_at | timestamptz | - | Yes | Soft-delete/archive timestamp |
+`id uuid PK DEFAULT random`; `athlete_id uuid NN FK → athletes.id ON DELETE CASCADE`; `token_hash text NN UQ`; `status claim_invite_status NN DEFAULT pending`; `created_by_user_id text NN FK → user.id`; `expires_at timestamptz NN`; `used_at timestamptz`; `used_by_user_id text FK → user.id`; timestamps.
 
-### events
+Indexes: `athlete_id`, `token_hash`. Only a SHA-256 token hash is stored; the raw one-time token is not persisted.
 
-Scheduled team activities such as matches, training sessions and meetings.
+### `team_invites`
 
-| Column | Type | Key | Nullable | Description |
-|---|---|---|---|---|
-| id | uuid | PK | No | Event id |
-| team_id | uuid | FK -> teams.id | No | Owning team |
-| title | text | - | No | Event title |
-| type | event_type enum | - | No | match / training / meeting |
-| status | event_status enum | - | No | scheduled / cancelled / completed |
-| scheduled_at | timestamptz | - | No | Start time |
-| location | text | - | No | Venue/address |
-| notes | text | - | Yes | Optional notes |
+`id uuid PK DEFAULT random`; `team_id uuid NN FK → teams.id ON DELETE CASCADE`; `email text NN`; `token_hash text NN UQ`; `status team_invite_status NN DEFAULT pending`; `created_by_user_id text NN FK → user.id`; `expires_at timestamptz NN`; `used_at timestamptz`; `used_by_user_id text FK → user.id`; timestamps.
 
-### competitions
+Indexes: `team_id`, `token_hash`. Service logic binds acceptance to the signed-in user's matching email.
 
-Leagues, cups or friendlies associated with a team and season.
+## Planning and event tables
 
-| Column | Type | Key | Nullable | Description |
-|---|---|---|---|---|
-| id | uuid | PK | No | Competition id |
-| team_id | uuid | FK -> teams.id | No | Owning team |
-| name | text | - | No | Competition name |
-| type | competition_type enum | - | No | league / cup / friendly |
-| season | text | - | Yes | Season label |
+### `game_plans`
 
-### matches
+`id uuid PK DEFAULT random`; `team_id uuid NN FK → teams.id ON DELETE CASCADE`; `name text NN`; `formation_id text NN DEFAULT '4-3-3'`; `assignments jsonb NN DEFAULT {}`; `substitute_ids jsonb NN DEFAULT []`; `defensive_style defensive_style NN DEFAULT balanced`; `defensive_width integer NN DEFAULT 5`; `defensive_depth integer NN DEFAULT 5`; `offensive_style offensive_style NN DEFAULT balanced`; `offensive_width integer NN DEFAULT 5`; `players_in_box integer NN DEFAULT 4`; `corners_commitment integer NN DEFAULT 3`; `free_kicks_commitment integer NN DEFAULT 3`; `captain_id`, `free_kick_taker_id`, `penalty_taker_id`, `corner_taker_id` are nullable UUID FKs → `athletes.id ON DELETE SET NULL`; timestamps.
 
-Extended match data linked one-to-one with an event.
+Indexes/uniques: `team_id`; UQ `(team_id,name)`. Athlete IDs inside the two JSON fields are application-validated references, not database foreign keys.
 
-| Column | Type | Key | Nullable | Description |
-|---|---|---|---|---|
-| id | uuid | PK | No | Match id |
-| event_id | uuid | FK + Unique | No | 1:1 link to event |
-| competition_id | uuid | FK | Yes | Optional competition |
-| opponent_name | text | - | No | Opponent |
-| is_home | boolean | - | No | Home/away flag |
-| team_score | integer | - | No | Own score |
-| opponent_score | integer | - | No | Opponent score |
+### `events`
 
-### athlete_match_stats
+`id uuid PK DEFAULT random`; `team_id uuid NN FK → teams.id ON DELETE CASCADE`; `title text NN`; `type event_type NN`; `status event_status NN DEFAULT scheduled`; `scheduled_at timestamptz NN`; `location text NN`; `venue_address text`; `weather_location text`; `latitude double precision`; `longitude double precision`; `timezone text`; `notes text`; `competition_id uuid FK → competitions.id ON DELETE SET NULL`; timestamps.
 
-Per-athlete statistics for a specific match.
+Indexes: `team_id`; `(team_id,scheduled_at)`; `competition_id`. The Drizzle properties call the last three weather fields latitude/longitude/timezone for compatibility with migration `0018`.
 
-| Column | Type | Key | Nullable | Description |
-|---|---|---|---|---|
-| id | uuid | PK | No | Stat row id |
-| match_id | uuid | FK -> matches.id | No | Match |
-| athlete_id | uuid | FK -> athletes.id | No | Athlete |
-| started | boolean | - | No | Started match |
-| minutes_played | integer | - | Yes | Minutes played |
-| goals | integer | - | No | Goals |
-| assists | integer | - | No | Assists |
-| yellow_cards | integer | - | No | Yellow cards |
-| red_cards | integer | - | No | Red cards |
+### `event_rsvps`
 
-### standings
+`id uuid PK DEFAULT random`; `event_id uuid NN FK → events.id ON DELETE CASCADE`; `athlete_id uuid NN FK → athletes.id ON DELETE CASCADE`; `status rsvp_status NN`; `note text`; `responded_at timestamptz NN DEFAULT now()`; timestamps.
 
-Competition standings rows entered for league/cup tables.
+Indexes/uniques: `event_id`; UQ `(event_id,athlete_id)`.
 
-| Column | Type | Key | Nullable | Description |
-|---|---|---|---|---|
-| id | uuid | PK | No | Standing row id |
-| competition_id | uuid | FK -> competitions.id | No | Competition |
-| team_name | text | - | No | Free-text team name |
-| position | integer | - | No | Table position |
-| played | integer | - | No | Played |
-| won | integer | - | No | Won |
-| drawn | integer | - | No | Drawn |
-| lost | integer | - | No | Lost |
-| goals_for | integer | - | No | Goals for |
-| goals_against | integer | - | No | Goals against |
-| points | integer | - | No | Points |
-| is_own_team | boolean | - | No | Highlights own team |
+### `seasons`
 
----
+`id uuid PK DEFAULT random`; `team_id uuid NN FK → teams.id ON DELETE CASCADE`; `name text NN`; `start_date date NN`; `end_date date NN`; `is_current boolean NN DEFAULT false`; timestamps.
 
-## Relationships & Delete Behavior
+Indexes/uniques: `team_id`; `(team_id,start_date)`; UQ `(team_id,name)`; partial UQ `(team_id) WHERE is_current`. Date-range non-overlap is enforced by application logic, not a database exclusion constraint.
 
-Most child records use `ON DELETE CASCADE` so dependent data is removed when a parent is deleted. The competition link on `matches` is the exception: deleting a competition sets `matches.competition_id` to `NULL` so the match record is retained.
+### `competitions`
 
-| Parent | Child | Cardinality | On delete |
-|---|---|---|---|
-| user.id | session.user_id | 1-to-many | CASCADE |
-| user.id | account.user_id | 1-to-many | CASCADE |
-| user.id | team_members.user_id | 1-to-many | CASCADE |
-| teams.id | team_members.team_id | 1-to-many | CASCADE |
-| teams.id | athletes.team_id | 1-to-many | CASCADE |
-| teams.id | events.team_id | 1-to-many | CASCADE |
-| teams.id | competitions.team_id | 1-to-many | CASCADE |
-| events.id | matches.event_id | 1-to-0..1 | CASCADE |
-| competitions.id | matches.competition_id | 1-to-many | SET NULL |
-| competitions.id | standings.competition_id | 1-to-many | CASCADE |
-| matches.id | athlete_match_stats.match_id | 1-to-many | CASCADE |
-| athletes.id | athlete_match_stats.athlete_id | 1-to-many | CASCADE |
+`id uuid PK DEFAULT random`; `team_id uuid NN FK → teams.id ON DELETE CASCADE`; `name text NN`; `type competition_type NN`; `season_id uuid FK → seasons.id ON DELETE SET NULL`; `season text` (deprecated free-text compatibility field); timestamps.
 
-**Implicit many-to-many relationships**: users and teams are many-to-many through `team_members`; matches and athletes are many-to-many through `athlete_match_stats`, which also stores performance data.
+Indexes: `team_id`, `season_id`.
 
----
+## Match and statistics tables
 
-## Enumerations
+### `matches`
 
-| Enum | Allowed values | Used in |
-|---|---|---|
-| sex | male, female, prefer_not_to_say | user.sex |
-| team_role | coach, assistant | team_members.role |
-| event_type | match, training, meeting | events.type |
-| event_status | scheduled, cancelled, completed | events.status |
-| competition_type | league, cup, friendly | competitions.type |
+`id uuid PK DEFAULT random`; `event_id uuid NN UQ FK → events.id ON DELETE CASCADE`; `competition_id uuid FK → competitions.id ON DELETE SET NULL`; `opponent_name text NN`; `is_home boolean NN DEFAULT true`; `team_score integer NN DEFAULT 0`; `opponent_score integer NN DEFAULT 0`; `game_plan_id uuid FK → game_plans.id ON DELETE SET NULL`; `game_plan_snapshot jsonb`; `opponent_squad_visibility opponent_squad_visibility NN DEFAULT none`; `team_color text`; `opponent_color text`; `clock_period text NN DEFAULT not_started`; `clock_elapsed_ms integer NN DEFAULT 0`; `clock_started_at timestamptz`; timestamps.
 
----
+Indexes: `competition_id`, `game_plan_id`. `game_plan_snapshot` deliberately preserves match-time tactics if a saved plan later changes or is deleted.
 
-## Design Notes
+### `opponent_match_players`
 
-- **Athlete soft archive** — `athletes.archived_at` is the only soft-delete field in the current schema. A non-null value indicates an archived athlete; restoring an athlete clears the timestamp.
-- **Match extension** — `matches.event_id` is unique, enforcing at most one match row per event. This keeps common scheduling info in `events` while match-specific score/opponent data lives separately.
-- **Standings** — `standings.team_name` is stored as free text rather than a foreign key to `teams`, so opponents that aren't registered as teams in the app can still be recorded.
-- **Profile data** — the Better Auth `user` table is extended with `phone_number`, `sex` and `date_of_birth`. The existing `image` field is reused for avatar URLs.
-- **Authentication** — the schema supports email/password and Google OAuth through Better Auth. Session/account child rows cascade when a user is deleted.
+`id uuid PK DEFAULT random`; `match_id uuid NN FK → matches.id ON DELETE CASCADE`; `shirt_number integer NN`; `name text`; `position text`; timestamps.
 
-### Things to Follow Up On
+Indexes/uniques: `match_id`; UQ `(match_id,shirt_number)`. Application validation controls when names are forbidden/required for numbers/full modes.
 
-- **Orphan migration file**: `0002_absent_the_stranger.sql` isn't listed in the Drizzle migration journal and appears to duplicate a later migration. Review before cleanup — it's not represented as part of the applied schema in this document.
+### `athlete_match_stats`
+
+`id uuid PK DEFAULT random`; `match_id uuid NN FK → matches.id ON DELETE CASCADE`; `athlete_id uuid NN FK → athletes.id ON DELETE CASCADE`; `started boolean NN DEFAULT true`; `minutes_played integer`; `goals`, `assists`, `yellow_cards`, `red_cards` are integers `NN DEFAULT 0`; timestamps.
+
+Indexes/uniques: `athlete_id`; UQ `(match_id,athlete_id)`.
+
+### `standings`
+
+`id uuid PK DEFAULT random`; `competition_id uuid NN FK → competitions.id ON DELETE CASCADE`; `team_name text NN`; `position integer NN`; `played`, `won`, `drawn`, `lost`, `goals_for`, `goals_against`, `points` are integers `NN DEFAULT 0`; `is_own_team boolean NN DEFAULT false`; timestamps.
+
+Indexes/uniques: `competition_id`; UQ `(competition_id,position)`; UQ `(competition_id,team_name)`. Coaches enter standings; the application cannot derive other clubs' results.
+
+### `match_events`
+
+`id uuid PK DEFAULT random`; `match_id uuid NN FK → matches.id ON DELETE CASCADE`; `athlete_id uuid FK → athletes.id ON DELETE SET NULL`; `team match_event_team NN`; `opponent_label text`; `opponent_player_id uuid FK → opponent_match_players.id ON DELETE SET NULL`; `event_type match_event_type NN`; `minute integer NN`; `detail text`; `logged_by_user_id text NN FK → user.id`; `manually_adjusted boolean NN DEFAULT false`; `client_request_id uuid`; timestamps.
+
+Indexes/uniques: `match_id`; `opponent_player_id`; `(match_id,athlete_id,event_type)`; partial UQ `(match_id,client_request_id) WHERE client_request_id IS NOT NULL`.
+
+## Enums
+
+| Enum | Values |
+| --- | --- |
+| `sex` | `male`, `female`, `prefer_not_to_say` |
+| `team_role` | `coach`, `assistant` |
+| `event_type` | `match`, `training`, `meeting` |
+| `event_status` | `scheduled`, `cancelled`, `completed` |
+| `athlete_status` | `available`, `injured`, `suspended` |
+| `claim_invite_status` | `pending`, `used`, `revoked` |
+| `team_invite_status` | `pending`, `used`, `revoked` |
+| `defensive_style` | `drop_back`, `balanced`, `pressure_on_heavy_touch`, `press_after_possession_loss`, `constant_pressure` |
+| `offensive_style` | `possession`, `balanced`, `fast_build_up`, `long_ball` |
+| `rsvp_status` | `going`, `not_going`, `maybe` |
+| `competition_type` | `league`, `cup`, `friendly` |
+| `opponent_squad_visibility` | `none`, `numbers`, `full` |
+| `match_event_team` | `own`, `opponent` |
+| `match_event_type` | `goal`, `assist`, `key_pass`, `yellow_card`, `red_card`, `substitution`, `penalty`, `injury` |
+
+## Database constraints versus application restrictions
+
+Foreign keys ensure referenced rows exist and define delete behaviour. They do **not** prove that two referenced rows belong to the same team, that a caller is a coach, that a match event athlete was selected, that a season range does not overlap, or that an opponent name is permitted for the selected visibility mode. Those rules are enforced in Zod schemas and services using the authenticated user's resolved team. Both layers are required.
+
+Athlete archiving is a soft-delete behaviour using `archived_at`. Team deletion cascades broadly through team-owned data. Deleting referenced athletes/users can be restricted where no `ON DELETE` action is declared, or can set attribution fields to null as specified above.
+
+## PostgreSQL, Neon and Drizzle
+
+PostgreSQL provides relational constraints, indexes, enums, JSONB and transactions expected by the model. Neon supplies hosted PostgreSQL and the HTTP serverless driver. Drizzle keeps a typed schema beside the application and generates/replays reviewed SQL migrations. Better Auth uses Drizzle's schema adapter; interactive transactions are disabled in its configuration because the `neon-http` driver does not support them.
+
+Required configuration and safe migration commands are in [Getting Started](../../Overview/01-getting-started.md). `GET /health/database` runs a `SELECT 1`; success returns database status `ok`, while an unavailable database produces an error response. It checks reachability, not migration completeness or data correctness.
+
+## Migration verification concerns
+
+The migration journal is not cleanly monotonic:
+
+- journal index `11` appears twice for `0011_puzzling_jackal` and `0011_add_team_invites`;
+- timestamp `1789119552109` for `0015_absurd_carnage` precedes the recorded `0014` timestamp `1789200000000`;
+- `token_hash` on each invitation table is unique and also has a separate ordinary index, which is likely redundant in PostgreSQL;
+- migration files still contain historical `lineups` migrations although the current schema uses `game_plans`.
+
+These are unresolved verification concerns, not proof of failure. No fresh-install or upgrade migration was run, so this documentation does not claim either path succeeds. Before release, test the complete migration chain and an upgrade from the deployed schema against disposable databases, record outputs, and reconcile the journal only through a reviewed application change.

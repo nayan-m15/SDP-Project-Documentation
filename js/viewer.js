@@ -399,6 +399,39 @@ function transformAdmonitions(container) {
     });
 }
 
+// Resolve relative Markdown links against the source document rather than
+// index.html, then keep navigation inside the documentation viewer.
+function rewriteInternalDocumentLinks(container, sourcePath) {
+    const sourceUrl = new URL(sourcePath, "https://docs.local/");
+
+    container.querySelectorAll("a[href]").forEach((anchor) => {
+        const rawHref = anchor.getAttribute("href");
+        if (!rawHref || rawHref.startsWith("#") || /^(?:https?:|mailto:|tel:)/i.test(rawHref)) {
+            return;
+        }
+
+        try {
+            const resolvedUrl = new URL(rawHref, sourceUrl);
+            const resolvedPath = decodeURIComponent(resolvedUrl.pathname.replace(/^\//, ""));
+            const target = allDocuments.find((candidate) => candidate.path === resolvedPath);
+            if (!target) return;
+
+            anchor.href = `#${encodeURIComponent(target.path)}${resolvedUrl.hash}`;
+            anchor.addEventListener("click", (event) => {
+                event.preventDefault();
+                selectDocument(target);
+                if (resolvedUrl.hash) {
+                    requestAnimationFrame(() => {
+                        document.getElementById(resolvedUrl.hash.slice(1))?.scrollIntoView();
+                    });
+                }
+            });
+        } catch (error) {
+            console.warn("Unable to resolve documentation link", rawHref, error);
+        }
+    });
+}
+
 // Select and Display Document
 async function selectDocument(doc, activeBtn) {
     currentDoc = doc;
@@ -502,6 +535,8 @@ async function selectDocument(doc, activeBtn) {
             } else {
                 markdownViewer.textContent = rawText;
             }
+
+            rewriteInternalDocumentLinks(markdownViewer, doc.path);
 
             // Transform Callout Banners
             transformAdmonitions(markdownViewer);

@@ -4,17 +4,53 @@
     "path": "docs/Overview/01-getting-started.md",
     "originalPath": "docs/Overview/01-getting-started.md",
     "folder": "Overview",
-    "size": 1717,
-    "date": "2026-08-13T18:50:00.000Z",
+    "size": 4274,
+    "date": "2026-09-13T00:00:00.000Z",
     "type": "md"
   },
   {
     "name": "Product Overview",
     "path": "docs/Overview/02-product-overview.md",
-    "originalPath": "pdfs/Amateur Football Coaching Platform_Product and Systems Design.pdf",
+    "originalPath": "docs/Overview/02-product-overview.md",
     "folder": "Overview",
-    "size": 18023,
-    "date": "2026-08-24T11:02:46.730Z",
+    "size": 5157,
+    "date": "2026-09-13T00:00:00.000Z",
+    "type": "md"
+  },
+  {
+    "name": "Functional Requirements and System Analysis",
+    "path": "docs/Overview/Functional-Requirements-and-System-Analysis.md",
+    "originalPath": "docs/Overview/Functional-Requirements-and-System-Analysis.md",
+    "folder": "Overview",
+    "size": 5138,
+    "date": "2026-09-13T00:00:00.000Z",
+    "type": "md"
+  },
+  {
+    "name": "Sprint 2 Assessment Guide",
+    "path": "docs/Project Management/sprint-2-assessment.md",
+    "originalPath": "docs/Project Management/sprint-2-assessment.md",
+    "folder": "Project Management",
+    "size": 5419,
+    "date": "2026-09-13T00:00:00.000Z",
+    "type": "md"
+  },
+  {
+    "name": "Sprint 2 Implementation and Evidence",
+    "path": "docs/Project Management/sprint-2-evidence.md",
+    "originalPath": "docs/Project Management/sprint-2-evidence.md",
+    "folder": "Project Management",
+    "size": 4193,
+    "date": "2026-09-13T00:00:00.000Z",
+    "type": "md"
+  },
+  {
+    "name": "Product Backlog",
+    "path": "docs/Project Management/product-backlog.md",
+    "originalPath": "docs/Project Management/product-backlog.md",
+    "folder": "Project Management",
+    "size": 11182,
+    "date": "2026-09-13T00:00:00.000Z",
     "type": "md"
   },
   {
@@ -22,80 +58,107 @@
     "path": "docs/Architecture/tech-stack/architecture-overview.md",
     "originalPath": "docs/Architecture/tech-stack/architecture-overview.md",
     "folder": "Architecture",
-    "size": 2317,
-    "date": "2026-08-13T18:50:00.000Z",
+    "size": 4347,
+    "date": "2026-09-13T00:00:00.000Z",
     "type": "md"
   },
   {
-    "name": "Project Tech Stack",
+    "name": "Current Technology Stack",
     "path": "docs/Architecture/tech-stack/web-app-tool-stack.md",
-    "originalPath": "pdfs/sport-coaching-tool-stack-v2.md.pdf",
+    "originalPath": "docs/Architecture/tech-stack/web-app-tool-stack.md",
     "folder": "Architecture",
-    "size": 18498,
-    "date": "2026-08-24T10:48:47.496Z",
+    "size": 2499,
+    "date": "2026-09-13T00:00:00.000Z",
     "type": "md"
   },
   {
-    "name": "Tech Stack Integration Plan",
+    "name": "Historical Stack Proposal",
     "path": "docs/Architecture/tech-stack/tool-stack-plan.md",
-    "originalPath": "pdfs/git-methodology.pdf",
+    "originalPath": "docs/Architecture/tech-stack/tool-stack-plan.md",
     "folder": "Architecture",
-    "size": 10658,
-    "date": "2026-08-30T10:33:10.547Z",
+    "size": 2070,
+    "date": "2026-09-13T00:00:00.000Z",
     "type": "md"
   },
   {
-    "name": "Team Tech Stack Guide",
+    "name": "Team Development Guide",
     "path": "docs/Architecture/tech-stack/team-tool-stack-guide.md",
     "originalPath": "docs/Architecture/tech-stack/team-tool-stack-guide.md",
     "folder": "Architecture",
-    "size": 6088,
-    "date": "2026-08-18T21:10:17.625Z",
+    "size": 3293,
+    "date": "2026-09-13T00:00:00.000Z",
     "type": "md"
   },
   {
-    "name": "Project Database Schema",
-    "path": "docs/Architecture/data/database-schema.md",
-    "originalPath": "pdfs/Sport_Coaching_Tool_Database_Schema.pdf",
+    "name": "REST API Guide",
+    "path": "docs/Architecture/api-guide.md",
+    "originalPath": "docs/Architecture/api-guide.md",
     "folder": "Architecture",
-    "size": 12225,
-    "date": "2026-08-24T13:48:42.730Z",
+    "size": 7205,
+    "date": "2026-09-13T00:00:00.000Z",
     "type": "md"
   },
   {
-    "name": "Wireframes",
+    "name": "Current Database Schema",
+    "path": "docs/Architecture/data/database-schema.md",
+    "originalPath": "docs/Architecture/data/database-schema.md",
+    "folder": "Architecture",
+    "size": 13678,
+    "date": "2026-09-13T00:00:00.000Z",
+    "type": "md"
+  },
+  {
+    "name": "Third-party Code and Assets",
+    "path": "docs/Architecture/third-party-code-and-assets.md",
+    "originalPath": "docs/Architecture/third-party-code-and-assets.md",
+    "folder": "Architecture",
+    "size": 6244,
+    "date": "2026-09-13T00:00:00.000Z",
+    "type": "md"
+  },
+  {
+    "name": "Git Methodology and Observed Workflow",
+    "path": "docs/Architecture/git-methodology.md",
+    "originalPath": "docs/Architecture/git-methodology.md",
+    "folder": "Architecture",
+    "size": 3246,
+    "date": "2026-09-13T00:00:00.000Z",
+    "type": "md"
+  },
+  {
+    "name": "Historical Wireframes",
     "path": "docs/Architecture/design/wireframes.md",
     "originalPath": "docs/Architecture/design/wireframes.md",
     "folder": "Architecture",
-    "size": 1370,
-    "date": "2026-08-24T12:38:51.076Z",
+    "size": 1494,
+    "date": "2026-09-13T00:00:00.000Z",
     "type": "md"
   },
   {
-    "name": "Mockups",
+    "name": "Historical Mockups",
     "path": "docs/Architecture/design/mockups.md",
     "originalPath": "docs/Architecture/design/mockups.md",
     "folder": "Architecture",
-    "size": 1286,
-    "date": "2026-08-24T13:04:57.498Z",
+    "size": 1429,
+    "date": "2026-09-13T00:00:00.000Z",
     "type": "md"
   },
   {
-    "name": "Architectural Diagrams",
+    "name": "Historical Architectural Diagrams",
     "path": "docs/Architecture/design/architectural-diagrams.md",
     "originalPath": "docs/Architecture/design/architectural-diagrams.md",
     "folder": "Architecture",
-    "size": 1603,
-    "date": "2026-08-24T13:29:08.344Z",
+    "size": 2022,
+    "date": "2026-09-13T00:00:00.000Z",
     "type": "md"
   },
   {
-    "name": "Git Methodology",
-    "path": "docs/Architecture/git-methodology.md",
-    "originalPath": "pdfs/git-methodology.pdf",
-    "folder": "Architecture",
-    "size": 3572,
-    "date": "2026-08-24T13:30:59.437Z",
+    "name": "Testing and Quality Assurance",
+    "path": "docs/Quality/testing-and-qa.md",
+    "originalPath": "docs/Quality/testing-and-qa.md",
+    "folder": "Quality",
+    "size": 8448,
+    "date": "2026-09-13T00:00:00.000Z",
     "type": "md"
   },
   {
@@ -108,7 +171,7 @@
     "type": "md"
   },
   {
-    "name": "Sprint Planning Meeting",
+    "name": "Sprint 1 Planning Meeting",
     "path": "docs/Meetings/planning/sprint-1-planning.md",
     "originalPath": "pdfs/Sprint Planning Meeting.pdf",
     "folder": "Meetings",
@@ -153,29 +216,11 @@
     "type": "md"
   },
   {
-    "name": "Product Backlog",
-    "path": "docs/Project Management/product-backlog.md",
-    "originalPath": "docs/Project Management/product-backlog.md",
-    "folder": "Project Management",
-    "size": 7691,
-    "date": "2026-08-24T07:54:26.540Z",
-    "type": "md"
-  },
-  {
-    "name": "Functional Requirements and System Analysis",
-    "path": "docs/Overview/Functional-Requirements-and-System-Analysis.md",
-    "originalPath": "pdfs/Sport_Coaching_Tool_Functional_Requirements_and_System_Analysis.pdf",
-    "folder": "Overview",
-    "size": 235632,
-    "date": "2026-08-30T12:07:51.180Z",
-    "type": "md"
-  },
-  {
     "name": "Sprint 2 Planning Meeting",
     "path": "docs/Meetings/Sprint-2-Planning-Meeting.md",
     "originalPath": "pdfs/Sprint2_Planning.pdf",
     "folder": "Meetings",
-    "size": 176127,
+    "size": 2964,
     "date": "2026-09-03T21:20:27.570Z",
     "type": "md"
   }

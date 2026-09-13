@@ -1,5 +1,9 @@
-# UML Diagrams
-#### Created the UML diagrams by extracting the actual architectural information from the codebase using Cursor [Grok 4.6], then using Mermaid AI (An AI-assisted tool for creating diagrams from text/code) and Claude [Sonnet 5 Medium] to structure, format, and visually style each diagram.
+# Historical UML Diagrams
+
+> [!WARNING]
+> These diagrams are preserved design artefacts and may not match the current application. The current verified runtime view and deployment diagram are in [System Architecture Overview](../tech-stack/architecture-overview.md). In particular, treat any offline, Socket.io broadcasting, Railway, Mapbox or OpenWeatherMap elements here as proposals unless confirmed by current source.
+
+Created by extracting architectural information available at the time using Cursor [Grok 4.6], then using Mermaid AI and Claude [Sonnet 5 Medium] to structure and style the diagrams. This declaration is preserved as supplied; the current audit did not independently verify the historical tool records.
 
 ---
 

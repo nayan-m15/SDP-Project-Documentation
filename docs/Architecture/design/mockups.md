@@ -1,5 +1,9 @@
-# Mockups
-#### Developed the wireframes into detailed UI mockups in Figma (A collaborative UI/UX design and prototyping tool) by adding functionality, colours, icons, and visual styling, with assistance for prompting from Claude [Sonnet 5 Medium].
+# Historical Mockups
+
+> [!NOTE]
+> These mockups are design intent, not evidence that a feature is implemented or accepted. Current behaviour is documented in the product overview and backlog.
+
+Developed in Figma from the wireframes with prompting assistance from Claude [Sonnet 5 Medium]. This declaration is preserved as supplied; asset provenance/licensing still requires team confirmation.
 
 ---
 

@@ -1,144 +1,58 @@
-# SDP Project Documentation
+# Gaffer / Sport Coaching Tool Documentation
 
-This repository contains a static documentation portal for the SDP Interlude
-group. It presents project PDF files in a browser-based document library and
-includes a simple upload page for adding new PDFs to the repository through the
-GitHub Contents API.
+This repository contains the static documentation portal for Gaffer. The published site is [nayan-m15.github.io/SDP-Project-Documentation](https://nayan-m15.github.io/SDP-Project-Documentation/); the application is maintained separately in [nayan-m15/Gaffer](https://github.com/nayan-m15/Gaffer).
 
-## Project Overview
+## Structure
 
-- `index.html` is the main document viewer.
-- `upload.html` provides a browser form for uploading PDFs to GitHub.
-- `styles.css` contains the shared layout and interface styling.
-- `js/viewer.js` loads the PDF manifest and displays the selected document.
-- `js/uploader.js` validates uploads, sends PDFs to GitHub, and updates the
-  manifest.
-- `pdfs/` stores the PDF files and `manifest.json` document list.
+- `index.html`, `styles.css`, `js/viewer.js`: document reader, search, Markdown/Mermaid rendering and navigation.
+- `docs/`: Markdown documentation, including overview, architecture, backlog, API, database and QA material.
+- `assets/`: diagrams, wireframes, mockups, screenshots and branding.
+- `pdfs/`: preserved source/meeting PDFs and `manifest.json`.
+- `upload.html`, `js/uploader.js`: optional browser-side conversion/upload helper using the GitHub Contents API.
 
-## How It Works
+`pdfs/manifest.json` is the navigation source of truth. Every discoverable Markdown/PDF document needs an entry with `name`, repository-relative `path`, `originalPath`, `folder`, byte `size`, ISO `date` and `type`. Existing path names should be retained when possible because URL hashes use the document path as the deep-link identifier.
 
-The document viewer fetches `pdfs/manifest.json` from the live GitHub Pages
-deployment so every team member always sees the latest documents without needing
-to pull local changes. If the site is unreachable (e.g. offline development),
-it falls back to the local manifest file. Selecting a document loads the
-matching PDF from GitHub Pages into the embedded viewer.
-
-The upload page comes pre-filled with the repository owner and name. Team
-members only need to provide:
-
-- A GitHub fine-grained personal access token with write access to this
-  repository.
-- A PDF file no larger than 25 MB.
-
-After validation, the uploader sends the PDF to the `pdfs/` folder and updates
-`pdfs/manifest.json` so the document appears in the library.
-
-## Team Setup Guide
-
-The viewer works for anyone — no token required. Only the upload page needs
-authentication.
-
-### For viewers (read-only)
-
-Open the deployed GitHub Pages URL. The document list and PDFs load
-automatically from the live site.
-
-### For uploaders (team members)
-
-Each team member must create their own fine-grained personal access token.
-
-#### Prerequisites
-
-Before creating a token, make sure you have **accepted the collaboration
-invitation** for this repository. The repo owner must invite you as a
-collaborator and you must accept the invitation (check your email or visit
-the repository page while logged in). Without an accepted invitation, the
-repository will not appear in the token's repository access list.
-
-#### Creating the token
-
-1. Go to **Settings → Developer settings → Personal access tokens →
-   Fine-grained tokens**.
-2. Click **Generate new token**.
-3. Under **Repository access**, choose one of the following options:
-
-   - **Only select repositories** — search for
-     `nayan-m15/SDP-Project-Documentation` in the dropdown. This option only
-     works if you have accepted the collaboration invite. If the repository
-     does not appear, use the "All repositories" option below.
-   - **All repositories** — if the repo does not show up under "Only select
-     repositories", choose this instead. The token's permissions (set in the
-     next step) still limit what it can do. Since the only permission granted
-     is Contents read and write, the token cannot affect any other aspect of
-     your repositories.
-
-4. Under **Repository permissions**, set **Contents** to **Read and write**.
-   Leave all other permissions at **No access**.
-5. Choose an expiration period.
-6. Copy the generated `github_pat_...` token and keep it private.
-7. Open the upload page, paste the token into the GitHub token field, select a
-   PDF, and click **Upload PDF**.
-
-The owner and repository fields are already filled in — just add your token and
-you are ready to upload.
-
-## How to get a Github Token
-Go to your GitHub account's:
-
-Settings → Developer settings → Personal access tokens → Fine-grained tokens
-
-Create a token with access to only this repository.
-
-For permissions, give it:
-```bash
-Contents
-    Read and write
-```
-Add an expiry period for some level of security. 
-
-KEEP THIS TOKEN PRIVATE
-
-## Running Locally
-
-This is a static site, so it can be opened directly in a browser. For the most
-reliable local testing experience, run a small local web server from the project
-root and open the served URL:
+## Run locally
 
 ```bash
-git clone https://github.com/nayan-m15/SDP-Project-Documentation
-cd SDP-Project-Documentation
-```
-Install this extension for Live Server
-```bash
-https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer
+npm install
+npm run dev
 ```
 
-Then click Go Live at the bottom right of Visual Studio Code
+Open the URL printed by `serve`. Do not open `index.html` directly from disk: browser fetch restrictions can prevent the manifest and Markdown from loading.
 
-## Maintaining Documents
+The site has no compile step. Verification should include JSON parsing, manifest target checks, Markdown link/asset checks, JavaScript syntax checks and a browser preview of representative pages (including Mermaid diagrams and mobile navigation).
 
-When adding documents manually, place the PDF in the `pdfs/` folder and add a
-matching entry to `pdfs/manifest.json` using this structure:
+## Edit documents manually
+
+1. Add or update Markdown under `docs/` and assets under `assets/`.
+2. Preserve meeting documents unless the team is intentionally uploading reviewed meeting evidence.
+3. Keep implemented, planned and verified behaviour distinct. Application source/configuration/migrations/tests override outdated proposals.
+4. Update `pdfs/manifest.json` and use the actual file size.
+5. Check all local links and preview the portal.
+
+Example entry:
 
 ```json
 {
-  "name": "example.pdf",
-  "path": "pdfs/example.pdf",
-  "size": 123456,
-  "date": "2026-08-08T00:00:00.000Z"
+  "name": "REST API Guide",
+  "path": "docs/Architecture/api-guide.md",
+  "originalPath": "docs/Architecture/api-guide.md",
+  "folder": "Architecture",
+  "size": 12345,
+  "date": "2026-09-13T00:00:00.000Z",
+  "type": "md"
 }
 ```
 
-Keep the manifest valid JSON so the viewer can load the document list.
+## Upload helper security
 
-## AI Declaration
+Reading the portal requires no token. The upload page accepts a fine-grained GitHub personal access token and sends it to the GitHub API from the browser. If the helper is used, grant only repository Contents read/write access, set an expiry, use a trusted machine, and revoke the token when it is no longer needed. Never commit or share it.
 
-This repository contains AI-generated code.
+Manual review remains preferable for substantial documentation updates because converted PDFs can produce fragmented headings, lists and tables.
 
-This README was AI-generated and reviewed by Codex using the GPT-5 model.
+## AI declaration
 
-Code in `js/viewer.js` and `upload.html` was modified with AI assistance (Qoder) to
-add GitHub Pages fetching and pre-filled repository configuration. All changes
-were reviewed by the repository owner before commit.
+This repository contains AI-assisted code and documentation. Historical declarations in existing documents are preserved where supplied; they should not be expanded with guessed tools or model names. AI output must be reviewed by the team before being represented as approved evidence.
 
-Granola AI was used to record and transcribe selected project meetings and to assist in generating structured meeting notes. Generated meeting notes were subsequently reviewed by the team for accuracy before being included in the project documentation.
+The earlier README recorded Codex GPT-5 assistance for that README, Qoder assistance for GitHub Pages/viewer changes, and Granola AI use for selected meeting transcription/notes. This summary preserves those supplied declarations without independently verifying the historical tool records.

@@ -1,48 +1,88 @@
 # Getting Started with Gaffer
 
-Welcome to the **Gaffer Documentation Portal**! This portal serves as the central hub for all technical documentation, architectural specifications, API references, and project planning materials for the Gaffer amateur football coaching platform.
+Gaffer is a football team-management application. This page separates using the hosted product, developing the application, and contributing to this documentation portal.
 
-> [!NOTE]
-> All documents in this repository are formatted in Markdown (`.md`), enabling full-text search, version control history, code syntax highlighting, and mobile responsiveness.
+## Use the hosted application
 
----
+- Frontend: [https://gaffer-virid.vercel.app/](https://gaffer-virid.vercel.app/)
+- API: [https://gaffer-api-ynaf.onrender.com/](https://gaffer-api-ynaf.onrender.com/)
+- API explorer: [Swagger UI](https://gaffer-api-ynaf.onrender.com/api/docs)
 
-## Key Features
+Create an account with email/password (email verification is required) or Google sign-in. A coach can create a team; a player uses a claim link tied to an athlete record; an assistant uses an email-bound team invitation. See [Product Overview](02-product-overview.md) for implemented capabilities and limitations.
 
-- **Hierarchical Navigation**: Organize files into subfolders such as `Architecture`, `API`, `Sprint Planning`, and `Guides`.
-- **Instant Search**: Use the search bar or press **Ctrl + K** to quickly filter documents by name or path.
-- **Syntax Highlighting**: Code snippets support automatic syntax highlighting across multiple programming languages.
-- **Client-Side Document Conversion**: Upload `.pdf`, `.docx`, `.txt`, or `.md` files on the Upload page and automatically convert them into clean Markdown.
+## Develop the application
 
----
+Application repository: [nayan-m15/Gaffer](https://github.com/nayan-m15/Gaffer)
 
-## Code Example
+Prerequisites: a current Node.js/npm installation, PostgreSQL (Neon is used for the hosted database), and valid local environment values. Copy the application's `.env.example` to `.env` and its `frontend/.env.example` to `frontend/.env` if a frontend override is needed. Never commit secrets.
 
-Below is an example of initializing the project client configuration:
-
-```javascript
-// Example JavaScript configuration
-const config = {
-    projectName: "Gaffer",
-    version: "2.0.0",
-    docsFolder: "docs/",
-    theme: "dark"
-};
-
-console.log(`Initialized ${config.projectName} v${config.version}`);
+```bash
+npm install
+npm --prefix frontend install
+npm --prefix backend install
+npm run dev
 ```
 
----
+Local endpoints:
 
-## Workflow Checklist
+- Frontend: `http://localhost:5173`
+- Backend: `http://localhost:3000`
+- Swagger UI: `http://localhost:3000/api/docs`
+- OpenAPI JSON: `http://localhost:3000/api/docs-json`
+- Database health: `http://localhost:3000/health/database`
 
-- [x] Set up Markdown document repository
-- [x] Configure folder tree sidebar navigation
-- [x] Enable browser-based DOCX & PDF to Markdown conversion
-- [ ] Add interactive API sandbox
+Common commands:
 
----
+```bash
+npm run build
+npm run lint
+npm test
+npm run test:e2e
+npm run test:e2e:ui
+```
 
-## Need Help?
+Integration tests require a migrated `TEST_DATABASE_URL` that is different from `DATABASE_URL`. Browser tests use the database configured for the launched backend and therefore must not be aimed at shared or production data. Read [Testing and QA](../Quality/testing-and-qa.md) before running stateful tests.
 
-Navigate to the **Upload Document** page from the sidebar to contribute new documentation to the repository.
+Database migration commands are run from `backend`:
+
+```bash
+npm run db:generate
+npm run db:migrate
+```
+
+Generate a migration only after intentionally changing the Drizzle schema, review its SQL, and apply it first to a disposable or development database. This documentation task did not change or execute migrations.
+
+## Environment variables
+
+| Variable | Purpose |
+| --- | --- |
+| `DATABASE_URL` | Backend PostgreSQL/Neon connection string. |
+| `TEST_DATABASE_URL` | Separate integration-test database. Must differ from `DATABASE_URL`. |
+| `BETTER_AUTH_SECRET` | Better Auth signing secret. |
+| `BETTER_AUTH_URL` | Backend base URL used for authentication callbacks/cookies. |
+| `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` | Google OAuth credentials. |
+| `FRONTEND_URL` | Allowed frontend origin. |
+| `BREVO_API_KEY` | Optional transactional email delivery; without it, development logs the verification link. |
+| `EMAIL_FROM_ADDRESS`, `EMAIL_FROM_NAME` | Verification-email sender identity. |
+| `WEATHER_API_URL`, `GEOCODING_API_URL` | Optional Open-Meteo endpoint overrides. |
+| `WEATHER_CACHE_MINUTES`, `WEATHER_HISTORY_DAYS`, `WEATHER_FORECAST_DAYS` | Weather cache and supported date range. |
+| `VITE_API_URL` | Frontend API base URL; defaults locally to `http://localhost:3000`. |
+
+## Contribute to this documentation portal
+
+This repository is a separate static site, not the Gaffer React application. Markdown files live under `docs/`; images live under `assets/`; `pdfs/manifest.json` controls navigation. The viewer uses Marked, Mermaid, Highlight.js and Lucide from CDNs.
+
+```bash
+npm install
+npm run dev
+```
+
+After editing, update the manifest, validate every local link/asset, and preview representative pages. Do not use the upload page with a personal GitHub token on an untrusted machine.
+
+## Operational notes
+
+- Vercel hosts the frontend; Render hosts the NestJS API; Neon hosts PostgreSQL; GitHub Pages hosts this documentation.
+- The frontend Vercel rewrites `/auth/*` and `/api/*` to the Render API.
+- There is no workflow file in either inspected repository proving automated GitHub Actions checks or deployment.
+- The application is online-first. Live logging has server persistence and idempotency support, but no durable offline queue or collaborative Socket.io broadcasting is implemented.
+

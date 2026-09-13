@@ -1,5 +1,9 @@
-# Wireframes
-#### Created simple black-and-white wireframes in Figma (A collaborative UI/UX design and prototyping tool) to outline the basic layout and content of each page, with assistance from Claude [Sonnet 5 Medium] to help prompt and guide the design process.
+# Historical Wireframes
+
+> [!NOTE]
+> These are early design artefacts, not screenshots or proof of current behaviour. Compare them with the hosted application and current product overview.
+
+Created in Figma to outline page layout, with prompting assistance from Claude [Sonnet 5 Medium]. This declaration is preserved as supplied; asset provenance/licensing still requires team confirmation.
 
 ---
 

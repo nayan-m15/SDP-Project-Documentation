@@ -1,96 +1,225 @@
-# Sport Coaching Tool — Product Backlog
+# Product Backlog
 
-## Overview
+**Status basis:** application source at `aadf745e` and deployed API recheck on 13 September 2026. Status describes implementation evidence, not an agreed Sprint 2 commitment, owner assignment, stakeholder acceptance or test result.
 
-The Product Backlog for the Sport Coaching Tool contains the features, user stories, enhancements and technical capabilities planned for the platform. It evolves throughout development as requirements are refined, sprint-review feedback is received and new functionality is identified.
+## Status definitions
 
-Items selected for implementation during a sprint are moved from the Product Backlog into the relevant Sprint Backlog.
+- **Implemented — acceptance verification pending:** the end-to-end code path exists, but supplied evidence does not demonstrate every acceptance check.
+- **Partial:** only a separable subset exists.
+- **Planned:** required implementation was not found.
 
-A living record of planned functionality, implemented features, future enhancements and potential product extensions.
+## PB-01 — Authentication and account access
 
----
+**Status:** Implemented — acceptance verification pending (password reset/account deletion planned).
 
-## Backlog Status
+As a user, I want to register, verify my email, sign in through email/password or Google, maintain a session and sign out.
 
-| Status | Meaning |
-|---|---|
-| **Completed** | Implemented and verified |
-| **In Progress** | Currently being developed |
-| **Planned** | Intended functionality not yet implemented |
-| **Advanced** | Later-stage functionality |
-| **Potential** | Proposed enhancement subject to priorities and feedback |
+- [x] Better Auth server, Drizzle adapter and cookie session guard exist.
+- [x] Email verification and Google OAuth paths exist.
+- [ ] Demonstrate success/failure flows in the assessment environment.
+- [ ] Password reset and account deletion are separate planned stories.
 
----
+Evidence: [auth configuration](https://github.com/nayan-m15/Gaffer/blob/main/backend/src/auth/auth.ts), [auth controller](https://github.com/nayan-m15/Gaffer/blob/main/backend/src/auth/auth.controller.ts).
 
-## Product Backlog
+## PB-02 — Roles, invitations and permissions
 
-| ID | Feature | User Story | Priority | Status |
-|---|---|---|---|---|
-| PB-01 | User Authentication | As a user, I want to securely register, sign in and sign out so that I can access the coaching platform and my authorised team information. | High | Completed |
-| PB-02 | Athlete Roster Management | As a coach, I want to add, view, edit, search, archive and restore athletes so that I can maintain an accurate squad roster. | High | Completed |
-| PB-03 | Event Management | As a coach, I want to create, view, edit and cancel competitions and training sessions so that I can organise team activities. | High | Completed |
-| PB-04 | Team and Lineup Management | As a coach, I want to organise players into a lineup and formation so that I can manage team selection for events. | High | Completed |
-| PB-05 | User Profile Management | As a coach or assistant, I want to view and update permitted profile information so that my account details remain current. | Medium | Completed |
-| PB-06 | Roles and Permissions | As a coach, I want coaches and assistants to have appropriate permissions so that team responsibilities can be delegated securely. | High | Planned |
-| PB-07 | Live Event Logging | As a coach or assistant, I want to record scores, penalties and notable actions during an event so that the event can be tracked accurately. | High | Planned |
-| PB-08 | Event Log Correction | As a coach or authorised assistant, I want to edit or undo incorrectly recorded event actions so that event records remain accurate. | High | Planned |
-| PB-09 | Athlete Statistics | As a coach, I want athlete statistics to be derived from recorded event data so that I can evaluate individual player performance. | High | Planned |
-| PB-10 | Event and Team Statistics | As a coach, I want event and team statistics to be calculated and retained so that I can evaluate overall team performance. | High | Planned |
-| PB-11 | Season Statistics and Trends | As a coach, I want to view season totals, event breakdowns and performance trends so that I can monitor progress over time. | Medium | Planned |
-| PB-12 | Performance Comparisons | As a coach, I want to compare athletes and team performance so that I can make more informed coaching decisions. | Medium | Planned |
-| PB-13 | Fixtures | As a coach, I want to organise fixtures with other teams so that upcoming competitions can be coordinated through the platform. | Medium | Planned |
-| PB-14 | Player RSVPs | As a coach, I want players to indicate their availability for upcoming activities so that I can plan attendance and team selection. | Medium | Planned |
-| PB-15 | Shared Calendar | As a user, I want upcoming training sessions, fixtures and competitions displayed on a shared calendar so that I can keep track of the team's schedule. | Medium | Planned |
-| PB-16 | Weather and Location Information | As a coach, I want weather and location information for upcoming events so that I can prepare the team appropriately. | Medium | Planned |
-| PB-17 | Event Reminders | As a user, I want reminders about upcoming team activities so that I do not miss important events. | Medium | Planned |
-| PB-18 | Offline Event Logging | As a coach or assistant, I want to record event actions when internet connectivity is unavailable and synchronise them later so that event tracking can continue reliably. | High | Planned |
-| PB-19 | Concurrent Event Logging | As a coaching team, we want multiple authorised assistants to record actions for the same event concurrently so that event tracking responsibilities can be shared. | Medium | Advanced |
-| PB-20 | League and Standings Management | As a user, I want to view league results and standings so that I can understand the team's position relative to competitors. | Medium | Advanced |
-| PB-21 | Automated Performance Insights | As a coach, I want automated summaries and performance highlights so that I can identify important patterns in team and athlete performance. | Medium | Advanced |
-| PB-22 | Player Selection Suggestions | As a coach, I want the system to provide player-selection suggestions based on available performance information so that data can support team-selection decisions. | Medium | Advanced |
-| PB-23 | Public Squad and Player Information | As a player or supporter, I want to view permitted squad and coaching information without signing in so that appropriate team information is publicly accessible. | Low | Potential |
-| PB-24 | Sharing and Report Export | As a coach, I want to share results and export reports so that team and performance information can be distributed outside the platform. | Medium | Advanced |
-| PB-25 | Automatic Season Scheduling | As a coach, I want the platform to assist with generating season schedules and identifying scheduling clashes so that team activities can be organised efficiently. | Medium | Advanced |
-| PB-26 | Alternative Football Formats | As a coach, I want the platform to support formats such as Indoor Footy, 5-a-side and 7-a-side so that the tool can accommodate different forms of amateur football. | Low | Potential |
+**Status:** Implemented — acceptance verification pending.
 
----
+As a coach, I want assistants and players to join with appropriate permissions so that access is controlled.
 
-## Current Sprint Functionality
+- [x] Coach/assistant membership roles and email-bound assistant invites exist.
+- [x] One-time player claim tokens link signed-in users to athlete records.
+- [x] Member reads and coach-only mutations use server-side checks.
+- [ ] Manually verify forbidden mutations and expired/reused/mismatched invitations.
 
-The initial development of the Sport Coaching Tool establishes the core platform required for later coaching and analytics functionality. Current implemented functionality includes user authentication, athlete roster management, event management, team and lineup management, user profile management, and dashboard/application navigation.
+Evidence: [team access policy](https://github.com/nayan-m15/Gaffer/blob/main/backend/src/common/team-access.ts), [team invites](https://github.com/nayan-m15/Gaffer/tree/main/backend/src/team-invites), [claims](https://github.com/nayan-m15/Gaffer/tree/main/backend/src/claims).
 
-These features provide the foundation upon which event tracking, statistics, analytics and more advanced coaching functionality can be developed.
+## PB-03 — Athlete roster
 
----
+**Status:** Implemented — acceptance verification pending.
 
-## Future Development
+- [x] Create, list, view, update, search, archive and restore team athletes.
+- [x] Record position, squad number, status and optional profile fields.
+- [x] Exclude archived players from normal active selection.
+- [ ] Demonstrate validation, history preservation and mobile roster use.
 
-Future development will focus on expanding the platform from basic team administration into a more complete coaching and performance-management system. Major areas include:
+Evidence: [athletes module](https://github.com/nayan-m15/Gaffer/tree/main/backend/src/athletes), [roster UI](https://github.com/nayan-m15/Gaffer/tree/main/frontend/src/components/roster).
 
-- Live event tracking
-- Athlete and team statistics
-- Season analytics
-- Fixtures and player availability
-- Shared scheduling and reminders
-- Offline functionality
-- Concurrent event tracking
-- League standings
-- Automated performance insights
-- Player-selection assistance
-- Public/shareable team information
-- Support for additional football formats
+## PB-04 — Calendar and shared scheduling
 
----
+**Status:** Implemented — acceptance verification pending.
 
-## Backlog Maintenance
+- [x] Coach creates/reads/updates/deletes match, training and meeting events.
+- [x] Calendar/agenda views and player event feed share persisted team events.
+- [x] Status supports scheduled, cancelled and completed.
+- [ ] Demonstrate chronological, timezone and cancellation behaviour.
 
-The Product Backlog will be reviewed throughout the development lifecycle. Items may be:
+Evidence: [events backend](https://github.com/nayan-m15/Gaffer/tree/main/backend/src/events), [event features](https://github.com/nayan-m15/Gaffer/tree/main/frontend/src/features/events).
 
-- Reprioritised
-- Refined following stakeholder or sprint-review feedback
-- Divided into smaller user stories
-- Moved into future Sprint Backlogs
-- Expanded with acceptance criteria
-- Added or removed as the product scope evolves
+## PB-05 — Player RSVPs
 
-> **Note**: Statuses in this document should be updated by the project team whenever implementation progress or agreed scope changes.
+**Status:** Implemented — acceptance verification pending.
+
+- [x] Claimed player can respond going, maybe or not going with an optional note.
+- [x] One response per event/player is updated on resubmission.
+- [x] Coach event detail groups responses and non-responses.
+- [ ] Demonstrate that an unclaimed/cross-team player cannot respond.
+
+Evidence: [RSVP schema](https://github.com/nayan-m15/Gaffer/blob/main/backend/src/events/events.schemas.ts), [player RSVP UI](https://github.com/nayan-m15/Gaffer/blob/main/frontend/src/features/player/RsvpWidget.tsx).
+
+## PB-06 — Team tactics and game plans
+
+**Status:** Implemented — acceptance verification pending.
+
+- [x] Create, edit, select and delete named formations/tactical plans.
+- [x] Persist XI, bench, sliders and set-piece roles.
+- [x] Snapshot the selected plan when a match begins.
+- [ ] Demonstrate validation for unavailable/archived players and duplicate placement.
+
+Evidence: [game-plan backend](https://github.com/nayan-m15/Gaffer/tree/main/backend/src/game-plans), [tactics UI](https://github.com/nayan-m15/Gaffer/tree/main/frontend/src/features/team-tactics).
+
+## PB-07 — Match setup and opponent information
+
+**Status:** Implemented — acceptance verification pending.
+
+- [x] Require exactly 11 distinct starters and a non-overlapping optional bench.
+- [x] Support opponent modes `none`, `numbers` and `full`.
+- [x] Enforce unique opponent shirt numbers and names in full mode.
+- [ ] Demonstrate all modes and service rejection of cross-team/ineligible athletes.
+
+Entering an opponent name creates a local match record; it does **not** arrange a fixture with another Gaffer user.
+
+Evidence: [start-match contract](https://github.com/nayan-m15/Gaffer/blob/main/backend/src/events/events.schemas.ts), [opponent setup](https://github.com/nayan-m15/Gaffer/blob/main/frontend/src/pages/OpponentSquadSetupPage.tsx).
+
+## PB-08 — Live match logging
+
+**Status:** Implemented — acceptance verification pending.
+
+- [x] Persist clock state and match events through REST.
+- [x] Record goals, assists, key passes, cards, substitutions, penalties and injuries.
+- [x] Attribute entries to own athletes or configured/free-text opponents.
+- [x] Use match-scoped request IDs to avoid duplicate creates.
+- [ ] Demonstrate score/timeline/stat changes and recovery from an API error.
+
+Evidence: [match API](https://github.com/nayan-m15/Gaffer/tree/main/backend/src/matches), [live UI](https://github.com/nayan-m15/Gaffer/blob/main/frontend/src/pages/LiveMatchPage.tsx).
+
+## PB-09 — Event corrections and deletion
+
+**Status:** Implemented — acceptance verification pending.
+
+- [x] Edit event type, participant, minute and detail after logging.
+- [x] Add and delete events from the match report flow.
+- [x] Mark adjusted records and recompute affected score/stat data in services.
+- [ ] Demonstrate linked assist/substitution corrections and final consistency.
+
+Evidence: [event form planner](https://github.com/nayan-m15/Gaffer/blob/main/frontend/src/features/matches/match-report-event-form.ts), [match service](https://github.com/nayan-m15/Gaffer/blob/main/backend/src/matches/matches.service.ts).
+
+## PB-10 — Athlete and team statistics
+
+**Status:** Implemented — acceptance verification pending.
+
+- [x] Team totals/recent form and athlete goals, assists, cards and appearances exist.
+- [x] Athlete detail is available from statistics and roster contexts.
+- [x] Filters and chart models exist.
+- [ ] Reconcile displayed totals against a known event sequence during acceptance.
+
+Evidence: [statistics service](https://github.com/nayan-m15/Gaffer/blob/main/backend/src/statistics/statistics.service.ts), [statistics UI](https://github.com/nayan-m15/Gaffer/tree/main/frontend/src/features/statistics).
+
+## PB-11 — Seasons, trends and comparisons
+
+**Status:** Implemented — acceptance verification pending.
+
+- [x] Coach-managed non-overlapping season ranges and one current season.
+- [x] Season trend charts and period comparisons.
+- [x] Comparison UI for up to four athletes.
+- [ ] Demonstrate boundary dates, empty states and cross-season accuracy.
+
+Evidence: [seasons module](https://github.com/nayan-m15/Gaffer/tree/main/backend/src/seasons), [trend model](https://github.com/nayan-m15/Gaffer/blob/main/frontend/src/features/statistics/season-trends-model.ts).
+
+## PB-12 — Competitions and league standings
+
+**Status:** Implemented — acceptance verification pending (manual data entry).
+
+- [x] Competition CRUD and season link exist.
+- [x] Standings rows can be created, changed and deleted with unique position/name rules.
+- [x] Player standings view exists.
+- [ ] Demonstrate validation and ordering.
+
+Standings are not automatically calculated because Gaffer does not track every other team's fixtures.
+
+## PB-13 — Location and weather information
+
+**Status:** Implemented — acceptance verification pending.
+
+- [x] Server-side Open-Meteo place search and hourly forecast.
+- [x] Missing-location, out-of-range, cancelled and unavailable states.
+- [x] 30-minute default cache and bounded stale-cache fallback.
+- [ ] Demonstrate available and failure states without assuming provider uptime.
+
+Evidence: [weather service](https://github.com/nayan-m15/Gaffer/blob/main/backend/src/weather/weather.service.ts), [location endpoint](https://github.com/nayan-m15/Gaffer/blob/main/backend/src/weather/locations.controller.ts).
+
+## PB-14 — Event reminders
+
+**Status:** Partial.
+
+- [x] Show scheduled events occurring in the next 24 hours on dashboards.
+- [x] Dismiss a reminder on the current device using local storage.
+- [ ] Email/push/background notifications are not implemented.
+- [ ] Cross-device reminder state is not implemented.
+
+Evidence: [reminder model](https://github.com/nayan-m15/Gaffer/blob/main/frontend/src/features/reminders/upcomingReminders.ts).
+
+## PB-15 — Offline event logging
+
+**Status:** Planned.
+
+- [ ] Persist event commands in a durable offline client store.
+- [ ] Show pending/sent/failed status and retry safely.
+- [ ] Resolve ordering/conflicts on reconnect and test airplane-mode recovery.
+
+Local component form state and a server idempotency key do not meet this story.
+
+## PB-16 — Collaborative live synchronisation
+
+**Status:** Planned.
+
+- [ ] Authenticate socket connections and authorise a match room.
+- [ ] Broadcast create/update/delete/clock changes to other connected members.
+- [ ] Handle reconnect, ordering and duplicates; add multi-client tests.
+
+Socket.io packages and an adapter alone do not meet this story.
+
+## PB-17 — Report export and sharing
+
+**Status:** Planned (in-app report is implemented).
+
+- [x] Display match report, charts and editable event history in the application.
+- [ ] Generate a downloadable report file.
+- [ ] Define access/privacy for share links and test exported content.
+
+## PB-18 — Platform fixture arrangement
+
+**Status:** Planned.
+
+- [ ] Discover or invite another platform team.
+- [ ] Send, accept/decline and update a fixture proposal.
+- [ ] Create consistent calendar records for both teams.
+
+## PB-19 — Account recovery and deletion
+
+**Status:** Planned.
+
+- [ ] Password-reset request/token/confirmation flow.
+- [ ] Authenticated account deletion with defined ownership/history policy.
+- [ ] Security and data-retention tests.
+
+## PB-20 — Advanced product candidates
+
+**Status:** Planned.
+
+Public squad pages, automatic season scheduling/clash detection, alternative football formats, automated insights and player-selection suggestions require separate refinement, privacy review and acceptance criteria. No completion evidence is claimed.
+
+## Prioritisation and ownership
+
+This document does not reconstruct a Sprint 2 commitment or infer assignees from branches/commits. Priority, ownership, accepted scope and Definition of Done require the team's planning/tracker evidence. Existing meeting documents remain available in the site navigation.
+
