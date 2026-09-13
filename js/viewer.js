@@ -200,18 +200,17 @@ async function loadDocuments() {
 
         renderTree(allDocuments);
 
-        // Check URL hash for initial document load
-        const hash = window.location.hash.slice(1);
-        if (hash) {
-            const decoded = decodeURIComponent(hash);
-            const found = allDocuments.find(d => d.path === decoded);
+        // Check URL hash for an initial document and optional section.
+        const initialTarget = parseDocumentHash();
+        if (initialTarget.path) {
+            const found = allDocuments.find(d => d.path === initialTarget.path);
             if (found) {
-                selectDocument(found);
+                await selectDocument(found, null, initialTarget.section, false);
             } else if (allDocuments.length > 0) {
-                selectDocument(allDocuments[0]);
+                await selectDocument(allDocuments[0], null, null, false);
             }
         } else if (allDocuments.length > 0) {
-            selectDocument(allDocuments[0]);
+            await selectDocument(allDocuments[0], null, null, false);
         }
     } catch (error) {
         console.error("Error loading document manifest:", error);
@@ -399,6 +398,35 @@ function transformAdmonitions(container) {
     });
 }
 
+function parseDocumentHash() {
+    const raw = window.location.hash.slice(1);
+    if (!raw) return { path: null, section: null };
+    const [encodedPath, encodedSection] = raw.split("::", 2);
+    try {
+        return {
+            path: decodeURIComponent(encodedPath),
+            section: encodedSection ? decodeURIComponent(encodedSection) : null
+        };
+    } catch {
+        return { path: null, section: null };
+    }
+}
+
+function documentHash(path, section = null) {
+    return `#${encodeURIComponent(path)}${section ? `::${encodeURIComponent(section)}` : ""}`;
+}
+
+function headingSlug(text) {
+    return text
+        .toLowerCase()
+        .normalize("NFKD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9\s-]/g, "")
+        .trim()
+        .replace(/\s+/g, "-")
+        .replace(/-+/g, "-") || "section";
+}
+
 // Resolve relative Markdown links against the source document rather than
 // index.html, then keep navigation inside the documentation viewer.
 function rewriteInternalDocumentLinks(container, sourcePath) {
@@ -406,25 +434,23 @@ function rewriteInternalDocumentLinks(container, sourcePath) {
 
     container.querySelectorAll("a[href]").forEach((anchor) => {
         const rawHref = anchor.getAttribute("href");
-        if (!rawHref || rawHref.startsWith("#") || /^(?:https?:|mailto:|tel:)/i.test(rawHref)) {
+        if (!rawHref || anchor.classList.contains("heading-anchor") || /^(?:https?:|mailto:|tel:)/i.test(rawHref)) {
             return;
         }
 
         try {
-            const resolvedUrl = new URL(rawHref, sourceUrl);
+            const resolvedUrl = rawHref.startsWith("#")
+                ? new URL(sourceUrl.pathname + rawHref, sourceUrl)
+                : new URL(rawHref, sourceUrl);
             const resolvedPath = decodeURIComponent(resolvedUrl.pathname.replace(/^\//, ""));
             const target = allDocuments.find((candidate) => candidate.path === resolvedPath);
             if (!target) return;
 
-            anchor.href = `#${encodeURIComponent(target.path)}${resolvedUrl.hash}`;
-            anchor.addEventListener("click", (event) => {
+            const section = resolvedUrl.hash ? decodeURIComponent(resolvedUrl.hash.slice(1)) : null;
+            anchor.href = documentHash(target.path, section);
+            anchor.addEventListener("click", async (event) => {
                 event.preventDefault();
-                selectDocument(target);
-                if (resolvedUrl.hash) {
-                    requestAnimationFrame(() => {
-                        document.getElementById(resolvedUrl.hash.slice(1))?.scrollIntoView();
-                    });
-                }
+                await selectDocument(target, null, section);
             });
         } catch (error) {
             console.warn("Unable to resolve documentation link", rawHref, error);
@@ -433,7 +459,7 @@ function rewriteInternalDocumentLinks(container, sourcePath) {
 }
 
 // Select and Display Document
-async function selectDocument(doc, activeBtn) {
+async function selectDocument(doc, activeBtn = null, sectionId = null, updateHistory = true) {
     currentDoc = doc;
 
     // Highlight active button in sidebar
@@ -445,8 +471,9 @@ async function selectDocument(doc, activeBtn) {
         if (matchingBtn) matchingBtn.classList.add("active");
     }
 
-    // Update URL hash
-    window.location.hash = encodeURIComponent(doc.path);
+    if (updateHistory) {
+        history.pushState(null, "", documentHash(doc.path, sectionId));
+    }
 
     // Update Breadcrumbs & Header Links
     const folderName = doc.folder || "Docs";
@@ -536,8 +563,6 @@ async function selectDocument(doc, activeBtn) {
                 markdownViewer.textContent = rawText;
             }
 
-            rewriteInternalDocumentLinks(markdownViewer, doc.path);
-
             // Transform Callout Banners
             transformAdmonitions(markdownViewer);
 
@@ -605,8 +630,12 @@ async function selectDocument(doc, activeBtn) {
 
             // Heading Anchors & Deep Linking
             const headings = markdownViewer.querySelectorAll("h1, h2, h3");
+            const usedHeadingIds = new Map();
             headings.forEach((heading, idx) => {
-                const id = `heading-${idx}`;
+                const baseId = headingSlug(heading.textContent || `section-${idx + 1}`);
+                const duplicateNumber = usedHeadingIds.get(baseId) || 0;
+                usedHeadingIds.set(baseId, duplicateNumber + 1);
+                const id = duplicateNumber === 0 ? baseId : `${baseId}-${duplicateNumber + 1}`;
                 heading.id = id;
 
                 const anchor = document.createElement("a");
@@ -616,13 +645,15 @@ async function selectDocument(doc, activeBtn) {
                 anchor.title = "Copy link to section";
                 anchor.addEventListener("click", (e) => {
                     e.preventDefault();
-                    const url = `${window.location.origin}${window.location.pathname}#${encodeURIComponent(doc.path)}::${id}`;
+                    const url = `${window.location.origin}${window.location.pathname}${documentHash(doc.path, id)}`;
                     navigator.clipboard.writeText(url);
                     showToast("Section link copied to clipboard!", "check");
                     heading.scrollIntoView({ behavior: "smooth" });
                 });
                 heading.appendChild(anchor);
             });
+
+            rewriteInternalDocumentLinks(markdownViewer, doc.path);
 
             // Build Table of Contents
             buildTOC(headings);
@@ -632,6 +663,14 @@ async function selectDocument(doc, activeBtn) {
 
             // Reset Scroll
             markdownWrapper.scrollTo({ top: 0, behavior: "auto" });
+
+            if (sectionId) {
+                const legacyMatch = sectionId.match(/^heading-(\d+)$/);
+                const sectionTarget = legacyMatch
+                    ? headings[Number(legacyMatch[1])]
+                    : document.getElementById(sectionId);
+                sectionTarget?.scrollIntoView({ behavior: "auto" });
+            }
 
             refreshIcons();
 
@@ -661,6 +700,13 @@ async function selectDocument(doc, activeBtn) {
 
     refreshIcons();
 }
+
+window.addEventListener("popstate", async () => {
+    if (allDocuments.length === 0) return;
+    const target = parseDocumentHash();
+    const documentToOpen = allDocuments.find((doc) => doc.path === target.path) || allDocuments[0];
+    await selectDocument(documentToOpen, null, target.section, false);
+});
 
 // Table of Contents & ScrollSpy
 let tocObserver = null;

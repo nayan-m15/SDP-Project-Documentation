@@ -127,6 +127,42 @@ Request bodies are parsed with feature Zod schemas. Typical Nest responses use H
 | `409` | State conflict or uniqueness rule where the service reports one. |
 | `503` | Database authentication dependency, geocoder or other service temporarily unavailable. |
 
+Nest defaults apply where controllers do not override them: successful `GET`, `PATCH` and `DELETE` handlers normally return 200; successful `POST` handlers normally return 201; Better Auth verification/OAuth handlers may redirect. Better Auth errors are mapped from the library, while application Zod failures use the first validation issue.
+
+### Representative JSON
+
+These fictional examples reflect source response shapes; IDs and timestamps are illustrative.
+
+```json
+{ "status": "ok" }
+```
+
+`GET /health/database` returns this response with 200 after its database check succeeds.
+
+```json
+{
+  "statusCode": 400,
+  "message": "A starting XI must contain exactly 11 athletes.",
+  "error": "Bad Request"
+}
+```
+
+Match-start validation uses Nest's 400 exception response. A protected call without a valid cookie returns 401 with `Sign in required.`; a non-coach mutation returns 403. Cross-team resources are generally reported as 404 to avoid exposing their existence.
+
+## Operation permissions
+
+| Operations | Public | Claimed player | Assistant | Coach |
+| --- | --- | --- | --- | --- |
+| Root/health, sign-up/sign-in/verification/OAuth, invite/claim preview | Yes | Yes | Yes | Yes |
+| Session/sign-out/profile | No | Own account | Own account | Own account |
+| `/player/*` and RSVP | No | Own claimed context | Only if separately claimed | Only if separately claimed |
+| Team roster/events/game plans/statistics reads | No | Player endpoints instead | Team-scoped | Team-scoped |
+| Roster/event/game-plan/season/competition/standing mutations | No | No | No | Team-scoped |
+| Match start, clock, logging and correction | No | No | Team-scoped | Team-scoped |
+| Assistant/player-claim invite management | No | No | No | Team-scoped |
+
+See [Application Structure](application-structure.md#representative-request-flow-logging-a-goal) for the page → client → controller → validation → service → database path.
+
 ## External integrations and fallbacks
 
 - **Open-Meteo geocoding:** `GET /locations/search?q=...`, authenticated, requires 3–200 characters, returns up to five mapped places. A provider/network/parse failure returns 503; it does not silently invent coordinates.
@@ -135,4 +171,3 @@ Request bodies are parsed with feature Zod schemas. Typical Nest responses use H
 - **Google OAuth:** configured through Better Auth client credentials and callback routes. Failure handling is delegated through the auth flow.
 
 No Mapbox, OpenWeatherMap, external fixture service, push notification provider or report-export service is implemented.
-

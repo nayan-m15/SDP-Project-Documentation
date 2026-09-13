@@ -50,4 +50,4 @@ Environment-variable names and startup instructions are maintained in [Getting S
 
 ## AI declarations
 
-Preserve evidence-based declarations already supplied by the team and commit trailers. Do not infer a model/tool from code style or replace historical records with placeholder names. The documentation audit did not attempt to independently authenticate every historical AI-tool statement.
+Preserve evidence-based declarations already supplied by the team and commit trailers. Do not infer a model/tool from code style or replace historical records with placeholder names. Historical AI-tool statements have not all been independently authenticated.

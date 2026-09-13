@@ -22,12 +22,12 @@ Versions below are direct manifest ranges from the inspected repositories; lockf
 | qrcode.react `^4.2.0` | Invitation/claim QR rendering | ISC |
 | NestJS packages `^11.x`, RxJS `^7.8.1`, reflect-metadata `^0.2.2` | API framework, reactive/runtime metadata support | MIT; Apache-2.0; Apache-2.0 |
 | Better Auth `^1.6.27` backend / `^1.6.29` frontend / root `^1.7.1` | Authentication/session client and server | MIT |
-| Drizzle ORM `^0.45.2`, Drizzle Kit `^0.31.10` | Typed persistence and migration tooling | Apache-2.0 |
-| Neon serverless `^1.1.0` | PostgreSQL HTTP driver | Apache-2.0 |
+| Drizzle ORM `^0.45.2`, Drizzle Kit `^0.31.10` (resolved `0.45.2`/`0.31.10`) | Typed persistence and migration tooling | Apache-2.0 / MIT, from installed metadata |
+| Neon serverless `^1.1.0` (resolved `1.1.0`) | PostgreSQL HTTP driver | MIT, from installed metadata |
 | Zod `^4.4.3` | Runtime validation | MIT |
 | Swagger packages `@nestjs/swagger ^11.4.6`, `swagger-ui-express ^5.0.1` | OpenAPI generation/UI | MIT; MIT wrapper (bundled Swagger UI is Apache-2.0) |
 | Socket.io/client `^4.8.3`, Nest WebSockets/Socket.io platform | Installed real-time scaffolding | MIT. Not evidence of delivered broadcasting. |
-| Brevo SDK `^6.0.3` | Transactional verification email | Confirm exact package licence from lock/install metadata before distribution. |
+| Brevo SDK `^6.0.3` (resolved `6.0.3`) | Transactional verification email | Installed metadata does not declare a licence; confirmation required. |
 | dotenv `^17.4.2` | Local environment loading | BSD-2-Clause |
 
 ## Test and developer tools
@@ -71,3 +71,5 @@ Portal mockups, wireframes, UML SVGs, screenshots, logo and meeting screenshots 
 ## AI declaration preservation
 
 Existing repository declarations and commit trailers are historical evidence supplied by the team. This audit does not guess additional tools/models or independently verify every declared model name. Future declarations should identify the tool only when supported by a record and describe human review without claiming approval that did not occur.
+
+For the documentation update dated 13–14 September 2026, **OpenAI Codex (GPT-5)** was used to inspect the documentation/application repositories and supplied Trello export, draft Markdown updates, adjust viewer navigation and run local checks. This records tool and purpose; it does not claim stakeholder or human approval.

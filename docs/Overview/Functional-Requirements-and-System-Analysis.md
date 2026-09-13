@@ -41,6 +41,23 @@ Gaffer is a football coaching application with coach, assistant and claimed-play
 - A player may have one RSVP per event; a later response updates that row.
 - Season aggregation uses the team's season date range. The schema also contains competition links, including a deprecated free-text `season` field retained for compatibility.
 
+## Course requirement traceability
+
+| Tier/area | Requirement interpretation | Current evidence/status |
+| --- | --- | --- |
+| Basic — athlete/event management | Maintain athletes, schedule activities and show a useful dashboard. | Implemented; the REST-derived dashboard shows roster/event counts, upcoming events, recent matches, season record and rate statistics. |
+| Basic — live record/results | Record match actions and preserve a correctable source of truth. | Implemented through persisted match events. Corrections change ledger events and derived statistics; there is no direct arbitrary statistics override. |
+| Basic — accounts | Register/sign in/sign out and manage profile. | Implemented with verification and Google sign-in. Password reset/change, email change and account deletion remain Trello Potential Features card #130. |
+| Intermediate — roles | Coach, assistant and player permissions. | Implemented — acceptance verification pending. Simultaneous updates are not part of the delivered role feature. |
+| Intermediate — planning | Shared calendar, RSVP, reminders and external information. | Implemented for persisted calendar, three-state RSVP, in-app next-24-hour reminders and Open-Meteo. Platform fixture arrangement is absent. |
+| Intermediate — comparisons | Compare performance meaningfully. | Two or three own-team athletes and periods within one team's season can be compared. No athlete-versus-opponent-player, cross-team or cross-season side-by-side comparison exists. |
+| Intermediate — resilience | Record offline and synchronise later. | Planned: no durable offline store, queue or background sync. |
+| Advanced — concurrent logging | Several authorised users log consistently. | Planned: no gateway, rooms, broadcast or reconciliation despite Socket.io packages. |
+| Advanced — league/public/export | Standings, public squad/results and reports. | Manual standings exist. Public squad/player data and downloadable/shareable export are planned. |
+| Advanced — automation | Schedule generation, insights and selection suggestions. | Planned. |
+
+The sport brief supplies Basic/Intermediate/Advanced capability bands; Trello cards define recorded delivery slices. Differences in “comparison,” “fixtures,” reminders and live collaboration require client/team clarification rather than expansion by assumption.
+
 ## Quality attributes
 
 The code contains responsive layouts, semantic labels and component-level accessibility features, but this does not establish automatic WCAG compliance. Security depends on session validation, CORS, server-side role/team scoping, input validation and safe secret handling. Availability and performance are hosting/provider dependent; no zero-latency or production-availability guarantee is documented.

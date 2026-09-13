@@ -13,7 +13,7 @@
     "path": "docs/Overview/02-product-overview.md",
     "originalPath": "docs/Overview/02-product-overview.md",
     "folder": "Overview",
-    "size": 5157,
+    "size": 5173,
     "date": "2026-09-13T00:00:00.000Z",
     "type": "md"
   },
@@ -22,7 +22,7 @@
     "path": "docs/Overview/Functional-Requirements-and-System-Analysis.md",
     "originalPath": "docs/Overview/Functional-Requirements-and-System-Analysis.md",
     "folder": "Overview",
-    "size": 5138,
+    "size": 7511,
     "date": "2026-09-13T00:00:00.000Z",
     "type": "md"
   },
@@ -31,7 +31,7 @@
     "path": "docs/Project Management/sprint-2-assessment.md",
     "originalPath": "docs/Project Management/sprint-2-assessment.md",
     "folder": "Project Management",
-    "size": 5419,
+    "size": 5952,
     "date": "2026-09-13T00:00:00.000Z",
     "type": "md"
   },
@@ -40,7 +40,7 @@
     "path": "docs/Project Management/sprint-2-evidence.md",
     "originalPath": "docs/Project Management/sprint-2-evidence.md",
     "folder": "Project Management",
-    "size": 4193,
+    "size": 4127,
     "date": "2026-09-13T00:00:00.000Z",
     "type": "md"
   },
@@ -49,8 +49,44 @@
     "path": "docs/Project Management/product-backlog.md",
     "originalPath": "docs/Project Management/product-backlog.md",
     "folder": "Project Management",
-    "size": 11182,
+    "size": 16918,
     "date": "2026-09-13T00:00:00.000Z",
+    "type": "md"
+  },
+  {
+    "name": "Sprint 2 Trello Delivery Record",
+    "path": "docs/Project Management/sprint-2-delivery.md",
+    "originalPath": "docs/Project Management/sprint-2-delivery.md",
+    "folder": "Project Management",
+    "size": 8588,
+    "date": "2026-09-14T00:00:00.000Z",
+    "type": "md"
+  },
+  {
+    "name": "Bug Tracking",
+    "path": "docs/Project Management/bug-tracking.md",
+    "originalPath": "docs/Project Management/bug-tracking.md",
+    "folder": "Project Management",
+    "size": 14627,
+    "date": "2026-09-14T00:00:00.000Z",
+    "type": "md"
+  },
+  {
+    "name": "Scrum Methodology",
+    "path": "docs/Project Management/scrum-methodology.md",
+    "originalPath": "docs/Project Management/scrum-methodology.md",
+    "folder": "Project Management",
+    "size": 4243,
+    "date": "2026-09-14T00:00:00.000Z",
+    "type": "md"
+  },
+  {
+    "name": "Roadmap",
+    "path": "docs/Project Management/roadmap.md",
+    "originalPath": "docs/Project Management/roadmap.md",
+    "folder": "Project Management",
+    "size": 3066,
+    "date": "2026-09-14T00:00:00.000Z",
     "type": "md"
   },
   {
@@ -85,7 +121,7 @@
     "path": "docs/Architecture/tech-stack/team-tool-stack-guide.md",
     "originalPath": "docs/Architecture/tech-stack/team-tool-stack-guide.md",
     "folder": "Architecture",
-    "size": 3293,
+    "size": 3264,
     "date": "2026-09-13T00:00:00.000Z",
     "type": "md"
   },
@@ -94,8 +130,17 @@
     "path": "docs/Architecture/api-guide.md",
     "originalPath": "docs/Architecture/api-guide.md",
     "folder": "Architecture",
-    "size": 7205,
+    "size": 9125,
     "date": "2026-09-13T00:00:00.000Z",
+    "type": "md"
+  },
+  {
+    "name": "Application Structure and Flows",
+    "path": "docs/Architecture/application-structure.md",
+    "originalPath": "docs/Architecture/application-structure.md",
+    "folder": "Architecture",
+    "size": 3264,
+    "date": "2026-09-14T00:00:00.000Z",
     "type": "md"
   },
   {
@@ -112,7 +157,7 @@
     "path": "docs/Architecture/third-party-code-and-assets.md",
     "originalPath": "docs/Architecture/third-party-code-and-assets.md",
     "folder": "Architecture",
-    "size": 6244,
+    "size": 6680,
     "date": "2026-09-13T00:00:00.000Z",
     "type": "md"
   },
@@ -121,7 +166,7 @@
     "path": "docs/Architecture/git-methodology.md",
     "originalPath": "docs/Architecture/git-methodology.md",
     "folder": "Architecture",
-    "size": 3246,
+    "size": 4316,
     "date": "2026-09-13T00:00:00.000Z",
     "type": "md"
   },
@@ -157,8 +202,17 @@
     "path": "docs/Quality/testing-and-qa.md",
     "originalPath": "docs/Quality/testing-and-qa.md",
     "folder": "Quality",
-    "size": 8448,
+    "size": 8579,
     "date": "2026-09-13T00:00:00.000Z",
+    "type": "md"
+  },
+  {
+    "name": "Sprint 2 Test Report",
+    "path": "docs/Quality/sprint-2-test-report.md",
+    "originalPath": "docs/Quality/sprint-2-test-report.md",
+    "folder": "Quality",
+    "size": 2756,
+    "date": "2026-09-14T00:00:00.000Z",
     "type": "md"
   },
   {

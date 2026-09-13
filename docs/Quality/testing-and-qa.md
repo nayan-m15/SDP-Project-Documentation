@@ -2,16 +2,16 @@
 
 ## Procedures versus results
 
-This page documents how tests are structured and how to perform acceptance checks. No stateful integration/browser test was run against a shared or production database during the documentation audit.
+This page documents how tests are structured and how to perform acceptance checks. No stateful integration/browser test was run against a shared or production database while preparing the recorded Sprint 2 evidence.
 
-## Audit-time result (partial, local)
+## Recorded result (partial, local)
 
 On 13 September 2026, application commit `aadf745eb7a9d309bf847bb3afb2789dbddbabc6`, Node `v24.14.0`, npm `11.9.0`:
 
 - `npm --prefix backend test -- --runInBand`: 30/30 suites and 291/291 tests passed.
 - all eight `frontend/src/**/*.node-test.mjs` files completed successfully when invoked individually.
 
-This is not a full release result: integration and Playwright suites were not run, no coverage report was generated, and the output is not an immutable CI artifact. A first root-script attempt failed before running tests because `--runInBand` was not forwarded and the sandbox denied a worker spawn; it is excluded from the pass result.
+This is not a full release result: integration and Playwright suites were not run, no coverage report was generated, and the output is not an immutable CI artifact. Only successful, completed commands are counted in the recorded result.
 
 ## Automated layers
 
@@ -122,3 +122,5 @@ Retest result and date:
 ## Test-result record
 
 For any future claimed run, store: commit SHA, clean/dirty state, command, Node/npm/browser versions, database identifier (never credentials), start/end time, pass/fail/skip counts, logs/screenshots, known retries and a link to the immutable artifact.
+
+The [Sprint 2 Test Report](sprint-2-test-report.md) records the authentic partial local result and a proposed change-to-test policy. Trello checklist ticks are board evidence, not substitutes for linked test output.

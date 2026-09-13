@@ -17,7 +17,7 @@ Gaffer supports grassroots football coaches, assistants, and claimed players. Th
 | Match preparation | Named game plans, formation/tactics, exact starting XI, bench, home/away colours and opponent information modes. | Opponent modes are none, shirt numbers, or full names/details. |
 | Live match | Persisted clock, goals, assists, key passes, cards, substitutions, penalties and injuries; finish-match workflow. | The app uses REST. Installed Socket.io packages and an adapter do not provide collaborative broadcasting. |
 | Corrections | Post-match create, update and delete operations on match events; adjusted events are flagged. | A report is an in-app page. No report-file download/export is implemented. |
-| Statistics | Team summary, recent form, season trends, competition standings, athlete detail and comparison of up to four athletes. | Standings are manually entered; they are not calculated from other clubs' fixtures. |
+| Statistics | Team summary, recent form, season trends, competition standings, athlete detail and comparison of two or three athletes. | No athlete-versus-opponent-player or cross-team comparison exists; standings are manually entered. |
 | Player participation | Claim flow, player dashboard/team/events/standings views, and RSVP with optional note. | A claimed athlete is required. |
 | Weather/location | Authenticated Open-Meteo geocoding and per-event hourly forecast with caching and a stale-cache fallback. | No map rendering or Mapbox/OpenWeatherMap integration exists. |
 | Reminders | Dashboard banner for scheduled events in the next 24 hours with per-device dismissal. | In-app only; no email, push or background delivery. |
@@ -47,4 +47,3 @@ Historical design documents may describe these as proposed tiers. Those proposal
 - **Verified:** reserved for a specifically identified test or review result. Procedures alone are not results.
 
 See [Product Backlog](../Project%20Management/product-backlog.md) and [Sprint 2 Implementation and Evidence](../Project%20Management/sprint-2-evidence.md).
-

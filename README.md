@@ -8,7 +8,7 @@ This repository contains the static documentation portal for Gaffer. The publish
 - `docs/`: Markdown documentation, including overview, architecture, backlog, API, database and QA material.
 - `assets/`: diagrams, wireframes, mockups, screenshots and branding.
 - `pdfs/`: preserved source/meeting PDFs and `manifest.json`.
-- `upload.html`, `js/uploader.js`: optional browser-side conversion/upload helper using the GitHub Contents API.
+- `upload.html`, `js/uploader.js`: retained team-only browser-side conversion/upload helper; it is not linked from the public navigation.
 
 `pdfs/manifest.json` is the navigation source of truth. Every discoverable Markdown/PDF document needs an entry with `name`, repository-relative `path`, `originalPath`, `folder`, byte `size`, ISO `date` and `type`. Existing path names should be retained when possible because URL hashes use the document path as the deep-link identifier.
 
@@ -23,13 +23,13 @@ Open the URL printed by `serve`. Do not open `index.html` directly from disk: br
 
 The site has no compile step. Verification should include JSON parsing, manifest target checks, Markdown link/asset checks, JavaScript syntax checks and a browser preview of representative pages (including Mermaid diagrams and mobile navigation).
 
-## Edit documents manually
+## Contribute through Git
 
-1. Add or update Markdown under `docs/` and assets under `assets/`.
+1. Create a focused branch and add or update Markdown under `docs/` and assets under `assets/`.
 2. Preserve meeting documents unless the team is intentionally uploading reviewed meeting evidence.
 3. Keep implemented, planned and verified behaviour distinct. Application source/configuration/migrations/tests override outdated proposals.
 4. Update `pdfs/manifest.json` and use the actual file size.
-5. Check all local links and preview the portal.
+5. Check all local links, preview the portal, and submit the change for review through the repository workflow.
 
 Example entry:
 
@@ -45,9 +45,9 @@ Example entry:
 }
 ```
 
-## Upload helper security
+## Team-only upload helper
 
-Reading the portal requires no token. The upload page accepts a fine-grained GitHub personal access token and sends it to the GitHub API from the browser. If the helper is used, grant only repository Contents read/write access, set an expiry, use a trusted machine, and revoke the token when it is no longer needed. Never commit or share it.
+Reading the portal requires no token. The unlinked upload page is retained for authorised team use and accepts a fine-grained GitHub personal access token, which it sends to the GitHub API from the browser. If it is used, grant only repository Contents read/write access, set an expiry, use a trusted machine, and revoke the token when it is no longer needed. Never commit or share it.
 
 Manual review remains preferable for substantial documentation updates because converted PDFs can produce fragmented headings, lists and tables.
 

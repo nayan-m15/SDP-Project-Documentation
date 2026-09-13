@@ -11,7 +11,7 @@ erDiagram
   user ||--o| team_members : joins
   teams ||--o{ team_members : contains
   teams ||--o{ athletes : owns
-  user ||--o{ athletes : claims
+  user o|--o{ athletes : claims
   athletes ||--o{ player_claim_invites : targeted_by
   teams ||--o{ team_invites : issues
   teams ||--o{ game_plans : saves
@@ -20,18 +20,18 @@ erDiagram
   athletes ||--o{ event_rsvps : submits
   teams ||--o{ seasons : defines
   teams ||--o{ competitions : enters
-  seasons ||--o{ competitions : groups
-  competitions ||--o{ events : classifies
+  seasons o|--o{ competitions : groups
+  competitions o|--o{ events : classifies
   events ||--o| matches : becomes
-  competitions ||--o{ matches : classifies
-  game_plans ||--o{ matches : snapshots
+  competitions o|--o{ matches : classifies
+  game_plans o|--o{ matches : snapshots
   matches ||--o{ opponent_match_players : contains
   matches ||--o{ athlete_match_stats : aggregates
   athletes ||--o{ athlete_match_stats : receives
   competitions ||--o{ standings : contains
   matches ||--o{ match_events : records
-  athletes ||--o{ match_events : attributed_to
-  opponent_match_players ||--o{ match_events : attributed_to
+  athletes o|--o{ match_events : attributed_to
+  opponent_match_players o|--o{ match_events : attributed_to
   user ||--o{ match_events : logs
 ```
 

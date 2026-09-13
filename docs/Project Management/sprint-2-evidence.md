@@ -2,7 +2,7 @@
 
 ## Basis and limits
 
-This is a repository-derived implementation summary, not a reconstruction of the agreed sprint backlog. Evidence was inspected at application commit `aadf745e` on 13 September 2026; the local `development` branch contained one additional commit, so the team should confirm which revision is the assessment baseline. No owners are inferred.
+This combines repository evidence with the Trello export dated 13 September 2026. Source was inspected at application commit `aadf745eb7a9d309bf847bb3afb2789dbddbabc6`; the deployed revision remains unverified. Trello records owners/list/checklists in the [Sprint 2 Delivery page](sprint-2-delivery.md), but cannot fully reconstruct the original commitment.
 
 ## Verifiable implementation areas
 
@@ -11,7 +11,7 @@ This is a repository-derived implementation summary, not a reconstruction of the
 | Roles and permissions | Auth guard, team access helpers, assistant invite and player claim modules; authorisation/unit/integration tests. | Code and automated test definitions exist; provide a named test run and manual forbidden-action demo. |
 | Live logging | Match REST endpoints, persistent clock/events, live UI and request idempotency index. | Implemented via REST; no Socket.io collaboration or offline durability. |
 | Corrections | PATCH/DELETE event endpoints and editable post-match report model/UI. | Code and focused model tests exist; demonstrate recomputed score/stat consistency. |
-| Statistics/trends/comparison | Statistics service/controllers, season model, Recharts UI and up-to-four player comparison. | Unit/integration and `.node-test.mjs` files exist; no supplied executed-result artifact. |
+| Statistics/trends/comparison | Statistics service/controllers, season model, Recharts UI and two-to-three-player comparison. | Athlete-to-opponent-player, cross-team and cross-season side-by-side comparisons are not implemented. |
 | RSVPs/shared schedule | Player event feed, RSVP endpoint/table/widget, coach breakdown. | One per event/athlete; manually verify team isolation. |
 | Location/weather | Open-Meteo geocoding and weather service with explicit fallback statuses. | Unit tests exist; provider-dependent manual demo needed. |
 | Reminders | Next-24-hours banner and local dismissal. | Partial: in-app only, no email/push. |
@@ -24,14 +24,14 @@ This is a repository-derived implementation summary, not a reconstruction of the
 - Playwright specifications under `e2e/`, configured for one Chromium project, one worker and real local servers.
 - Eight frontend `*.node-test.mjs` model scripts. Root/package scripts do not aggregate these.
 
-### Audit-time safe test run
+### Recorded safe test run
 
 On 13 September 2026, against clean application commit `aadf745eb7a9d309bf847bb3afb2789dbddbabc6`, Node `v24.14.0` and npm `11.9.0`:
 
 - `npm --prefix backend test -- --runInBand`: **30 suites passed, 291 tests passed, 0 snapshots**.
 - all eight `frontend/src/**/*.node-test.mjs` scripts run individually with Node: **8 files completed successfully** (the season-trends script reported 11 assertions).
 
-No integration or browser suite was run because those are stateful and no disposable test database was prepared. The first root-script attempt did not forward `--runInBand` and hit a sandbox process-spawn error; it is not counted as an application test result. The successful commands above are local audit output, not an immutable CI artifact or stakeholder acceptance.
+No integration or browser suite was run because no disposable test database was prepared. The successful commands above are local verification, not an immutable CI artifact or stakeholder acceptance.
 
 ## Deployment/API evidence
 
@@ -39,11 +39,11 @@ On 13 September 2026 the following returned HTTP 200: hosted frontend, API root,
 
 ## Evidence not supplied
 
-- An agreed Sprint 2 scope/commitment and named owners tied to tracker items
+- The original Sprint 2 commitment/sprint goal (current Trello owners and movement are supplied)
 - Stakeholder review outcome or approval
 - Formal user-testing sessions and feedback
-- A retained/immutable test report for the full unit, integration and browser layers (the audit-time unit/model result above is only partial coverage)
-- Bug tracker export/links showing triage and closure
+- A retained/immutable test report for the full unit, integration and browser layers (the recorded local unit/model result above is only partial coverage)
+- Adopted severity/closure rules and complete retest artefacts (the Trello issue inventory is supplied)
 - CI workflow/run and branch-protection evidence
 - Fresh-install and upgrade migration results
 
