@@ -13,7 +13,23 @@ const repositoryByteSize = (file) => Buffer.byteLength(
   'utf8'
 );
 
-const manifest = walk(docsRoot).sort().map((file) => {
+const folderOrder = new Map([
+  ['Overview', 0],
+  ['Project Management', 1],
+  ['Architecture', 2],
+  ['Quality', 3],
+  ['Meetings', 4]
+]);
+
+const manifest = walk(docsRoot).sort((left, right) => {
+  const leftRelative = slash(path.relative(docsRoot, left));
+  const rightRelative = slash(path.relative(docsRoot, right));
+  const leftFolder = leftRelative.split('/')[0];
+  const rightFolder = rightRelative.split('/')[0];
+  const leftRank = folderOrder.get(leftFolder) ?? Number.MAX_SAFE_INTEGER;
+  const rightRank = folderOrder.get(rightFolder) ?? Number.MAX_SAFE_INTEGER;
+  return leftRank - rightRank || leftRelative.localeCompare(rightRelative);
+}).map((file) => {
   const relative = slash(path.relative(root, file));
   const source = fs.readFileSync(file, 'utf8');
   const heading = source.match(/^#\s+(.+)$/m)?.[1]?.trim();

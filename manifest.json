@@ -1,212 +1,5 @@
 [
   {
-    "name": "Gaffer Public API Reference",
-    "path": "docs/Architecture/Gaffer-Public-API-Reference.md",
-    "originalPath": "docs/Architecture/Gaffer-Public-API-Reference.md",
-    "folder": "Architecture",
-    "size": 3769,
-    "date": "2026-09-14T17:12:51.714Z",
-    "type": "md"
-  },
-  {
-    "name": "REST API Guide",
-    "path": "docs/Architecture/api-guide.md",
-    "originalPath": "docs/Architecture/api-guide.md",
-    "folder": "Architecture",
-    "size": 9808,
-    "date": "2026-09-14T17:12:53.837Z",
-    "type": "md"
-  },
-  {
-    "name": "Application Structure and Request Flow",
-    "path": "docs/Architecture/application-structure.md",
-    "originalPath": "docs/Architecture/application-structure.md",
-    "folder": "Architecture",
-    "size": 3264,
-    "date": "2026-09-13T22:09:35.712Z",
-    "type": "md"
-  },
-  {
-    "name": "Current PostgreSQL Database Schema",
-    "path": "docs/Architecture/data/database-schema.md",
-    "originalPath": "docs/Architecture/data/database-schema.md",
-    "folder": "Architecture",
-    "size": 13678,
-    "date": "2026-09-14T17:15:29.692Z",
-    "type": "md"
-  },
-  {
-    "name": "Historical UML Diagrams",
-    "path": "docs/Architecture/design/architectural-diagrams.md",
-    "originalPath": "docs/Architecture/design/architectural-diagrams.md",
-    "folder": "Architecture",
-    "size": 1980,
-    "date": "2026-09-13T21:28:10.223Z",
-    "type": "md"
-  },
-  {
-    "name": "Historical Mockups",
-    "path": "docs/Architecture/design/mockups.md",
-    "originalPath": "docs/Architecture/design/mockups.md",
-    "folder": "Architecture",
-    "size": 1393,
-    "date": "2026-09-13T21:28:11.628Z",
-    "type": "md"
-  },
-  {
-    "name": "Historical Wireframes",
-    "path": "docs/Architecture/design/wireframes.md",
-    "originalPath": "docs/Architecture/design/wireframes.md",
-    "folder": "Architecture",
-    "size": 1458,
-    "date": "2026-09-13T21:28:10.894Z",
-    "type": "md"
-  },
-  {
-    "name": "Git Methodology and Observed Workflow",
-    "path": "docs/Architecture/git-methodology.md",
-    "originalPath": "docs/Architecture/git-methodology.md",
-    "folder": "Architecture",
-    "size": 4532,
-    "date": "2026-09-14T17:14:11.467Z",
-    "type": "md"
-  },
-  {
-    "name": "System Architecture Overview",
-    "path": "docs/Architecture/tech-stack/architecture-overview.md",
-    "originalPath": "docs/Architecture/tech-stack/architecture-overview.md",
-    "folder": "Architecture",
-    "size": 4770,
-    "date": "2026-09-14T17:14:12.189Z",
-    "type": "md"
-  },
-  {
-    "name": "Team Development Guide",
-    "path": "docs/Architecture/tech-stack/team-tool-stack-guide.md",
-    "originalPath": "docs/Architecture/tech-stack/team-tool-stack-guide.md",
-    "folder": "Architecture",
-    "size": 3264,
-    "date": "2026-09-13T22:14:11.839Z",
-    "type": "md"
-  },
-  {
-    "name": "Historical Stack and Integration Proposal",
-    "path": "docs/Architecture/tech-stack/tool-stack-plan.md",
-    "originalPath": "docs/Architecture/tech-stack/tool-stack-plan.md",
-    "folder": "Architecture",
-    "size": 2229,
-    "date": "2026-09-14T17:14:13.628Z",
-    "type": "md"
-  },
-  {
-    "name": "Current Technology Stack",
-    "path": "docs/Architecture/tech-stack/web-app-tool-stack.md",
-    "originalPath": "docs/Architecture/tech-stack/web-app-tool-stack.md",
-    "folder": "Architecture",
-    "size": 2650,
-    "date": "2026-09-14T17:14:12.938Z",
-    "type": "md"
-  },
-  {
-    "name": "Third-party Code and Assets",
-    "path": "docs/Architecture/third-party-code-and-assets.md",
-    "originalPath": "docs/Architecture/third-party-code-and-assets.md",
-    "folder": "Architecture",
-    "size": 6771,
-    "date": "2026-09-14T17:21:31.758Z",
-    "type": "md"
-  },
-  {
-    "name": "Meeting Register",
-    "path": "docs/Meetings/index.md",
-    "originalPath": "docs/Meetings/index.md",
-    "folder": "Meetings",
-    "size": 2033,
-    "date": "2026-09-14T17:08:07.623Z",
-    "type": "md"
-  },
-  {
-    "name": "Project Documentation, Methodology, and Product Requirements Planning",
-    "path": "docs/Meetings/planning/product-requirements.md",
-    "originalPath": "docs/Meetings/planning/product-requirements.md",
-    "folder": "Meetings",
-    "size": 8408,
-    "date": "2026-08-30T11:08:10.834Z",
-    "type": "md"
-  },
-  {
-    "name": "Sprint Planning Meeting",
-    "path": "docs/Meetings/planning/sprint-1-planning.md",
-    "originalPath": "docs/Meetings/planning/sprint-1-planning.md",
-    "folder": "Meetings",
-    "size": 3207,
-    "date": "2026-08-30T11:08:10.863Z",
-    "type": "md"
-  },
-  {
-    "name": "Sprint 2 Planning Meeting",
-    "path": "docs/Meetings/planning/sprint-2-planning.md",
-    "originalPath": "docs/Meetings/planning/sprint-2-planning.md",
-    "folder": "Meetings",
-    "size": 2361,
-    "date": "2026-09-14T17:08:00.320Z",
-    "type": "md"
-  },
-  {
-    "name": "Sprint 1 Retrospective Meeting",
-    "path": "docs/Meetings/retrospectives/sprint-1-retrospective.md",
-    "originalPath": "docs/Meetings/retrospectives/sprint-1-retrospective.md",
-    "folder": "Meetings",
-    "size": 2494,
-    "date": "2026-08-30T11:08:10.851Z",
-    "type": "md"
-  },
-  {
-    "name": "Standup Meeting 1",
-    "path": "docs/Meetings/standups/2026-08-17-standup-1.md",
-    "originalPath": "docs/Meetings/standups/2026-08-17-standup-1.md",
-    "folder": "Meetings",
-    "size": 1762,
-    "date": "2026-09-14T17:08:01.860Z",
-    "type": "md"
-  },
-  {
-    "name": "Standup Meeting 2",
-    "path": "docs/Meetings/standups/2026-08-18-standup-2.md",
-    "originalPath": "docs/Meetings/standups/2026-08-18-standup-2.md",
-    "folder": "Meetings",
-    "size": 4723,
-    "date": "2026-09-14T17:08:02.668Z",
-    "type": "md"
-  },
-  {
-    "name": "Standup Meeting 3",
-    "path": "docs/Meetings/standups/2026-08-20-standup-3.md",
-    "originalPath": "docs/Meetings/standups/2026-08-20-standup-3.md",
-    "folder": "Meetings",
-    "size": 1839,
-    "date": "2026-09-14T17:08:05.523Z",
-    "type": "md"
-  },
-  {
-    "name": "Standup Meeting 4",
-    "path": "docs/Meetings/standups/2026-09-04-standup-4.md",
-    "originalPath": "docs/Meetings/standups/2026-09-04-standup-4.md",
-    "folder": "Meetings",
-    "size": 2115,
-    "date": "2026-09-14T17:08:06.247Z",
-    "type": "md"
-  },
-  {
-    "name": "Standup Meeting 5",
-    "path": "docs/Meetings/standups/2026-09-13-standup-5.md",
-    "originalPath": "docs/Meetings/standups/2026-09-13-standup-5.md",
-    "folder": "Meetings",
-    "size": 1980,
-    "date": "2026-09-14T17:08:06.934Z",
-    "type": "md"
-  },
-  {
     "name": "Getting Started with Gaffer",
     "path": "docs/Overview/01-getting-started.md",
     "originalPath": "docs/Overview/01-getting-started.md",
@@ -306,6 +99,123 @@
     "type": "md"
   },
   {
+    "name": "REST API Guide",
+    "path": "docs/Architecture/api-guide.md",
+    "originalPath": "docs/Architecture/api-guide.md",
+    "folder": "Architecture",
+    "size": 9808,
+    "date": "2026-09-14T17:12:53.837Z",
+    "type": "md"
+  },
+  {
+    "name": "Application Structure and Request Flow",
+    "path": "docs/Architecture/application-structure.md",
+    "originalPath": "docs/Architecture/application-structure.md",
+    "folder": "Architecture",
+    "size": 3264,
+    "date": "2026-09-13T22:09:35.712Z",
+    "type": "md"
+  },
+  {
+    "name": "Current PostgreSQL Database Schema",
+    "path": "docs/Architecture/data/database-schema.md",
+    "originalPath": "docs/Architecture/data/database-schema.md",
+    "folder": "Architecture",
+    "size": 13678,
+    "date": "2026-09-14T17:15:29.692Z",
+    "type": "md"
+  },
+  {
+    "name": "Historical UML Diagrams",
+    "path": "docs/Architecture/design/architectural-diagrams.md",
+    "originalPath": "docs/Architecture/design/architectural-diagrams.md",
+    "folder": "Architecture",
+    "size": 1980,
+    "date": "2026-09-13T21:28:10.223Z",
+    "type": "md"
+  },
+  {
+    "name": "Historical Mockups",
+    "path": "docs/Architecture/design/mockups.md",
+    "originalPath": "docs/Architecture/design/mockups.md",
+    "folder": "Architecture",
+    "size": 1393,
+    "date": "2026-09-13T21:28:11.628Z",
+    "type": "md"
+  },
+  {
+    "name": "Historical Wireframes",
+    "path": "docs/Architecture/design/wireframes.md",
+    "originalPath": "docs/Architecture/design/wireframes.md",
+    "folder": "Architecture",
+    "size": 1458,
+    "date": "2026-09-13T21:28:10.894Z",
+    "type": "md"
+  },
+  {
+    "name": "Gaffer Public API Reference",
+    "path": "docs/Architecture/Gaffer-Public-API-Reference.md",
+    "originalPath": "docs/Architecture/Gaffer-Public-API-Reference.md",
+    "folder": "Architecture",
+    "size": 3769,
+    "date": "2026-09-14T17:12:51.714Z",
+    "type": "md"
+  },
+  {
+    "name": "Git Methodology and Observed Workflow",
+    "path": "docs/Architecture/git-methodology.md",
+    "originalPath": "docs/Architecture/git-methodology.md",
+    "folder": "Architecture",
+    "size": 4532,
+    "date": "2026-09-14T17:14:11.467Z",
+    "type": "md"
+  },
+  {
+    "name": "System Architecture Overview",
+    "path": "docs/Architecture/tech-stack/architecture-overview.md",
+    "originalPath": "docs/Architecture/tech-stack/architecture-overview.md",
+    "folder": "Architecture",
+    "size": 4770,
+    "date": "2026-09-14T17:14:12.189Z",
+    "type": "md"
+  },
+  {
+    "name": "Team Development Guide",
+    "path": "docs/Architecture/tech-stack/team-tool-stack-guide.md",
+    "originalPath": "docs/Architecture/tech-stack/team-tool-stack-guide.md",
+    "folder": "Architecture",
+    "size": 3264,
+    "date": "2026-09-13T22:14:11.839Z",
+    "type": "md"
+  },
+  {
+    "name": "Historical Stack and Integration Proposal",
+    "path": "docs/Architecture/tech-stack/tool-stack-plan.md",
+    "originalPath": "docs/Architecture/tech-stack/tool-stack-plan.md",
+    "folder": "Architecture",
+    "size": 2229,
+    "date": "2026-09-14T17:14:13.628Z",
+    "type": "md"
+  },
+  {
+    "name": "Current Technology Stack",
+    "path": "docs/Architecture/tech-stack/web-app-tool-stack.md",
+    "originalPath": "docs/Architecture/tech-stack/web-app-tool-stack.md",
+    "folder": "Architecture",
+    "size": 2650,
+    "date": "2026-09-14T17:14:12.938Z",
+    "type": "md"
+  },
+  {
+    "name": "Third-party Code and Assets",
+    "path": "docs/Architecture/third-party-code-and-assets.md",
+    "originalPath": "docs/Architecture/third-party-code-and-assets.md",
+    "folder": "Architecture",
+    "size": 6771,
+    "date": "2026-09-14T17:21:31.758Z",
+    "type": "md"
+  },
+  {
     "name": "Sprint 2 Test Report",
     "path": "docs/Quality/sprint-2-test-report.md",
     "originalPath": "docs/Quality/sprint-2-test-report.md",
@@ -321,6 +231,96 @@
     "folder": "Quality",
     "size": 5108,
     "date": "2026-09-14T17:12:53.080Z",
+    "type": "md"
+  },
+  {
+    "name": "Meeting Register",
+    "path": "docs/Meetings/index.md",
+    "originalPath": "docs/Meetings/index.md",
+    "folder": "Meetings",
+    "size": 2033,
+    "date": "2026-09-14T17:08:07.623Z",
+    "type": "md"
+  },
+  {
+    "name": "Project Documentation, Methodology, and Product Requirements Planning",
+    "path": "docs/Meetings/planning/product-requirements.md",
+    "originalPath": "docs/Meetings/planning/product-requirements.md",
+    "folder": "Meetings",
+    "size": 8408,
+    "date": "2026-08-30T11:08:10.834Z",
+    "type": "md"
+  },
+  {
+    "name": "Sprint Planning Meeting",
+    "path": "docs/Meetings/planning/sprint-1-planning.md",
+    "originalPath": "docs/Meetings/planning/sprint-1-planning.md",
+    "folder": "Meetings",
+    "size": 3207,
+    "date": "2026-08-30T11:08:10.863Z",
+    "type": "md"
+  },
+  {
+    "name": "Sprint 2 Planning Meeting",
+    "path": "docs/Meetings/planning/sprint-2-planning.md",
+    "originalPath": "docs/Meetings/planning/sprint-2-planning.md",
+    "folder": "Meetings",
+    "size": 2361,
+    "date": "2026-09-14T17:08:00.320Z",
+    "type": "md"
+  },
+  {
+    "name": "Sprint 1 Retrospective Meeting",
+    "path": "docs/Meetings/retrospectives/sprint-1-retrospective.md",
+    "originalPath": "docs/Meetings/retrospectives/sprint-1-retrospective.md",
+    "folder": "Meetings",
+    "size": 2494,
+    "date": "2026-08-30T11:08:10.851Z",
+    "type": "md"
+  },
+  {
+    "name": "Standup Meeting 1",
+    "path": "docs/Meetings/standups/2026-08-17-standup-1.md",
+    "originalPath": "docs/Meetings/standups/2026-08-17-standup-1.md",
+    "folder": "Meetings",
+    "size": 1762,
+    "date": "2026-09-14T17:08:01.860Z",
+    "type": "md"
+  },
+  {
+    "name": "Standup Meeting 2",
+    "path": "docs/Meetings/standups/2026-08-18-standup-2.md",
+    "originalPath": "docs/Meetings/standups/2026-08-18-standup-2.md",
+    "folder": "Meetings",
+    "size": 4723,
+    "date": "2026-09-14T17:08:02.668Z",
+    "type": "md"
+  },
+  {
+    "name": "Standup Meeting 3",
+    "path": "docs/Meetings/standups/2026-08-20-standup-3.md",
+    "originalPath": "docs/Meetings/standups/2026-08-20-standup-3.md",
+    "folder": "Meetings",
+    "size": 1839,
+    "date": "2026-09-14T17:08:05.523Z",
+    "type": "md"
+  },
+  {
+    "name": "Standup Meeting 4",
+    "path": "docs/Meetings/standups/2026-09-04-standup-4.md",
+    "originalPath": "docs/Meetings/standups/2026-09-04-standup-4.md",
+    "folder": "Meetings",
+    "size": 2115,
+    "date": "2026-09-14T17:08:06.247Z",
+    "type": "md"
+  },
+  {
+    "name": "Standup Meeting 5",
+    "path": "docs/Meetings/standups/2026-09-13-standup-5.md",
+    "originalPath": "docs/Meetings/standups/2026-09-13-standup-5.md",
+    "folder": "Meetings",
+    "size": 1980,
+    "date": "2026-09-14T17:08:06.934Z",
     "type": "md"
   }
 ]
