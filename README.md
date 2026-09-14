@@ -1,58 +1,41 @@
 # Gaffer / Sport Coaching Tool Documentation
 
-This repository contains the static documentation portal for Gaffer. The published site is [nayan-m15.github.io/SDP-Project-Documentation](https://nayan-m15.github.io/SDP-Project-Documentation/); the application is maintained separately in [nayan-m15/Gaffer](https://github.com/nayan-m15/Gaffer).
+This repository contains the static documentation portal for Gaffer. The application is maintained separately in [nayan-m15/Gaffer](https://github.com/nayan-m15/Gaffer).
 
 ## Structure
 
-- `index.html`, `styles.css`, `js/viewer.js`: document reader, search, Markdown/Mermaid rendering and navigation.
-- `docs/`: Markdown documentation, including overview, architecture, backlog, API, database and QA material.
+- `index.html`, `styles.css`, `js/viewer.js`: searchable Markdown/Mermaid reader and navigation.
+- `manifest.json`: navigation metadata and exact byte sizes.
+- `docs/`: reviewed Markdown documentation.
 - `assets/`: diagrams, wireframes, mockups, screenshots and branding.
-- `pdfs/`: preserved source/meeting PDFs and `manifest.json`.
-- `upload.html`, `js/uploader.js`: retained team-only browser-side conversion/upload helper; it is not linked from the public navigation.
+- `scripts/validate-docs.mjs`: manifest, link, asset and legacy-file validation.
 
-`pdfs/manifest.json` is the navigation source of truth. Every discoverable Markdown/PDF document needs an entry with `name`, repository-relative `path`, `originalPath`, `folder`, byte `size`, ISO `date` and `type`. Existing path names should be retained when possible because URL hashes use the document path as the deep-link identifier.
+The browser upload helper was removed because reviewed Git changes are safer than collecting a GitHub personal access token in a public page. Markdown HTML is sanitized with a pinned DOMPurify dependency before insertion.
 
-## Run locally
+## Run and validate
 
 ```bash
 npm install
+npm run validate
+npm run check:js
 npm run dev
 ```
 
-Open the URL printed by `serve`. Do not open `index.html` directly from disk: browser fetch restrictions can prevent the manifest and Markdown from loading.
-
-The site has no compile step. Verification should include JSON parsing, manifest target checks, Markdown link/asset checks, JavaScript syntax checks and a browser preview of representative pages (including Mermaid diagrams and mobile navigation).
+Open the URL printed by `serve`; direct `file://` use can block fetched content. Preview representative Overview, Project Management, Architecture, Quality and Meetings pages, including search, deep links, Mermaid, tables, code blocks and responsive navigation.
 
 ## Contribute through Git
 
-1. Create a focused branch and add or update Markdown under `docs/` and assets under `assets/`.
-2. Preserve meeting documents unless the team is intentionally uploading reviewed meeting evidence.
-3. Keep implemented, planned and verified behaviour distinct. Application source/configuration/migrations/tests override outdated proposals.
-4. Update `pdfs/manifest.json` and use the actual file size.
-5. Check all local links, preview the portal, and submit the change for review through the repository workflow.
+1. Add or update Markdown under `docs/` and assets under `assets/`.
+2. Keep implementation, local tests, CI configuration/runs, deployment and stakeholder acceptance distinct.
+3. Regenerate `manifest.json` from the filesystem with exact byte sizes and matching `path`/`originalPath`.
+4. Run both validation commands and preview the portal before review.
 
-Example entry:
+A documentation GitHub Actions workflow runs validation and JavaScript syntax checks on pushes and pull requests. Its existence does not prove a successful run or deployment.
 
-```json
-{
-  "name": "REST API Guide",
-  "path": "docs/Architecture/api-guide.md",
-  "originalPath": "docs/Architecture/api-guide.md",
-  "folder": "Architecture",
-  "size": 12345,
-  "date": "2026-09-13T00:00:00.000Z",
-  "type": "md"
-}
-```
+## Evidence snapshot
 
-## Team-only upload helper
-
-Reading the portal requires no token. The unlinked upload page is retained for authorised team use and accepts a fine-grained GitHub personal access token, which it sends to the GitHub API from the browser. If it is used, grant only repository Contents read/write access, set an expiry, use a trusted machine, and revoke the token when it is no longer needed. Never commit or share it.
-
-Manual review remains preferable for substantial documentation updates because converted PDFs can produce fragmented headings, lists and tables.
+The 14 September 2026 audit used Trello activity through 2026-09-14T11:49:45.592Z and application commit `e7285f533b854c4da753c73e22a2a38f580588dc`. See the backlog, testing and API pages for precise limits.
 
 ## AI declaration
 
-This repository contains AI-assisted code and documentation. Historical declarations in existing documents are preserved where supplied; they should not be expanded with guessed tools or model names. AI output must be reviewed by the team before being represented as approved evidence.
-
-The earlier README recorded Codex GPT-5 assistance for that README, Qoder assistance for GitHub Pages/viewer changes, and Granola AI use for selected meeting transcription/notes. This summary preserves those supplied declarations without independently verifying the historical tool records.
+This repository contains AI-assisted code and documentation. Historical declarations are preserved where supplied; they are not expanded with guessed tools or approvals. This cleanup used OpenAI Codex to inspect supplied sources, generate tracker pages, migrate PDF material, edit the portal and run local validation. Team review remains required before representing the result as approved evidence.

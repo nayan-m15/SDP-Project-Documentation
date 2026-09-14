@@ -1,53 +1,25 @@
 # Sprint 2 Test Report
 
-## Recorded result
+## Identified local result
 
-| Field | Value |
-| --- | --- |
-| Application commit | `aadf745eb7a9d309bf847bb3afb2789dbddbabc6` |
-| Date | 13 September 2026 |
-| Local runtime | Node `v24.14.0`; npm `11.9.0` |
-| Backend unit command | `npm --prefix backend test -- --runInBand` |
-| Backend unit result | 30/30 suites; 291/291 tests passed; 0 snapshots |
-| Frontend model result | All eight `frontend/src/**/*.node-test.mjs` files completed successfully when run individually; season-trends reported 11 assertions |
-| Integration / Playwright / coverage | Not executed; no disposable database/result artefact was prepared |
-| Deployed revision | Unverified. HTTP 200 availability does not identify the deployed commit. |
+On 14 September 2026, application commit `e7285f533b854c4da753c73e22a2a38f580588dc` produced:
 
-This is a partial local result, not stakeholder acceptance or a complete release report.
+- `npm.cmd --prefix backend test -- --runInBand`: **32/32 suites passed, 312/312 tests passed, 0 snapshots**.
+- All eight `frontend/src/**/*.node-test.mjs` files completed successfully when invoked individually.
 
-## Proposed testing policy
+This is local evidence only. Integration and Playwright suites were not run during this audit because no safe disposable test database had been prepared. No coverage report, successful Gitea Actions run, branch protection, full release verification, stakeholder acceptance or deployment result is claimed.
 
-> [!NOTE]
-> Proposed for team adoption; Trello does not establish this as current policy.
+## Coverage represented by the result
 
-| Change | Minimum relevant evidence |
-| --- | --- |
-| Pure calculation/validation/service logic | Focused unit test, including boundary and failure cases. |
-| API contract, authentication, role/team scoping or persistence | Unit tests plus isolated Supertest integration coverage. |
-| User workflow, routing, responsive/keyboard behaviour or frontend/backend integration | Focused unit/model checks plus Chromium Playwright; manual accessibility/mobile checks where automation is insufficient. |
-| Bug fix | Reproduction evidence, regression test that fails before/fixes after where practical, and retest of the original steps. |
-| Migration | Fresh and upgrade runs against disposable databases, rollback/recovery notes, and health/data verification. |
+The backend command runs Jest specifications under `backend/src`. The frontend scripts are eight focused Node model/regression files and are not aggregated by an application package command or executed by the current CI workflow.
 
-Before review, record exact lint/build/relevant-test commands, results, commit, environment and database isolation. Skipped tests require a reason, impact and follow-up owner/card. Flaky tests must not be silently rerun until green: retain the failing attempt, investigate and quarantine only through an explicit team decision. Store artefacts in an agreed durable location and link them from Trello/PR.
+## Missing result evidence
 
-## Reusable execution record
+- Backend integration/Supertest result against an isolated migrated database
+- Playwright browser result and retained report/artifacts
+- Coverage measurement and threshold
+- Successful Gitea Actions run URL and logs
+- Cross-browser, mobile-device and accessibility acceptance
+- Stakeholder/user acceptance against an identified deployment
 
-```text
-Report ID / date / tester:
-Commit and dirty/clean state:
-Environment and deployed revision (if known):
-Node/npm/browser versions:
-Database identifier and isolation check (never credentials):
-
-Command / scenario:
-Expected result:
-Pass / Fail / Skip / Flaky:
-Counts, duration and retries:
-Failure or skip reason:
-Log, screenshot, trace or coverage link:
-Related Trello card / bug / owner:
-Retest result and date:
-```
-
-User-testing procedures and the manual acceptance checklist remain in [Testing and Quality Assurance](testing-and-qa.md). No completed user-testing session is inferred from Trello checklist ticks.
-
+See [Testing and Quality Assurance](testing-and-qa.md) for commands, isolation controls, CI configuration and the evidence-record template.

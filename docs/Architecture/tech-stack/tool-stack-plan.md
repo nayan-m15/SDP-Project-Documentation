@@ -14,7 +14,7 @@
 | Socket.io rooms and live broadcasting | Packages/adapter only; gateway and client connection absent. |
 | OpenWeatherMap and Mapbox | Not implemented; Open-Meteo provides geocoding and weather, and no map renderer was found. |
 | Railway backend | Not current; deployment evidence points to Render. |
-| GitHub Actions on pull requests/deploy | No workflow files found in either inspected repository. |
+| GitHub Actions on pull requests/deploy | Application Gitea Actions CI now exists, but it does not deploy and its branch triggers miss `development`; no successful run was supplied. The docs repository has a separate validation-only GitHub Actions workflow. |
 | Docusaurus documentation | Not implemented; the portal is custom static HTML/CSS/JavaScript. |
 
 ## Still-useful design goals
@@ -26,4 +26,3 @@ The proposal correctly favoured a separate frontend/backend, server-owned databa
 - Offline support needs a persistent client queue, retry policy, ordering/idempotency rules, conflict resolution, UI status, and dedicated tests. `clientRequestId` is useful groundwork but is not the full feature.
 - Collaborative logging needs authenticated socket connections, match rooms, authorisation, reconnect behaviour and multi-client tests.
 - Maps, notification channels and report export require separate acceptance criteria and provenance/privacy review.
-

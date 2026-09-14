@@ -64,7 +64,7 @@ Versions below are direct manifest ranges from the inspected repositories; lockf
 
 ## Documentation portal dependencies and assets
 
-The portal loads Google Fonts (Inter, Outfit, JetBrains Mono), Highlight.js 11.9.0, Mermaid 10, Marked (unpinned `latest`), Lucide (unpinned `latest`), and on the upload page Mammoth 1.6.0, PDF.js 3.11.174 and Turndown (unpinned). These projects use open-source licences (fonts: SIL OFL; Highlight.js: BSD-3-Clause; Mermaid/Marked/Mammoth/PDF.js/Turndown: MIT or Apache-2.0 as declared upstream; Lucide: ISC). Pinning the unversioned CDN dependencies and recording integrity hashes/licence notices are recommended supply-chain follow-ups.
+The portal loads Google Fonts (Inter, Outfit and JetBrains Mono), DOMPurify 3.2.6, Highlight.js 11.9.0, Mermaid 10.9.4, Marked 16.2.1 and Lucide 0.468.0. Versions are pinned; subresource-integrity hashes and locally hosted fallbacks remain possible supply-chain improvements. The browser upload/conversion helper and its Mammoth/PDF.js/Turndown dependencies were removed. These projects use their upstream open-source licences (fonts: SIL OFL; Highlight.js: BSD-3-Clause; DOMPurify/Marked/Mermaid: commonly Apache-2.0 or MIT as declared upstream; Lucide: ISC); exact licence files should be retained if dependencies are vendored.
 
 Portal mockups, wireframes, UML SVGs, screenshots, logo and meeting screenshots live under `assets/`. Existing design pages declare Figma and named AI-assisted generation. The underlying image provenance/licence was not available in the repositories; reuse rights **require confirmation**. Meeting assets were preserved and not audited for this task.
 

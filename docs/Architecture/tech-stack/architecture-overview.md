@@ -45,9 +45,9 @@ Drizzle ORM maps 19 PostgreSQL tables and 14 enums. The hosted deployment uses N
 | Frontend | Vercel at [gaffer-virid.vercel.app](https://gaffer-virid.vercel.app/) | `vercel.json` rewrites authentication and API requests to Render. |
 | Backend | Render at [gaffer-api-ynaf.onrender.com](https://gaffer-api-ynaf.onrender.com/) | API, Swagger and health endpoint. No Railway configuration was found. |
 | Database | PostgreSQL on Neon | Connection comes from `DATABASE_URL`; secrets are not documented. |
-| Documentation | GitHub Pages | Static HTML/CSS/JS viewer reading `pdfs/manifest.json`. |
+| Documentation | GitHub Pages | Static HTML/CSS/JS viewer reading root `manifest.json`. |
 
-All four public URLs were reachable with HTTP 200 on 13 September 2026. That point-in-time check is not an uptime guarantee.
+The application root and supporting deployed documentation endpoints were previously observed reachable, but availability varies by route and revision. On 14 September 2026, the four new formations/tactics public API URLs returned 404 and deployed OpenAPI omitted those routes.
 
 ## Documentation portal architecture
 
@@ -55,18 +55,17 @@ All four public URLs were reachable with HTTP 200 on 13 September 2026. That poi
 flowchart LR
   P[GitHub Pages] --> I[index.html]
   I --> J[js/viewer.js]
-  J --> M[pdfs/manifest.json]
-  M --> D[Markdown and preserved PDFs]
-  J --> C[Marked, Mermaid, Highlight.js, Lucide CDNs]
+  J --> M[manifest.json]
+  M --> D[Reviewed Markdown]
+  J --> C[Pinned DOMPurify, Marked, Mermaid, Highlight.js and Lucide CDNs]
 ```
 
-The portal has no Docusaurus build and no application API dependency. Adding or renaming a document requires a matching manifest entry. The separate upload page can convert files and use the GitHub Contents API, but it is not needed to read the site.
+The portal has no Docusaurus build and no application API dependency. Adding or renaming a document requires a matching manifest entry and exact byte size. The browser upload helper was removed; updates use reviewed Git changes. Markdown output is sanitized before insertion.
 
 ## Known architecture gaps
 
 - No durable offline event queue or background synchronisation.
 - No collaborative WebSocket event distribution despite installed Socket.io scaffolding.
-- No repository workflow files proving automated CI/CD.
+- Gitea Actions CI is configured for the application, but no successful run was supplied and the `develop`/`development` trigger discrepancy is open. The documentation repository separately validates its manifest, links, PDFs and JavaScript in GitHub Actions; neither workflow proves deployment.
 - OpenAPI describes route shapes incompletely and does not declare cookie authentication.
 - In-process weather caching is per backend instance and is lost on restart.
-

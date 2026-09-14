@@ -22,7 +22,7 @@
     <!-- Highlight.js CSS for Syntax Highlighting -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
     <!-- Lucide Vector Icons Library -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/lucide@0.468.0"></script>
 </head>
 <body>
 
@@ -142,9 +142,6 @@
                         <div id="docPagination" class="doc-pagination" style="display: none;"></div>
                     </div>
 
-                    <!-- PDF Viewer Container (Fallback for binary PDF files) -->
-                    <iframe id="pdfViewer" title="PDF Viewer"></iframe>
-
                     <!-- Sticky Table of Contents Sidebar -->
                     <aside id="tocSidebar" class="toc-sidebar">
                         <div class="toc-title">
@@ -193,9 +190,10 @@
     <div id="toastContainer" class="toast-container"></div>
 
     <!-- External Markdown Parsing, Syntax Highlighting & Mermaid Diagrams -->
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked@16.2.1/lib/marked.umd.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.4/dist/mermaid.min.js"></script>
 
     <!-- Viewer Application Logic -->
     <script src="./js/viewer.js?v=7"></script>

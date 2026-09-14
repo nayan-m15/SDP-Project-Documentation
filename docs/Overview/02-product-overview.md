@@ -1,6 +1,6 @@
 # Gaffer Product Overview
 
-**Evidence snapshot:** application repository `main` at commit `aadf745e` (13 September 2026), with deployed endpoints rechecked on 13 September 2026. Code presence is not the same as stakeholder acceptance or a passed assessment.
+**Evidence snapshot:** application repository `development` at commit `e7285f53` (14 September 2026). Deployed revision remains unverified, and the new public formations/tactics routes returned 404 on that date. Code presence is not stakeholder acceptance or a passed assessment.
 
 ## Product purpose
 

@@ -70,19 +70,18 @@ Generate a migration only after intentionally changing the Drizzle schema, revie
 
 ## Contribute to this documentation portal
 
-This repository is a separate static site, not the Gaffer React application. Markdown files live under `docs/`; images live under `assets/`; `pdfs/manifest.json` controls navigation. The viewer uses Marked, Mermaid, Highlight.js and Lucide from CDNs.
+This repository is a separate static site, not the Gaffer React application. Markdown files live under `docs/`; images live under `assets/`; root `manifest.json` controls navigation. The viewer uses pinned Marked, DOMPurify, Mermaid, Highlight.js and Lucide CDN versions.
 
 ```bash
 npm install
 npm run dev
 ```
 
-After editing, update the manifest, validate every local link/asset, and preview representative pages. Do not use the upload page with a personal GitHub token on an untrusted machine.
+After editing, regenerate manifest sizes, run `npm run validate` and `npm run check:js`, then preview representative pages. A lightweight GitHub Actions workflow runs these documentation checks on pushes and pull requests; configuration existence is not evidence of a successful run or deployment.
 
 ## Operational notes
 
 - Vercel hosts the frontend; Render hosts the NestJS API; Neon hosts PostgreSQL; GitHub Pages hosts this documentation.
 - The frontend Vercel rewrites `/auth/*` and `/api/*` to the Render API.
-- There is no workflow file in either inspected repository proving automated GitHub Actions checks or deployment.
+- The application has a Gitea Actions CI workflow and this documentation repository has validation-only GitHub Actions. Configuration is not a successful run or deployment; no branch-protection evidence is supplied, and the application `develop`/`development` trigger defect remains open.
 - The application is online-first. Live logging has server persistence and idempotency support, but no durable offline queue or collaborative Socket.io broadcasting is implemented.
-

@@ -1,89 +1,399 @@
-# Sprint 2 Backlog and Delivery Record
+# Sprint 2 Delivery Record
 
-**Sources:** Trello export dated 13 September 2026, [SDP-Interlude board](https://trello.com/b/cM6m3R0G/sdp-interlude), and application commit `aadf745eb7a9d309bf847bb3afb2789dbddbabc6`. The export contains 132 cards including archived cards. It records 11 active S2 cards in `Completed`, zero cards currently in `Sprint 2 Backlog`, and no active cards in `In Progress`.
+> **Snapshot:** 14 September 2026. Trello records **13 active cards in Completed**, zero in Sprint 2 Backlog and zero active in In Progress. This is current board state, not proof of the original Sprint 2 commitment, independent acceptance, deployment, or stakeholder approval. Application source was inspected at `e7285f533b854c4da753c73e22a2a38f580588dc`.
 
-`Completed on Trello` means the card is active in the Completed list. `5/5` means its exported checklist items are checked. Neither signal alone proves independent acceptance testing. The movement history shows the cards below entered the Sprint 2 flow; it does not reconstruct the original sprint commitment.
+## Completed register
 
-## Delivery summary
+| Card | Exact owner(s) | Checklist | Source evidence |
+| --- | --- | ---: | --- |
+| [#66 — S2: Assistant Role and Permissions](https://trello.com/c/kCKi09ea/66-s2-assistant-role-and-permissions) | Ayesha Ally | 5/5 | [Team access source](https://github.com/nayan-m15/Gaffer/blob/development/backend/src/common/team-access.ts) |
+| [#67 — S2: Live Event Logging](https://trello.com/c/FeahTBSE/67-s2-live-event-logging) | Roko Vidjak | 5/5 | [Matches source](https://github.com/nayan-m15/Gaffer/tree/development/backend/src/matches) |
+| [#70 — S2: Event and Team Statistics](https://trello.com/c/KFDDIj0d/70-s2-event-and-team-statistics) | Hemesh Parshotam, Roko Vidjak | 5/5 | [Statistics source](https://github.com/nayan-m15/Gaffer/tree/development/backend/src/statistics) |
+| [#69 — S2: Athlete Statistics](https://trello.com/c/L6mvVSzk/69-s2-athlete-statistics) | Ayesha Ally | 5/5 | [Statistics source](https://github.com/nayan-m15/Gaffer/tree/development/backend/src/statistics) |
+| [#71 — S2: Season Statistics and Trends](https://trello.com/c/1vhuPSwf/71-s2-season-statistics-and-trends) | Saurav Lall | 5/5 | [Seasons source](https://github.com/nayan-m15/Gaffer/tree/development/backend/src/seasons) |
+| [#133 — S2: API for Team Formation and Tactics](https://trello.com/c/YZMvbXlb/133-s2-api-for-team-formation-and-tactics) | Saurav Lall | 5/5 | [Public API source](https://github.com/nayan-m15/Gaffer/tree/development/backend/src/public-api) |
+| [#72 — S3: Performance Comparisons](https://trello.com/c/gMYOG8Fe/72-s3-performance-comparisons) | Saurav Lall | 4/4 | [Statistics source](https://github.com/nayan-m15/Gaffer/tree/development/backend/src/statistics) |
+| [#74 — S2: Player RSVPs, Roles and permissions](https://trello.com/c/rHGqemSt/74-s2-player-rsvps-roles-and-permissions) | Jai Parbhoo | 5/5 | [Player and RSVP source](https://github.com/nayan-m15/Gaffer/tree/development/backend/src/player) |
+| [#75 — S2: Shared Calendar](https://trello.com/c/4rqouzCz/75-s2-shared-calendar) | Hemesh Parshotam, Nayan Makanjee | 5/5 | [Events source](https://github.com/nayan-m15/Gaffer/tree/development/backend/src/events) |
+| [#68 — S2: Event Log Correction](https://trello.com/c/wy2UgcLj/68-s2-event-log-correction) | Roko Vidjak | 5/5 | [Matches source](https://github.com/nayan-m15/Gaffer/tree/development/backend/src/matches) |
+| [#76 — S2: Weather and Location Information](https://trello.com/c/4yss4qLJ/76-s2-weather-and-location-information) | Hemesh Parshotam | 5/5 | [Weather source](https://github.com/nayan-m15/Gaffer/tree/development/backend/src/weather) |
+| [#128 — S2: Add Privacy Policy and Terms of Service](https://trello.com/c/KrQufWs6/128-s2-add-privacy-policy-and-terms-of-service) | Nayan Makanjee | 5/5 | [Frontend pages](https://github.com/nayan-m15/Gaffer/tree/development/frontend/src/pages) |
+| [#77 — S2: Event Reminders](https://trello.com/c/IUtmDU9s/77-s2-event-reminders) | Ayesha Ally | 5/5 | [Reminder UI source](https://github.com/nayan-m15/Gaffer/tree/development/frontend/src/features/reminders) |
 
-| Card | Recorded owner(s) | Priority | Sprint/list evidence | Checklist | Implementation evidence |
-| --- | --- | --- | --- | --- | --- |
-| [#66 Assistant Role and Permissions](https://trello.com/c/kCKi09ea/66-s2-assistant-role-and-permissions) | Ayesha Ally | Not specified on Trello | Backlog → Sprint 2 Backlog → Completed | 5/5 | Coach/assistant membership, invites, guards and team scoping exist. Acceptance verification pending. |
-| [#67 Live Event Logging](https://trello.com/c/FeahTBSE/67-s2-live-event-logging) | Roko Vidjak | Not specified on Trello | Sprint 2 Backlog → In Progress → Completed, briefly returned to backlog, then Completed | 5/5 | REST logger, clock and persisted match events exist. No offline or socket collaboration. |
-| [#68 Event Log Correction](https://trello.com/c/wy2UgcLj/68-s2-event-log-correction) | Roko Vidjak | Not specified on Trello | Sprint 2 Backlog → Completed → In Progress → Completed | 5/5 | Match-event create/update/delete and post-match editing exist. |
-| [#69 Athlete Statistics](https://trello.com/c/L6mvVSzk/69-s2-athlete-statistics) | Ayesha Ally | Not specified on Trello | Sprint 2 Backlog → Completed | 5/5 | Event-derived athlete summaries/details exist. |
-| [#70 Event and Team Statistics](https://trello.com/c/KFDDIj0d/70-s2-event-and-team-statistics) | Hemesh Parshotam; Roko Vidjak | Not specified on Trello | Sprint 2 Backlog → In Progress → Completed | 5/5 | Team/match summaries and charts exist. |
-| [#71 Season Statistics and Trends](https://trello.com/c/1vhuPSwf/71-s2-season-statistics-and-trends) | Saurav Lall | Not specified on Trello | Sprint 2 Backlog → In Progress → Completed | 5/5 | Date-range seasons, aggregates, rolling/cumulative trends and period comparisons exist. |
-| [#74 Player RSVPs, Roles and Permissions](https://trello.com/c/rHGqemSt/74-s2-player-rsvps-roles-and-permissions) | Jai Parbhoo | Not specified on Trello | Backlog → Sprint 2 Backlog → In Progress → Completed | 5/5 | Player claims, player views and three-state RSVP exist. |
-| [#75 Shared Calendar](https://trello.com/c/4rqouzCz/75-s2-shared-calendar) | Hemesh Parshotam; Nayan Makanjee | Not specified on Trello | Backlog → Sprint 2 Backlog → In Progress → Completed | 5/5 | Coach calendar and player event feed use shared persisted events. |
-| [#76 Weather and Location Information](https://trello.com/c/4yss4qLJ/76-s2-weather-and-location-information) | Hemesh Parshotam | Not specified on Trello | Sprint 2 Backlog → In Progress → Completed | 5/5 | Open-Meteo location search/weather and failure states exist. |
-| [#77 Event Reminders](https://trello.com/c/IUtmDU9s/77-s2-event-reminders) | Ayesha Ally | Not specified on Trello | Sprint 2 Backlog → In Progress → Completed | 5/5 | Accepted card scope is met in code: next-24-hour coach/player dashboard banners and local dismissal persistence. Email/push is a separate capability. |
-| [#128 Privacy Policy and Terms of Service](https://trello.com/c/KrQufWs6/128-s2-add-privacy-policy-and-terms-of-service) | Nayan Makanjee | Not specified on Trello | Sprint 2 Backlog → In Progress → Completed | 5/5 | Public policy pages and application links exist. Server-side acceptance storage is separately tracked in issue #129. |
+## Interpretation notes
 
-## Stories and exported acceptance checklists
+- Card #72 is labelled and titled **S3: Performance Comparisons**. Its present location is Completed, but the export does not establish that it was part of the original Sprint 2 commitment.
+- Card #72 has a semantic mismatch: its title says “Performance Comparisons”, while its exported checklist describes competitions and standings. Both are reproduced without rewriting the Trello history.
+- Card #133 records the formations/tactics public API as Completed. Source and tests exist, but all four documented deployed route URLs returned HTTP 404 on 14 September 2026; deployment verification remains pending.
+- Checked items reproduce exported Trello state only. See [Sprint 2 Evidence](sprint-2-evidence.md) and [Testing and QA](../Quality/testing-and-qa.md) for separately classified evidence.
 
-### #66 — Assistant Role and Permissions
+### [#66 — S2: Assistant Role and Permissions](https://trello.com/c/kCKi09ea/66-s2-assistant-role-and-permissions)
 
-The card has no description. Faithful description: establish assistant access with server and UI restrictions. Checked items: define roles/permissions; implement backend checks; add role management; restrict relevant UI/actions; test authorised and unauthorised access.
+- **Current list:** Completed
+- **Owner(s):** Ayesha Ally
+- **Archived:** No
+- **Historical PB mapping:** PB-06
+- **Exported checklist progress:** 5/5
+- **Implementation/evidence:** [Team access source](https://github.com/nayan-m15/Gaffer/blob/development/backend/src/common/team-access.ts)
 
-### #67 — Live Event Logging
+**Exported description/user story**
 
-**Recorded story:** As a coach, I want to record events during a live match so that match activity and player performance can be tracked accurately.
+As a coach, I want assistants and players to join with appropriate permissions so that access is controlled.
 
-Checked items: implement logger; support required event types; link events to athletes/matches; persist through backend; test the complete flow. The description additionally calls for quick live-game use.
+**Exported checklist state**
 
-### #68 — Event Log Correction
+_Checklist_
 
-**Recorded story:** As a coach, I want to correct incorrectly logged match events so that match records and derived statistics remain accurate.
+- [x] Define supported roles and permissions
+- [x]  Implement backend permission checks
+- [x]  Add role-management functionality
+- [x]  Restrict relevant UI/actions based on permissions
+- [x]  Test authorised and unauthorised access
 
-Checked items: select logged events; correct them; persist corrections; update derived statistics; test common correction scenarios. This changes source events; it is not a direct arbitrary statistics override.
 
-### #69 — Athlete Statistics
+### [#67 — S2: Live Event Logging](https://trello.com/c/FeahTBSE/67-s2-live-event-logging)
 
-**Recorded story:** As a coach, I want to view statistics for individual athletes so that I can evaluate player performance and make informed coaching decisions.
+- **Current list:** Completed
+- **Owner(s):** Roko Vidjak
+- **Archived:** No
+- **Historical PB mapping:** PB-07
+- **Exported checklist progress:** 5/5
+- **Implementation/evidence:** [Matches source](https://github.com/nayan-m15/Gaffer/tree/development/backend/src/matches)
 
-Checked items: define measures; calculate from event data; connect to athletes; display in UI; test against known event data. No-data handling is also in the card description.
+**Exported description/user story**
 
-### #70 — Event and Team Statistics
+**User Story:**
+As a coach, I want to record events during a live match so that match activity and player performance can be tracked accurately.
 
-**Recorded story:** As a coach, I want to view event and team statistics so that I can analyse the team's overall performance.
+The live event logger should allow coaches to record important match events against the relevant athletes while a match is taking place.
 
-Checked items: determine measures; calculate from logs; implement API retrieval; display frontend results; test against known match data.
+### Acceptance Criteria
 
-### #71 — Season Statistics and Trends
+- Coaches can start/use the logger for a match.
+- Match events can be recorded against the appropriate athlete.
+- Supported events include relevant actions such as goals/scores and penalties.
+- Logged events are saved and associated with the correct match.
+- The interface is suitable for quick use during a live game.
 
-**Recorded story:** As a coach, I want to view statistics and performance trends across a season so that I can understand how my team and athletes are performing over time.
+**Exported checklist state**
 
-Checked items: define season measures; aggregate matches; calculate trends; display trends; test multiple-match aggregation. Current code compares periods within one team's season and up to three athletes; it does not compare different platform teams or an athlete statistically against opponent players.
+_Checklist_
 
-### #74 — Player RSVPs, Roles and Permissions
+- [x] Implement live match event logger
+- [x]  Support required event types
+- [x]  Link logged events to athletes and matches
+- [x]  Save event data through the backend
+- [x]  Test the complete live-logging flow
 
-**Recorded story:** As a coach, I want players to indicate their availability for upcoming activities so that I can plan attendance and team selection.
 
-Checked items: player RSVP; available/unavailable response; coach status display; role restrictions; player/coach permission tests. Code also supports `maybe` and an optional note.
+### [#70 — S2: Event and Team Statistics](https://trello.com/c/KFDDIj0d/70-s2-event-and-team-statistics)
 
-### #75 — Shared Calendar
+- **Current list:** Completed
+- **Owner(s):** Hemesh Parshotam, Roko Vidjak
+- **Archived:** No
+- **Historical PB mapping:** PB-10
+- **Exported checklist progress:** 5/5
+- **Implementation/evidence:** [Statistics source](https://github.com/nayan-m15/Gaffer/tree/development/backend/src/statistics)
 
-**Recorded story:** As a user, I want upcoming training sessions, fixtures and competitions displayed on a shared calendar so that I can keep track of the team's schedule.
+**Exported description/user story**
 
-Checked items: team calendar; event types; detail view; updates after event changes; coach/player access. “Fixture” here is a scheduled team match, not platform-to-platform arrangement.
+**User Story:**
+As a coach, I want to view event and team statistics so that I can analyse the team's overall performance.
 
-### #76 — Weather and Location Information
+The system should calculate and display useful statistics using data recorded from matches and logged events.
 
-**Recorded story:** As a coach, I want weather and location information for upcoming events so that I can prepare the team appropriately.
+### Acceptance Criteria
 
-Checked items: location; weather; correct event association; unavailable-data handling; display testing.
+- Team statistics are derived from recorded match/event data.
+- Statistics correspond to the appropriate team.
+- Coaches can view useful performance information from completed events.
+- Statistics update as relevant match data becomes available.
+- Missing data is handled appropriately.
 
-### #77 — Event Reminders
+**Exported checklist state**
 
-**Recorded story:** As a user, I want reminders about upcoming team activities so that I do not miss important events.
+_Checklist_
 
-Checked items: detect next-24-hour events; coach banner; player banner; dismiss; persist dismissal. The checklist defines an in-app scope; push/email is not added as a missing criterion for this card.
+- [x] Determine required team/event statistics
+- [x]  Calculate statistics from logged data
+- [x]  Implement statistics API/data retrieval
+- [x]  Display statistics in the frontend
+- [x]  Test statistics against known match data
 
-### #128 — Privacy Policy and Terms of Service
 
-The card has no description. Faithful description: publish both legal-information pages and link them before sign-in. Checked items: privacy page; terms page; app links; public access; link/mobile testing. Legal review or server-side consent storage is not evidenced by this card.
+### [#69 — S2: Athlete Statistics](https://trello.com/c/L6mvVSzk/69-s2-athlete-statistics)
 
-## Archived Sprint 2 signal
+- **Current list:** Completed
+- **Owner(s):** Ayesha Ally
+- **Archived:** No
+- **Historical PB mapping:** PB-09
+- **Exported checklist progress:** 5/5
+- **Implementation/evidence:** [Statistics source](https://github.com/nayan-m15/Gaffer/tree/development/backend/src/statistics)
 
-[Card #111, “S2: Player Role and Permissions”](https://trello.com/c/D8kYmcPM/111-s2-player-role-and-permissions) is archived, remains associated with `In Progress`, is assigned to Jai Parbhoo, and has no exported description/checklist. It is not counted as active or completed, and the export does not establish why it was archived. Related delivered behaviour is represented by card #74 and source evidence without treating #111 as done.
+**Exported description/user story**
+
+**User Story:**
+As a coach, I want to view statistics for individual athletes so that I can evaluate player performance and make informed coaching decisions.
+
+Athlete statistics should be calculated from recorded match events and presented clearly for each player.
+
+### Acceptance Criteria
+
+- Coaches can view statistics for an individual athlete.
+- Statistics are derived from the athlete's recorded match events.
+- Statistics correspond to the correct athlete and team.
+- Relevant performance measures are displayed clearly.
+- Athletes with limited/no data are handled appropriately.
+
+**Exported checklist state**
+
+_Checklist_
+
+- [x] Define required athlete statistics
+- [x]  Calculate statistics from event data
+- [x]  Connect statistics to individual athletes
+- [x]  Display statistics on the athlete/statistics UI
+- [x]  Test calculations using known event data
+
+
+### [#71 — S2: Season Statistics and Trends](https://trello.com/c/1vhuPSwf/71-s2-season-statistics-and-trends)
+
+- **Current list:** Completed
+- **Owner(s):** Saurav Lall
+- **Archived:** No
+- **Historical PB mapping:** PB-11
+- **Exported checklist progress:** 5/5
+- **Implementation/evidence:** [Seasons source](https://github.com/nayan-m15/Gaffer/tree/development/backend/src/seasons)
+
+**Exported description/user story**
+
+**User Story:**
+As a coach, I want to view statistics and performance trends across a season so that I can understand how my team and athletes are performing over time.
+
+The system should aggregate data from multiple matches and present meaningful season-level statistics and trends.
+
+### Acceptance Criteria
+
+- Statistics can be aggregated across multiple matches.
+- Season statistics use data from the appropriate team and season.
+- Coaches can identify changes or trends in performance over time.
+- Team and/or athlete performance can be compared across relevant matches.
+- The information is presented in an understandable format.
+
+**Exported checklist state**
+
+_Checklist_
+
+- [x] Define season-level statistics
+- [x]  Aggregate statistics across matches
+- [x]  Implement trend calculations
+- [x]  Display season statistics and trends
+- [x]  Test aggregation using multiple matches
+
+
+### [#133 — S2: API for Team Formation and Tactics](https://trello.com/c/YZMvbXlb/133-s2-api-for-team-formation-and-tactics)
+
+- **Current list:** Completed
+- **Owner(s):** Saurav Lall
+- **Archived:** No
+- **Historical PB mapping:** —
+- **Exported checklist progress:** 5/5
+- **Implementation/evidence:** [Public API source](https://github.com/nayan-m15/Gaffer/tree/development/backend/src/public-api)
+
+**Exported description/user story**
+
+Implement and document a **public, read-only API** for Gaffer’s football formations and tactical approaches.
+
+The API must allow external users/applications to retrieve supported formation and tactic reference data without authentication, while ensuring that **no team, player, coach, account, email or session data is exposed**.
+
+The implementation includes the `/v1/formations` and `/v1/tactics` endpoints, optional filtering by ID, consistent JSON response structures, error handling, CORS configuration for the public routes, and interactive Swagger API documentation.
+
+The API should be accessible through both the Gaffer frontend proxy and the deployed backend and must remain `GET`-only.
+
+**Exported checklist state**
+
+_Checklist_
+
+- [x] Implement public GET /v1/formations and GET /v1/tactics endpoints
+- [x] Support filtering by ID and return the correct formation/tactic data
+- [x] Add proper response structure and error handling for 400, 404, and 500
+- [x] Keep the API read-only and ensure no private team, player, coach, or account data is exposed
+- [x] Add Swagger/API documentation and test that both endpoints work externally
+
+
+### [#72 — S3: Performance Comparisons](https://trello.com/c/gMYOG8Fe/72-s3-performance-comparisons)
+
+- **Current list:** Completed
+- **Owner(s):** Saurav Lall
+- **Archived:** No
+- **Historical PB mapping:** PB-12
+- **Exported checklist progress:** 4/4
+- **Implementation/evidence:** [Statistics source](https://github.com/nayan-m15/Gaffer/tree/development/backend/src/statistics)
+
+**Exported description/user story**
+
+As a coach, I want to compare athletes and team performance so that I can make more informed coaching decisions.
+
+**Exported checklist state**
+
+_Checklist_
+
+- [x] Competition CRUD and season link exist.
+- [x] Standings rows can be created, changed and deleted with unique position/name rules.
+- [x] Player standings view exists.
+- [x] Demonstrate validation and ordering.
+
+
+### [#74 — S2: Player RSVPs, Roles and permissions](https://trello.com/c/rHGqemSt/74-s2-player-rsvps-roles-and-permissions)
+
+- **Current list:** Completed
+- **Owner(s):** Jai Parbhoo
+- **Archived:** No
+- **Historical PB mapping:** PB-14
+- **Exported checklist progress:** 5/5
+- **Implementation/evidence:** [Player and RSVP source](https://github.com/nayan-m15/Gaffer/tree/development/backend/src/player)
+
+**Exported description/user story**
+
+As a coach, I want players to indicate their availability for upcoming activities so that I can plan attendance and team selection.
+
+**Exported checklist state**
+
+_Checklist_
+
+- [x] Allow players to RSVP to upcoming activities
+- [x]  Support available/unavailable response
+- [x]  Display RSVP status to coach
+- [x]  Restrict actions based on user role
+- [x]  Test player and coach permissions
+
+
+### [#75 — S2: Shared Calendar](https://trello.com/c/4rqouzCz/75-s2-shared-calendar)
+
+- **Current list:** Completed
+- **Owner(s):** Hemesh Parshotam, Nayan Makanjee
+- **Archived:** No
+- **Historical PB mapping:** PB-15
+- **Exported checklist progress:** 5/5
+- **Implementation/evidence:** [Events source](https://github.com/nayan-m15/Gaffer/tree/development/backend/src/events)
+
+**Exported description/user story**
+
+As a user, I want upcoming training sessions, fixtures and competitions displayed on a shared calendar so that I can keep track of the team's schedule.
+
+**Exported checklist state**
+
+_Checklist_
+
+- [x] Display upcoming team events in calendar
+- [x]  Show training, fixtures and competitions
+- [x]  Allow users to view event details
+- [x]  Keep calendar updated when events change
+- [x]  Test coach/player calendar access
+
+
+### [#68 — S2: Event Log Correction](https://trello.com/c/wy2UgcLj/68-s2-event-log-correction)
+
+- **Current list:** Completed
+- **Owner(s):** Roko Vidjak
+- **Archived:** No
+- **Historical PB mapping:** PB-08
+- **Exported checklist progress:** 5/5
+- **Implementation/evidence:** [Matches source](https://github.com/nayan-m15/Gaffer/tree/development/backend/src/matches)
+
+**Exported description/user story**
+
+**User Story:**
+As a coach, I want to correct incorrectly logged match events so that match records and derived statistics remain accurate.
+
+Mistakes may occur while quickly recording a live match. Coaches therefore need a controlled way to correct erroneous event-log entries.
+
+### Acceptance Criteria
+
+- Coaches can identify previously logged events.
+- Incorrect events can be corrected where permitted.
+- Corrections are saved correctly.
+- Statistics affected by a correction reflect the corrected information.
+- Corrections do not corrupt unrelated match data.
+
+**Exported checklist state**
+
+_Checklist_
+
+- [x] Add ability to select logged events for correction
+- [x]  Implement event correction functionality
+- [x]  Persist corrected event data
+- [x]  Ensure derived statistics reflect corrections
+- [x]  Test common correction scenarios
+
+
+### [#76 — S2: Weather and Location Information](https://trello.com/c/4yss4qLJ/76-s2-weather-and-location-information)
+
+- **Current list:** Completed
+- **Owner(s):** Hemesh Parshotam
+- **Archived:** No
+- **Historical PB mapping:** PB-16
+- **Exported checklist progress:** 5/5
+- **Implementation/evidence:** [Weather source](https://github.com/nayan-m15/Gaffer/tree/development/backend/src/weather)
+
+**Exported description/user story**
+
+As a coach, I want weather and location information for upcoming events so that I can prepare the team appropriately.
+
+**Exported checklist state**
+
+_Checklist_
+
+- [x] Display event location
+- [x]  Show weather for upcoming events
+- [x]  Link weather/location to correct event
+- [x]  Handle unavailable weather/location data
+- [x]  Test event information display
+
+
+### [#128 — S2: Add Privacy Policy and Terms of Service](https://trello.com/c/KrQufWs6/128-s2-add-privacy-policy-and-terms-of-service)
+
+- **Current list:** Completed
+- **Owner(s):** Nayan Makanjee
+- **Archived:** No
+- **Historical PB mapping:** —
+- **Exported checklist progress:** 5/5
+- **Implementation/evidence:** [Frontend pages](https://github.com/nayan-m15/Gaffer/tree/development/frontend/src/pages)
+
+**Exported description/user story**
+
+_No description or user story recorded in the export._
+
+**Exported checklist state**
+
+_Checklist_
+
+- [x] Create Privacy Policy page
+- [x]  Create Terms of Service page
+- [x]  Add links to policies in app
+- [x]  Make pages accessible before sign-in
+- [x]  Test links and mobile layout
+
+
+### [#77 — S2: Event Reminders](https://trello.com/c/IUtmDU9s/77-s2-event-reminders)
+
+- **Current list:** Completed
+- **Owner(s):** Ayesha Ally
+- **Archived:** No
+- **Historical PB mapping:** PB-17
+- **Exported checklist progress:** 5/5
+- **Implementation/evidence:** [Reminder UI source](https://github.com/nayan-m15/Gaffer/tree/development/frontend/src/features/reminders)
+
+**Exported description/user story**
+
+As a user, I want reminders about upcoming team activities so that I do not miss important events.
+
+**Exported checklist state**
+
+_Checklist_
+
+- [x] Detect events within next 24 hours
+- [x]  Display reminder on coach dashboard
+- [x]  Display reminder on player dashboard
+- [x]  Allow reminders to be dismissed
+- [x]  Persist dismissed reminders

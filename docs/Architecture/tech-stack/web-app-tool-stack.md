@@ -29,11 +29,10 @@ Socket.io packages and Nest's `IoAdapter` are installed. No `WebSocketGateway`, 
 - OpenWeatherMap forecasts
 - Railway backend hosting
 - Docusaurus documentation build
-- GitHub Actions workflows
+- Continuous deployment. A Gitea Actions CI workflow exists, but no passing run/deployment evidence was supplied and its `develop`/`development` trigger discrepancy remains open.
 
 The current frontend uses local storage only to remember dismissed reminder IDs. Match form state kept in memory is not durable offline logging.
 
 ## Version authority
 
 The root, frontend and backend `package.json` files express requested direct dependency ranges; lockfiles record resolved packages. Runtime service versions and hosting plans are not inferred. See [Third-party Code and Assets](../third-party-code-and-assets.md) for licences and provenance status.
-

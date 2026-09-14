@@ -5,7 +5,6 @@ const readerLayout = document.getElementById("readerLayout");
 const emptyState = document.getElementById("emptyState");
 const markdownWrapper = document.getElementById("markdownWrapper");
 const markdownViewer = document.getElementById("markdownViewer");
-const pdfViewer = document.getElementById("pdfViewer");
 const tocSidebar = document.getElementById("tocSidebar");
 const tocList = document.getElementById("tocList");
 const breadcrumbs = document.getElementById("breadcrumbs");
@@ -61,7 +60,7 @@ if (window.mermaid) {
     mermaid.initialize({
         startOnLoad: false,
         theme: isDark ? "dark" : "neutral",
-        securityLevel: "loose"
+        securityLevel: "strict"
     });
 }
 
@@ -185,9 +184,9 @@ async function resolveWorkingUrl(path) {
 // Fetch Manifest & Load Documents
 async function loadDocuments() {
     try {
-        let response = await fetch(`${PAGES_BASE}/pdfs/manifest.json`, { cache: 'no-store' });
+        let response = await fetch("./manifest.json", { cache: 'no-store' });
         if (!response.ok) {
-            response = await fetch("./pdfs/manifest.json", { cache: 'no-store' });
+            response = await fetch(`${PAGES_BASE}/manifest.json`, { cache: 'no-store' });
         }
         if (!response.ok) {
             throw new Error("Failed to load manifest.json");
@@ -306,12 +305,8 @@ function renderTreeBranch(node, containerElement) {
         docBtn.dataset.path = doc.path;
         docBtn.dataset.name = doc.name.toLowerCase();
 
-        const isMd = doc.type === "md" || doc.path.endsWith(".md");
-        const badgeClass = isMd ? "md" : "pdf";
-        const badgeText = isMd ? "MD" : "PDF";
-
         docBtn.innerHTML = `
-            <span class="doc-badge ${badgeClass}">${badgeText}</span>
+            <span class="doc-badge md">MD</span>
             <span class="document-name">${doc.name}</span>
         `;
 
@@ -510,10 +505,7 @@ async function selectDocument(doc, activeBtn = null, sectionId = null, updateHis
     emptyState.style.display = "none";
     readerLayout.style.display = "flex";
 
-    const isMd = doc.type === "md" || doc.path.endsWith(".md");
-
-    if (isMd) {
-        pdfViewer.style.display = "none";
+    {
         markdownWrapper.style.display = "block";
         tocSidebar.style.display = "block";
 
@@ -558,7 +550,12 @@ async function selectDocument(doc, activeBtn = null, sectionId = null, updateHis
 
             // Render Markdown
             if (window.marked) {
-                markdownViewer.innerHTML = marked.parse(rawText);
+                if (!window.DOMPurify) {
+                    throw new Error("The HTML sanitizer did not load; Markdown rendering was blocked.");
+                }
+                markdownViewer.innerHTML = DOMPurify.sanitize(marked.parse(rawText), {
+                    USE_PROFILES: { html: true }
+                });
             } else {
                 markdownViewer.textContent = rawText;
             }
@@ -578,7 +575,9 @@ async function selectDocument(doc, activeBtn = null, sectionId = null, updateHis
                     const id = `mermaid-graph-${i}-${Date.now()}`;
                     try {
                         const { svg } = await mermaid.render(id, code);
-                        container.innerHTML = svg;
+                        container.innerHTML = DOMPurify.sanitize(svg, {
+                            USE_PROFILES: { svg: true, svgFilters: true }
+                        });
                         pre.parentNode.replaceChild(container, pre);
                     } catch (err) {
                         console.warn("Mermaid render error:", err);
@@ -686,16 +685,6 @@ async function selectDocument(doc, activeBtn = null, sectionId = null, updateHis
             if (docMetaHeader) docMetaHeader.style.display = "none";
             if (docPagination) docPagination.style.display = "none";
         }
-    } else {
-        // PDF Document View
-        markdownWrapper.style.display = "none";
-        tocSidebar.style.display = "none";
-        pdfViewer.style.display = "block";
-
-        resolveWorkingUrl(targetRawPath).then(workingUrl => {
-            pdfViewer.src = workingUrl;
-            rawLink.href = workingUrl;
-        });
     }
 
     refreshIcons();
@@ -890,13 +879,9 @@ function renderSpotlightResults(query) {
         item.className = `spotlight-item ${idx === spotlightSelectedIndex ? "selected" : ""}`;
         item.dataset.index = idx;
 
-        const isMd = doc.type === "md" || doc.path.endsWith(".md");
-        const badgeText = isMd ? "MD" : "PDF";
-        const badgeClass = isMd ? "md" : "pdf";
-
         item.innerHTML = `
             <div class="spotlight-item-left">
-                <span class="doc-badge ${badgeClass}">${badgeText}</span>
+                <span class="doc-badge md">MD</span>
                 <div>
                     <div class="spotlight-item-title">${doc.name}</div>
                     <div class="spotlight-item-folder">${doc.folder || "General"} · ${doc.path}</div>

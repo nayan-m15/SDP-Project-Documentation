@@ -1,6 +1,6 @@
 # Current PostgreSQL Database Schema
 
-**Source of truth:** `backend/src/database/schema/index.ts` at application commit `aadf745e`, checked 13 September 2026. The schema defines **19 tables and 14 PostgreSQL enums**. SQL migrations `0000`–`0019` were inspected but were not executed during this documentation update.
+**Source of truth:** `backend/src/database/schema/index.ts` at application commit `e7285f53`, checked 14 September 2026. The schema defines **19 tables and 14 PostgreSQL enums**. SQL migrations `0000`–`0019` were inspected but were not executed during this documentation update.
 
 ## Entity relationships
 

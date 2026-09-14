@@ -4,6 +4,9 @@
   "description": "Gaffer Documentation Portal",
   "scripts": {
     "dev": "npx serve .",
-    "start": "npx serve ."
+    "start": "npx serve .",
+    "manifest": "node scripts/generate-manifest.mjs",
+    "validate": "node scripts/validate-docs.mjs",
+    "check:js": "node --check js/viewer.js && node --check scripts/validate-docs.mjs && node --check scripts/generate-manifest.mjs && node --check scripts/generate-trello-docs.mjs"
   }
 }

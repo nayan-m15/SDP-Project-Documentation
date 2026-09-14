@@ -1,0 +1,326 @@
+[
+  {
+    "name": "Gaffer Public API Reference",
+    "path": "docs/Architecture/Gaffer-Public-API-Reference.md",
+    "originalPath": "docs/Architecture/Gaffer-Public-API-Reference.md",
+    "folder": "Architecture",
+    "size": 3769,
+    "date": "2026-09-14T17:12:51.714Z",
+    "type": "md"
+  },
+  {
+    "name": "REST API Guide",
+    "path": "docs/Architecture/api-guide.md",
+    "originalPath": "docs/Architecture/api-guide.md",
+    "folder": "Architecture",
+    "size": 9808,
+    "date": "2026-09-14T17:12:53.837Z",
+    "type": "md"
+  },
+  {
+    "name": "Application Structure and Request Flow",
+    "path": "docs/Architecture/application-structure.md",
+    "originalPath": "docs/Architecture/application-structure.md",
+    "folder": "Architecture",
+    "size": 3264,
+    "date": "2026-09-13T22:09:35.712Z",
+    "type": "md"
+  },
+  {
+    "name": "Current PostgreSQL Database Schema",
+    "path": "docs/Architecture/data/database-schema.md",
+    "originalPath": "docs/Architecture/data/database-schema.md",
+    "folder": "Architecture",
+    "size": 13678,
+    "date": "2026-09-14T17:15:29.692Z",
+    "type": "md"
+  },
+  {
+    "name": "Historical UML Diagrams",
+    "path": "docs/Architecture/design/architectural-diagrams.md",
+    "originalPath": "docs/Architecture/design/architectural-diagrams.md",
+    "folder": "Architecture",
+    "size": 2022,
+    "date": "2026-09-13T21:28:10.223Z",
+    "type": "md"
+  },
+  {
+    "name": "Historical Mockups",
+    "path": "docs/Architecture/design/mockups.md",
+    "originalPath": "docs/Architecture/design/mockups.md",
+    "folder": "Architecture",
+    "size": 1429,
+    "date": "2026-09-13T21:28:11.628Z",
+    "type": "md"
+  },
+  {
+    "name": "Historical Wireframes",
+    "path": "docs/Architecture/design/wireframes.md",
+    "originalPath": "docs/Architecture/design/wireframes.md",
+    "folder": "Architecture",
+    "size": 1494,
+    "date": "2026-09-13T21:28:10.894Z",
+    "type": "md"
+  },
+  {
+    "name": "Git Methodology and Observed Workflow",
+    "path": "docs/Architecture/git-methodology.md",
+    "originalPath": "docs/Architecture/git-methodology.md",
+    "folder": "Architecture",
+    "size": 4532,
+    "date": "2026-09-14T17:14:11.467Z",
+    "type": "md"
+  },
+  {
+    "name": "System Architecture Overview",
+    "path": "docs/Architecture/tech-stack/architecture-overview.md",
+    "originalPath": "docs/Architecture/tech-stack/architecture-overview.md",
+    "folder": "Architecture",
+    "size": 4770,
+    "date": "2026-09-14T17:14:12.189Z",
+    "type": "md"
+  },
+  {
+    "name": "Team Development Guide",
+    "path": "docs/Architecture/tech-stack/team-tool-stack-guide.md",
+    "originalPath": "docs/Architecture/tech-stack/team-tool-stack-guide.md",
+    "folder": "Architecture",
+    "size": 3264,
+    "date": "2026-09-13T22:14:11.839Z",
+    "type": "md"
+  },
+  {
+    "name": "Historical Stack and Integration Proposal",
+    "path": "docs/Architecture/tech-stack/tool-stack-plan.md",
+    "originalPath": "docs/Architecture/tech-stack/tool-stack-plan.md",
+    "folder": "Architecture",
+    "size": 2229,
+    "date": "2026-09-14T17:14:13.628Z",
+    "type": "md"
+  },
+  {
+    "name": "Current Technology Stack",
+    "path": "docs/Architecture/tech-stack/web-app-tool-stack.md",
+    "originalPath": "docs/Architecture/tech-stack/web-app-tool-stack.md",
+    "folder": "Architecture",
+    "size": 2650,
+    "date": "2026-09-14T17:14:12.938Z",
+    "type": "md"
+  },
+  {
+    "name": "Third-party Code and Assets",
+    "path": "docs/Architecture/third-party-code-and-assets.md",
+    "originalPath": "docs/Architecture/third-party-code-and-assets.md",
+    "folder": "Architecture",
+    "size": 6771,
+    "date": "2026-09-14T17:21:31.758Z",
+    "type": "md"
+  },
+  {
+    "name": "Meeting Register",
+    "path": "docs/Meetings/index.md",
+    "originalPath": "docs/Meetings/index.md",
+    "folder": "Meetings",
+    "size": 2033,
+    "date": "2026-09-14T17:08:07.623Z",
+    "type": "md"
+  },
+  {
+    "name": "Project Documentation, Methodology, and Product Requirements Planning",
+    "path": "docs/Meetings/planning/product-requirements.md",
+    "originalPath": "docs/Meetings/planning/product-requirements.md",
+    "folder": "Meetings",
+    "size": 8560,
+    "date": "2026-08-30T11:08:10.834Z",
+    "type": "md"
+  },
+  {
+    "name": "Sprint Planning Meeting",
+    "path": "docs/Meetings/planning/sprint-1-planning.md",
+    "originalPath": "docs/Meetings/planning/sprint-1-planning.md",
+    "folder": "Meetings",
+    "size": 3265,
+    "date": "2026-08-30T11:08:10.863Z",
+    "type": "md"
+  },
+  {
+    "name": "Sprint 2 Planning Meeting",
+    "path": "docs/Meetings/planning/sprint-2-planning.md",
+    "originalPath": "docs/Meetings/planning/sprint-2-planning.md",
+    "folder": "Meetings",
+    "size": 2361,
+    "date": "2026-09-14T17:08:00.320Z",
+    "type": "md"
+  },
+  {
+    "name": "Sprint 1 Retrospective Meeting",
+    "path": "docs/Meetings/retrospectives/sprint-1-retrospective.md",
+    "originalPath": "docs/Meetings/retrospectives/sprint-1-retrospective.md",
+    "folder": "Meetings",
+    "size": 2558,
+    "date": "2026-08-30T11:08:10.851Z",
+    "type": "md"
+  },
+  {
+    "name": "Standup Meeting 1",
+    "path": "docs/Meetings/standups/2026-08-17-standup-1.md",
+    "originalPath": "docs/Meetings/standups/2026-08-17-standup-1.md",
+    "folder": "Meetings",
+    "size": 1762,
+    "date": "2026-09-14T17:08:01.860Z",
+    "type": "md"
+  },
+  {
+    "name": "Standup Meeting 2",
+    "path": "docs/Meetings/standups/2026-08-18-standup-2.md",
+    "originalPath": "docs/Meetings/standups/2026-08-18-standup-2.md",
+    "folder": "Meetings",
+    "size": 4816,
+    "date": "2026-09-14T17:08:02.668Z",
+    "type": "md"
+  },
+  {
+    "name": "Standup Meeting 3",
+    "path": "docs/Meetings/standups/2026-08-20-standup-3.md",
+    "originalPath": "docs/Meetings/standups/2026-08-20-standup-3.md",
+    "folder": "Meetings",
+    "size": 1839,
+    "date": "2026-09-14T17:08:05.523Z",
+    "type": "md"
+  },
+  {
+    "name": "Standup Meeting 4",
+    "path": "docs/Meetings/standups/2026-09-04-standup-4.md",
+    "originalPath": "docs/Meetings/standups/2026-09-04-standup-4.md",
+    "folder": "Meetings",
+    "size": 2115,
+    "date": "2026-09-14T17:08:06.247Z",
+    "type": "md"
+  },
+  {
+    "name": "Standup Meeting 5",
+    "path": "docs/Meetings/standups/2026-09-13-standup-5.md",
+    "originalPath": "docs/Meetings/standups/2026-09-13-standup-5.md",
+    "folder": "Meetings",
+    "size": 1980,
+    "date": "2026-09-14T17:08:06.934Z",
+    "type": "md"
+  },
+  {
+    "name": "Getting Started with Gaffer",
+    "path": "docs/Overview/01-getting-started.md",
+    "originalPath": "docs/Overview/01-getting-started.md",
+    "folder": "Overview",
+    "size": 4583,
+    "date": "2026-09-14T17:15:28.956Z",
+    "type": "md"
+  },
+  {
+    "name": "Gaffer Product Overview",
+    "path": "docs/Overview/02-product-overview.md",
+    "originalPath": "docs/Overview/02-product-overview.md",
+    "folder": "Overview",
+    "size": 5222,
+    "date": "2026-09-14T17:15:30.390Z",
+    "type": "md"
+  },
+  {
+    "name": "Functional Requirements and System Analysis",
+    "path": "docs/Overview/Functional-Requirements-and-System-Analysis.md",
+    "originalPath": "docs/Overview/Functional-Requirements-and-System-Analysis.md",
+    "folder": "Overview",
+    "size": 7526,
+    "date": "2026-09-14T17:15:31.002Z",
+    "type": "md"
+  },
+  {
+    "name": "Source PDF Migration Record",
+    "path": "docs/Overview/pdf-migration-record.md",
+    "originalPath": "docs/Overview/pdf-migration-record.md",
+    "folder": "Overview",
+    "size": 2249,
+    "date": "2026-09-14T17:15:31.650Z",
+    "type": "md"
+  },
+  {
+    "name": "Bug Tracking",
+    "path": "docs/Project Management/bug-tracking.md",
+    "originalPath": "docs/Project Management/bug-tracking.md",
+    "folder": "Project Management",
+    "size": 44565,
+    "date": "2026-09-14T17:23:01.292Z",
+    "type": "md"
+  },
+  {
+    "name": "Product Backlog",
+    "path": "docs/Project Management/product-backlog.md",
+    "originalPath": "docs/Project Management/product-backlog.md",
+    "folder": "Project Management",
+    "size": 43773,
+    "date": "2026-09-14T17:23:01.273Z",
+    "type": "md"
+  },
+  {
+    "name": "Roadmap and Milestones",
+    "path": "docs/Project Management/roadmap.md",
+    "originalPath": "docs/Project Management/roadmap.md",
+    "folder": "Project Management",
+    "size": 3005,
+    "date": "2026-09-14T17:13:45.937Z",
+    "type": "md"
+  },
+  {
+    "name": "Agile and Scrum Methodology",
+    "path": "docs/Project Management/scrum-methodology.md",
+    "originalPath": "docs/Project Management/scrum-methodology.md",
+    "folder": "Project Management",
+    "size": 4285,
+    "date": "2026-09-14T17:13:46.702Z",
+    "type": "md"
+  },
+  {
+    "name": "Sprint 2 Assessment Guide",
+    "path": "docs/Project Management/sprint-2-assessment.md",
+    "originalPath": "docs/Project Management/sprint-2-assessment.md",
+    "folder": "Project Management",
+    "size": 2998,
+    "date": "2026-09-14T17:13:44.508Z",
+    "type": "md"
+  },
+  {
+    "name": "Sprint 2 Delivery Record",
+    "path": "docs/Project Management/sprint-2-delivery.md",
+    "originalPath": "docs/Project Management/sprint-2-delivery.md",
+    "folder": "Project Management",
+    "size": 17909,
+    "date": "2026-09-14T17:23:01.284Z",
+    "type": "md"
+  },
+  {
+    "name": "Sprint 2 Implementation and Evidence",
+    "path": "docs/Project Management/sprint-2-evidence.md",
+    "originalPath": "docs/Project Management/sprint-2-evidence.md",
+    "folder": "Project Management",
+    "size": 3063,
+    "date": "2026-09-14T17:13:45.132Z",
+    "type": "md"
+  },
+  {
+    "name": "Sprint 2 Test Report",
+    "path": "docs/Quality/sprint-2-test-report.md",
+    "originalPath": "docs/Quality/sprint-2-test-report.md",
+    "folder": "Quality",
+    "size": 1445,
+    "date": "2026-09-14T17:12:52.424Z",
+    "type": "md"
+  },
+  {
+    "name": "Testing and Quality Assurance",
+    "path": "docs/Quality/testing-and-qa.md",
+    "originalPath": "docs/Quality/testing-and-qa.md",
+    "folder": "Quality",
+    "size": 5108,
+    "date": "2026-09-14T17:12:53.080Z",
+    "type": "md"
+  }
+]

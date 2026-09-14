@@ -8,8 +8,8 @@ The team uses Trello as its visible work board and maintains planning, standup a
 
 - **Product backlog:** future feature cards are mainly in `Backlog` and `Potential Features/Additions`; setup/process work remains in separate lists.
 - **Sprint backlog:** selected work moves into the named sprint list. The export shows explicit S2 cards moving through `Sprint 2 Backlog`, `In Progress` and `Completed`, although the Sprint 2 Backlog list is currently empty.
-- **Issues/fixes:** 46 active and one archived card are recorded separately; see [Bug Tracking](bug-tracking.md).
-- **Delivery record:** `Completed` contains 11 active S2 cards; see [Sprint 2 Delivery](sprint-2-delivery.md). Board completion and checked checklists do not replace acceptance evidence.
+- **Issues/fixes:** 48 active and one archived card are recorded separately; see [Bug Tracking](bug-tracking.md).
+- **Delivery record:** `Completed` contains 13 active cards; see [Sprint 2 Delivery](sprint-2-delivery.md). Board completion and checked checklists do not replace acceptance evidence or reconstruct the original sprint commitment.
 
 Observed movement is broadly:
 
@@ -67,4 +67,3 @@ Review team process, identify concrete improvements and carry owned actions into
 ## Feedback and defects
 
 Stakeholder/user feedback should be linked to a new or existing backlog card, assessed for scope and priority, and selected in a later planning decision. Defects follow the [proposed bug workflow](bug-tracking.md#proposed-bug-workflow) and return to planning when they cannot be resolved immediately.
-

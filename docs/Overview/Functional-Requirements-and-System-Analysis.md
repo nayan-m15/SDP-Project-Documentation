@@ -2,7 +2,7 @@
 
 ## Document status
 
-This page replaces a PDF-converted requirements document whose formatting and future-tense language made proposed behaviour look implemented. It preserves the product intent while mapping it to the application inspected on 13 September 2026.
+This page replaces a PDF-converted requirements document whose formatting and future-tense language made proposed behaviour look implemented. It preserves the product intent while mapping it to application commit `e7285f53`, inspected on 14 September 2026.
 
 ## Actors and system boundary
 

@@ -1,5 +1,7 @@
 # REST API Guide
 
+> **API boundary:** this is the broad first-party application API used by the Gaffer frontend. Most routes are cookie-authenticated and team-scoped. The separate [Gaffer Public API Reference](Gaffer-Public-API-Reference.md) documents only the unauthenticated read-only `GET /v1/formations` and `GET /v1/tactics` endpoints. Those routes are implemented/tested in source but were absent from the verified deployment on 14 September 2026. Open-Meteo is a third-party integration consumed by Gaffer and is neither of these APIs.
+
 ## URLs and availability
 
 | Purpose | Deployed | Local |
@@ -9,7 +11,7 @@
 | OpenAPI JSON | [deployed JSON](https://gaffer-api-ynaf.onrender.com/api/docs-json) | `http://localhost:3000/api/docs-json` |
 | Database health | [deployed health](https://gaffer-api-ynaf.onrender.com/health/database) | `http://localhost:3000/health/database` |
 
-All deployed links above returned HTTP 200 on 13 September 2026. The OpenAPI JSON had 53 paths at that check; recount rather than treating the number as permanent.
+The application root, Swagger, OpenAPI JSON and database-health links were previously observed reachable. That does not establish that every source route is deployed. On 14 September 2026, all four formations/tactics public-route URLs returned 404 and the deployed OpenAPI JSON did not list them or the `Public API` tag.
 
 ## Local setup
 

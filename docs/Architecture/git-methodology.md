@@ -4,7 +4,7 @@
 
 The repositories do not contain a single enforceable workflow policy. Earlier documents conflict: some describe trunk-based work from `main` with squash merges, while the application has both `main` and `development` and its recent first-parent history contains merge commits from feature/fix branches into `development`. At the inspected snapshot, local `development` was one commit ahead of local `main`.
 
-No `.github/workflows` files were found in the application or documentation repository. This means repository-hosted workflow evidence was not available; it does not rule out hosting-provider auto-deployment or externally configured automation. No inspected repository record proves branch protection, required reviews, a universal merge method or release tagging.
+The application contains `.gitea/workflows/test.yml`, added by `94a8757c` and merged into `development` through `effc97cf`. It configures quality/build, API and UI CI jobs, but no successful run or branch-protection evidence was supplied. Its triggers incorrectly watch pushes to `develop` rather than the actual `development` branch and watch pull requests only to `main`, so intended checks miss `development` pushes/PRs. The documentation repository now has a lightweight GitHub Actions validation workflow; neither workflow proves continuous deployment.
 
 ## Safe working convention pending confirmation
 
@@ -15,7 +15,7 @@ This is practical guidance, not a claim of team agreement:
 3. Keep commits scoped and explain behavioural/test/documentation impact.
 4. Open a review request into the confirmed target. Include linked work item, screenshots/API notes as relevant, test commands/results, database impact and known limitations.
 5. Choose squash, rebase or merge according to the explicitly confirmed repository policy. Current history shows merge commits and direct single-parent commits, so one method cannot be inferred.
-6. Do not claim CI passed when no workflow/run link exists. Record locally run checks accurately.
+6. Do not equate workflow configuration with a passing CI run. Record exact run links/logs or local commands separately.
 7. Promote between `development` and `main` only through the team's confirmed release process.
 
 ## Branch naming convention
