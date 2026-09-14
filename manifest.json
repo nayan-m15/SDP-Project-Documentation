@@ -234,14 +234,14 @@
     "type": "md"
   },
   {
-    "name": "Meeting Register",
-    "path": "docs/Meetings/index.md",
-    "originalPath": "docs/Meetings/index.md",
-    "folder": "Meetings",
-    "size": 2033,
-    "date": "2026-09-14T17:08:07.623Z",
-    "type": "md"
-  },
+  "name": "Meeting Register",
+  "path": "docs/Meetings/index.md",
+  "originalPath": "docs/Meetings/index.md",
+  "folder": "Meetings",
+  "size": 2682,
+  "date": "2026-09-14T17:08:07.623Z",
+  "type": "md"
+},
   {
     "name": "Project Documentation, Methodology, and Product Requirements Planning",
     "path": "docs/Meetings/planning/product-requirements.md",
@@ -314,13 +314,40 @@
     "date": "2026-09-14T17:08:06.247Z",
     "type": "md"
   },
-  {
+    {
     "name": "Standup Meeting 5",
     "path": "docs/Meetings/standups/2026-09-13-standup-5.md",
     "originalPath": "docs/Meetings/standups/2026-09-13-standup-5.md",
     "folder": "Meetings",
     "size": 1980,
     "date": "2026-09-14T17:08:06.934Z",
+    "type": "md"
+  },
+  {
+    "name": "Sprint 2 Retrospective",
+    "path": "docs/Meetings/retrospectives/sprint2-retrospective.md",
+    "originalPath": "docs/Meetings/retrospectives/sprint2-retrospective.md",
+    "folder": "Meetings",
+    "size": 2167,
+    "date": "2026-09-14T23:15:00.000Z",
+    "type": "md"
+  },
+  {
+    "name": "Sprint 2 Review",
+    "path": "docs/Meetings/reviews/sprint-2-review.md",
+    "originalPath": "docs/Meetings/reviews/sprint-2-review.md",
+    "folder": "Meetings",
+    "size": 4505,
+    "date": "2026-09-14T23:15:00.000Z",
+    "type": "md"
+  },
+  {
+    "name": "Standup Meeting 6",
+    "path": "docs/Meetings/standups/2026-09-14-standup-6.md",
+    "originalPath": "docs/Meetings/standups/2026-09-14-standup-6.md",
+    "folder": "Meetings",
+    "size": 1904,
+    "date": "2026-09-14T23:15:00.000Z",
     "type": "md"
   }
 ]
