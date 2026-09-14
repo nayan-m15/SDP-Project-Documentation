@@ -260,6 +260,24 @@
     "date": "2026-08-24T12:50:06.911Z",
     "type": "md"
   },
+      {
+      "name": "Standup Meeting 4",
+      "path": "pdfs/Standup_Meeting1.pdf",
+      "originalPath": "pdfs/Standup_Meeting1.pdf",
+      "folder": "Meetings",
+      "size": 111052,
+      "date": "2026-09-14T10:40:00.000Z",
+      "type": "pdf"
+    },
+    {
+      "name": "Standup Meeting 5",
+      "path": "pdfs/Standup_Meeting2.pdf",
+      "originalPath": "pdfs/Standup_Meeting2.pdf",
+      "folder": "Meetings",
+      "size": 113670,
+      "date": "2026-09-14T10:40:00.000Z",
+      "type": "pdf"
+    },
   {
     "name": "Sprint 1 Retrospective Meeting",
     "path": "docs/Meetings/retrospectives/sprint-1-retrospective.md",
