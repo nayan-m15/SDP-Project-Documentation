@@ -5,7 +5,7 @@ This repository contains the static documentation portal for Gaffer. The applica
 ## Structure
 
 - `index.html`, `styles.css`, `js/viewer.js`: searchable Markdown/Mermaid reader and navigation.
-- `manifest.json`: navigation metadata and exact byte sizes.
+- `manifest.json`: navigation metadata and exact repository byte sizes, normalized to Git's LF line endings so validation is platform-independent.
 - `docs/`: reviewed Markdown documentation.
 - `assets/`: diagrams, wireframes, mockups, screenshots and branding.
 - `scripts/validate-docs.mjs`: manifest, link, asset and legacy-file validation.
@@ -27,7 +27,7 @@ Open the URL printed by `serve`; direct `file://` use can block fetched content.
 
 1. Add or update Markdown under `docs/` and assets under `assets/`.
 2. Keep implementation, local tests, CI configuration/runs, deployment and stakeholder acceptance distinct.
-3. Regenerate `manifest.json` from the filesystem with exact byte sizes and matching `path`/`originalPath`.
+3. Run `npm run manifest` to regenerate canonical repository byte sizes and matching `path`/`originalPath` values.
 4. Run both validation commands and preview the portal before review.
 
 A documentation GitHub Actions workflow runs validation and JavaScript syntax checks on pushes and pull requests. Its existence does not prove a successful run or deployment.

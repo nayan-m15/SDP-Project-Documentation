@@ -8,6 +8,10 @@ const walk = (dir) => fs.readdirSync(dir, { withFileTypes: true }).flatMap((entr
   return entry.isDirectory() ? walk(target) : entry.isFile() && entry.name.endsWith('.md') ? [target] : [];
 });
 const slash = (value) => value.split(path.sep).join('/');
+const repositoryByteSize = (file) => Buffer.byteLength(
+  fs.readFileSync(file, 'utf8').replace(/\r\n/g, '\n'),
+  'utf8'
+);
 
 const manifest = walk(docsRoot).sort().map((file) => {
   const relative = slash(path.relative(root, file));
@@ -19,7 +23,9 @@ const manifest = walk(docsRoot).sort().map((file) => {
     path: relative,
     originalPath: relative,
     folder: relative.split('/')[1] || 'General',
-    size: stat.size,
+    // Git stores text with LF line endings. Using the canonical blob size keeps
+    // this value stable when a Windows working tree checks files out as CRLF.
+    size: repositoryByteSize(file),
     date: stat.mtime.toISOString(),
     type: 'md'
   };

@@ -4,6 +4,10 @@ import path from 'node:path';
 const root = process.cwd();
 const errors = [];
 const slash = (value) => value.split(path.sep).join('/');
+const repositoryByteSize = (file) => Buffer.byteLength(
+  fs.readFileSync(file, 'utf8').replace(/\r\n/g, '\n'),
+  'utf8'
+);
 const walk = (dir) => fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
   const target = path.join(dir, entry.name);
   return entry.isDirectory() && entry.name !== '.git' && entry.name !== 'node_modules'
@@ -29,8 +33,8 @@ for (const entry of manifest) {
   const target = path.join(root, ...entry.path.split('/'));
   if (!fs.existsSync(target)) {
     errors.push(`missing manifest target: ${entry.path}`);
-  } else if (fs.statSync(target).size !== entry.size) {
-    errors.push(`wrong byte size: ${entry.path} (manifest ${entry.size}, actual ${fs.statSync(target).size})`);
+  } else if (repositoryByteSize(target) !== entry.size) {
+    errors.push(`wrong repository byte size: ${entry.path} (manifest ${entry.size}, actual ${repositoryByteSize(target)})`);
   }
 }
 

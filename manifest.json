@@ -40,7 +40,7 @@
     "path": "docs/Architecture/design/architectural-diagrams.md",
     "originalPath": "docs/Architecture/design/architectural-diagrams.md",
     "folder": "Architecture",
-    "size": 2022,
+    "size": 1980,
     "date": "2026-09-13T21:28:10.223Z",
     "type": "md"
   },
@@ -49,7 +49,7 @@
     "path": "docs/Architecture/design/mockups.md",
     "originalPath": "docs/Architecture/design/mockups.md",
     "folder": "Architecture",
-    "size": 1429,
+    "size": 1393,
     "date": "2026-09-13T21:28:11.628Z",
     "type": "md"
   },
@@ -58,7 +58,7 @@
     "path": "docs/Architecture/design/wireframes.md",
     "originalPath": "docs/Architecture/design/wireframes.md",
     "folder": "Architecture",
-    "size": 1494,
+    "size": 1458,
     "date": "2026-09-13T21:28:10.894Z",
     "type": "md"
   },
@@ -130,7 +130,7 @@
     "path": "docs/Meetings/planning/product-requirements.md",
     "originalPath": "docs/Meetings/planning/product-requirements.md",
     "folder": "Meetings",
-    "size": 8560,
+    "size": 8408,
     "date": "2026-08-30T11:08:10.834Z",
     "type": "md"
   },
@@ -139,7 +139,7 @@
     "path": "docs/Meetings/planning/sprint-1-planning.md",
     "originalPath": "docs/Meetings/planning/sprint-1-planning.md",
     "folder": "Meetings",
-    "size": 3265,
+    "size": 3207,
     "date": "2026-08-30T11:08:10.863Z",
     "type": "md"
   },
@@ -157,7 +157,7 @@
     "path": "docs/Meetings/retrospectives/sprint-1-retrospective.md",
     "originalPath": "docs/Meetings/retrospectives/sprint-1-retrospective.md",
     "folder": "Meetings",
-    "size": 2558,
+    "size": 2494,
     "date": "2026-08-30T11:08:10.851Z",
     "type": "md"
   },
@@ -175,7 +175,7 @@
     "path": "docs/Meetings/standups/2026-08-18-standup-2.md",
     "originalPath": "docs/Meetings/standups/2026-08-18-standup-2.md",
     "folder": "Meetings",
-    "size": 4816,
+    "size": 4723,
     "date": "2026-09-14T17:08:02.668Z",
     "type": "md"
   },
