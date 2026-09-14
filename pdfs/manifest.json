@@ -135,6 +135,15 @@
     "type": "md"
   },
   {
+    "name": "Gaffer Public API Reference",
+    "path": "docs/Architecture/Gaffer-Public-API-Reference.md",
+    "originalPath": "docs/Architecture/Gaffer-Public-API-Reference.md",
+    "folder": "Architecture",
+    "size": 5427,
+    "date": "2026-09-14T00:00:00.000Z",
+    "type": "md"
+  },
+  {
     "name": "Application Structure and Flows",
     "path": "docs/Architecture/application-structure.md",
     "originalPath": "docs/Architecture/application-structure.md",
