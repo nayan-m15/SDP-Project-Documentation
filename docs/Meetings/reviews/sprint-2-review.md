@@ -90,7 +90,7 @@ Meeting commenced at **11:09 on 14/09/2026**.
 
 WhatsApp voice call — SDP(Sports) Group (**60:00 elapsed**).
 
-![Sprint 2 Review meeting proof](sprint2_review.jpeg)
+<img src="sprint2_review.jpeg" alt="Sprint 2 Review meeting proof" width="500">
 
 ## AI Declaration
 
