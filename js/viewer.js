@@ -453,6 +453,25 @@ function rewriteInternalDocumentLinks(container, sourcePath) {
     });
 }
 
+// Markdown is rendered inside index.html, so browser-relative image URLs would
+// otherwise resolve from the portal root instead of the source document.
+function rewriteDocumentImages(container, sourcePath) {
+    const sourceUrl = new URL(sourcePath, "https://docs.local/");
+
+    container.querySelectorAll("img[src]").forEach((image) => {
+        const rawSrc = image.getAttribute("src");
+        if (!rawSrc || /^(?:https?:|data:|blob:)/i.test(rawSrc)) return;
+
+        try {
+            const resolvedUrl = new URL(rawSrc, sourceUrl);
+            const resolvedPath = decodeURIComponent(resolvedUrl.pathname.replace(/^\/+/, ""));
+            image.setAttribute("src", `./${encodeURI(resolvedPath)}`);
+        } catch (error) {
+            console.warn("Unable to resolve documentation image", rawSrc, error);
+        }
+    });
+}
+
 // Select and Display Document
 async function selectDocument(doc, activeBtn = null, sectionId = null, updateHistory = true) {
     currentDoc = doc;
@@ -559,6 +578,8 @@ async function selectDocument(doc, activeBtn = null, sectionId = null, updateHis
             } else {
                 markdownViewer.textContent = rawText;
             }
+
+            rewriteDocumentImages(markdownViewer, doc.path);
 
             // Transform Callout Banners
             transformAdmonitions(markdownViewer);

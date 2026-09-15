@@ -247,7 +247,7 @@
     "path": "docs/Meetings/index.md",
     "originalPath": "docs/Meetings/index.md",
     "folder": "Meetings",
-    "size": 2033,
+    "size": 2682,
     "date": "2026-09-14T17:08:07.623Z",
     "type": "md"
   },
@@ -265,7 +265,7 @@
     "path": "docs/Meetings/planning/sprint-1-planning.md",
     "originalPath": "docs/Meetings/planning/sprint-1-planning.md",
     "folder": "Meetings",
-    "size": 3207,
+    "size": 3137,
     "date": "2026-08-30T11:08:10.863Z",
     "type": "md"
   },
@@ -274,7 +274,7 @@
     "path": "docs/Meetings/planning/sprint-2-planning.md",
     "originalPath": "docs/Meetings/planning/sprint-2-planning.md",
     "folder": "Meetings",
-    "size": 2366,
+    "size": 2414,
     "date": "2026-09-14T17:08:00.320Z",
     "type": "md"
   },
@@ -283,7 +283,7 @@
     "path": "docs/Meetings/retrospectives/sprint-1-retrospective.md",
     "originalPath": "docs/Meetings/retrospectives/sprint-1-retrospective.md",
     "folder": "Meetings",
-    "size": 2494,
+    "size": 2424,
     "date": "2026-08-30T11:08:10.851Z",
     "type": "md"
   },
@@ -301,7 +301,7 @@
     "path": "docs/Meetings/standups/2026-08-18-standup-2.md",
     "originalPath": "docs/Meetings/standups/2026-08-18-standup-2.md",
     "folder": "Meetings",
-    "size": 4723,
+    "size": 4652,
     "date": "2026-09-14T17:08:02.668Z",
     "type": "md"
   },
@@ -332,51 +332,49 @@
     "date": "2026-09-14T17:08:06.934Z",
     "type": "md"
   },
-
   {
-  "name": "Sprint 2 Review Meeting",
-  "path": "docs/Meetings/reviews/sprint-2-review.md",
-  "originalPath": "docs/Meetings/reviews/sprint-2-review.md",
-  "folder": "Meetings",
-  "size": 4560,
-  "date": "2026-09-15T06:40:00.000Z",
-  "type": "md"
-},
-{
-  "name": "Sprint 2 Retrospective Meeting",
-  "path": "docs/Meetings/retrospectives/sprint2-retrospective.md",
-  "originalPath": "docs/Meetings/retrospectives/sprint2-retrospective.md",
-  "folder": "Meetings",
-  "size": 2235,
-  "date": "2026-09-15T06:40:00.000Z",
-  "type": "md"
-},
-{
-  "name": "Standup Meeting 6",
-  "path": "docs/Meetings/standups/2026-09-14-standup-6.md",
-  "originalPath": "docs/Meetings/standups/2026-09-14-standup-6.md",
-  "folder": "Meetings",
-  "size": 1946,
-  "date": "2026-09-15T06:40:00.000Z",
-  "type": "md"
-},
-
- {
-  "name": "Privacy Policy",
-  "path": "docs/Architecture/privacy-policy.md",
-  "originalPath": "docs/Architecture/privacy-policy.md",
-  "folder": "Architecture",
-  "size": 7776,
-  "date": "2026-09-15T06:40:00.000Z",
-  "type": "md"
-},
-{
-  "name": "Terms of Service",
-  "path": "docs/Architecture/terms-of-service.md",
-  "originalPath": "docs/Architecture/terms-of-service.md",
-  "folder": "Architecture",
-  "size": 5056,
-  "date": "2026-09-15T06:40:00.000Z",
-  "type": "md"
-} 
+    "name": "Sprint 2 Review Meeting",
+    "path": "docs/Meetings/reviews/sprint-2-review.md",
+    "originalPath": "docs/Meetings/reviews/sprint-2-review.md",
+    "folder": "Meetings",
+    "size": 4560,
+    "date": "2026-09-15T06:40:00.000Z",
+    "type": "md"
+  },
+  {
+    "name": "Sprint 2 Retrospective Meeting",
+    "path": "docs/Meetings/retrospectives/sprint2-retrospective.md",
+    "originalPath": "docs/Meetings/retrospectives/sprint2-retrospective.md",
+    "folder": "Meetings",
+    "size": 2235,
+    "date": "2026-09-15T06:40:00.000Z",
+    "type": "md"
+  },
+  {
+    "name": "Standup Meeting 6",
+    "path": "docs/Meetings/standups/2026-09-14-standup-6.md",
+    "originalPath": "docs/Meetings/standups/2026-09-14-standup-6.md",
+    "folder": "Meetings",
+    "size": 1946,
+    "date": "2026-09-15T06:40:00.000Z",
+    "type": "md"
+  },
+  {
+    "name": "Privacy Policy",
+    "path": "docs/Architecture/privacy-policy.md",
+    "originalPath": "docs/Architecture/privacy-policy.md",
+    "folder": "Architecture",
+    "size": 7776,
+    "date": "2026-09-15T06:40:00.000Z",
+    "type": "md"
+  },
+  {
+    "name": "Terms of Service",
+    "path": "docs/Architecture/terms-of-service.md",
+    "originalPath": "docs/Architecture/terms-of-service.md",
+    "folder": "Architecture",
+    "size": 5056,
+    "date": "2026-09-15T06:40:00.000Z",
+    "type": "md"
+  }
 ]

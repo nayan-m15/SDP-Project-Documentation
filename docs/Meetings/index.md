@@ -12,5 +12,10 @@ This register is chronological. “Proof available” means the Markdown contain
 | 3 Sep 2026 | Sprint 2 planning | [Sprint 2 Planning](planning/sprint-2-planning.md) | Discord | Recorded channel/time | Prioritised issues, pre-match opponent flow and backlog detail. |
 | 4 Sep 2026 | Sprint 2 client standup | [Standup 4](standups/2026-09-04-standup-4.md) | WhatsApp | Recorded call/time | Clarify fixtures and review the public-API rubric requirement. |
 | 13 Sep 2026 | Sprint 2 standup | [Standup 5](standups/2026-09-13-standup-5.md) | Discord | Recorded channel/time | Finish checklists, merge current work and prepare for client review. |
+| 14 Sep 2026 | Sprint 2 standup | [Standup 6](standups/2026-09-14-standup-6.md) | Discord | Recorded channel/time | Finalised workflows, discussed CI pipeline delays and prepared for the client review. |
+
+| 14 Sep 2026 | Sprint 2 client review | [Sprint 2 Review](reviews/sprint-2-review.md) | WhatsApp | Image and time | Reviewed Sprint 2 progress, testing and CI, documentation, rubric requirements and outstanding actions. |
+
+| 14 Sep 2026 | Sprint 2 retrospective | [Sprint 2 Retrospective](retrospectives/sprint2-retrospective.md) | Discord | Image and time | Reviewed Sprint 2 issues, documentation work, upcoming deadlines and next steps. |
 
 The earlier product-requirements discussion is preserved separately as [Product Requirements Planning](planning/product-requirements.md); its exact date is not recorded in that source.

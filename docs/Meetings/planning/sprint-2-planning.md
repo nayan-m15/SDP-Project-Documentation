@@ -41,7 +41,7 @@
 
 ## Proof of meeting
 
-The source records that the meeting commenced at 10:30 on 03/09/2026 in the Discord General channel.
+The source records that the meeting commenced at 10:30 on 03/09/2026 in the Discord General channel. No attendee list is embedded in the source PDF.
 
 ![Sprint 2 Planning Meeting proof](sprint2_plannning_meeting2.png)
 
