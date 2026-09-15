@@ -51,6 +51,8 @@ Meeting commenced at **12:25 on 14/09/2026**.
 
 Discord voice call — General channel, SDP Interlude server.
 
+![Sprint 2 Retrospective meeting proof](retrospective_sprint2.png)
+
 ## AI Declaration
 
 Meeting transcription and notes were generated with the assistance of Granola AI and subsequently reviewed by the team for accuracy.
