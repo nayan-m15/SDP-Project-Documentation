@@ -322,5 +322,33 @@
     "size": 1980,
     "date": "2026-09-14T17:08:06.934Z",
     "type": "md"
-  }
+  },
+
+  {
+  "name": "Sprint 2 Review Meeting",
+  "path": "docs/Meetings/reviews/sprint-2-review.md",
+  "originalPath": "docs/Meetings/reviews/sprint-2-review.md",
+  "folder": "Meetings",
+  "size": 4505,
+  "date": "2026-09-15T06:40:00.000Z",
+  "type": "md"
+},
+{
+  "name": "Sprint 2 Retrospective Meeting",
+  "path": "docs/Meetings/retrospectives/sprint2-retrospective.md",
+  "originalPath": "docs/Meetings/retrospectives/sprint2-retrospective.md",
+  "folder": "Meetings",
+  "size": 2167,
+  "date": "2026-09-15T06:40:00.000Z",
+  "type": "md"
+},
+{
+  "name": "Standup Meeting 6",
+  "path": "docs/Meetings/standups/2026-09-14-standup-6.md",
+  "originalPath": "docs/Meetings/standups/2026-09-14-standup-6.md",
+  "folder": "Meetings",
+  "size": 1904,
+  "date": "2026-09-15T06:40:00.000Z",
+  "type": "md"
+}
 ]
