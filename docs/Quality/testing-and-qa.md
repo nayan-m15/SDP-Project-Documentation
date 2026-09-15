@@ -22,7 +22,7 @@ Integration and Playwright suites were not run because no safe disposable test d
 | API integration | `npm.cmd run test:integration` or `npm.cmd run test:e2e` | Jest/Supertest, Nest and PostgreSQL | Not run in this audit |
 | Browser end-to-end | `npm.cmd run test:e2e:ui` | Playwright, Vite, Nest and database-backed flows | Not run in this audit |
 | Quality/build | `npm.cmd run lint` and `npm.cmd run build` | Frontend/backend lint and builds | CI-configured; no successful run evidence supplied |
-| Coverage | `npm.cmd --prefix backend run test:cov` | Backend Jest coverage | Not run |
+| Coverage | `npm.cmd --prefix backend run test:cov` | Backend Jest coverage, consumed by SonarQube | Passed, coverage report generated |
 
 ## Disposable database protection
 
