@@ -216,6 +216,15 @@
     "type": "md"
   },
   {
+    "name": "User Feedback",
+    "path": "docs/Architecture/User-Feedback.md",
+    "originalPath": "docs/Architecture/User-Feedback.md",
+    "folder": "Architecture",
+    "size": 6771,
+    "date": "2026-09-14T17:21:31.758Z",
+    "type": "md"
+  },
+  {
     "name": "Sprint 2 Test Report",
     "path": "docs/Quality/sprint-2-test-report.md",
     "originalPath": "docs/Quality/sprint-2-test-report.md",
