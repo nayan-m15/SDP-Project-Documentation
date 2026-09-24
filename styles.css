@@ -1960,8 +1960,28 @@ svg.lucide {
         overflow-wrap: anywhere;
     }
 
-    .markdown-body img, .markdown-body svg, .markdown-body table,
-    .markdown-body pre {
+    .markdown-body h1, .markdown-body h2, .markdown-body h3,
+    .markdown-body h4 {
+        break-after: avoid;
+        page-break-after: avoid;
+    }
+
+    .markdown-body table {
+        overflow: visible;
+        break-inside: auto;
+        page-break-inside: auto;
+    }
+
+    .markdown-body thead {
+        display: table-header-group;
+    }
+
+    .markdown-body tr {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .markdown-body img, .markdown-body svg, .markdown-body pre {
         max-width: 100%;
         break-inside: avoid;
     }
