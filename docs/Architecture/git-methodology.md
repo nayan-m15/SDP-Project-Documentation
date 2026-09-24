@@ -62,7 +62,39 @@ fix(events): reject duplicate opponent shirt numbers
 feat(stats): add season comparison filters
 ```
 
+The original methodology defined a more complete convention:
+
+```text
+<type>(<scope>): <imperative, lowercase description>
+
+[optional body explaining why]
+
+Assisted-by: <tool>[<model>]
+```
+
+| Type | Intended use |
+| --- | --- |
+| `feat` / `fix` | New capability / defect correction |
+| `docs` / `test` | Documentation / test changes |
+| `refactor` / `style` | Structural change without behaviour / formatting only |
+| `chore` / `ci` | Tooling and configuration / pipeline changes |
+
+Suggested scopes in that document were `auth`, `roster`, `events`, `stats`, `docs` and `ci`. It advised committing one logically complete working unit at a time and using the body when the reason is not obvious. These are useful review conventions, although current history does not prove universal adoption.
+
 AI assistance should follow the repository's existing evidence policy and commit trailers. Do not infer a tool/model after the fact.
+
+## Original merge and release policy
+
+The 12 August source PDF proposed short-lived branches from `main`, squash merges, passing CI, one teammate approval, an up-to-date branch and resolved review comments before merging. Those are **the original policy**, not verified current branch protection. The observed integration branch and merge history described above differ; a reviewer should confirm the target and required checks for each PR.
+
+The same PDF proposed calendar version tags (`YY.MM.DD`) aligned with course milestones. The application checkout contains tags `26.08.25` and `26.09.15`; tags `26.09.29` and `26.10.11` were proposed for later milestones and are not present in the inspected checkout. To create a reviewed future annotated tag after a release decision:
+
+```bash
+git tag -a YY.MM.DD -m "Milestone description"
+git push origin YY.MM.DD
+```
+
+A tag records a Git revision; it does not establish deployment, test success or acceptance by itself.
 
 ## Review checklist
 

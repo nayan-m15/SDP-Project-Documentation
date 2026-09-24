@@ -19,6 +19,19 @@ This inventory reflects manifests and source at the 24 September commit. Railway
 | Testing | Jest 30, Supertest 7, Playwright 1.62 | Unit, API integration and Chromium browser tests. |
 | Hosting | Vercel, Render, Neon, GitHub Pages | Frontend, API, database and documentation respectively. |
 
+## Why these layers are separate
+
+| Choice | Practical reason | Direct connection |
+| --- | --- | --- |
+| React/Vite SPA | Keeps browser interaction and route composition in the client; Vite provides local development and a static production build. | Calls the NestJS REST API with session cookies; it does not receive database credentials. |
+| NestJS modules with Zod | Controllers expose routes, Zod checks incoming values, and services apply team/role rules and coordinate database writes. | Drizzle/PostgreSQL, Better Auth, Open-Meteo and optional Brevo delivery. |
+| PostgreSQL/Drizzle | Relational keys, transactions, typed queries and reviewed SQL migrations suit team, match and competition history. | Only the backend connects directly to Neon. |
+| Better Auth | Provides session and account handling through established library code. | Browser cookie, Nest guard and `user`/`session`/`account`/`verification` tables. Password reset and account deletion are still open requirements. |
+| PowerSync plus the browser match store | Preserves match-day observations locally and replicates authorized views when configured. | The browser uploads through authenticated `/sync` routes; server reconciliation updates canonical records and projections. |
+| Open-Meteo | Supplies a relevant external geocoding and forecast integration. | The backend calls the provider; the browser calls Gaffer's own API. |
+
+The original stack document presented WebSocket rooms, password-management email, Firefox/WebKit browser tests, WCAG conformance and continuous deployment as active capabilities. Current source or run evidence does not establish those claims. The [architecture overview](architecture-overview.md) shows the request path, and the [team guide](team-tool-stack-guide.md) gives the local workflow.
+
 ## Installed but not a delivered capability
 
 Socket.io packages and Nest's `IoAdapter` are installed. No `WebSocketGateway`, subscription handler, room broadcast or frontend socket connection was found. They are scaffolding, not evidence of collaborative live synchronisation.
