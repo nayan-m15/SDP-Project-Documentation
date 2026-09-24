@@ -1909,6 +1909,64 @@ svg.lucide {
 /* ==========================================================================
    RESPONSIVE MEDIA QUERIES
    ========================================================================== */
+@media print {
+    [data-theme="dark"] {
+        --text: #0f172a;
+        --text-secondary: #475569;
+        --surface: #fff;
+        --surface-hover: #f1f5f9;
+        --border: #cbd5e1;
+    }
+
+    html, body, .app, .main, .viewer-container, .reader-layout, .markdown-wrapper {
+        height: auto;
+        min-height: 0;
+        overflow: visible;
+    }
+
+    body, .app, .main, .viewer-container, .reader-layout, .markdown-wrapper {
+        display: block !important;
+        width: 100%;
+        background: #fff;
+    }
+
+    .sidebar, .sidebar-backdrop, .topbar, .toc-sidebar, .site-footer,
+    .reading-progress-track, .back-to-top-btn, .spotlight-backdrop,
+    .toast-container, #docMetaHeader, #docPagination, .copy-code-btn {
+        display: none !important;
+    }
+
+    .viewer-container, .markdown-wrapper {
+        padding: 0 !important;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    .markdown-body {
+        max-width: none;
+        color: #0f172a;
+    }
+
+    .markdown-body h1, .markdown-body h2, .markdown-body h3,
+    .markdown-body h4, .markdown-body th {
+        color: #0f172a;
+    }
+
+    .markdown-body pre, .markdown-body pre code {
+        color: #0f172a;
+        background: #f1f5f9;
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+    }
+
+    .markdown-body img, .markdown-body svg, .markdown-body table,
+    .markdown-body pre {
+        max-width: 100%;
+        break-inside: avoid;
+    }
+}
+
 @media (max-width: 1080px) {
     .upload-page .viewer-container {
         grid-template-columns: 1fr;

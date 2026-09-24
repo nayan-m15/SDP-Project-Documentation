@@ -9,7 +9,6 @@ const tocSidebar = document.getElementById("tocSidebar");
 const tocList = document.getElementById("tocList");
 const breadcrumbs = document.getElementById("breadcrumbs");
 const viewerTitle = document.getElementById("viewerTitle");
-const rawLink = document.getElementById("rawLink");
 const githubEditLink = document.getElementById("githubEditLink");
 const shareDocBtn = document.getElementById("shareDocBtn");
 const printDocBtn = document.getElementById("printDocBtn");
@@ -160,25 +159,6 @@ if (backToTopBtn) {
             markdownWrapper.scrollTo({ top: 0, behavior: "smooth" });
         }
     });
-}
-
-// Helper to probe local filesystem vs GitHub repository sources for a working raw URL
-async function resolveWorkingUrl(path) {
-    const encoded = encodeURI(path);
-    const candidateUrls = [
-        `./${encoded}`,
-        `${PAGES_BASE}/${encoded}`,
-        `https://raw.githubusercontent.com/${GITHUB_REPO}/main/${encoded}`,
-        `https://raw.githubusercontent.com/${GITHUB_REPO}/Ui-Improvements/${encoded}`
-    ];
-
-    for (const url of candidateUrls) {
-        try {
-            const res = await fetch(url, { cache: 'no-store' });
-            if (res.ok) return url;
-        } catch (e) {}
-    }
-    return `./${encoded}`;
 }
 
 // Fetch Manifest & Load Documents
@@ -500,19 +480,7 @@ async function selectDocument(doc, activeBtn = null, sectionId = null, updateHis
     `;
 
     const encodedPath = encodeURI(doc.path);
-    const targetRawPath = doc.originalPath || doc.path;
-    const encodedRawPath = encodeURI(targetRawPath);
-
     // Topbar action links setup
-    rawLink.style.display = "inline-flex";
-    rawLink.target = "_blank";
-    rawLink.href = `./${encodedRawPath}`;
-    rawLink.title = `View raw file: ${targetRawPath}`;
-
-    resolveWorkingUrl(targetRawPath).then(workingUrl => {
-        rawLink.href = workingUrl;
-    });
-
     githubEditLink.style.display = "inline-flex";
     githubEditLink.target = "_blank";
     githubEditLink.href = `https://github.com/${GITHUB_REPO}/blob/main/${encodedPath}`;
