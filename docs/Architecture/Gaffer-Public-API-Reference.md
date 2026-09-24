@@ -1,19 +1,23 @@
 # Gaffer Public API Reference
 
-## Current-state update — 24 September 2026
-
-The title and endpoint list below describe the original public formations/tactics API as of 14 September. Current source also defines unauthenticated `GET /v1/public-dashboard/filters`, `/matches`, `/players`, and `/team-statistics` in `backend/src/public-api/public-dashboard.controller.ts`. Those routes return public-facing data through validated query contracts. Review the service's visibility filters and privacy policy before describing data exposure; no deployment check was completed here. The 14 September 404 observation remains historical.
-
 > **Availability status — verified 14 September 2026:** implemented and tested in application source at commit `e7285f533b854c4da753c73e22a2a38f580588dc`; deployment verification is pending. The four documented deployed route URLs returned HTTP 404, and the deployed OpenAPI JSON contained neither these routes nor the `Public API` tag. Do not describe this API as live or externally available yet.
 
 ## Which API is this?
 
-This page describes a deliberately small, unauthenticated, read-only API for third-party/rubric use:
+This page began as the small unauthenticated reference catalog for third-party/rubric use. The 24 September source also exposes an anonymous public dashboard:
 
 - `GET /v1/formations`
 - `GET /v1/tactics`
+- `GET /v1/public-dashboard/filters`
+- `GET /v1/public-dashboard/matches`
+- `GET /v1/public-dashboard/players`
+- `GET /v1/public-dashboard/team-statistics`
 
-It returns static coaching reference data and no player, coach, team, email or session data. The separate [application REST API guide](api-guide.md) covers the broader first-party API used by the frontend; most of those routes require a Better Auth cookie and team-scoped authorisation. Neither API is the Open-Meteo external integration used by Gaffer for place search and weather.
+The formations/tactics routes return static coaching reference data. The public dashboard routes expose filtered match, player and team statistics from the service, so their privacy scope needs review before production confirmation. The separate [application REST API guide](api-guide.md) covers the broader first-party API used by the frontend; most of those routes require a Better Auth cookie and team-scoped authorisation. Neither API is the Open-Meteo external integration used by Gaffer for place search and weather.
+
+## Public dashboard source contract
+
+`GET /v1/public-dashboard/filters` returns `{success:true,data}`. `GET /matches` accepts optional UUID `teamId`, `competitionId`, `seasonId`, `status` (`scheduled`, `cancelled`, `completed`), integer `limit` 1–100 (default 50) and nonnegative `offset` (default 0). `GET /players` accepts the UUID filters, `limit` 1–500 (default 200) and `offset` (default 0). Both return `{success,count,limit,offset,data}`. `GET /team-statistics` accepts the UUID filters and returns `{success,count,data}`. Query validation rejects malformed values; the service decides which source fields are public. See [source controller](https://github.com/nayan-m15/Gaffer/blob/ef2880ad0018536c2b933754148e285b2a325ec7/backend/src/public-api/public-dashboard.controller.ts), [query schemas](https://github.com/nayan-m15/Gaffer/blob/ef2880ad0018536c2b933754148e285b2a325ec7/backend/src/public-api/public-api.schemas.ts) and [privacy policy](privacy-policy.md).
 
 ## Intended base URLs
 

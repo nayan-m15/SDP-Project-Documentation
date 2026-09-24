@@ -32,10 +32,6 @@ Open the URL printed by `serve`; direct `file://` use can block fetched content.
 
 A documentation GitHub Actions workflow runs validation and JavaScript syntax checks on pushes and pull requests. Its existence does not prove a successful run or deployment.
 
-## Current evidence snapshot (24 September 2026)
-
-Documentation baseline `3d35fb124b282e761a070d0c14c3618732b27cc1`; application source `ef2880ad0018536c2b933754148e285b2a325ec7`; Trello export latest action 2026-09-24T19:20:21.943Z. The [Sprint 3 delivery record](docs/Project%20Management/sprint-3-delivery.md) and [test record](docs/Quality/sprint-3-test-report.md) separate tracker, code, test, deployment and acceptance evidence. The older audit remains below as a historical snapshot.
-
 ## Evidence snapshot
 
 The 14 September 2026 audit used Trello activity through 2026-09-14T11:49:45.592Z and application commit `e7285f533b854c4da753c73e22a2a38f580588dc`. See the backlog, testing and API pages for precise limits.

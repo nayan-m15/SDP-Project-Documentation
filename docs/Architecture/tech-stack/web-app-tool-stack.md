@@ -1,10 +1,6 @@
 # Current Technology Stack
 
-## Current-state update — 24 September 2026
-
-The architecture description below records the 14 September audit where indicated. The current application source defines 33 PostgreSQL tables and 25 enums, and adds `competitions`, `competition-invites`, `injuries`, `sync`, PowerSync configuration and frontend offline storage. REST and session cookies remain the primary first-party API. Read the [current schema note](../data/database-schema.md), [offline architecture](../offline-collaboration.md), and [Sprint 3 evidence](../../Project%20Management/sprint-3-delivery.md) before treating historical gap statements as current. Deployment and field verification are unconfirmed.
-
-This inventory reflects manifests and source at the evidence snapshot; it supersedes older Railway, Mapbox, OpenWeatherMap, PowerSync and Docusaurus claims.
+This inventory reflects manifests and source at the 24 September commit. Railway, Mapbox, OpenWeatherMap and Docusaurus were historical proposals. PowerSync now has source integration, subject to deployment configuration and field verification.
 
 | Layer | Implemented technology | Role |
 | --- | --- | --- |
@@ -17,6 +13,7 @@ This inventory reflects manifests and source at the evidence snapshot; it supers
 | Authentication | Better Auth 1.6/1.7, Google OAuth | Email/password, verification, sessions and social sign-in. |
 | Email | Brevo SDK | Verification-email delivery when configured. |
 | Database | PostgreSQL on Neon, Drizzle ORM 0.45, Neon serverless driver | Relational persistence and schema/migrations. |
+| Offline/replication | Browser-local match store, PowerSync client/configuration and Nest sync routes | Queued observations, upload receipts and replicated match views when configured. |
 | API docs | `@nestjs/swagger`, Swagger UI Express | Generated OpenAPI document and explorer. |
 | Weather/location | Open-Meteo HTTP APIs | Server-side geocoding and hourly forecast. |
 | Testing | Jest 30, Supertest 7, Playwright 1.62 | Unit, API integration and Chromium browser tests. |
@@ -26,16 +23,16 @@ This inventory reflects manifests and source at the evidence snapshot; it supers
 
 Socket.io packages and Nest's `IoAdapter` are installed. No `WebSocketGateway`, subscription handler, room broadcast or frontend socket connection was found. They are scaffolding, not evidence of collaborative live synchronisation.
 
-## Not implemented from earlier proposals
+## Historical proposals and remaining limits
 
-- PowerSync/SQLite offline store and conflict merge
+- PowerSync and local persistence are present in source. A complete field run and deployment proof are still needed.
 - Mapbox map/geocoding
 - OpenWeatherMap forecasts
 - Railway backend hosting
 - Docusaurus documentation build
-- Continuous deployment. A Gitea Actions CI workflow exists, but no passing run/deployment evidence was supplied and its `develop`/`development` trigger discrepancy remains open.
+- Continuous deployment. A Gitea Actions CI workflow exists and its 24 September source includes the `development` branch, but no passing run or deployment evidence was supplied.
 
-The current frontend uses local storage only to remember dismissed reminder IDs. Match form state kept in memory is not durable offline logging.
+The 14 September frontend used local storage for reminders and in-memory match form state. The current `frontend/src/offline/match-store.ts` adds a persistent browser match store and an export/import recovery path. See [offline collaboration](../offline-collaboration.md).
 
 ## Version authority
 

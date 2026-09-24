@@ -1,9 +1,5 @@
 # Getting Started with Gaffer
 
-## Current-state update — 24 September 2026
-
-The application now has competition/fixture, injury/recovery, public dashboard and offline logging source that postdates the older operational notes below. The root scripts also include `npm run test:e2e:pwa`, and `npm test` includes `packages/match-domain`. Check [Sprint 3 evidence](../Project%20Management/sprint-3-delivery.md) and [offline architecture](../Architecture/offline-collaboration.md) for current scope and verification limits.
-
 Gaffer is a football team-management application. This page separates using the hosted product, developing the application, and contributing to this documentation portal.
 
 ## Use the hosted application
@@ -87,5 +83,5 @@ After editing, regenerate manifest sizes, run `npm run validate` and `npm run ch
 
 - Vercel hosts the frontend; Render hosts the NestJS API; Neon hosts PostgreSQL; GitHub Pages hosts this documentation.
 - The frontend Vercel rewrites `/auth/*` and `/api/*` to the Render API.
-- The application has a Gitea Actions CI workflow and this documentation repository has validation-only GitHub Actions. Configuration is not a successful run or deployment; no branch-protection evidence is supplied, and the application `develop`/`development` trigger defect remains open.
-- The application is online-first. Live logging has server persistence and idempotency support, but no durable offline queue or collaborative Socket.io broadcasting is implemented.
+- The application has a Gitea Actions CI workflow and this documentation repository has validation-only GitHub Actions. At commit `ef2880ad`, the application workflow includes `development` in push and pull-request triggers; the earlier branch-trigger defect is fixed in source. Configuration is not a successful run or deployment, and no branch-protection evidence is supplied.
+- The current source includes a durable browser queue for match observations and operations, plus server reconciliation and PowerSync replication. Prepare the match while online, check the offline readiness panel, and export unsent observations before clearing browser data. Device field tests, production configuration and stakeholder acceptance are unverified; see [offline collaboration](../Architecture/offline-collaboration.md).

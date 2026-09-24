@@ -7,9 +7,9 @@ The team uses Trello as its visible work board and maintains planning, standup a
 ## Work artefacts and flow
 
 - **Product backlog:** future feature cards are mainly in `Backlog` and `Potential Features/Additions`; setup/process work remains in separate lists.
-- **Sprint backlog:** selected work moves into the named sprint list. The export shows explicit S2 cards moving through `Sprint 2 Backlog`, `In Progress` and `Completed`, although the Sprint 2 Backlog list is currently empty.
-- **Issues/fixes:** 48 active and one archived card are recorded separately; see [Bug Tracking](bug-tracking.md).
-- **Delivery record:** `Completed` contains 13 active cards; see the historical Sprint 2 records. Board completion and checked checklists do not replace acceptance evidence or reconstruct the original sprint commitment.
+- **Sprint backlog:** the 24 September export retains 10 Sprint 1, 13 Sprint 2 and four Sprint 3 backlog cards; four cards are In Progress. List placement is a current board snapshot, not a reconstruction of earlier commitments.
+- **Issues/fixes:** 56 active cards are recorded separately; see [Bug Tracking](bug-tracking.md).
+- **Delivery record:** `Completed` contains three active cards in this export. Board completion and checked checklists do not replace acceptance evidence or reconstruct the original sprint commitment.
 
 Observed movement is broadly:
 

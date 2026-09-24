@@ -4,17 +4,17 @@
     "path": "docs/Overview/01-getting-started.md",
     "originalPath": "docs/Overview/01-getting-started.md",
     "folder": "Overview",
-    "size": 5074,
-    "date": "2026-09-24T20:47:24.601Z",
+    "size": 4926,
+    "date": "2026-09-24T21:18:33.418Z",
     "type": "md"
   },
   {
-    "name": "02 product overview",
+    "name": "Gaffer Product Overview",
     "path": "docs/Overview/02-product-overview.md",
     "originalPath": "docs/Overview/02-product-overview.md",
     "folder": "Overview",
-    "size": 5934,
-    "date": "2026-09-24T20:47:43.860Z",
+    "size": 5589,
+    "date": "2026-09-24T21:18:55.465Z",
     "type": "md"
   },
   {
@@ -22,8 +22,8 @@
     "path": "docs/Overview/Functional-Requirements-and-System-Analysis.md",
     "originalPath": "docs/Overview/Functional-Requirements-and-System-Analysis.md",
     "folder": "Overview",
-    "size": 8237,
-    "date": "2026-09-24T20:47:24.594Z",
+    "size": 11477,
+    "date": "2026-09-24T21:18:54.002Z",
     "type": "md"
   },
   {
@@ -67,8 +67,8 @@
     "path": "docs/Project Management/scrum-methodology.md",
     "originalPath": "docs/Project Management/scrum-methodology.md",
     "folder": "Project Management",
-    "size": 4302,
-    "date": "2026-09-24T20:47:43.873Z",
+    "size": 4270,
+    "date": "2026-09-24T21:10:57.781Z",
     "type": "md"
   },
   {
@@ -76,8 +76,8 @@
     "path": "docs/Project Management/sprint-3-delivery.md",
     "originalPath": "docs/Project Management/sprint-3-delivery.md",
     "folder": "Project Management",
-    "size": 3259,
-    "date": "2026-09-24T20:47:24.591Z",
+    "size": 3252,
+    "date": "2026-09-24T21:10:57.305Z",
     "type": "md"
   },
   {
@@ -85,8 +85,8 @@
     "path": "docs/Architecture/api-guide.md",
     "originalPath": "docs/Architecture/api-guide.md",
     "folder": "Architecture",
-    "size": 13401,
-    "date": "2026-09-24T20:55:40.945Z",
+    "size": 18086,
+    "date": "2026-09-24T21:18:52.961Z",
     "type": "md"
   },
   {
@@ -94,8 +94,8 @@
     "path": "docs/Architecture/application-structure.md",
     "originalPath": "docs/Architecture/application-structure.md",
     "folder": "Architecture",
-    "size": 3934,
-    "date": "2026-09-24T20:47:24.595Z",
+    "size": 4475,
+    "date": "2026-09-24T21:18:53.496Z",
     "type": "md"
   },
   {
@@ -103,8 +103,8 @@
     "path": "docs/Architecture/data/database-schema.md",
     "originalPath": "docs/Architecture/data/database-schema.md",
     "folder": "Architecture",
-    "size": 21713,
-    "date": "2026-09-24T20:55:53.466Z",
+    "size": 40476,
+    "date": "2026-09-24T21:18:54.502Z",
     "type": "md"
   },
   {
@@ -139,8 +139,8 @@
     "path": "docs/Architecture/Gaffer-Public-API-Reference.md",
     "originalPath": "docs/Architecture/Gaffer-Public-API-Reference.md",
     "folder": "Architecture",
-    "size": 4369,
-    "date": "2026-09-24T20:47:24.599Z",
+    "size": 5100,
+    "date": "2026-09-24T21:18:33.506Z",
     "type": "md"
   },
   {
@@ -148,8 +148,8 @@
     "path": "docs/Architecture/git-methodology.md",
     "originalPath": "docs/Architecture/git-methodology.md",
     "folder": "Architecture",
-    "size": 4532,
-    "date": "2026-09-15T10:55:41.129Z",
+    "size": 4515,
+    "date": "2026-09-24T21:16:44.732Z",
     "type": "md"
   },
   {
@@ -157,8 +157,8 @@
     "path": "docs/Architecture/offline-collaboration.md",
     "originalPath": "docs/Architecture/offline-collaboration.md",
     "folder": "Architecture",
-    "size": 1922,
-    "date": "2026-09-24T20:47:24.593Z",
+    "size": 5063,
+    "date": "2026-09-24T21:18:54.998Z",
     "type": "md"
   },
   {
@@ -166,8 +166,8 @@
     "path": "docs/Architecture/privacy-policy.md",
     "originalPath": "docs/Architecture/privacy-policy.md",
     "folder": "Architecture",
-    "size": 8303,
-    "date": "2026-09-24T20:47:24.601Z",
+    "size": 8440,
+    "date": "2026-09-24T21:18:33.515Z",
     "type": "md"
   },
   {
@@ -175,8 +175,8 @@
     "path": "docs/Architecture/tech-stack/architecture-overview.md",
     "originalPath": "docs/Architecture/tech-stack/architecture-overview.md",
     "folder": "Architecture",
-    "size": 5449,
-    "date": "2026-09-24T20:47:24.595Z",
+    "size": 5197,
+    "date": "2026-09-24T21:18:33.541Z",
     "type": "md"
   },
   {
@@ -184,8 +184,8 @@
     "path": "docs/Architecture/tech-stack/team-tool-stack-guide.md",
     "originalPath": "docs/Architecture/tech-stack/team-tool-stack-guide.md",
     "folder": "Architecture",
-    "size": 3943,
-    "date": "2026-09-24T20:47:24.596Z",
+    "size": 3399,
+    "date": "2026-09-24T21:18:33.529Z",
     "type": "md"
   },
   {
@@ -193,8 +193,8 @@
     "path": "docs/Architecture/tech-stack/tool-stack-plan.md",
     "originalPath": "docs/Architecture/tech-stack/tool-stack-plan.md",
     "folder": "Architecture",
-    "size": 2229,
-    "date": "2026-09-15T10:55:41.155Z",
+    "size": 2381,
+    "date": "2026-09-24T21:16:46.308Z",
     "type": "md"
   },
   {
@@ -202,8 +202,8 @@
     "path": "docs/Architecture/tech-stack/web-app-tool-stack.md",
     "originalPath": "docs/Architecture/tech-stack/web-app-tool-stack.md",
     "folder": "Architecture",
-    "size": 3329,
-    "date": "2026-09-24T20:47:24.596Z",
+    "size": 3122,
+    "date": "2026-09-24T21:18:33.535Z",
     "type": "md"
   },
   {
@@ -211,8 +211,8 @@
     "path": "docs/Architecture/terms-of-service.md",
     "originalPath": "docs/Architecture/terms-of-service.md",
     "folder": "Architecture",
-    "size": 5583,
-    "date": "2026-09-24T20:47:24.602Z",
+    "size": 5471,
+    "date": "2026-09-24T21:18:33.523Z",
     "type": "md"
   },
   {
@@ -220,17 +220,17 @@
     "path": "docs/Architecture/third-party-code-and-assets.md",
     "originalPath": "docs/Architecture/third-party-code-and-assets.md",
     "folder": "Architecture",
-    "size": 6771,
-    "date": "2026-09-15T10:55:41.168Z",
+    "size": 7607,
+    "date": "2026-09-24T21:09:24.378Z",
     "type": "md"
   },
   {
-    "name": "User Feedback",
+    "name": "User feedback and task observations",
     "path": "docs/Architecture/User-Feedback.md",
     "originalPath": "docs/Architecture/User-Feedback.md",
     "folder": "Architecture",
-    "size": 14581,
-    "date": "2026-09-15T11:17:19.666Z",
+    "size": 17017,
+    "date": "2026-09-24T21:09:16.561Z",
     "type": "md"
   },
   {
@@ -247,8 +247,8 @@
     "path": "docs/Quality/testing-and-qa.md",
     "originalPath": "docs/Quality/testing-and-qa.md",
     "folder": "Quality",
-    "size": 5848,
-    "date": "2026-09-24T20:47:24.600Z",
+    "size": 5723,
+    "date": "2026-09-24T21:18:33.411Z",
     "type": "md"
   },
   {

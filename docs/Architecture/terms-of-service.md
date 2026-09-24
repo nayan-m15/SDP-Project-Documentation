@@ -1,10 +1,6 @@
-Gaffer
-
-## Current-state update — 24 September 2026
-
-Human policy review is required for the newer public player/team dashboard, injury and recovery information, and locally stored offline match data. The open [Trello consent-storage issue](https://trello.com/c/jJ9YyCdo) specifically says server-side storage of privacy/terms acceptance is needed. Do not infer that consent is persisted or that this policy has been legally approved. Technical scope is tracked in [Sprint 3 evidence](../Project%20Management/sprint-3-delivery.md).
-
 # Terms of Service
+
+> **Human review required:** Public dashboard visibility, sensitive injury records, offline device storage and recovery exports were added after this text's effective date. The team must review the user notice and responsibilities for these flows, and verify how acceptance is captured. The application does not yet provide the course-required self-service account deletion flow. This source update is not legal approval.
 
 Effective date: 13 September 2026
 

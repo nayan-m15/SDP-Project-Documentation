@@ -1,10 +1,6 @@
-Gaffer
-
-## Current-state update — 24 September 2026
-
-Human policy review is required for the newer public player/team dashboard, injury and recovery information, and locally stored offline match data. The open [Trello consent-storage issue](https://trello.com/c/jJ9YyCdo) specifically says server-side storage of privacy/terms acceptance is needed. Do not infer that consent is persisted or that this policy has been legally approved. Technical scope is tracked in [Sprint 3 evidence](../Project%20Management/sprint-3-delivery.md).
-
 # Privacy Policy
+
+> **Policy review required:** The 13 September text below predates anonymous public dashboard reads, detailed injury records and browser-local offline queues. Current code exposes public match/player/team statistics, stores injury details and timeline entries, and can keep unsent match observations on the user's device. The team must decide public-field scope, lawful basis/notice for injury information, retention and device-loss guidance, and how consent is recorded. No server-side acceptance record or legal sign-off was verified. Self-service account deletion remains absent; contact requests described below are a manual channel, not an implemented deletion flow.
 
 Effective date: 13 September 2026
 
@@ -69,4 +65,3 @@ You may lodge a complaint with the South African Information Regulator. Current 
 ## 12. Contact
 
 For privacy questions, requests or concerns, contact [2801261@students.wits.ac.za](mailto:2801261@students.wits.ac.za).
-

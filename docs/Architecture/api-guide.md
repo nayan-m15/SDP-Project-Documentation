@@ -1,6 +1,6 @@
 # REST API Guide
 
-## Current controller route inventory (24 September 2026)
+## Controller route inventory
 
 This inventory comes from NestJS controller decorators at application commit `ef2880ad0018536c2b933754148e285b2a325ec7`. It describes source routes, not a verified production deployment. Path parameters require the caller to satisfy the controller guard and service authorization checks. Better Auth routes also include its mounted handler beyond the explicit controller methods below.
 
@@ -16,9 +16,39 @@ This inventory comes from NestJS controller decorators at application commit `ef
 
 The remaining first-party routes for auth, teams, athletes, claims, team invitations, events, players, seasons, game plans, statistics, dashboard, profile and location search are listed below. Route shape alone does not specify DTO validation, response shape, errors, or authorization; use controller, guard, contract and service source for those details.
 
-## Current-state update — 24 September 2026
+| Existing controller | Declared methods at the 24 September source commit |
+| --- | --- |
+| `auth` | `POST /auth/sign-up`, `/send-verification-email`, `/sign-in`, `/sign-out`, `/sign-in/social`; `GET /auth/verify-email`, `/session`, `/callback/google` |
+| `teams`, `team-invites`, `claims` | `POST /teams`; `PATCH /teams`; `POST /team-invites`, `/:token/accept`; `GET /team-invites`, `/assistants`, `/:token`; `DELETE /team-invites/:id`; `GET /claims/:token`; `POST /claims/:token/accept` |
+| `athletes` | `POST /athletes`, `/:athleteId/claim-invite`; `GET /athletes`, `/archived`, `/:id`; `PATCH /athletes/:id`, `/:id/restore`; `DELETE /athletes/:id`, `/:athleteId/claim-invite` |
+| `events` | `POST /events`, `/:eventId/start-match`, `/:eventId/rsvp`; `GET /events`, `/:eventId/rsvps`, `/:id`, `/:id/weather`; `PATCH /events/:id`; `DELETE /events/:id` |
+| `player` | `GET /player/me`, `/team`, `/events`, `/standings` |
+| `game-plans` | `GET /game-plans`, `/:id`; `POST /game-plans`; `PATCH /game-plans/:id`; `DELETE /game-plans/:id` |
+| `seasons` | `GET /seasons`; `POST /seasons`; `PATCH /seasons/:id`; `DELETE /seasons/:id` |
+| `statistics` | `GET /statistics`, `/athletes/:id`, `/compare`, `/competitions`; `POST /statistics/competitions`, `/competitions/:id/standings`; `PATCH /statistics/competitions/:id`, `/standings/:id`; `DELETE /statistics/competitions/:id`, `/standings/:id` |
+| `dashboard`, `profile`, `locations` | `GET /dashboard`, `/profile`, `/locations/search`; `PATCH /profile` |
 
-The endpoint inventory below is a 14 September snapshot. Current source adds authenticated `/competitions`, `/competition-invites`, `/injuries`, `/sync/token`, `/sync/upload`, `/sync/telemetry`, and an unauthenticated key endpoint `/sync/jwks`. It also adds unauthenticated, read-only `/v1/public-dashboard` filters, matches, players and team-statistics routes. Competition search/detail still require a session. See the current controllers in `backend/src/`; authorization is determined by guards and service checks, not URL wording. Deployment of these routes has not been verified in this audit. [Offline architecture](offline-collaboration.md) describes the sync contract.
+### Current request contracts and access examples
+
+| Endpoint | Input and response | Access and common failure |
+| --- | --- | --- |
+| `GET /v1/public-dashboard/filters` | No query; `{success:true,data}` containing public filter choices. | Anonymous read. |
+| `GET /v1/public-dashboard/matches` | Optional UUID `teamId`, `competitionId`, `seasonId`; optional `status` (`scheduled`, `cancelled`, `completed`), `limit` 1–100 (default 50), `offset` ≥0 (default 0). Returns `{success,count,limit,offset,data}`. | Anonymous read; invalid query returns validation error. |
+| `GET /v1/public-dashboard/players` | Same UUID filters, `limit` 1–500 (default 200), `offset` ≥0 (default 0); same paged envelope. | Anonymous read; public service decides which records/fields are exposed. |
+| `GET /v1/public-dashboard/team-statistics` | Optional UUID filters; `{success,count,data}`. | Anonymous read. |
+| `GET /competitions/search?q=...` | Trimmed nonempty search text, max 100 characters; list from service. | **Session required** even though results are discoverable; search/detail do not grant membership. |
+| `POST /competitions/:id/fixtures/generate` | `{ "regenerate": false }` (optional boolean). | Session and service administration checks; invalid UUID/body or unauthorized change fails. |
+| `POST /competitions/:id/fixtures/:fixtureId/schedule/accept` | `{ "expectedRevision": 1 }`, optional `competitionTeamId` UUID. | Session and participant permission; revision guards conflicting updates. |
+| `POST /competitions/:id/fixtures/:fixtureId/schedule/propose` | `{ "expectedRevision": 1, "scheduledAt": "2026-09-26T15:00:00+02:00", "note": "Optional" }`; note max 500 characters. | Session and participant permission; invalid time/revision or forbidden team fails. |
+| `GET /injuries?status=open&athleteId=<uuid>` | `status` is `open`, `closed` or `all`; optional athlete UUID; team-scoped list. | Session and team membership. `GET /injuries/protocol` also requires membership. |
+| `POST /injuries` | Body validated by `createInjurySchema`; created injury record. | Coach **or assistant** team member may report. Updates, close, timeline mutation and deletion require coach role. |
+| `PATCH /injuries/:id/close` | `{ "actualReturnOn": "2026-09-24", "notes": "Optional" }`; updated record. | Coach only; team scope, UUID and date validation apply. |
+| `GET /sync/token` | `{endpoint,token,expiresAt}`; token expires after five minutes and includes user/team/role claims. | Session; returns 503 when PowerSync configuration is absent. |
+| `POST /sync/upload` | `{items:[...]}` with 1–50 observation/operation items; `{receipts:[...]}`. | Session; each item is processed separately, with `accepted`, `dependency_pending` or `rejected` receipt and safe error code. A repeated ID with changed payload/user yields `ID_REUSED`. |
+| `POST /sync/telemetry` | Device UUID, pending/rejected counts (0–100000), nullable ISO timestamps and deployment name; `{accepted:true}`. | Session; server derives user/team rather than trusting client identity. |
+| `GET /sync/jwks` | Public JSON Web Key Set when signing key is configured. | No session; availability depends on server configuration. |
+
+Sources: [public query schemas](https://github.com/nayan-m15/Gaffer/blob/ef2880ad0018536c2b933754148e285b2a325ec7/backend/src/public-api/public-api.schemas.ts), [competition controller](https://github.com/nayan-m15/Gaffer/blob/ef2880ad0018536c2b933754148e285b2a325ec7/backend/src/competitions/competitions.controller.ts), [injury controller](https://github.com/nayan-m15/Gaffer/blob/ef2880ad0018536c2b933754148e285b2a325ec7/backend/src/injuries/injuries.controller.ts), and [sync schemas/controller](https://github.com/nayan-m15/Gaffer/tree/ef2880ad0018536c2b933754148e285b2a325ec7/backend/src/sync). These examples describe source behaviour and do not certify current deployment.
 
 > **API boundary:** this is the broad first-party application API used by the Gaffer frontend. Most routes are cookie-authenticated and team-scoped. The separate [Gaffer Public API Reference](Gaffer-Public-API-Reference.md) documents only the unauthenticated read-only `GET /v1/formations` and `GET /v1/tactics` endpoints. Those routes are implemented/tested in source but were absent from the verified deployment on 14 September 2026. Open-Meteo is a third-party integration consumed by Gaffer and is neither of these APIs.
 
@@ -49,7 +79,7 @@ Most feature controllers use `AuthGuard`. The server derives the user's team thr
 - player routes operate on the signed-in user's claimed athlete context;
 - service queries include the resolved team ID to prevent cross-team access.
 
-The deployed OpenAPI currently declares **no security scheme**, so Swagger does not accurately communicate cookie requirements. Authentication, most request/response schemas and common errors are also missing from generated operation metadata. Only two component schemas are published, both for starting a match. Use source Zod schemas as the runtime request authority.
+The **14 September deployed OpenAPI snapshot** declared no security scheme, so it did not communicate cookie requirements. That snapshot also lacked most request/response schemas and common errors; only two component schemas were published, both for starting a match. The currently deployed OpenAPI was unavailable for comparison in this audit. Use source Zod schemas as the request authority until a new deployed document is checked.
 
 ## Endpoint groups
 

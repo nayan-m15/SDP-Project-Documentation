@@ -1,16 +1,12 @@
 # Application Structure and Request Flow
 
-## Current-state update — 24 September 2026
-
-The architecture description below records the 14 September audit where indicated. The current application source defines 33 PostgreSQL tables and 25 enums, and adds `competitions`, `competition-invites`, `injuries`, `sync`, PowerSync configuration and frontend offline storage. REST and session cookies remain the primary first-party API. Read the [current schema note](data/database-schema.md), [offline architecture](offline-collaboration.md), and [Sprint 3 evidence](../Project%20Management/sprint-3-delivery.md) before treating historical gap statements as current. Deployment and field verification are unconfirmed.
-
 ## Frontend route map
 
 | Audience | Routes | Main implementation areas |
 | --- | --- | --- |
-| Public | `/`, `/login`, `/signup`, `/verify-email`, `/claim/:token`, `/join-team/:token` | Landing/auth pages, Better Auth client, claim/invite resumers, public policy HTML. |
-| Team member | `/dashboard`, `/athletes`, `/events`, `/team`, `/tactics`, `/statistics`, `/live-logger`, match setup/live/report routes | `pages/`, `features/events`, `features/team-management`, `features/team-tactics`, `features/matches`, `features/statistics`. |
-| Claimed player | `/player/dashboard`, `/player/team`, `/player/events`, `/player/standings` | `layouts/PlayerShell`, `features/player`, RSVP widget. |
+| Public | `/`, `/public-dashboard`, `/login`, `/signup`, `/verify-email`, `/claim/:token`, `/join-team/:token`, `/join-competition/:token` | Landing/auth, anonymous dashboard and invite/claim resumers. |
+| Team member | `/dashboard`, `/competitions`, `/competitions/:id`, `/athletes`, `/events`, `/events/:eventId/confirm-squad`, `/events/:eventId/confirm-squad/opponent`, `/matches/:matchId/live`, `/live-logger`, `/matches/:matchId/report`, `/statistics`, `/injuries`, `/team`; `/tactics` redirects to `/team?section=tactics` | Team shell, competition fixtures, recovery, match-day offline panels and reports. |
+| Claimed player | `/player/dashboard`, `/player/team`, `/player/events`, `/player/competitions`, `/player/competitions/:id`; `/player/standings` redirects to `/player/competitions` | Player shell, shared schedule/RSVP and competition views. |
 
 `ProtectedRoute` requires a session. `RequireTeam` and `RequirePlayer` select the applicable experience, but frontend route guards are convenience only; backend guards/services enforce access.
 
@@ -26,8 +22,12 @@ The architecture description below records the 14 September audit where indicate
 | `matches` | Match clock, squads, event ledger, corrections and finish workflow. |
 | `seasons`, `statistics`, `dashboard` | Date windows, aggregates/trends/comparisons, competitions/standings and dashboard summary. |
 | `database` | Neon/Drizzle client, schema and health check. |
+| `competitions`, `competition-invites` | Shared competition membership, invitations, fixture generation, scheduling responses and results. |
+| `injuries` | Injury reports, timeline, protocol and recovery reads. |
+| `sync` | Authenticated upload/token/telemetry, public JWKS, idempotent receipts and reconciliation entry points. |
+| `public-api` | Anonymous formations, tactics and public dashboard read endpoints. |
 
-## Representative request flow: logging a goal
+## Representative request flow: logging a goal while connected (legacy REST path)
 
 ```mermaid
 sequenceDiagram
@@ -49,6 +49,8 @@ sequenceDiagram
 ```
 
 The frontend shared `apiFetch` includes credentials and converts non-2xx responses to `ApiError`. The controller validates body/UUID parameters. The service resolves the authenticated user's team, checks match/player state and persists through Drizzle. Statistics read the event ledger; correcting the event changes derived results rather than directly editing a displayed total.
+
+The current match-day offline path persists an observation in the browser before upload. `POST /sync/upload` checks user/team permission and stable IDs, records a receipt, and reconciles immutable observations and operations into canonical events and projection state. PowerSync is configured to replicate relevant data back to clients. See [offline collaboration](offline-collaboration.md) for retry and recovery behaviour. These source paths have not been verified in the deployed environment.
 
 ## Comparison boundaries
 

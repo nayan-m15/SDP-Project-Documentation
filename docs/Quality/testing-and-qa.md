@@ -1,9 +1,5 @@
 # Testing and Quality Assurance
 
-## Current-state update — 24 September 2026
-
-The 14 September pass totals below are historical and do not apply to current commit `ef2880ad0018536c2b933754148e285b2a325ec7`. Current root scripts: `npm test` runs `packages/match-domain` and backend unit tests; `npm run test:integration`/`test:e2e` run backend integration tests; `npm run test:e2e:ui` runs the UI test wrapper; `npm run test:e2e:pwa` runs the PWA Playwright configuration. Use a disposable migrated database for stateful tests. The supplied main-flow Playwright artifact failed while the page displayed “Loading workspace...”; see [Sprint 3 test record](sprint-3-test-report.md). No current aggregate pass is claimed.
-
 ## Evidence classification
 
 Keep these states separate: a test exists; a local command passed; CI is configured; a specific CI run passed; a revision is deployed; a stakeholder accepted it. One state does not prove the next.
@@ -24,9 +20,11 @@ Integration and Playwright suites were not run because no safe disposable test d
 | Backend unit/component | `npm.cmd --prefix backend test -- --runInBand` | Jest `backend/src/**/*.spec.ts` | Passed locally as recorded above |
 | Frontend model regression | `node <frontend/src/.../*.node-test.mjs>` | Eight focused match/statistics/formation model scripts | Passed locally, individually |
 | API integration | `npm.cmd run test:integration` or `npm.cmd run test:e2e` | Jest/Supertest, Nest and PostgreSQL | Not run in this audit |
-| Browser end-to-end | `npm.cmd run test:e2e:ui` | Playwright, Vite, Nest and database-backed flows | Not run in this audit |
+| Browser end-to-end | `npm.cmd run test:e2e:ui` | Playwright, Vite, Nest and database-backed flows | Supplied main-flow artifact is a failure: Dashboard heading missing while `Loading workspace...` remained visible. No current full-suite pass recorded. |
 | Quality/build | `npm.cmd run lint` and `npm.cmd run build` | Frontend/backend lint and builds | CI-configured; no successful run evidence supplied |
-| Coverage | `npm.cmd --prefix backend run test:cov` | Backend Jest coverage, consumed by SonarQube | Passed, coverage report generated |
+| Coverage | `npm.cmd --prefix backend run test:cov` | Backend Jest coverage, consumed by SonarQube | Historical report mentioned, but no reproducible current percentage supplied; the brief's >30% and >60% bands are unverified. |
+
+At current commit `ef2880ad0018536c2b933754148e285b2a325ec7`, the root `npm test` runs match-domain and backend tests. `npm.cmd --prefix frontend test` runs the frontend Node tests. `npm run test:e2e:pwa` uses the separate PWA Playwright configuration. Test file presence and workflow configuration do not establish a pass. Record exact totals, command output and environment for any future claim.
 
 ## Disposable database protection
 
@@ -45,9 +43,9 @@ Application file `.gitea/workflows/test.yml` exists. Commit `94a8757c` added it;
 
 The runner requires compatible Ubuntu, Node 22, npm access, Playwright system dependencies, and a disposable `TEST_DATABASE_URL` secret. Auth/frontend URLs and a CI-only Better Auth secret are configured in the workflow.
 
-### Open trigger blocker
+### Branch trigger correction
 
-The actual integration branch is `development`, but the workflow watches pushes to `[main, develop]` and pull requests only to `main`. Therefore pushes to `development` and pull requests targeting `development` miss the intended checks. This documentation repository does not fix the application workflow; the blocker remains until an application change and resulting run are verified.
+The 14 September audit found that the workflow missed `development`. At application commit `ef2880ad`, `.gitea/workflows/test.yml` lists `[main, develop, development]` for both pushes and pull requests, so that source-level trigger defect has been corrected. A matching successful run and branch protection remain unverified.
 
 The workflow also does **not** run the eight frontend `*.node-test.mjs` scripts. Add an aggregate application command/job before claiming CI coverage for them.
 

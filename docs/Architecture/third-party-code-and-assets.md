@@ -20,6 +20,9 @@ Versions below are direct manifest ranges from the inspected repositories; lockf
 | date-fns `^4.4.0`, React Day Picker `^10.0.1` | Date calculation and calendar control | MIT; MIT |
 | Recharts `^3.10.1` | Statistics charts | MIT |
 | qrcode.react `^4.2.0` | Invitation/claim QR rendering | ISC |
+| PowerSync React `^2.0.1`, Web `^2.0.0`; lockfile resolves `2.0.1` and `2.3.1` | Browser replication and local SQLite-backed data | Licence and hosted-service terms require confirmation from exact installed package/service before redistribution or launch. |
+| wa-sqlite `^1.7.2`, vite-plugin-pwa `^1.3.0` | Browser local database and PWA/service-worker build | Exact locked licences and service-worker cache behaviour require review. |
+| jsPDF `^4.2.1`, Three.js `^0.128.0` | Game-plan/injury PDF exports and injury body visualisation | Exact locked licences and any included fonts/assets require review. |
 | NestJS packages `^11.x`, RxJS `^7.8.1`, reflect-metadata `^0.2.2` | API framework, reactive/runtime metadata support | MIT; Apache-2.0; Apache-2.0 |
 | Better Auth `^1.6.27` backend / `^1.6.29` frontend / root `^1.7.1` | Authentication/session client and server | MIT |
 | Drizzle ORM `^0.45.2`, Drizzle Kit `^0.31.10` (resolved `0.45.2`/`0.31.10`) | Typed persistence and migration tooling | Apache-2.0 / MIT, from installed metadata |
@@ -50,6 +53,7 @@ Versions below are direct manifest ranges from the inspected repositories; lockf
 | Google OAuth | Social authentication | Google API terms/privacy apply; client secret remains server-side. |
 | Brevo | Verification email | Brevo terms/data processing apply to recipient email. |
 | Neon | Hosted PostgreSQL | Service terms and regional/data-retention settings require team confirmation. |
+| PowerSync | Replication service for offline match data when configured | Hosting, publication, access-token and data-retention settings require team confirmation; package presence alone does not prove production activation. |
 | Vercel / Render / GitHub Pages | Frontend/API/documentation hosting | Platform terms and deployment settings require team confirmation. |
 
 ## Application assets

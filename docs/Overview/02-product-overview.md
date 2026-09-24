@@ -1,16 +1,12 @@
-﻿# Gaffer Product Overview
+# Gaffer Product Overview
 
-## Current-state update â€” 24 September 2026
-
-The earlier audit below is a historical 14 September snapshot, not the current feature inventory. At application commit `ef2880ad0018536c2b933754148e285b2a325ec7`, the repository includes injury and recovery records, competition teams/fixtures/invitations, public dashboard routes, and offline sync/reconciliation code. The Trello export through 2026-09-24T19:20:21.943Z places some of these in Completed and others In Progress; production revision, a passing current test run and stakeholder acceptance remain unverified. See [Sprint 3 evidence](../Project%20Management/sprint-3-delivery.md) and [offline architecture](../Architecture/offline-collaboration.md).
-
-**Evidence snapshot:** application repository `development` at commit `e7285f53` (14 September 2026). Deployed revision remains unverified, and the new public formations/tactics routes returned 404 on that date. Code presence is not stakeholder acceptance or a passed assessment.
+The detailed table below records the 14 September source review. Newer functionality is summarized under **Current boundaries and planned work**. Source code alone does not establish deployment or acceptance.
 
 ## Product purpose
 
 Gaffer supports grassroots football coaches, assistants, and claimed players. The primary loop is to create a team, maintain a roster and calendar, confirm a match squad, record match events, review a report, and inspect team/player statistics.
 
-## Implemented behaviour
+## Historical 14 September implementation inventory
 
 | Area | What the current application implements | Qualification |
 | --- | --- | --- |
@@ -39,7 +35,7 @@ The API resolves team identity from the authenticated session. Clients do not ch
 
 ## Current boundaries and planned work
 
-The following are not current capabilities: durable offline logging/synchronisation, multiple-device live broadcasting, platform-to-platform fixture negotiation, downloadable reports, email/push reminders, password reset, account deletion, automatic standings, public squad pages, automatic season scheduling, AI insights, and player-selection recommendations.
+At the 24 September source commit, browser offline logging and server upload/reconciliation code, competition membership/invitation/fixture flows, injury/recovery records and an anonymous public dashboard exist. Game-plan and injury PDF exports are also implemented in source. Their production configuration, full field behaviour and acceptance are unverified. **Match-report** file export, email/push reminders, password reset, account deletion, automatic season scheduling, AI insights and player-selection recommendations remain absent or unverified. Fixture negotiation and automatic standings have partial source implementations; see [requirements](Functional-Requirements-and-System-Analysis.md) and [backlog](../Project%20Management/product-backlog.md) for precise scope.
 
 Historical design documents may describe these as proposed tiers. Those proposals remain useful product direction but must not be read as implementation evidence.
 
