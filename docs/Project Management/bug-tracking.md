@@ -1,5 +1,74 @@
 # Bug Tracking
 
+> **Snapshot:** Trello export through 2026-09-24T19:20:21.943Z; 56 active cards in Issues/fixes. A card in this list is an open tracker item, even when related code exists. No individual fix or retest is inferred.
+
+| Card | Owners | Exported description | Verified retest |
+| --- | --- | --- | --- |
+| [#144 — Add revoke assistant permissions logic/button](https://trello.com/c/QogNI5Lp) | Unassigned | No description in export | No dated retest supplied |
+| [#140 — Show Time event occured on match log on live logger and event history](https://trello.com/c/XXKLEBUB) | Unassigned | No description in export | No dated retest supplied |
+| [#41 — Add a Remember button on login](https://trello.com/c/4Mcc6Do7) | Unassigned | No description in export | No dated retest supplied |
+| [#131 — Add Goalkeeper saves and defenders' tackles.](https://trello.com/c/b4qHWBkq) | Roko Vidjak | No description in export | No dated retest supplied |
+| [#141 — Fix Pre Match Team tactic selection.](https://trello.com/c/VFOdUIrE) | Hemesh Parshotam | No description in export | No dated retest supplied |
+| [#137 — Unclear for new user that they are required to add a team](https://trello.com/c/3w1GG5Qf) | Unassigned | No description in export | No dated retest supplied |
+| [#136 — Make pitch size smaller when adding opponent data](https://trello.com/c/s9AgUkgN) | Roko Vidjak | No description in export | No dated retest supplied |
+| [#135 — Change tactics mid-match](https://trello.com/c/X2SEfc3Z) | Saurav Lall | No description in export | No dated retest supplied |
+| [#107 — Scroll on team page for fromation  puts the list out of screen when the last formations are selected](https://trello.com/c/BvBiVfMc) | Hemesh Parshotam | No description in export | No dated retest supplied |
+| [#115 — Fix Mobile Footer](https://trello.com/c/FAVaV3o3) | Unassigned | No description in export | No dated retest supplied |
+| [#127 — Remove the page scroll on the events page and make the scroll be just on the agenda tab](https://trello.com/c/UgawFAlp) | Hemesh Parshotam | No description in export | No dated retest supplied |
+| [#129 — Acceptance of privacy policy and terms of service needs to be stored server side](https://trello.com/c/jJ9YyCdo) | Unassigned | No description in export | No dated retest supplied |
+| [#122 — Events Calendar allows 1 to confirm squad of an already completed event, it should open the match report rather how the live event logging page has it](https://trello.com/c/mVbNSljm) | Unassigned | No description in export | No dated retest supplied |
+| [#145 — Cancelled events should cancel on all parties sides](https://trello.com/c/dG44WLKr) | Jai Parbhoo | No description in export | No dated retest supplied |
+| [#121 — On Roster Page, show athlete recent match log on right hand panel](https://trello.com/c/UirOkW1K) | Ayesha Ally | No description in export | No dated retest supplied |
+| [#114 — Injured/Suspeneded Players appear in team roster when confirming squad for an event](https://trello.com/c/Ea2RUO8v) | Ayesha Ally | No description in export | No dated retest supplied |
+| [#120 — In Live Logger, Make record opponent event button more visible](https://trello.com/c/zQFy1jo7) | Roko Vidjak | Also, validation, asks for an assist on a match where no opponent player details were recorded, same goes for subs red etc. if no opponent details were recorded, then only goal scored, red and yellows and pens can be rec | No dated retest supplied |
+| [#142 — Add opponent Team Name to event creation, with league teams if available.](https://trello.com/c/ZI9tZkYH) | Roko Vidjak, Jai Parbhoo | No description in export | No dated retest supplied |
+| [#118 — On Landing page, tab panel on the right highlights last option on page refresh instead of "OverView"](https://trello.com/c/sCwVvHvk) | Nayan Makanjee | No description in export | No dated retest supplied |
+| [#132 — View all buttons on dashboard blocks to take you to that page, eg. View all on events block on dashbaord takes you to the events page](https://trello.com/c/SRhT4Qc5) | Hemesh Parshotam | No description in export | No dated retest supplied |
+| [#125 — live logger doesnt auto end at 90 minutes, mayve option of "additional time to be added at the 90 minute mark"](https://trello.com/c/y62arVXO) | Roko Vidjak | No description in export | No dated retest supplied |
+| [#126 — Fix Add event on post match](https://trello.com/c/9Q2ijSxW) | Roko Vidjak | No description in export | No dated retest supplied |
+| [#89 — show player stats on roster](https://trello.com/c/UyOQVbi7) | Ayesha Ally | No description in export | No dated retest supplied |
+| [#105 — Fix Events Page on mobile](https://trello.com/c/FZDOQijn) | Ayesha Ally | No description in export | No dated retest supplied |
+| [#116 — Fix Pre-Loader screen to be identical to Loading Screen](https://trello.com/c/8rvHeV8u) | Ayesha Ally | No description in export | No dated retest supplied |
+| [#93 — Fix Hamburger postion-Mobile](https://trello.com/c/22wpys6D) | Ayesha Ally | No description in export | No dated retest supplied |
+| [#103 — Player Can Score Goal After he was Given Red card](https://trello.com/c/iH2LNESP) | Ayesha Ally | No description in export | No dated retest supplied |
+| [#88 — Recent form and events on dashboard fix](https://trello.com/c/pK5SE9Tq) | Ayesha Ally | No description in export | No dated retest supplied |
+| [#112 — Injured/Suspended Players should be shown accordingly on team management as well](https://trello.com/c/poV9l0zN) | Ayesha Ally | No description in export | No dated retest supplied |
+| [#56 — Did not say email not found when trying to sign in on an unregistered account](https://trello.com/c/8hO737f6) | Ayesha Ally | No description in export | No dated retest supplied |
+| [#99 — Team tactics](https://trello.com/c/3j3w53lz) | Saurav Lall | No description in export | No dated retest supplied |
+| [#48 — Add Database Schema to Documentation](https://trello.com/c/rfQOq4ad) | Hemesh Parshotam, Ayesha Ally | Document the current database structure used by the Sport Coaching Tool, including the major tables and relationships between them. | No dated retest supplied |
+| [#47 — Add Product Backlog to Documentation](https://trello.com/c/CzGaqfJV) | Ayesha Ally | No description in export | No dated retest supplied |
+| [#94 — Save Lineup to database](https://trello.com/c/ScQOp0T4) | Saurav Lall | No description in export | No dated retest supplied |
+| [#109 — Update Footer, Remove how it works and features buttons](https://trello.com/c/riKeo0u0) | Nayan Makanjee | No description in export | No dated retest supplied |
+| [#90 — Update Live logger ui](https://trello.com/c/1VzhSQpc) | Hemesh Parshotam, Roko Vidjak | No description in export | No dated retest supplied |
+| [#101 — Confirm Squad on Event Start should use the teams page for easier squad selection](https://trello.com/c/tra86B5A) | Roko Vidjak | No description in export | No dated retest supplied |
+| [#63 — Fix Light Mode on Landing Page](https://trello.com/c/0axOzzNX) | Nayan Makanjee | No description in export | No dated retest supplied |
+| [#92 — Add back Buttons on log in and sign up page](https://trello.com/c/6UpEuoAM) | Hemesh Parshotam | No description in export | No dated retest supplied |
+| [#64 — Fix status of athlete -editable](https://trello.com/c/Nq9XtNDk) | Ayesha Ally | No description in export | No dated retest supplied |
+| [#87 — Roster player add validation](https://trello.com/c/hq2vJMEv) | Hemesh Parshotam | No description in export | No dated retest supplied |
+| [#91 — Redirect from Log In to Dashboard](https://trello.com/c/K6JWVSfO) | Hemesh Parshotam | No description in export | No dated retest supplied |
+| [#102 — Data Validation On all Inputs](https://trello.com/c/CTEUHCoC) | Hemesh Parshotam | No description in export | No dated retest supplied |
+| [#100 — Fix Log out redirect - To Landing Page instead of Log in page](https://trello.com/c/RrE4Q9RQ) | Hemesh Parshotam | No description in export | No dated retest supplied |
+| [#60 — Update ReadMe with more info + AI declaration + doc site link](https://trello.com/c/Eh8FLRdx) | Saurav Lall | No description in export | No dated retest supplied |
+| [#61 — Get the landing page hero background to use the full page](https://trello.com/c/HTOkeKZn) | Saurav Lall | No description in export | No dated retest supplied |
+| [#57 — Deploy on vercel](https://trello.com/c/Z1jkkhBD) | Hemesh Parshotam, Nayan Makanjee | No description in export | No dated retest supplied |
+| [#49 — Upload Wireframes to Documentation](https://trello.com/c/HGbKLrOF) | Roko Vidjak | Add the project's UI wireframes/designs to the documentation site so that the intended interface and design process are clearly visible. | No dated retest supplied |
+| [#50 — Add Architecture / System Diagram](https://trello.com/c/QeL3yjfQ) | Roko Vidjak | Create and document a high-level architecture diagram showing how the main components and technologies of the Sport Coaching Tool interact. Include recognizable platform/technology logos where appropriate. | No dated retest supplied |
+| [#51 — Add Application Footer](https://trello.com/c/7t3juAMk) | Saurav Lall | Add a consistent footer to the appropriate public-facing pages of the Sport Coaching Tool. | No dated retest supplied |
+| [#46 — Add Methodology Overview to Documentation](https://trello.com/c/9ozyv43u) | Hemesh Parshotam, Roko Vidjak, Nayan Makanjee | Add a methodology section to the project documentation explaining how the team manages and develops the Sport Coaching Tool. This should explain the development approach and how work progresses through the sprint. | No dated retest supplied |
+| [#45 — Update Sprint Backlog Statuses](https://trello.com/c/uwN4rp8I) | Hemesh Parshotam | Keep the sprint backlog accurate and up to date before every standup. Each team member should update the status of their assigned user stories and technical tasks so that the board reflects the team's actual progress. | No dated retest supplied |
+| [#42 — Logo Update](https://trello.com/c/3Yiw1TTs) | Hemesh Parshotam | No description in export | No dated retest supplied |
+| [#43 — standarderize sixing and fonts and layout on all pages](https://trello.com/c/5XXIAQGw) | Hemesh Parshotam | No description in export | No dated retest supplied |
+| [#106 — Fix: Auto Fill on Team Selection puts players out of position when there is players on bench available to play in that position](https://trello.com/c/N21z8R3h) | Jai Parbhoo | No description in export | No dated retest supplied |
+| [#62 — Remove the Pruduct page on the landing page?](https://trello.com/c/AHwQ8yXD) | Nayan Makanjee | No description in export | No dated retest supplied |
+
+The Playwright main-flow artifact supplied with this audit failed while waiting for the Dashboard heading; the captured page remained at “Loading workspace...”. This is a failed run, not a diagnosed root cause. See [Sprint 3 test record](../Quality/sprint-3-test-report.md).
+
+## Historical detailed snapshot (14 September 2026)
+
+The following register preserves earlier card descriptions and checklist detail. Its list placements are superseded by the current export above.
+
+# Bug Tracking
+
 > **Snapshot:** 14 September 2026. The Trello export contains **48 active and 1 archived** cards in Issues/fixes. Titles below preserve exported spelling. List placement, implementation evidence and verified fix/retest are separate concepts.
 
 ## Status definitions

@@ -1,5 +1,9 @@
 # Testing and Quality Assurance
 
+## Current-state update — 24 September 2026
+
+The 14 September pass totals below are historical and do not apply to current commit `ef2880ad0018536c2b933754148e285b2a325ec7`. Current root scripts: `npm test` runs `packages/match-domain` and backend unit tests; `npm run test:integration`/`test:e2e` run backend integration tests; `npm run test:e2e:ui` runs the UI test wrapper; `npm run test:e2e:pwa` runs the PWA Playwright configuration. Use a disposable migrated database for stateful tests. The supplied main-flow Playwright artifact failed while the page displayed “Loading workspace...”; see [Sprint 3 test record](sprint-3-test-report.md). No current aggregate pass is claimed.
+
 ## Evidence classification
 
 Keep these states separate: a test exists; a local command passed; CI is configured; a specific CI run passed; a revision is deployed; a stakeholder accepted it. One state does not prove the next.

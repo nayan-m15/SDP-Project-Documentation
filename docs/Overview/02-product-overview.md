@@ -1,4 +1,8 @@
-# Gaffer Product Overview
+﻿# Gaffer Product Overview
+
+## Current-state update â€” 24 September 2026
+
+The earlier audit below is a historical 14 September snapshot, not the current feature inventory. At application commit `ef2880ad0018536c2b933754148e285b2a325ec7`, the repository includes injury and recovery records, competition teams/fixtures/invitations, public dashboard routes, and offline sync/reconciliation code. The Trello export through 2026-09-24T19:20:21.943Z places some of these in Completed and others In Progress; production revision, a passing current test run and stakeholder acceptance remain unverified. See [Sprint 3 evidence](../Project%20Management/sprint-3-delivery.md) and [offline architecture](../Architecture/offline-collaboration.md).
 
 **Evidence snapshot:** application repository `development` at commit `e7285f53` (14 September 2026). Deployed revision remains unverified, and the new public formations/tactics routes returned 404 on that date. Code presence is not stakeholder acceptance or a passed assessment.
 
@@ -41,9 +45,9 @@ Historical design documents may describe these as proposed tiers. Those proposal
 
 ## Evidence status language
 
-- **Implemented — acceptance verification pending:** code and routes exist, but no supplied assessment evidence proves the complete acceptance checklist.
+- **Implemented â€” acceptance verification pending:** code and routes exist, but no supplied assessment evidence proves the complete acceptance checklist.
 - **Partial:** a useful subset exists, while a named part of the story does not.
 - **Planned:** no implementation was found in the inspected source.
 - **Verified:** reserved for a specifically identified test or review result. Procedures alone are not results.
 
-See [Product Backlog](../Project%20Management/product-backlog.md) and [Sprint 2 Implementation and Evidence](../Project%20Management/sprint-2-evidence.md).
+See [Product Backlog](../Project%20Management/product-backlog.md) and [Sprint 3 delivery record](../Project%20Management/sprint-3-delivery.md).

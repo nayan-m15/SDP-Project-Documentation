@@ -1,6 +1,10 @@
 # Current PostgreSQL Database Schema
 
-**Source of truth:** `backend/src/database/schema/index.ts` at application commit `e7285f53`, checked 14 September 2026. The schema defines **19 tables and 14 PostgreSQL enums**. SQL migrations `0000`–`0019` were inspected but were not executed during this documentation update.
+## Current-state update — 24 September 2026
+
+The 14 September inventory below covers 19 tables and 14 enums at `e7285f53`. The application schema at `ef2880ad0018536c2b933754148e285b2a325ec7` defines **33 `pgTable` declarations and 25 `pgEnum` declarations** in `backend/src/database/schema/index.ts`. Added areas include competition teams/invites/matches/fixtures, injuries and timeline, match observations/memberships/operations/reviews/clock operations/projection state, and sync upload receipts/telemetry. Migrations now include later files through `0035_injuries_and_recovery.sql`. Treat the earlier entity list and diagram as a dated snapshot; regenerate a complete diagram and field-level inventory directly from current schema and migration SQL before using it as a current database contract. See [offline architecture](../offline-collaboration.md).
+
+**Historical source for the detailed sections below:** `backend/src/database/schema/index.ts` at application commit `e7285f53`, checked 14 September 2026. That version defined **19 tables and 14 PostgreSQL enums**. SQL migrations `0000`–`0019` were inspected but were not executed during that update. The [current declaration inventory](#current-schema-declaration-inventory-24-september-2026) is at the end of this page.
 
 ## Entity relationships
 
@@ -203,3 +207,47 @@ The migration journal is not cleanly monotonic:
 - migration files still contain historical `lineups` migrations although the current schema uses `game_plans`.
 
 These are unresolved verification concerns, not proof of failure. No fresh-install or upgrade migration was run, so this documentation does not claim either path succeeds. Before release, test the complete migration chain and an upgrade from the deployed schema against disposable databases, record outputs, and reconcile the journal only through a reviewed application change.
+
+## Current schema declaration inventory (24 September 2026)
+
+The table below lists column names from the current Drizzle declarations. Types, nullability, indexes, defaults and foreign-key actions are defined by [`index.ts`](https://github.com/nayan-m15/Gaffer/blob/ef2880ad0018536c2b933754148e285b2a325ec7/backend/src/database/schema/index.ts) and migration SQL. The detailed descriptions above remain a 14 September snapshot and are not a complete current schema contract.
+
+**Declaration count:** 33 tables; 25 enums.
+
+| Table | Declared columns |
+| --- | --- |
+| `user` | `id`, `name`, `email`, `emailVerified`, `image`, `phoneNumber`, `sex`, `dateOfBirth` |
+| `session` | `id`, `expiresAt`, `token`, `createdAt`, `updatedAt`, `ipAddress`, `userAgent`, `userId` |
+| `account` | `id`, `accountId`, `providerId`, `userId`, `accessToken`, `refreshToken`, `idToken`, `accessTokenExpiresAt`, `refreshTokenExpiresAt`, `scope`, `password` |
+| `verification` | `id`, `identifier`, `value`, `expiresAt` |
+| `teams` | `id`, `name`, `primaryColor` |
+| `team_members` | `id`, `teamId`, `userId`, `role` |
+| `athletes` | `id`, `teamId`, `firstName`, `lastName`, `dateOfBirth`, `position`, `squadNumber`, `status`, `archivedAt`, `userId` |
+| `player_claim_invites` | `id`, `athleteId`, `email`, `tokenHash`, `status`, `createdByUserId`, `expiresAt`, `usedAt`, `usedByUserId` |
+| `team_invites` | `id`, `teamId`, `email`, `tokenHash`, `status`, `createdByUserId`, `expiresAt`, `usedAt`, `usedByUserId` |
+| `game_plans` | `id`, `teamId`, `name`, `formationId`, `assignments`, `substituteIds`, `defensiveStyle`, `defensiveWidth`, `defensiveDepth`, `offensiveStyle`, `offensiveWidth`, `playersInBox`, `cornersCommitment`, `freeKicksCommitment`, `captainId`, `freeKickTakerId`, `penaltyTakerId`, `cornerTakerId` |
+| `events` | `id`, `teamId`, `title`, `type`, `status`, `scheduledAt`, `location`, `venueAddress`, `weatherLocation`, `weatherLatitude`, `weatherLongitude`, `weatherTimezone`, `notes`, `competitionId`, `competitionFixtureId` |
+| `event_rsvps` | `id`, `eventId`, `athleteId`, `status`, `note`, `respondedAt` |
+| `seasons` | `id`, `teamId`, `name`, `startDate`, `endDate`, `isCurrent` |
+| `competitions` | `id`, `teamId`, `name`, `type`, `seasonId`, `season`, `adminUserId`, `format`, `configuredTeamCount`, `maxSubstitutes`, `redCardSuspensionMatches`, `accumulatedYellowThreshold`, `yellowSuspensionMatches`, `startDate`, `allowedPlayingDays`, `defaultKickoffTime`, `fixturesPerOpponent`, `pointsWin`, `pointsDraw`, `pointsLoss`, `qualifierCount`, `resultTrackingStartedAt` |
+| `competition_teams` | `id`, `competitionId`, `teamId`, `displayName` |
+| `competition_invites` | `id`, `competitionId`, `competitionTeamId`, `email`, `tokenHash`, `status`, `createdByUserId`, `expiresAt`, `usedAt`, `usedByUserId` |
+| `matches` | `id`, `eventId`, `competitionId`, `opponentCompetitionTeamId`, `opponentName`, `isHome`, `teamScore`, `opponentScore`, `gamePlanId`, `gamePlanSnapshot`, `opponentSquadVisibility`, `teamColor`, `opponentColor`, `clockPeriod`, `clockElapsedMs`, `clockStartedAt`, `clockRevision` |
+| `competition_matches` | `id`, `competitionId`, `homeCompetitionTeamId`, `awayCompetitionTeamId`, `homeScore`, `awayScore`, `playedAt`, `createdByUserId` |
+| `opponent_match_players` | `id`, `matchId`, `shirtNumber`, `name`, `position` |
+| `athlete_match_stats` | `id`, `matchId`, `athleteId`, `started`, `minutesPlayed`, `goals`, `assists`, `yellowCards`, `redCards` |
+| `standings` | `id`, `competitionId`, `teamName`, `position`, `played`, `won`, `drawn`, `lost`, `goalsFor`, `goalsAgainst`, `points`, `isOwnTeam` |
+| `match_events` | `id`, `matchId`, `athleteId`, `team`, `opponentLabel`, `opponentPlayerId`, `eventType`, `minute`, `detail`, `loggedByUserId`, `manuallyAdjusted`, `clientRequestId`, `period`, `matchElapsedMs`, `structuredPayload`, `lifecycleStatus`, `rulesVersion`, `projectionRevision` |
+| `injuries` | `id`, `teamId`, `athleteId`, `bodyRegion`, `injuryType`, `severity`, `status`, `context`, `occurredOn`, `matchId`, `matchEventId`, `minute`, `estimatedReturnMinDays`, `estimatedReturnMaxDays`, `estimatedReturnFrom`, `estimatedReturnTo`, `actualReturnOn`, `diagnosedBy`, `description`, `notes`, `rehabPhases`, `closedAt`, `createdByUserId` |
+| `injury_timeline_entries` | `id`, `injuryId`, `kind`, `occurredOn`, `title`, `detail`, `createdByUserId` |
+| `match_event_observations` | `id`, `matchId`, `deviceId`, `loggedByUserId`, `schemaVersion`, `eventType`, `team`, `athleteId`, `opponentLabel`, `opponentPlayerId`, `period`, `matchElapsedMs`, `payload`, `payloadHash`, `clientCreatedAt`, `serverReceivedAt` |
+| `match_event_memberships` | `observationId`, `canonicalEventId`, `projectionRevision`, `createdAt` |
+| `match_event_operations` | `id`, `matchId`, `actorUserId`, `operationType`, `targetObservationIds`, `canonicalEventId`, `causalParentIds`, `decision`, `reason`, `schemaVersion`, `createdAt` |
+| `match_clock_operations` | `id`, `matchId`, `actorUserId`, `period`, `elapsedMs`, `running`, `baseRevision`, `appliedRevision`, `outcome`, `payloadHash`, `clientCreatedAt`, `createdAt` |
+| `match_event_reviews` | `id`, `matchId`, `canonicalEventId`, `reason`, `status`, `resolution`, `resolvedByUserId`, `resolvedAt` |
+| `competition_fixtures` | `id`, `competitionId`, `stage`, `round`, `position`, `homeCompetitionTeamId`, `awayCompetitionTeamId`, `scheduledAt`, `status`, `homeScore`, `awayScore`, `homePenaltyScore`, `awayPenaltyScore`, `winnerCompetitionTeamId`, `nextFixtureId`, `nextFixtureSlot`, `linkedMatchId`, `legacyResultId`, `scheduleRevision`, `homeScheduleResponse`, `awayScheduleResponse`, `homeScheduleRespondedAt`, `awayScheduleRespondedAt`, `homeScheduleRespondedByUserId`, `awayScheduleRespondedByUserId`, `scheduleProposedByCompetitionTeamId`, `scheduleProposalNote`, `scheduleConfirmedAt` |
+| `match_projection_state` | `matchId`, `revision`, `inputDigest`, `rulesVersion`, `confirmedTeamScore`, `confirmedOpponentScore`, `provisionalTeamScore`, `provisionalOpponentScore`, `possibleEffects`, `disciplinaryProjection`, `unresolvedReviewCount`, `finalisationState`, `finalisedByUserId`, `finalisedAt` |
+| `sync_upload_receipts` | `id`, `submittedByUserId`, `matchId`, `itemType`, `payloadHash`, `outcome`, `safeErrorCode`, `processingDurationMs`, `canonicalEventId` |
+| `sync_client_telemetry` | `deviceId`, `userId`, `teamId`, `pendingCount`, `rejectedCount`, `oldestPendingAt`, `lastSuccessfulSyncAt`, `deployment`, `updatedAt` |
+
+**Current enums:** `sex`, `team_role`, `event_type`, `event_status`, `athlete_status`, `claim_invite_status`, `team_invite_status`, `defensive_style`, `offensive_style`, `rsvp_status`, `competition_type`, `opponent_squad_visibility`, `competition_format`, `competition_fixture_stage`, `competition_fixture_status`, `competition_fixture_schedule_response`, `competition_invite_status`, `match_event_team`, `match_event_type`, `injury_body_region`, `injury_type`, `injury_severity`, `injury_status`, `injury_context`, `injury_timeline_kind`.

@@ -1,4 +1,4 @@
-# Agile and Scrum Methodology
+﻿# Agile and Scrum Methodology
 
 ## Evidence basis
 
@@ -9,7 +9,7 @@ The team uses Trello as its visible work board and maintains planning, standup a
 - **Product backlog:** future feature cards are mainly in `Backlog` and `Potential Features/Additions`; setup/process work remains in separate lists.
 - **Sprint backlog:** selected work moves into the named sprint list. The export shows explicit S2 cards moving through `Sprint 2 Backlog`, `In Progress` and `Completed`, although the Sprint 2 Backlog list is currently empty.
 - **Issues/fixes:** 48 active and one archived card are recorded separately; see [Bug Tracking](bug-tracking.md).
-- **Delivery record:** `Completed` contains 13 active cards; see [Sprint 2 Delivery](sprint-2-delivery.md). Board completion and checked checklists do not replace acceptance evidence or reconstruct the original sprint commitment.
+- **Delivery record:** `Completed` contains 13 active cards; see the historical Sprint 2 records. Board completion and checked checklists do not replace acceptance evidence or reconstruct the original sprint commitment.
 
 Observed movement is broadly:
 
@@ -30,7 +30,7 @@ Planning should select refined stories, state a sprint goal, confirm capacity/ow
 
 ### Standups
 
-The original product-requirements record states a cadence of every three days. The same meeting-derived page also records “3 per week,” and the Sprint 1 retrospective says the wording should be corrected from “every 3 days” to “3 per week.” The definitive current cadence therefore requires team confirmation; both records are preserved rather than silently choosing one.
+The original product-requirements record states a cadence of every three days. The same meeting-derived page also records â€œ3 per week,â€ and the Sprint 1 retrospective says the wording should be corrected from â€œevery 3 daysâ€ to â€œ3 per week.â€ The definitive current cadence therefore requires team confirmation; both records are preserved rather than silently choosing one.
 
 Standups should cover completed work, next work, blockers and board changes. Existing standup records remain under Meetings; none are created by this update.
 

@@ -1,5 +1,9 @@
 # Getting Started with Gaffer
 
+## Current-state update — 24 September 2026
+
+The application now has competition/fixture, injury/recovery, public dashboard and offline logging source that postdates the older operational notes below. The root scripts also include `npm run test:e2e:pwa`, and `npm test` includes `packages/match-domain`. Check [Sprint 3 evidence](../Project%20Management/sprint-3-delivery.md) and [offline architecture](../Architecture/offline-collaboration.md) for current scope and verification limits.
+
 Gaffer is a football team-management application. This page separates using the hosted product, developing the application, and contributing to this documentation portal.
 
 ## Use the hosted application

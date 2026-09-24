@@ -1,5 +1,9 @@
 # Current Technology Stack
 
+## Current-state update — 24 September 2026
+
+The architecture description below records the 14 September audit where indicated. The current application source defines 33 PostgreSQL tables and 25 enums, and adds `competitions`, `competition-invites`, `injuries`, `sync`, PowerSync configuration and frontend offline storage. REST and session cookies remain the primary first-party API. Read the [current schema note](../data/database-schema.md), [offline architecture](../offline-collaboration.md), and [Sprint 3 evidence](../../Project%20Management/sprint-3-delivery.md) before treating historical gap statements as current. Deployment and field verification are unconfirmed.
+
 This inventory reflects manifests and source at the evidence snapshot; it supersedes older Railway, Mapbox, OpenWeatherMap, PowerSync and Docusaurus claims.
 
 | Layer | Implemented technology | Role |

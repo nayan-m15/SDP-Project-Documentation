@@ -1,5 +1,158 @@
 # Product Backlog
 
+> **Trello export snapshot:** latest recorded action 2026-09-24T19:20:21.943Z; audited 24 September 2026. Application source: `ef2880ad0018536c2b933754148e285b2a325ec7`. List placement and checklist completion are tracker evidence only. The live board was not independently compared in this update.
+
+## Active card counts
+
+| Trello list | Active cards |
+| --- | ---: |
+| Sprint 1 Backlog | 10 |
+| Sprint 2 Backlog | 13 |
+| Sprint 3 Backlog | 4 |
+| In Progress | 4 |
+| Completed | 3 |
+| Backlog | 0 |
+| Potential Features/Additions | 17 |
+| Repo & project setup | 14 |
+| Environment & tooling init | 15 |
+| Setup | 2 |
+| Issues/fixes | 56 |
+
+Issues/fixes cards have their own [bug register](bug-tracking.md). Historical Sprint 1 and Sprint 2 cards remain in their named lists in this export.
+
+## Sprint 1 Backlog
+
+| Card | Owners | Exported description |
+| --- | --- | --- |
+| [#40 — S1-01: Documentation Site](https://trello.com/c/O2f6vDPm) | Hemesh Parshotam, Nayan Makanjee | **Description** > Create and maintain a central documentation site so that the development team can easily access the project's technical and development documentation. **Acceptance Criteria** - Documentation site is available to the development team. - Existi |
+| [#35 — S1-02: User Authentication](https://trello.com/c/3ZIEzf2l) | Nayan Makanjee, Saurav Lall, Roko Vidjak, Jai Parbhoo | **Description** > As a coach, I want to securely register, log in and log out of the Sporting Coach system so that I can access and manage my team's information. **Acceptance Criteria** - Coach can register using an email address and password. - Coach can prov |
+| [#36 — S1-03: Athlete Roster Management](https://trello.com/c/AU3nh5bK) | Ayesha Ally | **Description** > As a coach, I want to add, view, edit, search and archive athletes so that I can maintain an accurate and organised team roster. **Acceptance Criteria** - Coach can add a new athlete. - Coach can view all athletes belonging to their team. - C |
+| [#37 — S1-04: Event Management](https://trello.com/c/opUO7Scg) | Roko Vidjak | **Description** > As a coach, I want to create, view, edit and cancel team events so that I can organise training sessions, matches and meetings for my team. **Acceptance Criteria** - Coach can create an event. - Coach can view their team's events. - Coach can |
+| [#38 — S1-05: Dashboard Summary](https://trello.com/c/jzuY2wxk) | Nayan Makanjee, Jai Parbhoo | **Description** > As a coach, I want to see a summary of my athletes and upcoming events so that I can quickly understand the current state of my team and upcoming activities. **Acceptance Criteria** - Dashboard displays the number of active athletes. - Dashbo |
+| [#44 — S1-06: Statistical Overview](https://trello.com/c/1JfVLaM8) | Jai Parbhoo | As a coach, I want to view an overview of my team's and athletes' statistics so that I can quickly understand performance and identify trends across events. **Acceptance Criteria** - Coach can view an overview of team statistics. - Coach can view statistics fo |
+| [#39 — S1-07: Automated Testing](https://trello.com/c/IPDaf8KK) | Saurav Lall | **Description** > Implement automated testing for the core Sprint 1 functionality to ensure authentication, athlete management, event management and team isolation work correctly and reliably. **Acceptance Criteria** - Authentication flow has automated integra |
+| [#52 — S1-08 How It Works Page](https://trello.com/c/B9P9W2ON) | Nayan Makanjee | As a user, I want to view a How It Works page so that I can understand how to use the Sport Coaching Tool and its main functionality. |
+| [#53 — S1-09 User Profile Management](https://trello.com/c/PpO7KIjF) | Ayesha Ally | **User Story:** **As a logged-in user, I want to view and edit my profile so that I can keep my personal/account information up to date.** Implement a profile page where the authenticated user can view their existing profile information and update the fields t |
+| [#54 — S1-10 Features Page](https://trello.com/c/O92Dliwx) | Hemesh Parshotam | **User Story:** **As a user, I want to view the features offered by the Sport Coaching Tool so that I can understand what the application can help me do.** Create a user-facing Features page that presents and explains the main capabilities available within the |
+
+## Sprint 2 Backlog
+
+| Card | Owners | Exported description |
+| --- | --- | --- |
+| [#67 — S2: Live Event Logging](https://trello.com/c/FeahTBSE) | Roko Vidjak | **User Story:** As a coach, I want to record events during a live match so that match activity and player performance can be tracked accurately. The live event logger should allow coaches to record important match events against the relevant athletes while a m |
+| [#66 — S2: Assistant Role and Permissions](https://trello.com/c/kCKi09ea) | Ayesha Ally | As a coach, I want assistants and players to join with appropriate permissions so that access is controlled. |
+| [#70 — S2: Event and Team Statistics](https://trello.com/c/KFDDIj0d) | Hemesh Parshotam, Roko Vidjak | **User Story:** As a coach, I want to view event and team statistics so that I can analyse the team's overall performance. The system should calculate and display useful statistics using data recorded from matches and logged events. ### Acceptance Criteria - T |
+| [#69 — S2: Athlete Statistics](https://trello.com/c/L6mvVSzk) | Ayesha Ally | **User Story:** As a coach, I want to view statistics for individual athletes so that I can evaluate player performance and make informed coaching decisions. Athlete statistics should be calculated from recorded match events and presented clearly for each play |
+| [#71 — S2: Season Statistics and Trends](https://trello.com/c/1vhuPSwf) | Saurav Lall | **User Story:** As a coach, I want to view statistics and performance trends across a season so that I can understand how my team and athletes are performing over time. The system should aggregate data from multiple matches and present meaningful season-level  |
+| [#133 — S2: API for Team Formation and Tactics](https://trello.com/c/YZMvbXlb) | Saurav Lall | Implement and document a **public, read-only API** for Gaffer’s football formations and tactical approaches. The API must allow external users/applications to retrieve supported formation and tactic reference data without authentication, while ensuring that ** |
+| [#72 — S3: Performance Comparisons](https://trello.com/c/gMYOG8Fe) | Saurav Lall | As a coach, I want to compare athletes and team performance so that I can make more informed coaching decisions. |
+| [#74 — S2: Player RSVPs, Roles and permissions](https://trello.com/c/rHGqemSt) | Jai Parbhoo | As a coach, I want players to indicate their availability for upcoming activities so that I can plan attendance and team selection. |
+| [#75 — S2: Shared Calendar](https://trello.com/c/4rqouzCz) | Hemesh Parshotam, Nayan Makanjee | As a user, I want upcoming training sessions, fixtures and competitions displayed on a shared calendar so that I can keep track of the team's schedule. |
+| [#68 — S2: Event Log Correction](https://trello.com/c/wy2UgcLj) | Roko Vidjak | **User Story:** As a coach, I want to correct incorrectly logged match events so that match records and derived statistics remain accurate. Mistakes may occur while quickly recording a live match. Coaches therefore need a controlled way to correct erroneous ev |
+| [#76 — S2: Weather and Location Information](https://trello.com/c/4yss4qLJ) | Hemesh Parshotam | As a coach, I want weather and location information for upcoming events so that I can prepare the team appropriately. |
+| [#128 — S2: Add Privacy Policy and Terms of Service](https://trello.com/c/KrQufWs6) | Nayan Makanjee | No description in export |
+| [#77 — S2: Event Reminders](https://trello.com/c/IUtmDU9s) | Ayesha Ally | As a user, I want reminders about upcoming team activities so that I do not miss important events. |
+
+## Sprint 3 Backlog
+
+| Card | Owners | Exported description |
+| --- | --- | --- |
+| [#86 — S3: Alternative Football Formats](https://trello.com/c/clwOaaP3) | Jai Parbhoo | No description in export |
+| [#81 — S3: Automated Performance Insights](https://trello.com/c/tyi8IZ7F) | Saurav Lall | No description in export |
+| [#82 — S3: Player Selection Suggestions](https://trello.com/c/2UP8CQAb) | Ayesha Ally | No description in export |
+| [#85 — S3: Automatic Season Scheduling](https://trello.com/c/BhSiymWN) | Saurav Lall | No description in export |
+
+## In Progress
+
+| Card | Owners | Exported description |
+| --- | --- | --- |
+| [#73 — S3: Fixtures Setup with Opponents](https://trello.com/c/aX7Zsfza) | Ayesha Ally, Jai Parbhoo | ‌ As a coach, I want to organise fixtures with other teams so that upcoming competitions can be coordinated through the platform. |
+| [#80 — S3: League and Standings Management](https://trello.com/c/DQMVQqjx) | Jai Parbhoo | No description in export |
+| [#79 — S3: Concurrent Event Logging](https://trello.com/c/VENCiu0p) | Hemesh Parshotam | No description in export |
+| [#84 — S3: Sharing and Report Export](https://trello.com/c/7dWBTlFi) | Nayan Makanjee | As a coach, I want to share results and export reports so that team and performance information can be distributed outside the platform. |
+
+## Completed
+
+| Card | Owners | Exported description |
+| --- | --- | --- |
+| [#104 — S3: Injured player - detailed injury reports and 3D model](https://trello.com/c/FWH0WhOe) | Saurav Lall | No description in export |
+| [#83 — S3: Public Squad and Player Information](https://trello.com/c/zO3SXWRm) | Nayan Makanjee | No description in export |
+| [#78 — S3: Offline Event Logging](https://trello.com/c/cCbQvUoL) | Hemesh Parshotam | No description in export |
+
+## Potential Features/Additions
+
+| Card | Owners | Exported description |
+| --- | --- | --- |
+| [#143 — Ai voice assistant](https://trello.com/c/2kSCeUxn) | Unassigned | No description in export |
+| [#138 — Suspend player after accumulating 5 yellow cards in a specific competition](https://trello.com/c/G1Bm1JrR) | Unassigned | No description in export |
+| [#134 — Mini Map for directions](https://trello.com/c/TybTtvzU) | Unassigned | No description in export |
+| [#130 — Add account deletion, email change, password reset and password change](https://trello.com/c/HG4lWTcB) | Unassigned | No description in export |
+| [#123 — Update Match Report Page UI](https://trello.com/c/GJORvXYd) | Unassigned | No description in export |
+| [#119 — make match log appear as a separate tab on mobile live logger](https://trello.com/c/qUQeDbF8) | Unassigned | No description in export |
+| [#117 — When making a match event, the tournament should be an option for the coach to pick](https://trello.com/c/6yM7Zd88) | Unassigned | No description in export |
+| [#110 — Add League or friendly match option](https://trello.com/c/z4VIY2DZ) | Jai Parbhoo | No description in export |
+| [#58 — Make it usebale for Indoor Footy, 5,7 a side games](https://trello.com/c/TUsmzRrc) | Unassigned | No description in export |
+| [#95 — Add more formations](https://trello.com/c/3KNV8uEW) | Unassigned | No description in export |
+| [#96 — import calander to local mobile calendar](https://trello.com/c/9u5HPrgR) | Unassigned | No description in export |
+| [#124 — Update Live Logger page Ui](https://trello.com/c/Cm3qltKa) | Hemesh Parshotam | No description in export |
+| [#59 — Allow players to view their squad and coaching info when not signed  in](https://trello.com/c/pBUAuzSB) | Nayan Makanjee | No description in export |
+| [#97 — Player dashboard - through coach invitation](https://trello.com/c/Pi4GGcyM) | Jai Parbhoo | Stats, team/individual Events- attending Team lineups/tactics |
+| [#98 — Update Events page to include calander](https://trello.com/c/uNwVxtaW) | Nayan Makanjee, Hemesh Parshotam | No description in export |
+| [#108 — Add footer to landing page](https://trello.com/c/41uWFgnu) | Nayan Makanjee | No description in export |
+| [#113 — Add Loading Screen](https://trello.com/c/8sEDirRi) | Nayan Makanjee | No description in export |
+
+## Repo & project setup
+
+| Card | Owners | Exported description |
+| --- | --- | --- |
+| [#16 — Add PR template (matches your PR description format)](https://trello.com/c/GdITLLqz) | Unassigned | No description in export |
+| [#20 — Add GitHub Actions CI skeleton (lint + test placeholder, even if empty)](https://trello.com/c/bzmQcX3c) | Unassigned | No description in export |
+| [#17 — Add branch protection on main — require CI pass + 1 approval](https://trello.com/c/Y1lzGPX7) | Unassigned | No description in export |
+| [#15 — Set up Issue templates (bug / feature)](https://trello.com/c/t2mOWAQQ) | Unassigned | No description in export |
+| [#18 — Add README skeleton with AI usage declaration section](https://trello.com/c/orE9Pf8r) | Unassigned | No description in export |
+| [#3 — Project Nest.js setup](https://trello.com/c/VimbdgsG) | Nayan Makanjee | No description in export |
+| [#12 — Decide monorepo vs separate frontend/backend repos](https://trello.com/c/NohAwdzb) | Unassigned | No description in export |
+| [#13 — Create repo(s), initial folder structure](https://trello.com/c/tcJCUZBJ) | Nayan Makanjee | No description in export |
+| [#30 — Share the git methodology doc](https://trello.com/c/5HjiapZu) | Hemesh Parshotam | No description in export |
+| [#34 — Agree on a "definition of done" for a task/PR](https://trello.com/c/Zj7jztqS) | Unassigned | No description in export |
+| [#33 — Schedule recurring check-ins with your tutor/client](https://trello.com/c/vL0Kvm3C) | Unassigned | No description in export |
+| [#32 — Set up team comms channel (Discord)](https://trello.com/c/rWBnQQjv) | Jai Parbhoo | No description in export |
+| [#31 — Assign module ownership pairs: auth, roster, events, stats](https://trello.com/c/gkdNqgJr) | Unassigned | No description in export |
+| [#19 — Add OXLint + Prettier config](https://trello.com/c/yGClbaPs) | Nayan Makanjee | No description in export |
+
+## Environment & tooling init
+
+| Card | Owners | Exported description |
+| --- | --- | --- |
+| [#11 — PowerSync (offline sync service)](https://trello.com/c/n1gs99Vw) | Hemesh Parshotam | No description in export |
+| [#10 — OpenWeatherMap (weather API key)](https://trello.com/c/PaHsnvf3) | Hemesh Parshotam | No description in export |
+| [#9 — Mapbox (maps + geocoding API key)](https://trello.com/c/Vb45cjxj) | Hemesh Parshotam | No description in export |
+| [#29 — Connect Vercel to frontend repo](https://trello.com/c/Rq2J9JEU) | Nayan Makanjee | No description in export |
+| [#21 — Scaffold frontend: Vite + React + TS](https://trello.com/c/XiHqMsLd) | Nayan Makanjee | No description in export |
+| [#22 — Add Tailwind + shadcn/ui](https://trello.com/c/e1VTiOHL) | Nayan Makanjee | No description in export |
+| [#23 — Scaffold backend: NestJS + TS](https://trello.com/c/N2UHYREV) | Nayan Makanjee | No description in export |
+| [#24 — Install nestjs-zod, Drizzle, better-auth](https://trello.com/c/Bp1j2Ell) | Nayan Makanjee | No description in export |
+| [#25 — Create Neon project, get connection string](https://trello.com/c/mw1laYwl) | Hemesh Parshotam | No description in export |
+| [#26 — Set up Drizzle config + first migration (base schema: users, teams, athletes, events)](https://trello.com/c/MNObudO4) | Hemesh Parshotam, Nayan Makanjee | No description in export |
+| [#27 — Add .env.example for both frontend and backend](https://trello.com/c/YWJdjNpK) | Hemesh Parshotam, Nayan Makanjee | No description in export |
+| [#6 — Neon (Postgres hosting)](https://trello.com/c/cBk24ukJ) | Nayan Makanjee, Hemesh Parshotam | No description in export |
+| [#7 — Render (backend hosting)](https://trello.com/c/MiCV84mk) | Hemesh Parshotam | No description in export |
+| [#8 — Vercel (frontend hosting)](https://trello.com/c/GDwwHaSu) | Nayan Makanjee | No description in export |
+| [#28 — Connect Railway to backend repo, add Neon connection string as secret](https://trello.com/c/k0NcOL9O) | Hemesh Parshotam | No description in export |
+
+## Setup
+
+| Card | Owners | Exported description |
+| --- | --- | --- |
+| [#1 — Project name](https://trello.com/c/oYRKKkMj) | Unassigned | No description in export |
+| [#2 — Project Logo](https://trello.com/c/MY8eTUdS) | Unassigned | No description in export |
+
+## Historical detailed snapshot (14 September 2026)
+
+The following register preserves earlier card descriptions and checklist detail. Its list placements are superseded by the current export above.
+
+# Product Backlog
+
 > **Snapshot:** 14 September 2026. Source: Trello board export with activity through 2026-09-14T11:49:45.592Z. Trello is authoritative for list, assignment, archive and checklist state; application source at `e7285f533b854c4da753c73e22a2a38f580588dc` is authoritative for implementation. A checked Trello item is recorded board state, not independent acceptance or stakeholder approval.
 
 ## Snapshot counts

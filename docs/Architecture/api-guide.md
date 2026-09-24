@@ -1,5 +1,25 @@
 # REST API Guide
 
+## Current controller route inventory (24 September 2026)
+
+This inventory comes from NestJS controller decorators at application commit `ef2880ad0018536c2b933754148e285b2a325ec7`. It describes source routes, not a verified production deployment. Path parameters require the caller to satisfy the controller guard and service authorization checks. Better Auth routes also include its mounted handler beyond the explicit controller methods below.
+
+| Area | Source routes and methods | Access boundary |
+| --- | --- | --- |
+| Competition setup | `GET /competitions/search`, `/mine`, `/:id`, `/:id/fixtures`; `POST /competitions`, `/:id/fixtures/generate`, `/:id/fixtures/:fixtureId/schedule/accept`, `/:id/fixtures/:fixtureId/schedule/propose`, `/:id/results`, `/:id/teams`; `PATCH /competitions/:id`, `/:id/results/:resultId`; `DELETE /competitions/:id`, `/:id/results/:resultId`, `/:id/teams/:competitionTeamId` | Session and competition membership or administration; search is not anonymous. |
+| Competition invitations | `GET /competition-invites`, `/:token`; `POST /competition-invites`, `/:token/accept`; `DELETE /competition-invites/:id` | Invitation token routes have a different access path from competition administration; see controller and service for exact checks. |
+| Injuries | `GET /injuries`, `/protocol`, `/recovery/:athleteId`, `/:id`; `POST /injuries`, `/:id/timeline`; `PATCH /injuries/:id`, `/:id/close`; `DELETE /injuries/:id` | Authenticated, team-scoped clinical information. Do not treat the protocol route as anonymous without checking its guard. |
+| Live matches | `GET /matches/:matchId`, `/squad`, `/opponent-squad`, `/events`, `/event-reviews`, `/clock-operations`; `POST /matches/:matchId/events`, `/event-reviews/:reviewId/resolve`, `/finish`, `/finalise`, `/reopen`; `PATCH /matches/:matchId/events/:eventId`, `/clock`; `DELETE /matches/:matchId/events/:eventId` | Authenticated match/team access and operation-specific permissions. |
+| Offline sync | `GET /sync/token`, `/jwks`; `POST /sync/upload`, `/telemetry` | Token, upload and telemetry require authorized context; JWKS exposes public verification keys. See [offline collaboration](offline-collaboration.md). |
+| Public read API | `GET /v1/formations`, `/v1/tactics`, `/v1/public-dashboard/filters`, `/matches`, `/players`, `/team-statistics` | Anonymous read endpoints; verify deployment separately. |
+| Health | `GET /health/database`, `/health/operations` | Operational status; neither proves a full user flow works. |
+
+The remaining first-party routes for auth, teams, athletes, claims, team invitations, events, players, seasons, game plans, statistics, dashboard, profile and location search are listed below. Route shape alone does not specify DTO validation, response shape, errors, or authorization; use controller, guard, contract and service source for those details.
+
+## Current-state update — 24 September 2026
+
+The endpoint inventory below is a 14 September snapshot. Current source adds authenticated `/competitions`, `/competition-invites`, `/injuries`, `/sync/token`, `/sync/upload`, `/sync/telemetry`, and an unauthenticated key endpoint `/sync/jwks`. It also adds unauthenticated, read-only `/v1/public-dashboard` filters, matches, players and team-statistics routes. Competition search/detail still require a session. See the current controllers in `backend/src/`; authorization is determined by guards and service checks, not URL wording. Deployment of these routes has not been verified in this audit. [Offline architecture](offline-collaboration.md) describes the sync contract.
+
 > **API boundary:** this is the broad first-party application API used by the Gaffer frontend. Most routes are cookie-authenticated and team-scoped. The separate [Gaffer Public API Reference](Gaffer-Public-API-Reference.md) documents only the unauthenticated read-only `GET /v1/formations` and `GET /v1/tactics` endpoints. Those routes are implemented/tested in source but were absent from the verified deployment on 14 September 2026. Open-Meteo is a third-party integration consumed by Gaffer and is neither of these APIs.
 
 ## URLs and availability

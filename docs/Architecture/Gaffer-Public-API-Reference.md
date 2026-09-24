@@ -1,5 +1,9 @@
 # Gaffer Public API Reference
 
+## Current-state update — 24 September 2026
+
+The title and endpoint list below describe the original public formations/tactics API as of 14 September. Current source also defines unauthenticated `GET /v1/public-dashboard/filters`, `/matches`, `/players`, and `/team-statistics` in `backend/src/public-api/public-dashboard.controller.ts`. Those routes return public-facing data through validated query contracts. Review the service's visibility filters and privacy policy before describing data exposure; no deployment check was completed here. The 14 September 404 observation remains historical.
+
 > **Availability status — verified 14 September 2026:** implemented and tested in application source at commit `e7285f533b854c4da753c73e22a2a38f580588dc`; deployment verification is pending. The four documented deployed route URLs returned HTTP 404, and the deployed OpenAPI JSON contained neither these routes nor the `Public API` tag. Do not describe this API as live or externally available yet.
 
 ## Which API is this?
