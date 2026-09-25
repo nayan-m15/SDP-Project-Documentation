@@ -85,8 +85,8 @@
     "path": "docs/Architecture/api-guide.md",
     "originalPath": "docs/Architecture/api-guide.md",
     "folder": "Architecture",
-    "size": 18086,
-    "date": "2026-09-24T21:18:52.961Z",
+    "size": 18102,
+    "date": "2026-09-25T10:03:05.016Z",
     "type": "md"
   },
   {
@@ -94,8 +94,8 @@
     "path": "docs/Architecture/application-structure.md",
     "originalPath": "docs/Architecture/application-structure.md",
     "folder": "Architecture",
-    "size": 4475,
-    "date": "2026-09-24T21:18:53.496Z",
+    "size": 4797,
+    "date": "2026-09-25T10:03:03.769Z",
     "type": "md"
   },
   {
@@ -166,8 +166,8 @@
     "path": "docs/Architecture/privacy-policy.md",
     "originalPath": "docs/Architecture/privacy-policy.md",
     "folder": "Architecture",
-    "size": 8440,
-    "date": "2026-09-24T21:18:33.515Z",
+    "size": 8929,
+    "date": "2026-09-25T10:04:11.149Z",
     "type": "md"
   },
   {
@@ -193,8 +193,8 @@
     "path": "docs/Architecture/tech-stack/tool-stack-plan.md",
     "originalPath": "docs/Architecture/tech-stack/tool-stack-plan.md",
     "folder": "Architecture",
-    "size": 2381,
-    "date": "2026-09-24T21:16:46.308Z",
+    "size": 2716,
+    "date": "2026-09-25T10:03:04.447Z",
     "type": "md"
   },
   {
@@ -211,8 +211,8 @@
     "path": "docs/Architecture/terms-of-service.md",
     "originalPath": "docs/Architecture/terms-of-service.md",
     "folder": "Architecture",
-    "size": 5471,
-    "date": "2026-09-24T21:18:33.523Z",
+    "size": 5767,
+    "date": "2026-09-25T10:04:11.570Z",
     "type": "md"
   },
   {
@@ -229,8 +229,8 @@
     "path": "docs/Architecture/User-Feedback.md",
     "originalPath": "docs/Architecture/User-Feedback.md",
     "folder": "Architecture",
-    "size": 17017,
-    "date": "2026-09-24T21:09:16.561Z",
+    "size": 17312,
+    "date": "2026-09-25T10:03:51.223Z",
     "type": "md"
   },
   {
@@ -247,8 +247,8 @@
     "path": "docs/Quality/testing-and-qa.md",
     "originalPath": "docs/Quality/testing-and-qa.md",
     "folder": "Quality",
-    "size": 5723,
-    "date": "2026-09-24T21:18:33.411Z",
+    "size": 6319,
+    "date": "2026-09-25T10:03:21.670Z",
     "type": "md"
   },
   {
@@ -256,8 +256,8 @@
     "path": "docs/Meetings/index.md",
     "originalPath": "docs/Meetings/index.md",
     "folder": "Meetings",
-    "size": 2682,
-    "date": "2026-09-15T11:17:33.679Z",
+    "size": 2719,
+    "date": "2026-09-25T10:03:05.447Z",
     "type": "md"
   },
   {
@@ -310,8 +310,8 @@
     "path": "docs/Meetings/reviews/sprint-2-review.md",
     "originalPath": "docs/Meetings/reviews/sprint-2-review.md",
     "folder": "Meetings",
-    "size": 4587,
-    "date": "2026-09-15T11:43:36.795Z",
+    "size": 4849,
+    "date": "2026-09-25T10:03:05.879Z",
     "type": "md"
   },
   {
@@ -360,7 +360,7 @@
     "type": "md"
   },
   {
-    "name": "Standup Meeting 6",
+    "name": "Daily Standup Meeting 3",
     "path": "docs/Meetings/standups/2026-09-14-standup-6.md",
     "originalPath": "docs/Meetings/standups/2026-09-14-standup-6.md",
     "folder": "Meetings",

@@ -21,8 +21,8 @@
 
 The proposal correctly favoured a separate frontend/backend, server-owned database access, runtime validation, event-derived statistics, team scoping, explicit offline conflict handling, and layered tests. Only the items linked from the current evidence pages should be treated as delivered.
 
-## Future implementation cautions
+## Remaining verification and future work
 
-- Offline support needs a persistent client queue, retry policy, ordering/idempotency rules, conflict resolution, UI status, and dedicated tests. `clientRequestId` is useful groundwork but is not the full feature.
-- Collaborative logging needs authenticated socket connections, match rooms, authorisation, reconnect behaviour and multi-client tests.
-- Maps, notification channels and report export require separate acceptance criteria and provenance/privacy review.
+- The current source has a persistent browser queue, retry receipts, reconciliation, review state and PowerSync configuration. Verify two-device behaviour, recovery and production configuration before claiming the complete offline and concurrent workflow is delivered; see [offline collaboration](../offline-collaboration.md).
+- Socket rooms were part of this historical proposal. Current shared logging uses authenticated upload and PowerSync replication; Socket.io remains installed scaffolding. Add socket delivery only if a later requirement calls for it.
+- Maps, notification channels and **match-report** file export still need separate acceptance criteria and provenance/privacy review. Game-plan and injury PDF exports have different purposes and do not establish match-report export.

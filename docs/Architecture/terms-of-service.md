@@ -12,7 +12,7 @@ These Terms govern your use of Gaffer (the “Service”). By creating an accoun
 
 ## 2. The Service
 
-Gaffer helps coaches and invited team members organise team rosters, events, tactics, match information, attendance responses and statistics. Features and availability may vary while the university project is being developed and assessed.
+Gaffer helps coaches and invited team members organise team rosters, events, tactics, match information, attendance responses and statistics. **Implementation update awaiting human review:** current source also provides public match/player/team-statistics reads, injury/recovery records and offline match logging with local recovery exports. The responsibilities and notices for those newer flows have not been approved as revised Terms. Features and availability may vary while the university project is being developed and assessed.
 
 ## 3. Eligibility and team information
 

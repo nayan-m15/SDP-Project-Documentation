@@ -57,4 +57,4 @@ The current match-day offline path persists an observation in the browser before
 - Athlete comparison accepts two or three own-team athlete IDs, optionally within one season.
 - Opponent names/results appear in match and athlete history, but no athlete-versus-opponent-player comparison aggregate exists.
 - Season trends compare periods within one team's season; there is no cross-team or cross-season side-by-side comparison endpoint.
-- Manual competition standings compare table rows but are not derived from all competitors' platform fixtures.
+- Shared competition standings are calculated from completed in-app matches and admin-entered results; older manually entered standings rows remain as a legacy baseline. This is not an athlete-versus-opponent-player comparison feature. See `backend/src/competitions/competitions.service.ts` and `backend/src/common/competition-standings.ts` at the application source revision cited in the [database schema](data/database-schema.md).

@@ -2,6 +2,8 @@
 
 **Mon, 14 Sept 26**
 
+This is a record of statements made during the meeting. Percentage estimates below are meeting notes, not issued marks or independently verified test results. Consult the current [testing guide](../../Quality/testing-and-qa.md) for recorded execution evidence.
+
 ## Documentation Review
 
 - **Bug tracker:** covers both Sprint 1 and Sprint 2 items; searchable and well-structured.
