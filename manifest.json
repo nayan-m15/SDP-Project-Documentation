@@ -76,8 +76,8 @@
     "path": "docs/Project Management/sprint-3-delivery.md",
     "originalPath": "docs/Project Management/sprint-3-delivery.md",
     "folder": "Project Management",
-    "size": 3252,
-    "date": "2026-09-24T21:10:57.305Z",
+    "size": 3366,
+    "date": "2026-09-25T10:20:07.195Z",
     "type": "md"
   },
   {
@@ -256,8 +256,8 @@
     "path": "docs/Meetings/index.md",
     "originalPath": "docs/Meetings/index.md",
     "folder": "Meetings",
-    "size": 2719,
-    "date": "2026-09-25T10:03:05.447Z",
+    "size": 3174,
+    "date": "2026-09-25T10:19:25.190Z",
     "type": "md"
   },
   {
@@ -270,7 +270,7 @@
     "type": "md"
   },
   {
-    "name": "Sprint 1 Planning Meeting",
+    "name": "Sprint Planning Meeting",
     "path": "docs/Meetings/planning/sprint-1-planning.md",
     "originalPath": "docs/Meetings/planning/sprint-1-planning.md",
     "folder": "Meetings",
@@ -285,6 +285,15 @@
     "folder": "Meetings",
     "size": 2414,
     "date": "2026-09-15T11:19:26.255Z",
+    "type": "md"
+  },
+  {
+    "name": "Sprint 3 Planning Meeting",
+    "path": "docs/Meetings/planning/sprint-3-planning.md",
+    "originalPath": "docs/Meetings/planning/sprint-3-planning.md",
+    "folder": "Meetings",
+    "size": 4675,
+    "date": "2026-09-25T10:19:51.402Z",
     "type": "md"
   },
   {
@@ -360,12 +369,21 @@
     "type": "md"
   },
   {
-    "name": "Standup Meeting 6",
+    "name": "Daily Standup Meeting 3",
     "path": "docs/Meetings/standups/2026-09-14-standup-6.md",
     "originalPath": "docs/Meetings/standups/2026-09-14-standup-6.md",
     "folder": "Meetings",
     "size": 1947,
     "date": "2026-09-15T11:17:33.743Z",
+    "type": "md"
+  },
+  {
+    "name": "Standup Meeting 7 — Sprint 3",
+    "path": "docs/Meetings/standups/2026-09-24-standup-7.md",
+    "originalPath": "docs/Meetings/standups/2026-09-24-standup-7.md",
+    "folder": "Meetings",
+    "size": 3145,
+    "date": "2026-09-25T10:19:13.870Z",
     "type": "md"
   }
 ]
