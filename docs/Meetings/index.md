@@ -6,15 +6,17 @@ This register is chronological. “Proof available” means the Markdown contain
 | --- | --- | --- | --- | --- | --- |
 | 12 Aug 2026 | Client requirements | [Product Requirements Planning](planning/product-requirements.md) | Not recorded | Dated written record | Discussed product scope, documentation, methodology and open client questions. |
 | 14 Aug 2026 | Sprint 1 planning | [Sprint 1 Planning](planning/sprint-1-planning.md) | Discord | Image and time | Agreed initial priorities, roles discussion and assignment approach. |
-| 17 Aug 2026 | Sprint 1 standup | [Standup 1](standups/2026-08-17-standup-1.md) | Discord | Image and time | Project setup complete; Trello and feature work next. |
-| 18 Aug 2026 | Sprint 1 standup | [Standup 2](standups/2026-08-18-standup-2.md) | Discord | Image and time | Continued core feature integration and team-scoping work. |
-| 20 Aug 2026 | Sprint 1 client standup | [Standup 3](standups/2026-08-20-standup-3.md) | In person | Recorded time only | Jan requested rubric-aligned architecture, methodology, backlog and schema pages. |
+| 17 Aug 2026 | Sprint 1 standup | [Daily Standup Meeting 1](standups/2026-08-17-standup-1.md) | Discord | Image and time | Project setup complete; Trello and feature work next. |
+| 18 Aug 2026 | Sprint 1 standup | [Daily Standup Meeting 2](standups/2026-08-18-standup-2.md) | Discord | Image and time | Continued core feature integration and team-scoping work. |
+| 20 Aug 2026 | Sprint 1 client standup | [Daily Standup Meeting 3](standups/2026-08-20-standup-3.md) | In person | Recorded time only | Jan requested rubric-aligned architecture, methodology, backlog and schema pages. |
 | 24 Aug 2026 | Sprint 1 retrospective | [Sprint 1 Retrospective](retrospectives/sprint-1-retrospective.md) | Not recorded | Image and time | Team reviewed Sprint 1 achievements, blockers and marking preparation. |
 | 3 Sep 2026 | Sprint 2 planning | [Sprint 2 Planning](planning/sprint-2-planning.md) | Discord | Recorded channel/time | Prioritised issues, pre-match opponent flow and backlog detail. |
-| 4 Sep 2026 | Sprint 2 client standup | [Standup 4](standups/2026-09-04-standup-4.md) | WhatsApp | Recorded call/time | Clarify fixtures and review the public-API rubric requirement. |
-| 13 Sep 2026 | Sprint 2 standup | [Standup 5](standups/2026-09-13-standup-5.md) | Discord | Recorded channel/time | Finish checklists, merge current work and prepare for client review. |
-| 14 Sep 2026 | Sprint 2 standup | [Standup 6](standups/2026-09-14-standup-6.md) | Discord | Recorded channel/time | Finalised workflows, discussed CI pipeline delays and prepared for the client review. |
+| 4 Sep 2026 | Sprint 2 client standup | [Daily Standup Meeting 4](standups/2026-09-04-standup-4.md) | WhatsApp | Recorded call/time | Clarify fixtures and review the public-API rubric requirement. |
+| 13 Sep 2026 | Sprint 2 standup | [Daily Standup Meeting 5](standups/2026-09-13-standup-5.md) | Discord | Recorded channel/time | Finish checklists, merge current work and prepare for client review. |
+| 14 Sep 2026 | Sprint 2 standup | [Daily Standup Meeting 6](standups/2026-09-14-standup-6.md) | Discord | Recorded channel/time | Finalised workflows, discussed CI pipeline delays and prepared for the client review. |
 | 14 Sep 2026 | Sprint 2 client review | [Sprint 2 Review](reviews/sprint-2-review.md) | WhatsApp | Image and time | Reviewed Sprint 2 progress, testing and CI, documentation, rubric requirements and outstanding actions. |
 | 14 Sep 2026 | Sprint 2 retrospective | [Sprint 2 Retrospective](retrospectives/sprint2-retrospective.md) | Discord | Image and time | Reviewed Sprint 2 issues, documentation work, upcoming deadlines and next steps. |
 | 18 Sep 2026 | Sprint 3 planning | [Sprint 3 Planning](planning/sprint-3-planning.md) | Discord | Image and time | Prioritised league, fixture, offline, public and injury work; recorded issues and a deferred concurrency item. |
-| 24 Sep 2026 | Sprint 3 client standup | [Standup 7](standups/2026-09-24-standup-7.md) | WhatsApp | Image and time | Discussed planned features, backend test blockers, coverage evidence and two-account concurrency testing. |
+| 24 Sep 2026 | Sprint 3 client standup | [Daily Standup Meeting 7](standups/2026-09-24-standup-7.md) | WhatsApp | Image and time | Discussed planned features, backend test blockers, coverage evidence and two-account concurrency testing. |
+| 27 Sep 2026 | Sprint 3 standup | [Daily Standup Meeting 8](standups/2026-09-27-standup-8.md) | Discord | Image and time | Reviewed PWA install feedback, alternative formats, automatic scheduling and work for the sprint review. |
+| 28 Sep 2026 | Sprint 3 standup | [Daily Standup Meeting 9](standups/2026-09-28-standup-9.md) | Discord | Image and time | Reviewed SonarQube blockers, stats and injury page work, landing-page updates and browser download issues. |

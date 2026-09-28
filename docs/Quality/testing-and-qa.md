@@ -8,6 +8,13 @@ Keep these states separate: a test exists; a local command passed; CI is configu
 
 ## Current local result
 
+**Documentation repository checks, 28 September 2026:**
+
+- `npm.cmd run validate` - **passed**; all 47 manifest entries match the 47 Markdown files, and the validator reported no broken local links or other documentation errors.
+- `git diff --check` - **passed**; no whitespace errors were reported for the changes checked.
+
+These checks cover documentation inventory, local links and formatting only. They do not run or establish a pass for the Gaffer application's backend, frontend, integration or browser tests. The latest application test execution recorded below remains the 14 September result; no newer application test run or successful CI run was verified here.
+
 On 14 September 2026 at application commit `e7285f533b854c4da753c73e22a2a38f580588dc`:
 
 - `npm.cmd --prefix backend test -- --runInBand` — **32/32 suites and 312/312 tests passed; 0 snapshots**.
@@ -25,6 +32,8 @@ Integration and Playwright suites were not run because no safe disposable test d
 | Browser end-to-end | `npm.cmd run test:e2e:ui` | Playwright, Vite, Nest and database-backed flows | Supplied main-flow artifact is a failure: Dashboard heading missing while `Loading workspace...` remained visible. No current full-suite pass recorded. |
 | Quality/build | `npm.cmd run lint` and `npm.cmd run build` | Frontend/backend lint and builds | CI-configured; no successful run evidence supplied |
 | Coverage | `npm.cmd --prefix backend run test:cov` | Backend Jest coverage, consumed by SonarQube | Historical report mentioned, but no reproducible current percentage supplied; the brief's >30% and >60% bands are unverified. |
+| Documentation integrity | `npm.cmd run validate` | Manifest sizes and inventory, local Markdown links, and repository documentation rules | Passed locally on 28 September 2026; 47 manifest entries and 47 Markdown files |
+| Documentation diff hygiene | `git diff --check` | Whitespace errors in changed tracked files | Passed locally on 28 September 2026 |
 
 At the 25 September configuration review, root `npm test` runs match-domain and backend tests. `npm.cmd --prefix frontend test` runs the frontend Node tests. `npm run test:e2e:pwa` uses the separate PWA Playwright configuration. Test file presence and workflow configuration do not establish a pass. Record exact totals, command output and environment for any future claim.
 
@@ -52,6 +61,8 @@ The 14 September audit found that the workflow missed `development`. At applicat
 The 25 September workflow source **does** run `npm --prefix frontend test` in its quality/build job. That establishes CI configuration for frontend Node tests, not a successful run.
 
 Configuration existence does not prove a successful Gitea Actions run. No run URL/log, branch-protection evidence or continuous-deployment job was supplied. The workflow is CI, not proven continuous deployment.
+
+The documentation repository also has `.github/workflows/docs-validation.yml`, which runs `npm ci`, `npm run validate` and `npm run check:js` on pushes and pull requests. This confirms workflow configuration only; no successful run URL or log was available for this update.
 
 ## Manual acceptance areas
 

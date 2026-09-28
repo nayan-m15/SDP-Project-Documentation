@@ -247,8 +247,8 @@
     "path": "docs/Quality/testing-and-qa.md",
     "originalPath": "docs/Quality/testing-and-qa.md",
     "folder": "Quality",
-    "size": 6319,
-    "date": "2026-09-28T20:30:56.959Z",
+    "size": 7625,
+    "date": "2026-09-28T21:23:23.426Z",
     "type": "md"
   },
   {
@@ -256,8 +256,8 @@
     "path": "docs/Meetings/index.md",
     "originalPath": "docs/Meetings/index.md",
     "folder": "Meetings",
-    "size": 3174,
-    "date": "2026-09-28T20:30:56.925Z",
+    "size": 3736,
+    "date": "2026-09-28T21:32:26.918Z",
     "type": "md"
   },
   {
@@ -342,84 +342,84 @@
     "type": "md"
   },
   {
-    "name": "Standup Meeting 1",
+    "name": "Daily Standup Meeting 1",
     "path": "docs/Meetings/standups/2026-08-17-standup-1.md",
     "originalPath": "docs/Meetings/standups/2026-08-17-standup-1.md",
     "folder": "Meetings",
-    "size": 1762,
-    "date": "2026-09-14T18:10:16.831Z",
-    "type": "md"
-  },
-  {
-    "name": "Standup Meeting 2",
-    "path": "docs/Meetings/standups/2026-08-18-standup-2.md",
-    "originalPath": "docs/Meetings/standups/2026-08-18-standup-2.md",
-    "folder": "Meetings",
-    "size": 4652,
-    "date": "2026-09-28T20:30:56.938Z",
-    "type": "md"
-  },
-  {
-    "name": "Standup Meeting 3",
-    "path": "docs/Meetings/standups/2026-08-20-standup-3.md",
-    "originalPath": "docs/Meetings/standups/2026-08-20-standup-3.md",
-    "folder": "Meetings",
-    "size": 1839,
-    "date": "2026-09-14T18:10:16.863Z",
-    "type": "md"
-  },
-  {
-    "name": "Standup Meeting 4",
-    "path": "docs/Meetings/standups/2026-09-04-standup-4.md",
-    "originalPath": "docs/Meetings/standups/2026-09-04-standup-4.md",
-    "folder": "Meetings",
-    "size": 2111,
-    "date": "2026-09-28T20:30:56.939Z",
-    "type": "md"
-  },
-  {
-    "name": "Standup Meeting 5",
-    "path": "docs/Meetings/standups/2026-09-13-standup-5.md",
-    "originalPath": "docs/Meetings/standups/2026-09-13-standup-5.md",
-    "folder": "Meetings",
-    "size": 1959,
-    "date": "2026-09-28T20:30:56.940Z",
-    "type": "md"
-  },
-  {
-    "name": "Daily Standup Meeting 3",
-    "path": "docs/Meetings/standups/2026-09-14-standup-6.md",
-    "originalPath": "docs/Meetings/standups/2026-09-14-standup-6.md",
-    "folder": "Meetings",
-    "size": 1947,
-    "date": "2026-09-28T20:30:56.940Z",
-    "type": "md"
-  },
-  {
-    "name": "Standup Meeting 7 — Sprint 3",
-    "path": "docs/Meetings/standups/2026-09-24-standup-7.md",
-    "originalPath": "docs/Meetings/standups/2026-09-24-standup-7.md",
-    "folder": "Meetings",
-    "size": 3145,
-    "date": "2026-09-28T20:30:56.942Z",
+    "size": 1768,
+    "date": "2026-09-28T21:32:23.700Z",
     "type": "md"
   },
   {
     "name": "Daily Standup Meeting 2",
-    "path": "docs/Meetings/standups/standup-8.md",
-    "originalPath": "docs/Meetings/standups/standup-8.md",
+    "path": "docs/Meetings/standups/2026-08-18-standup-2.md",
+    "originalPath": "docs/Meetings/standups/2026-08-18-standup-2.md",
     "folder": "Meetings",
-    "size": 2108,
-    "date": "2026-09-28T20:30:56.943Z",
+    "size": 4658,
+    "date": "2026-09-28T21:32:24.053Z",
     "type": "md"
   },
   {
     "name": "Daily Standup Meeting 3",
-    "path": "docs/Meetings/standups/standup-9.md",
-    "originalPath": "docs/Meetings/standups/standup-9.md",
+    "path": "docs/Meetings/standups/2026-08-20-standup-3.md",
+    "originalPath": "docs/Meetings/standups/2026-08-20-standup-3.md",
+    "folder": "Meetings",
+    "size": 1845,
+    "date": "2026-09-28T21:32:24.385Z",
+    "type": "md"
+  },
+  {
+    "name": "Daily Standup Meeting 4",
+    "path": "docs/Meetings/standups/2026-09-04-standup-4.md",
+    "originalPath": "docs/Meetings/standups/2026-09-04-standup-4.md",
+    "folder": "Meetings",
+    "size": 2117,
+    "date": "2026-09-28T21:32:24.762Z",
+    "type": "md"
+  },
+  {
+    "name": "Daily Standup Meeting 5",
+    "path": "docs/Meetings/standups/2026-09-13-standup-5.md",
+    "originalPath": "docs/Meetings/standups/2026-09-13-standup-5.md",
+    "folder": "Meetings",
+    "size": 1965,
+    "date": "2026-09-28T21:32:25.139Z",
+    "type": "md"
+  },
+  {
+    "name": "Daily Standup Meeting 6",
+    "path": "docs/Meetings/standups/2026-09-14-standup-6.md",
+    "originalPath": "docs/Meetings/standups/2026-09-14-standup-6.md",
+    "folder": "Meetings",
+    "size": 2032,
+    "date": "2026-09-28T21:32:25.494Z",
+    "type": "md"
+  },
+  {
+    "name": "Daily Standup Meeting 7 — Sprint 3",
+    "path": "docs/Meetings/standups/2026-09-24-standup-7.md",
+    "originalPath": "docs/Meetings/standups/2026-09-24-standup-7.md",
+    "folder": "Meetings",
+    "size": 3151,
+    "date": "2026-09-28T21:32:25.840Z",
+    "type": "md"
+  },
+  {
+    "name": "Daily Standup Meeting 8",
+    "path": "docs/Meetings/standups/2026-09-27-standup-8.md",
+    "originalPath": "docs/Meetings/standups/2026-09-27-standup-8.md",
+    "folder": "Meetings",
+    "size": 2108,
+    "date": "2026-09-28T21:32:26.194Z",
+    "type": "md"
+  },
+  {
+    "name": "Daily Standup Meeting 9",
+    "path": "docs/Meetings/standups/2026-09-28-standup-9.md",
+    "originalPath": "docs/Meetings/standups/2026-09-28-standup-9.md",
     "folder": "Meetings",
     "size": 2287,
-    "date": "2026-09-28T20:30:56.944Z",
+    "date": "2026-09-28T21:32:26.544Z",
     "type": "md"
   }
 ]
