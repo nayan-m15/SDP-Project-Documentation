@@ -134,15 +134,7 @@
     "date": "2026-09-15T10:55:41.122Z",
     "type": "md"
   },
-  {
-    "name": "Gaffer Public API Reference",
-    "path": "docs/Architecture/Gaffer-Public-API-Reference.md",
-    "originalPath": "docs/Architecture/Gaffer-Public-API-Reference.md",
-    "folder": "Architecture",
-    "size": 5100,
-    "date": "2026-09-24T21:18:33.506Z",
-    "type": "md"
-  },
+  
   {
     "name": "Git Methodology and Observed Workflow",
     "path": "docs/Architecture/git-methodology.md",
