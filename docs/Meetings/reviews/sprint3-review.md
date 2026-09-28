@@ -67,7 +67,7 @@ Meeting commenced at 11:04 on 28/09/2026.
 
 WhatsApp voice call — SDP(Sports) Group (60:02 elapsed):
 
-![Sprint 3 review proof of meeting](sprint3_review.jpeg)
+<img src="sprint3_review.jpeg" alt="Sprint 3 review proof of meeting" width="500">
 
 ---
 
