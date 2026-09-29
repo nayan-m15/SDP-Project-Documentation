@@ -24,6 +24,8 @@ Integration and Playwright suites were not run because no safe disposable test d
 
 ## Test pyramid and commands
 
+For dated, source-level performance observations and unmeasured follow-up opportunities, see the [Performance Status Review](performance-review.md). It is based on externally reported code-review findings and is not a runtime performance assessment.
+
 | Layer | Command | What it exercises | Current result |
 | --- | --- | --- | --- |
 | Backend unit/component | `npm.cmd --prefix backend test -- --runInBand` | Jest `backend/src/**/*.spec.ts` | Passed locally as recorded above |
