@@ -36,6 +36,8 @@ A documentation GitHub Actions workflow runs validation and JavaScript syntax ch
 
 The 14 September 2026 audit used Trello activity through 2026-09-14T11:49:45.592Z and application commit `e7285f533b854c4da753c73e22a2a38f580588dc`. See the backlog, testing and API pages for precise limits.
 
+**External codebase comparison (reported, not independently verified; 29 September 2026):** A separate review of application checkout `03cfc17` reported a broader feature set than this README's existing summary, including competitions/fixtures, friendly fixtures, injuries/recovery, offline synchronization, AI features, player workflows, a public dashboard/API and game plans/tactics. The README needs direct source verification; these reported source capabilities do not establish delivery or deployment.
+
 ## AI declaration
 
 This repository contains AI-assisted code and documentation. Historical declarations are preserved where supplied; they are not expanded with guessed tools or approvals. This cleanup used OpenAI Codex to inspect supplied sources, generate tracker pages, migrate PDF material, edit the portal and run local validation. Team review remains required before representing the result as approved evidence.

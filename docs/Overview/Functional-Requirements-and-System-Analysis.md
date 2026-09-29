@@ -42,6 +42,8 @@ Gaffer is a football coaching application with coach, assistant and claimed-play
 
 ## Key rules
 
+**External codebase comparison (reported, not independently verified; 29 September 2026):** A separate review of checkout `03cfc17` reported that match-start behavior is format-dependent: the required starter count may come from the competition format, game-plan formation or default formation, and supported competition formats include 5-, 7- and 11-a-side. The review also reported a separate pre-match lineup confirmation route that still requires exactly 11 starters. Therefore, the older statement that “starting a match requires 11” is too broad when applied to match start. Preserve that as a historical 14 September statement; this later distinction is externally reported. The documentation author did not independently verify these details because application source was unavailable for this comparison.
+
 - Team-scoped reads resolve a membership from the authenticated user; coach-only mutations use a stricter coach check.
 - A user has at most one `team_members` row under the current unique index, while a user may claim one athlete per team across multiple teams.
 - Active roster listings exclude archived athletes; `archived_at` preserves historical records.

@@ -185,6 +185,8 @@ Exactly 11 unique starters are required. When `pitchAssignments` is supplied, `f
 
 ### Start a match
 
+**External codebase comparison (reported, not independently verified; 29 September 2026):** A separate review of application checkout `03cfc17` reported that the request schema's accepted starter-array range does not necessarily describe what the service accepts for a successful match start. Reported service behavior requires the starter count selected by the competition, game plan or default formation; the reported pre-match lineup confirmation route has a separate exact-11 requirement. The guide's start-match description says 1–11 while its separate lineup description says exactly 11, reflecting different route requirements rather than one shared rule. The documentation author did not inspect controller, schema or service code and did not independently verify these details. The route inventory above remains as recorded.
+
 ```http
 POST /events/<event-uuid>/start-match
 Content-Type: application/json

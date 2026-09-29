@@ -13,7 +13,7 @@
     "path": "docs/Overview/02-product-overview.md",
     "originalPath": "docs/Overview/02-product-overview.md",
     "folder": "Overview",
-    "size": 5589,
+    "size": 6435,
     "date": "2026-09-28T20:30:56.949Z",
     "type": "md"
   },
@@ -22,7 +22,7 @@
     "path": "docs/Overview/Functional-Requirements-and-System-Analysis.md",
     "originalPath": "docs/Overview/Functional-Requirements-and-System-Analysis.md",
     "folder": "Overview",
-    "size": 11477,
+    "size": 12296,
     "date": "2026-09-28T20:30:56.951Z",
     "type": "md"
   },
@@ -85,7 +85,7 @@
     "path": "docs/Architecture/api-guide.md",
     "originalPath": "docs/Architecture/api-guide.md",
     "folder": "Architecture",
-    "size": 38177,
+    "size": 39014,
     "date": "2026-09-28T21:09:02.552Z",
     "type": "md"
   },
@@ -103,7 +103,7 @@
     "path": "docs/Architecture/data/database-schema.md",
     "originalPath": "docs/Architecture/data/database-schema.md",
     "folder": "Architecture",
-    "size": 40476,
+    "size": 40917,
     "date": "2026-09-28T20:30:56.906Z",
     "type": "md"
   },

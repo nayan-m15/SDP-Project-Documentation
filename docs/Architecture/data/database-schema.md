@@ -2,6 +2,8 @@
 
 **Historical source for the detailed sections below:** `backend/src/database/schema/index.ts` at application commit `e7285f53`, checked 14 September 2026. That version defined **19 tables and 14 PostgreSQL enums**. SQL migrations `0000`–`0019` were inspected but were not executed during that update. The [current declaration inventory](#current-schema-declaration-inventory) is at the end of this page.
 
+**External codebase comparison (reported, not independently verified; 29 September 2026):** A separate review flagged the detailed schema diagram and counts above as based on an older 14 September source snapshot. A later schema declaration inventory is present at the end of this page, but the documentation author could not compare either section with current schema source or migrations. No current table or enum count is asserted here.
+
 ## Entity relationships
 
 ```mermaid
