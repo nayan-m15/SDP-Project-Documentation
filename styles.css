@@ -1,128 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
-
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-}
-
-:root {
-    /* Color Palette - Light Mode */
-    --background: #f8fafc;
-    --background-subtle: #f1f5f9;
-    --surface: #ffffff;
-    --surface-hover: #f1f5f9;
-    --surface-active: #e2e8f0;
-    --surface-glass: rgba(255, 255, 255, 0.85);
-
-    --border: #e2e8f0;
-    --border-strong: #cbd5e1;
-    --border-subtle: #f1f5f9;
-
-    --text: #0f172a;
-    --text-secondary: #475569;
-    --text-tertiary: #94a3b8;
-
-    --accent: #2563eb;
-    --accent-hover: #1d4ed8;
-    --accent-soft: #eff6ff;
-    --accent-muted: #dbeafe;
-    --accent-ring: rgba(37, 99, 235, 0.2);
-    --accent-gradient: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
-
-    /* Admonition Alert Colors */
-    --note-bg: #eff6ff;
-    --note-border: #3b82f6;
-    --note-text: #1e40af;
-    --tip-bg: #f0fdf4;
-    --tip-border: #10b981;
-    --tip-text: #065f46;
-    --warning-bg: #fffbeb;
-    --warning-border: #f59e0b;
-    --warning-text: #92400e;
-    --important-bg: #faf5ff;
-    --important-border: #8b5cf6;
-    --important-text: #5b21b6;
-    --danger-bg: #fef2f2;
-    --danger-border: #ef4444;
-    --danger-text: #991b1b;
-
-    --danger: #dc2626;
-    --danger-soft: #fef2f2;
-    --success: #16a34a;
-    --success-soft: #f0fdf4;
-    --warning: #d97706;
-    --warning-soft: #fffbeb;
-
-    /* Shadows & Radii */
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
-    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-    --shadow-modal: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-
-    --sidebar-width: 290px;
-    --toc-width: 240px;
-    --radius-sm: 6px;
-    --radius-md: 10px;
-    --radius-lg: 14px;
-    --radius-xl: 18px;
-    --space-page: 24px;
-}
-
-/* Dark Mode Overrides */
-[data-theme="dark"] {
-    --background: #090d16;
-    --background-subtle: #0f172a;
-    --surface: #131b2e;
-    --surface-hover: #1e293b;
-    --surface-active: #283548;
-    --surface-glass: rgba(19, 27, 46, 0.85);
-
-    --border: #1e293b;
-    --border-strong: #334155;
-    --border-subtle: #172033;
-
-    --text: #f8fafc;
-    --text-secondary: #cbd5e1;
-    --text-tertiary: #64748b;
-
-    --accent: #3b82f6;
-    --accent-hover: #60a5fa;
-    --accent-soft: rgba(59, 130, 246, 0.15);
-    --accent-muted: rgba(59, 130, 246, 0.25);
-    --accent-ring: rgba(59, 130, 246, 0.3);
-    --accent-gradient: linear-gradient(135deg, #3b82f6 0%, #a855f7 100%);
-
-    /* Dark Mode Admonitions */
-    --note-bg: rgba(59, 130, 246, 0.12);
-    --note-border: #60a5fa;
-    --note-text: #93c5fd;
-    --tip-bg: rgba(16, 185, 129, 0.12);
-    --tip-border: #34d399;
-    --tip-text: #6ee7b7;
-    --warning-bg: rgba(245, 158, 11, 0.12);
-    --warning-border: #fbbf24;
-    --warning-text: #fde68a;
-    --important-bg: rgba(139, 92, 246, 0.12);
-    --important-border: #a78bfa;
-    --important-text: #c4b5fd;
-    --danger-bg: rgba(239, 68, 68, 0.12);
-    --danger-border: #f87171;
-    --danger-text: #fca5a5;
-
-    --danger: #ef4444;
-    --danger-soft: rgba(239, 68, 68, 0.15);
-    --success: #22c55e;
-    --success-soft: rgba(34, 197, 94, 0.15);
-    --warning: #f59e0b;
-    --warning-soft: rgba(245, 158, 11, 0.15);
-
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.4);
-    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6);
-    --shadow-modal: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
 }
 
 html {
@@ -296,7 +175,7 @@ svg.lucide {
 }
 
 .brand h1 {
-    font-family: 'Outfit', sans-serif;
+    font-family: Georgia, "Times New Roman", serif;
     font-size: 16px;
     font-weight: 700;
     line-height: 1.2;
@@ -796,7 +675,7 @@ svg.lucide {
 .markdown-body h2,
 .markdown-body h3,
 .markdown-body h4 {
-    font-family: 'Outfit', sans-serif;
+    font-family: Georgia, "Times New Roman", serif;
     color: var(--text);
     position: relative;
 }
@@ -926,7 +805,7 @@ svg.lucide {
 .callout-title {
     font-weight: 700;
     margin-bottom: 4px;
-    font-family: 'Outfit', sans-serif;
+    font-family: Georgia, "Times New Roman", serif;
     text-transform: uppercase;
     font-size: 12px;
     letter-spacing: 0.05em;
@@ -1112,7 +991,7 @@ svg.lucide {
     background: var(--surface-hover);
     color: var(--text);
     font-weight: 650;
-    font-family: 'Outfit', sans-serif;
+    font-family: Georgia, "Times New Roman", serif;
 }
 
 .markdown-body tr:nth-child(even) {
@@ -1271,7 +1150,7 @@ svg.lucide {
 }
 
 .empty-state h3 {
-    font-family: 'Outfit', sans-serif;
+    font-family: Georgia, "Times New Roman", serif;
     font-size: 18px;
     font-weight: 700;
     color: var(--text);
@@ -1528,14 +1407,14 @@ svg.lucide {
     border-radius: var(--radius-md);
     background: var(--accent-gradient);
     color: white;
-    font-family: 'Outfit', sans-serif;
+    font-family: Georgia, "Times New Roman", serif;
     font-size: 12px;
     font-weight: 800;
     box-shadow: 0 4px 12px var(--accent-ring);
 }
 
 .upload-header h3 {
-    font-family: 'Outfit', sans-serif;
+    font-family: Georgia, "Times New Roman", serif;
     font-size: 17px;
     font-weight: 700;
 }

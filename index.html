@@ -9,18 +9,19 @@
     <!-- Instant Theme Synchronization -->
     <script>
         (function() {
-            const saved = localStorage.getItem("sdp_theme") || "light";
+            const saved = localStorage.getItem("sdp_theme") || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
             document.documentElement.setAttribute("data-theme", saved);
         })();
     </script>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <!-- Modern Styling -->
     <link rel="stylesheet" href="styles.css">
     <!-- Highlight.js CSS for Syntax Highlighting -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <link rel="stylesheet" href="gaffer-theme.css">
     <!-- Lucide Vector Icons Library -->
     <script src="https://unpkg.com/lucide@0.468.0"></script>
 </head>
@@ -32,7 +33,7 @@
     </div>
 
     <!-- Mobile Sidebar Backdrop Overlay -->
-    <div id="sidebarBackdrop" class="sidebar-backdrop"></div>
+    <div id="sidebarBackdrop" class="sidebar-backdrop" aria-hidden="true"></div>
 
     <div class="app">
         <!-- Sidebar Navigation -->
@@ -54,7 +55,7 @@
             <div class="sidebar-search">
                 <div class="search-input-wrapper">
                     <span class="search-icon"><i data-lucide="search" class="svg-icon-sm"></i></span>
-                    <input type="text" id="treeSearch" class="search-input" placeholder="Search documentation..." autocomplete="off">
+                    <input type="text" id="treeSearch" class="search-input" aria-label="Filter documentation pages" placeholder="Search documentation..." autocomplete="off">
                     <span id="searchShortcutPill" class="search-shortcut-pill" title="Open Global Spotlight Search">Ctrl K</span>
                 </div>
             </div>
@@ -87,9 +88,10 @@
             <!-- Topbar Header & Breadcrumbs -->
             <header class="topbar">
                 <div class="topbar-left">
-                    <button id="mobileMenuBtn" class="mobile-menu-btn" type="button" aria-label="Toggle navigation menu">
+                    <button id="mobileMenuBtn" class="mobile-menu-btn" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation menu">
                         <i data-lucide="menu"></i>
                     </button>
+                    <a class="topbar-brand" href="./index.html" aria-label="Gaffer documentation home"><img src="assets/logo.png" alt=""><span class="topbar-brand-name">GAFFER</span><span class="topbar-brand-docs">Docs</span></a>
                     <div class="breadcrumbs" id="breadcrumbs">
                         <span class="breadcrumb-item">Docs</span>
                         <span class="breadcrumb-separator">/</span>
@@ -126,6 +128,7 @@
                     
                     <!-- Markdown Reader Container -->
                     <div id="markdownWrapper" class="markdown-wrapper">
+                        <details id="tocMobile" class="toc-mobile"><summary>On this page</summary><ul id="tocMobileList" class="toc-list"></ul></details>
                         <!-- Document Meta Bar -->
                         <div id="docMetaHeader" class="doc-meta-header" style="display: none;">
                             <span id="metaCategory" class="doc-meta-item"></span>
@@ -167,7 +170,7 @@
         <div class="spotlight-modal" role="dialog" aria-modal="true" aria-labelledby="spotlightInput">
             <div class="spotlight-search-header">
                 <span class="spotlight-icon"><i data-lucide="search"></i></span>
-                <input type="text" id="spotlightInput" class="spotlight-input" placeholder="Search documentation, categories, files..." autocomplete="off">
+                <input type="text" id="spotlightInput" class="spotlight-input" aria-label="Search documentation" placeholder="Search documentation, categories, files..." autocomplete="off">
             </div>
             <div id="spotlightResults" class="spotlight-results">
                 <!-- Search matches rendered by viewer.js -->
@@ -175,8 +178,8 @@
             <div class="spotlight-footer">
                 <span>Navigate with keyboard</span>
                 <div class="spotlight-shortcuts">
-                    <span><kbd>↑</kbd> <kbd>↓</kbd> to navigate</span>
-                    <span><kbd>↵</kbd> to select</span>
+                    <span><kbd>&uarr;</kbd> <kbd>&darr;</kbd> to navigate</span>
+                    <span><kbd>&#9166;</kbd> to select</span>
                     <span><kbd>esc</kbd> to close</span>
                 </div>
             </div>
@@ -193,7 +196,7 @@
     <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.4/dist/mermaid.min.js"></script>
 
     <!-- Viewer Application Logic -->
-    <script src="./js/viewer.js?v=8"></script>
+    <script src="./js/viewer.js?v=9"></script>
 
 </body>
 </html>
