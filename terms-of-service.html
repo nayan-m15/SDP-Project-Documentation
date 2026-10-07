@@ -22,7 +22,7 @@
 
       <section>
         <h2>1. Scope and acceptance</h2>
-        <p>These terms govern access to and use of Gaffer. By creating an account, accepting an invitation or using Gaffer, you agree to them. If you do not agree, please do not use the application. Our <a href="privacy-policy.html">Privacy Policy</a> explains how personal information is handled.</p>
+        <p>These terms govern access to and use of Gaffer. By creating an account, accepting an invitation or using Gaffer, you agree to them. If you do not agree, please do not use the application. Our <a href="/privacy-policy.html">Privacy Policy</a> explains how personal information is handled.</p>
       </section>
       <section>
         <h2>2. Who may use Gaffer</h2>
@@ -82,6 +82,17 @@
         <p>South African law governs these terms. Please contact us first if you have a concern so we can try to resolve it. This does not prevent you from using a court, regulator or other remedy available by law. Questions may be sent to <a href="mailto:2801261@students.wits.ac.za">2801261@students.wits.ac.za</a>.</p>
       </section>
     </main>
-    <footer><a id="return-link" href="../../index.html">Return to documentation</a> &nbsp;·&nbsp; <a id="privacy-link" href="privacy-policy.html">Privacy Policy</a></footer>
+    <footer><a id="return-link" href="/">Return to Gaffer</a> &nbsp;·&nbsp; <a id="privacy-link" href="/privacy-policy.html">Privacy Policy</a></footer>
+    <script>
+      (() => {
+        const returnTo = new URLSearchParams(window.location.search).get('returnTo');
+        const allowedRoutes = new Set(['/dashboard', '/player/dashboard']);
+        if (returnTo && allowedRoutes.has(returnTo)) {
+          document.getElementById('return-link').href = returnTo;
+          document.getElementById('return-link').textContent = 'Return to dashboard';
+          document.getElementById('privacy-link').href = `/privacy-policy.html?returnTo=${encodeURIComponent(returnTo)}`;
+        }
+      })();
+    </script>
   </body>
 </html>

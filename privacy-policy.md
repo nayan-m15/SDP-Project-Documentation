@@ -2,8 +2,6 @@
 
 Effective date: 5 October 2026
 
-[Open standalone HTML version](privacy-policy.html)
-
 > This policy explains how Gaffer handles personal information in its current university-project implementation. Please read the public-dashboard section before adding a player's details.
 
 ## 1. Who is responsible
@@ -79,4 +77,4 @@ Links to external sites are provided for convenience. Their operators handle inf
 
 We may update this policy as Gaffer changes. We will revise the effective date and take reasonable steps to draw material changes to users' attention. For privacy questions, requests or concerns, contact [2801261@students.wits.ac.za](mailto:2801261@students.wits.ac.za).
 
-[Return to documentation](../../index.html) | [Terms of Service](terms-of-service.md)
+[Return to Gaffer](/) | [Terms of Service](terms-of-service.md)

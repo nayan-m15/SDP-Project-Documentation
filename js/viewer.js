@@ -419,7 +419,14 @@ function rewriteInternalDocumentLinks(container, sourcePath) {
                 : new URL(rawHref, sourceUrl);
             const resolvedPath = decodeURIComponent(resolvedUrl.pathname.replace(/^\//, ""));
             const target = allDocuments.find((candidate) => candidate.path === resolvedPath);
-            if (!target) return;
+            if (!target) {
+                // Standalone pages and downloads are relative to the source
+                // document, including when the portal is hosted in a subfolder.
+                if (!rawHref.startsWith("#")) {
+                    anchor.href = new URL(rawHref, new URL(sourcePath, document.baseURI)).href;
+                }
+                return;
+            }
 
             const section = resolvedUrl.hash ? decodeURIComponent(resolvedUrl.hash.slice(1)) : null;
             anchor.href = documentHash(target.path, section);

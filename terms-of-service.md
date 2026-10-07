@@ -2,8 +2,6 @@
 
 Effective date: 5 October 2026
 
-[Open standalone HTML version](terms-of-service.html)
-
 > Gaffer is a university sport-coaching project. Its features and availability may change as the project develops.
 
 ## 1. Scope and acceptance
@@ -69,4 +67,4 @@ We may revise these terms to reflect changes in Gaffer or the law. We will updat
 
 South African law governs these terms. Please contact us first if you have a concern so we can try to resolve it. This does not prevent you from using a court, regulator or other remedy available by law. Questions may be sent to [2801261@students.wits.ac.za](mailto:2801261@students.wits.ac.za).
 
-[Return to documentation](../../index.html) | [Privacy Policy](privacy-policy.md)
+[Return to Gaffer](/) | [Privacy Policy](privacy-policy.md)
