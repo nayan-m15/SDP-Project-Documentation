@@ -7,6 +7,8 @@ const markdownWrapper = document.getElementById("markdownWrapper");
 const markdownViewer = document.getElementById("markdownViewer");
 const tocSidebar = document.getElementById("tocSidebar");
 const tocList = document.getElementById("tocList");
+const tocMobile = document.getElementById("tocMobile");
+const tocMobileList = document.getElementById("tocMobileList");
 const breadcrumbs = document.getElementById("breadcrumbs");
 const viewerTitle = document.getElementById("viewerTitle");
 const githubEditLink = document.getElementById("githubEditLink");
@@ -45,6 +47,7 @@ let allDocuments = [];
 let currentDoc = null;
 let spotlightSelectedIndex = 0;
 let spotlightMatches = [];
+const preferredTheme = () => localStorage.getItem("sdp_theme") || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
 
 // Refresh Lucide Icons in DOM
 function refreshIcons() {
@@ -55,7 +58,7 @@ function refreshIcons() {
 
 // Initialize Mermaid.js
 if (window.mermaid) {
-    const isDark = (localStorage.getItem("sdp_theme") || "light") === "dark";
+    const isDark = preferredTheme() === "dark";
     mermaid.initialize({
         startOnLoad: false,
         theme: isDark ? "dark" : "neutral",
@@ -82,7 +85,7 @@ function showToast(message, iconName = "check") {
 
 // Initialize Theme
 function initTheme() {
-    const savedTheme = localStorage.getItem("sdp_theme") || "light";
+    const savedTheme = preferredTheme();
     document.documentElement.setAttribute("data-theme", savedTheme);
     updateThemeUI(savedTheme);
 }
@@ -95,6 +98,7 @@ function updateThemeUI(theme) {
         themeIcon.innerHTML = `<i data-lucide="moon" class="svg-icon-sm"></i>`;
         themeText.textContent = "Dark Mode";
     }
+    themeToggleBtn.setAttribute("aria-label", theme === "dark" ? "Switch to light mode" : "Switch to dark mode");
     refreshIcons();
 }
 
@@ -115,6 +119,13 @@ themeToggleBtn.addEventListener("click", () => {
     }
 });
 
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
+    if (localStorage.getItem("sdp_theme")) return;
+    const theme = preferredTheme();
+    document.documentElement.setAttribute("data-theme", theme);
+    updateThemeUI(theme);
+});
+
 // Mobile Sidebar Drawer
 function toggleMobileMenu(open) {
     const shouldOpen = open !== undefined ? open : !sidebar.classList.contains("open");
@@ -122,15 +133,22 @@ function toggleMobileMenu(open) {
         sidebar.classList.add("open");
         sidebarBackdrop.classList.add("active");
         document.body.style.overflow = "hidden";
+        mobileMenuBtn?.setAttribute("aria-expanded", "true");
+        treeSearch?.focus();
     } else {
         sidebar.classList.remove("open");
         sidebarBackdrop.classList.remove("active");
         document.body.style.overflow = "";
+        mobileMenuBtn?.setAttribute("aria-expanded", "false");
+        if (sidebar.contains(document.activeElement)) mobileMenuBtn?.focus();
     }
 }
 
 if (mobileMenuBtn) mobileMenuBtn.addEventListener("click", () => toggleMobileMenu());
 if (sidebarBackdrop) sidebarBackdrop.addEventListener("click", () => toggleMobileMenu(false));
+document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && sidebar.classList.contains("open")) toggleMobileMenu(false);
+});
 
 // Reading Progress Bar & Back-to-Top Handler
 if (markdownWrapper) {
@@ -623,6 +641,13 @@ async function selectDocument(doc, activeBtn = null, sectionId = null, updateHis
                 wrapper.appendChild(preBlock);
             });
 
+            markdownViewer.querySelectorAll("table").forEach((table) => {
+                const wrapper = document.createElement("div");
+                wrapper.className = "table-scroll";
+                table.parentNode.insertBefore(wrapper, table);
+                wrapper.appendChild(table);
+            });
+
             // Heading Anchors & Deep Linking
             const headings = markdownViewer.querySelectorAll("h1, h2, h3");
             const usedHeadingIds = new Map();
@@ -645,6 +670,7 @@ async function selectDocument(doc, activeBtn = null, sectionId = null, updateHis
                     showToast("Section link copied to clipboard!", "check");
                     heading.scrollIntoView({ behavior: "smooth" });
                 });
+                anchor.setAttribute("aria-label", `Copy link to ${heading.textContent}`);
                 heading.appendChild(anchor);
             });
 
@@ -678,6 +704,7 @@ async function selectDocument(doc, activeBtn = null, sectionId = null, updateHis
                 </div>
             `;
             tocSidebar.style.display = "none";
+            if (tocMobile) tocMobile.hidden = true;
             if (docMetaHeader) docMetaHeader.style.display = "none";
             if (docPagination) docPagination.style.display = "none";
         }
@@ -694,21 +721,21 @@ window.addEventListener("popstate", async () => {
 });
 
 // Table of Contents & ScrollSpy
-let tocObserver = null;
+let tocScrollHandler = null;
 
 function buildTOC(headings) {
     tocList.innerHTML = "";
+    if (tocMobileList) tocMobileList.innerHTML = "";
+    if (tocScrollHandler) markdownWrapper.removeEventListener("scroll", tocScrollHandler);
 
     if (!headings || headings.length === 0) {
         tocSidebar.style.display = "none";
+        if (tocMobile) tocMobile.hidden = true;
         return;
     }
 
     tocSidebar.style.display = "block";
-
-    if (tocObserver) {
-        tocObserver.disconnect();
-    }
+    if (tocMobile) tocMobile.hidden = false;
 
     const tocLinks = [];
 
@@ -727,6 +754,15 @@ function buildTOC(headings) {
 
         li.appendChild(a);
         tocList.appendChild(li);
+        if (tocMobileList) {
+            const mobileItem = li.cloneNode(true);
+            mobileItem.querySelector("a").addEventListener("click", (event) => {
+                event.preventDefault();
+                heading.scrollIntoView({ behavior: "smooth" });
+                tocMobile.open = false;
+            });
+            tocMobileList.appendChild(mobileItem);
+        }
         tocLinks.push({ heading, link: a });
     });
 
@@ -743,14 +779,18 @@ function buildTOC(headings) {
         }
 
         tocLinks.forEach(({ link }) => link.classList.remove("active"));
+        tocMobileList?.querySelectorAll(".toc-link").forEach(link => link.classList.remove("active"));
         if (activeLink) {
             activeLink.classList.add("active");
+            tocMobileList?.querySelector(`a[href="${activeLink.getAttribute("href")}"]`)?.classList.add("active");
         } else if (tocLinks.length > 0) {
             tocLinks[0].link.classList.add("active");
+            tocMobileList?.querySelector(".toc-link")?.classList.add("active");
         }
     };
 
-    markdownWrapper.addEventListener("scroll", handleScrollSpy);
+    tocScrollHandler = handleScrollSpy;
+    markdownWrapper.addEventListener("scroll", tocScrollHandler);
     handleScrollSpy();
 }
 
@@ -880,7 +920,7 @@ function renderSpotlightResults(query) {
                 <span class="doc-badge md">MD</span>
                 <div>
                     <div class="spotlight-item-title">${doc.name}</div>
-                    <div class="spotlight-item-folder">${doc.folder || "General"} · ${doc.path}</div>
+                    <div class="spotlight-item-folder">${doc.folder || "General"} &middot; ${doc.path}</div>
                 </div>
             </div>
             <span style="font-size: 12px; color: var(--text-tertiary);"><i data-lucide="corner-down-left" class="svg-icon-sm"></i></span>
