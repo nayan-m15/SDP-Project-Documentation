@@ -1,51 +1,39 @@
-# Performance Status Review
+# Application performance mechanisms
 
-**Review date:** 29 September 2026  
-**Application source reviewed:** checkout `03cfc17`  
-**Evidence type:** externally reported source-code review. The documentation author did not have access to the application repository and did not independently verify these findings. No runtime profiles, load tests, database query plans, or before/after benchmarks were collected. These are code-level observations, not measured results. Source presence does not mean measured speedup or verified performance under production load.
+This page explains the inspected source mechanisms, not measured speedups, current production load or device readiness. See the [source basis](../Architecture/tech-stack/architecture-overview.md#source-basis). Older landing audit measurements are not results for the current plain-background fallback or this checkout.
 
-## Performance improvements present in source
+## Public dashboard and database work
 
-| Area | Current implementation reported | What this improves / limitation |
-| --- | --- | --- |
-| Frontend route loading | Major pages use React lazy imports. | Splits route code so every page module need not load up front. No bundle-size or load-time measurements were collected. |
-| Public dashboard pagination | Match and player endpoints are paginated. The backend selects a page of player IDs before loading their match statistics. The frontend requests matches in pages of 100 and players in pages of 500, with player-page concurrency capped at three. | Bounds each request and addresses prior page-size/truncation problems. The client still fetches every page and holds all results in memory for dashboard filtering and search. |
-| Offline sync uploads | The sync endpoint accepts bounded uploads and processes up to four independent items concurrently. It flushes items sharing a match or ID in order and processes operations with causal parents separately. | Reduces serial work for independent items while preserving ordering safeguards. Throughput under real deployment load was not measured. |
-| Live match clock | The large live-match screen has a separate clock display that updates once per second. A 200 ms timer maintains the elapsed-time reference, while parent React state updates only when the match minute changes. | Reduces frequent whole-page renders compared with updating React state five times per second. The screen remains a large component; no React Profiler results were collected. |
-| Weather/location requests | Forecasts use an in-memory time-based cache, share in-flight requests for the same location/day, bound cache size, and allow a recent stale response when the provider fails. | Can reduce repeated provider calls. The cache is process-local and has not been measured across multiple server instances. |
-| Landing page 3D scene | Smaller/constrained devices and software renderers use reduced settings, including lower pixel ratio, fewer shadows and textures, and lower geometry detail. Reduced-motion preferences are respected, and rendering can stop or pause. | Adaptive rendering behavior, not benchmark evidence. |
-| Asset caching | PWA configuration caches app-shell assets and sets runtime caches for images, models/WASM, and fonts. | Provides caching behavior; it does not guarantee a particular offline startup time. |
-| Database indexes and bounded requests | Source includes indexes for common team, event, match, competition, sync, and injury lookups, plus explicit result limits on selected endpoints. | Intended to support common access patterns. Index effectiveness is unverified without query plans and realistic data. |
+Player filters (team, competition, season, literal name substring and position category) run before pagination. The server selects a bounded athlete page and computes completed-match/event statistics with grouped SQL restricted to those player IDs, retaining zero totals for players without history. It avoids loading complete histories for every public player into application memory.
 
-The review established that these behaviors were present in the reviewed source, not when they were added. No item above is a measured speedup or evidence of production deployment.
+The UI initially requests 40 players and 100 matches, then loads more only on user action. Search debounces for 300 ms and obsolete requests can be cancelled. A failed extra page preserves existing rows and allows manual retry; 429 responses do not trigger automatic page retries. Complete filtered match totals/clean sheets come from a separate summary in the existing matches response, not from downloading every page.
 
-## Remaining performance work
+Validated query keys use a per-instance 30-second cache and share concurrent in-flight database work. Default cache capacity is 500 with oldest-first eviction; match summaries are shared across offsets. Player/match queries disable the five-second default interval, use a 30-second stale period and refresh on focus; standings poll every 30 seconds. Limits and throttling bound anonymous work but do not guarantee latency. See [public API](../Architecture/Gaffer-Public-API-Reference.md) and [refresh](../Architecture/automatic-data-refresh.md).
 
-These are follow-up opportunities, not confirmed production incidents.
+## Optional landing scene and fallback
 
-1. **Aggregate public player statistics in the database.** Although player IDs are paged first, each page reportedly still loads per-athlete/per-match rows and computes several event counts through correlated subqueries before aggregating in application memory. For large match histories, investigate grouped SQL aggregation or another measured approach. Benchmark before changing query structure and preserve correctness.
-2. **Avoid loading the complete public dataset at once.** The public dashboard reportedly fetches all match/player pages and holds the results in memory for local filtering and search. Consider server-side search/filtering, incremental page loading, or a bounded summary endpoint if representative measurements show this is a bottleneck.
-3. **Use query-plan evidence for database tuning.** Review high-volume queries with realistic data and `EXPLAIN ANALYZE`; verify whether existing indexes are used and add indexes only when query plans justify them.
-4. **Profile the live-match interface.** The 200 ms interval still runs while the clock is active, and the screen remains large. Use React Profiler and browser performance tools to identify expensive renders before splitting components or changing update frequency.
-5. **Measure 3D performance on target devices.** Test low-end Android, iOS, desktop, software rendering, reduced-motion settings, and long sessions. Record frame rate, memory, startup time, context loss, and battery impact before tuning scene quality.
-6. **Establish repeatable baselines.** Record representative cold/warm route-load times, production bundle sizes, public-dashboard query latency at several dataset sizes, sync latency by batch size, and live-match rendering behavior. State the environment, dataset, revision, command/scenario, and results.
-7. **Review pagination at scale.** Offset pagination is simple and bounded per request, but may become expensive for deep pages. Consider cursor/keyset pagination only if measurements show deep offsets matter.
+The landing page retains a plain fixed background while the optional scene is loading or unavailable. Reduced motion, save-data and reported device memory ≤2 GB choose fallback without constructing the scene. A worker probes capabilities where OffscreenCanvas/Worker are available; known software rendering chooses fallback. Unknown capability follows regular initialization/failure handling. The renderer also rejects detected software GPUs and cleans up.
 
-## Previously identified issues and current reported status
+The heavy scene module is dynamically imported after a yielded browser task. Scene construction yields between batches via MessageChannel (timer fallback), waits while the document is hidden and responds to cancellation. Geometry/material work and prewarming are staged rather than holding one continuous construction task. This reduces blocking opportunities; no startup-time claim is made here.
 
-A later source review reported that these concerns from a prior targeted source audit are addressed in source. The documentation author did not independently recheck this status:
+Small/constrained devices use lower geometry/texture/shadow settings. Resize computes device-pixel-ratio caps and pixel budgets: low-power about 760,000 pixels/cap 1.05; middle width about 1,250,000/cap 1.28; wider about 1,750,000/cap 1.45, with source minimum-ratio bounds. Unchanged dimensions/ratio avoid repeating resize work. These budgets describe source choices, not a guaranteed frame rate.
 
-- Public player statistics are restricted to the selected player-ID page before the stats join.
-- The public frontend pages match/player results, and player-page requests use capped concurrency.
-- Sync upload processing uses batches of up to four independent items with ordering safeguards instead of processing every independent item serially.
-- Location search type-checks its query value before trimming it.
-- Competition form validation enforces the API's 100-character name and 20-character season bounds.
-- The full-screen loading overlay no longer has the old fixed 700 ms minimum hold described by the earlier audit. App readiness can still wait for fonts/auth or the safety timeout; startup delay is not eliminated.
+Document visibility and the pause control stop animation scheduling. Camera easing uses elapsed milliseconds rather than a fixed per-frame step and clamps long gaps to 100 ms, keeping catch-up behavior consistent across frame rates. Lights remain visible while intensity changes, including zero intensity, so scroll transitions do not repeatedly change shader light-count variants. Shader-error diagnostics remain enabled in development and are disabled in production via `import.meta.env.DEV` to avoid synchronous driver log queries.
 
-Keep prior audit findings and their dates intact wherever recorded. This dated status update does not establish when the changes were introduced, that they are deployed, or that their performance effect has been measured.
+Cancellation/unmount disconnects observers/listeners, stops frames, terminates capability workers and disposes scene/model geometries, materials, textures and WebGL resources. Context-loss handling and failed asset loading retain a usable fallback instead of treating the decorative scene as required product data.
 
-## Evidence and follow-up record
+## Other mechanisms
 
-This page is a source-level status summary reported by an external review of checkout `03cfc17` on 29 September 2026. It is not a benchmark, profiling report, load test, or production performance assessment. No response times, frame rates, query-plan results, database sizes, bundle sizes, or speedup percentages were supplied.
+| Area | Source mechanism and limit |
+| --- | --- |
+| Route loading | Major React routes use lazy imports; actual bundle/startup impact depends on build and browser. |
+| Sync upload | At most 50 items; up to four independent items processed concurrently, with same-match/ID and causal-parent ordering safeguards. |
+| Live clock | Separate clock display and elapsed reference reduce parent state churn; authoritative newer revisions rebase local time. |
+| Weather | Bounded process-local TTL cache, shared in-flight work and recent stale fallback; each server instance owns its cache. |
+| Hashed assets | `frontend/vercel.json` sets `/assets/*` to `public, max-age=31536000, immutable`. Vite-generated hashes allow new assets to use new URLs; this is not a blanket cache rule for unversioned HTML or all public files. |
+| Browser caching | PWA/service-worker asset/runtime caching aids prepared/offline views; protected authorization failures do not grant access to cached private data. |
+| Reports | A captured report scope and one-operation guard prevent overlapping PDF/print/share work. Temporary resources and aborted operations are cleaned up. |
 
-For future performance claims, record the date, repository revision, environment/device, dataset, exact command or scenario, measurements, and comparison baseline. Keep source observations separate from runtime results, deployment evidence, and stakeholder acceptance.
+Grouped player SQL and incremental server-filtered public loading are implemented, so they are not outstanding work. Deep offset costs, index effectiveness, actual route-load/scene cost and multi-device sync throughput remain measurement questions rather than confirmed bottlenecks. Retain future measurements with explicit revision, device/environment and dataset context outside this explanation; this page imports no audit/benchmark artifacts.
+
+Sources: [backend/src/public-api/public-dashboard.service.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/public-api/public-dashboard.service.ts), [backend/src/public-api/public-dashboard-cache.service.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/public-api/public-dashboard-cache.service.ts), [frontend/src/pages/PublicDashboard.tsx](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/frontend/src/pages/PublicDashboard.tsx), [frontend/src/components/landing/LandingScene.tsx](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/frontend/src/components/landing/LandingScene.tsx), [frontend/src/components/landing/landing-scene.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/frontend/src/components/landing/landing-scene.ts), [frontend/src/components/landing/scene-motion.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/frontend/src/components/landing/scene-motion.ts), [frontend/src/components/landing/scene-scheduler.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/frontend/src/components/landing/scene-scheduler.ts), [frontend/vercel.json](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/frontend/vercel.json).

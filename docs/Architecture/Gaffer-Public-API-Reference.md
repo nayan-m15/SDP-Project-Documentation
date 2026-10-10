@@ -1,95 +1,79 @@
 # Gaffer Public API Reference
 
-> **Availability status — verified 14 September 2026:** implemented and tested in application source at commit `e7285f533b854c4da753c73e22a2a38f580588dc`; deployment verification is pending. The four documented deployed route URLs returned HTTP 404, and the deployed OpenAPI JSON contained neither these routes nor the `Public API` tag. Do not describe this API as live or externally available yet.
+The public API is an anonymous, read-only coaching catalog and sporting dashboard. It does not expose saved game plans, accounts, contacts, RSVP notes or authentication data. This reference describes source behavior; it does not assert that a particular hosted revision has been deployed.
 
-## Which API is this?
+## Base URLs and Swagger scope
 
-This page began as the small unauthenticated reference catalog for third-party/rubric use. The 24 September source also exposes an anonymous public dashboard:
+Local backend: `http://localhost:3000`. Configured hosted backend: `https://gaffer-api-ynaf.onrender.com`. The frontend rewrite adds `/api` before backend paths (for example `/api/v1/formations`).
 
-- `GET /v1/formations`
-- `GET /v1/tactics`
-- `GET /v1/public-dashboard/filters`
-- `GET /v1/public-dashboard/matches`
-- `GET /v1/public-dashboard/players`
-- `GET /v1/public-dashboard/team-statistics`
+Swagger UI at `/api/docs`, JSON at `/api/docs-json` and YAML at `/api/docs-yaml` are intended to describe **six anonymous GET endpoints** in every environment, including production. They need no session, API key or token. “Try it out” uses the backend serving the docs. Protected application APIs are documented separately in the [API guide](api-guide.md), not included in this public schema.
 
-The formations/tactics routes return static coaching reference data. The public dashboard routes expose filtered match, player and team statistics from the service, so their privacy scope needs review before production confirmation. The separate [application REST API guide](api-guide.md) covers the broader first-party API used by the frontend; most of those routes require a Better Auth cookie and team-scoped authorisation. Neither API is the Open-Meteo external integration used by Gaffer for place search and weather.
-
-## Public dashboard source contract
-
-`GET /v1/public-dashboard/filters` returns `{success:true,data}`. `GET /matches` accepts optional UUID `teamId`, `competitionId`, `seasonId`, `status` (`scheduled`, `cancelled`, `completed`), integer `limit` 1–100 (default 50) and nonnegative `offset` (default 0). `GET /players` accepts the UUID filters, `limit` 1–500 (default 200) and `offset` (default 0). Both return `{success,count,limit,offset,data}`. `GET /team-statistics` accepts the UUID filters and returns `{success,count,data}`. Query validation rejects malformed values; the service decides which source fields are public. See [source controller](https://github.com/nayan-m15/Gaffer/blob/ef2880ad0018536c2b933754148e285b2a325ec7/backend/src/public-api/public-dashboard.controller.ts), [query schemas](https://github.com/nayan-m15/Gaffer/blob/ef2880ad0018536c2b933754148e285b2a325ec7/backend/src/public-api/public-api.schemas.ts) and [privacy policy](privacy-policy.md).
-
-## Intended base URLs
-
-| Route path | Backend (direct) | Frontend proxy |
+| GET path | Query | Response |
 | --- | --- | --- |
-| `/v1/formations` | `https://gaffer-api-ynaf.onrender.com/v1/formations` | `https://gaffer-virid.vercel.app/api/v1/formations` |
-| `/v1/tactics` | `https://gaffer-api-ynaf.onrender.com/v1/tactics` | `https://gaffer-virid.vercel.app/api/v1/tactics` |
+| `/v1/formations` | Optional `id` | `{success,count,data: PublicFormation[]}` |
+| `/v1/tactics` | Optional `id` | `{success,count,data: PublicTactic[]}` |
+| `/v1/public-dashboard/filters` | None | `{success,data:{teams,seasons,competitions}}` |
+| `/v1/public-dashboard/matches` | `teamId,competitionId,seasonId,status,limit,offset` | `{success,count,limit,offset,data,summary:{total,cleanSheets}}` |
+| `/v1/public-dashboard/players` | `teamId,competitionId,seasonId,search,position,limit,offset` | `{success,count,limit,offset,data}` |
+| `/v1/public-dashboard/team-statistics` | `teamId,competitionId,seasonId` | `{success,count,data}` |
 
-All four returned 404 on 14 September 2026. These are intended URLs, not currently verified endpoints.
+`count` is the number of returned rows, not the complete filtered total. Dashboard IDs are optional UUIDs. Unavailable filter IDs return empty results rather than disclosing private existence.
 
-## Source contract
+## Swagger policy and current source discrepancy
 
-- No authentication or credentialed CORS is intended for these two GET-only routes.
-- Source config returns `Access-Control-Allow-Origin: *` on public-API paths while retaining the normal credentialed allow-list for the application API.
-- Listing returns all records. Supplying `?id=` returns a one-record `data` array.
-- An empty `id` returns 400; an unknown identifier returns 404.
+The reference policy intends exactly the six GET endpoints listed above. **Current source also declares `GET /v1/public-dashboard/competition-fixtures`.** `PublicApiModule` includes that controller and `configureSwagger` includes the module without filtering this route or an exclusion decorator. Consequently, source does not support an exact-six claim for the generated Swagger paths; it would include this additional endpoint. The effective hosted schema was not fetched for this review.
 
-```json
-{ "success": true, "count": 1, "data": [{ "...": "record" }] }
-```
+The additional anonymous GET accepts optional UUID `teamId`, `competitionId` and `seasonId`, returning `{success,count,data}` for generated league/cup fixtures. Records include fixture/competition identity, stage, round, position, schedule/status, home/away participant-slot IDs and names, scores/penalty scores and winner slot. Slot IDs are competition participant IDs, not private athlete IDs. It uses the controller's dashboard rate guard and public wildcard CORS, but directly invokes the service without the 30-second response-cache wrapper or paginated schema. Do not assume the cached/paged contract below applies to this additional path. This is a documented source/policy mismatch, not a newly invented endpoint or a change made by this documentation update.
 
-## `GET /v1/formations`
+## Pagination and filtering
 
-Returns eight supported formation records, or one when `id` is supplied. `PublicFormation` fields are `id`, `name`, `shape` and `description`, all strings.
+| Parameter | Matches | Players |
+| --- | --- | --- |
+| `limit` | Integer 1–100; default 50 | Integer 1–200; default 100 |
+| `offset` | Integer ≥0; default 0 | Integer ≥0; default 0 |
+| `status` | `scheduled`, `cancelled`, `completed` | Not supported |
+| `search` | Not supported | Trimmed literal case-insensitive full-name substring, maximum 100 characters |
+| `position` | Not supported | `ALL`, `FWD`, `MID`, `DEF`, `GK` |
 
-| Parameter | Type | Required | Behaviour |
-| --- | --- | ---: | --- |
-| `id` | string | No | For example `4-3-3`; empty returns 400 and unknown returns 404. |
+Limits above the ceiling return 400 rather than being clamped. Search uses literal substring matching, so `%`/`_` are not SQL wildcard operators. Team/competition/season, name and position filters apply **before** pagination. Position categories use the source's football position-code groups.
 
-```json
-{
-  "success": true,
-  "count": 1,
-  "data": [{
-    "id": "4-3-3",
-    "name": "4-3-3",
-    "shape": "4-3-3",
-    "description": "A balanced formation with width in attack and a three-player midfield that can dominate possession."
-  }]
-}
-```
+The match `summary` covers the complete filtered set independent of pagination. `total` counts matching matches; `cleanSheets` counts completed matches with no logged opponent goal. Summary caching is shared across pages for the same filters. Player statistics use completed matches only, with grouped SQL aggregation restricted to the selected player IDs; athletes without history retain zeros.
 
-## `GET /v1/tactics`
+## Response records
 
-Returns defensive and offensive tactical-style records, or one when `id` is supplied. `PublicTactic` fields are `id`, `name`, `category` (`defensive` or `offensive`), `description` and `formationId` (currently `null`).
+| Record | Fields |
+| --- | --- |
+| Formation | `id,name,shape,playerCount,description` |
+| Tactic | `id,name,category,description,formationId` (`formationId` is always null; `category` is defensive/offensive) |
+| Match | `id,eventId,title,status,scheduledAt,location,opponentName,isHome,teamScore,opponentScore,team:{id,name},competition:{id,name,type}\|null,season:{id,name}\|null` |
+| Player | `id,firstName,lastName,position,squadNumber,team:{id,name},statistics:{appearances,starts,minutesPlayed,goals,assists,saves,yellowCards,redCards}` |
+| Team statistic / standing | `id,teamName,position,played,won,drawn,lost,goalsFor,goalsAgainst,goalDifference,points,isOwnTeam,ownerTeam,competition,season` |
+| Filters | Teams `{id,name}`; seasons include team/date/current scope; competitions include `id,name,type,teamId,seasonId,teamIds` |
 
-| Parameter | Type | Required | Behaviour |
-| --- | --- | ---: | --- |
-| `id` | string | No | For example `possession`; empty returns 400 and unknown returns 404. |
+## Formation and tactic catalog
 
-```json
-{
-  "success": true,
-  "count": 1,
-  "data": [{
-    "id": "possession",
-    "name": "Possession",
-    "category": "offensive",
-    "description": "Short passing and support runs to keep the ball rather than break early.",
-    "formationId": null
-  }]
-}
-```
+| Player count (includes goalkeeper) | Preset IDs |
+| --- | --- |
+| 5 | `5v5-1-2-1`, `5v5-2-1-1`, `5v5-1-1-2` |
+| 7 | `7v7-2-3-1`, `7v7-3-2-1`, `7v7-2-2-2` |
+| 11 | `4-3-3`, `4-4-2`, `4-2-3-1`, `4-1-4-1`, `3-5-2`, `3-4-3`, `5-3-2`, `5-4-1` |
 
-## Errors
+The public static catalog returns these presets with `playerCount`. The application's private formation contract also supports `custom-5`, `custom-7` and `custom-11` slots; those coach-defined coordinate layouts belong to game plans and are not returned by the public catalog. Do not infer a fixed lineup of eleven from a formation response. Tactics are the generic defensive/offensive styles, independent of formation and private team settings.
 
-| Status | Meaning |
-| ---: | --- |
-| 400 | `id` was present but empty. |
-| 404 | The identifier is unknown. At present, a deployed-route 404 may instead mean the deployed revision lacks the route. |
-| 500 | Unhandled server error. |
+The service also returns player `starts` and `saves`; the current handwritten OpenAPI player metadata omits those additive fields. Consumers should distinguish the actual service response from that metadata.
 
-## Deployment verification gate
+## Caching, throttling and CORS
 
-After a newer backend is deployed, record its exact revision and date, then verify list and filtered requests, empty-filter 400 and unknown-ID 404 responses, direct and proxy URLs, unauthenticated CORS, and Swagger/OpenAPI inclusion under `Public API`. Only then should this page claim live availability.
+The original four database-backed dashboard responses use a per-instance 30-second cache keyed by validated query parameters, with concurrent requests sharing the same in-flight query. Default capacity is 500 entries with oldest-first eviction. Restarting an instance clears it. `PUBLIC_DASHBOARD_CACHE_TTL_SECONDS` and `PUBLIC_DASHBOARD_CACHE_MAX_ENTRIES` configure it. Polling faster than its TTL may return unchanged data.
+
+The dashboard rate limiter defaults to 120 requests per minute per client plus an edge-IP backstop with a default twenty-times budget. `PUBLIC_DASHBOARD_RATE_LIMIT` and `PUBLIC_DASHBOARD_BACKSTOP_RATE_LIMIT` configure budgets. Either exhausted budget returns 429 before database work with `{"message":"Too many requests. Please try again later."}`. Static formations/tactics are not subject to this dashboard cache/limiter.
+
+The public route prefixes, including the additional fixture endpoint, use wildcard CORS (`Access-Control-Allow-Origin: *`) without credentials. Protected endpoints keep credentialed CORS with the configured origin allowlist.
+
+## Errors and consumer refresh
+
+Empty catalog `?id=` returns 400; an unknown catalog ID returns 404. Invalid UUIDs, enum values, lengths or paging bounds return 400. Standard Nest errors use `{statusCode,message,error}`; unhandled failures use its safe 500 response rather than raw database errors. A 429 should prompt a delayed/manual retry, not a tight retry loop.
+
+The public UI starts with 40 players and 100 matches, debounces search by 300 ms, and loads additional pages on “Load more.” Failed additional pages retain earlier data and offer retry. Player/match lists disable shared five-second polling, use a 30-second stale period and refresh on focus; standings refresh every 30 seconds. See [automatic refresh](automatic-data-refresh.md) and [performance mechanisms](../Quality/performance-review.md).
+
+Sources: [backend/src/public-api/public-api.schemas.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/public-api/public-api.schemas.ts), [backend/src/public-api/public-api.openapi.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/public-api/public-api.openapi.ts), [backend/src/public-api/formations.data.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/public-api/formations.data.ts), [backend/src/public-api/public-dashboard.service.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/public-api/public-dashboard.service.ts), [backend/src/public-api/public-dashboard-cache.service.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/public-api/public-dashboard-cache.service.ts), [backend/src/public-api/public-dashboard-rate-limit.service.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/public-api/public-dashboard-rate-limit.service.ts), [backend/src/swagger-config.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/swagger-config.ts), [backend/src/cors-config.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/cors-config.ts).

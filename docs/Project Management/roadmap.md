@@ -1,5 +1,12 @@
 ﻿# Roadmap and Milestones
 
+## Current capability context
+
+The tracker dates, counts, card positions and meeting evidence below are preserved historical snapshots. They are not a live Trello query or current stakeholder acceptance. Current source supports registered-team friendly requests, competition fixtures/result-driven standings, local-calendar scheduling with saved IANA timezones, shared logging/approval, 5/7/11-a-side formats, global administrator archive/restore, personal participant hide/unhide, guided AI/insights and statistics PDF/CSV reporting with print/PDF-share review dialogs. These implemented paths do not establish every proposed automatic season-scheduling feature or change historical card status.
+
+See [current product behavior](../Overview/02-product-overview.md), [requirements](../Overview/Functional-Requirements-and-System-Analysis.md), [authorization](../Architecture/contracts-and-authorization.md) and [collaboration](../Architecture/offline-collaboration.md). The following source/tracker evidence is historical, including any feature gaps recorded at its date.
+
+
 **Current board snapshot:** Trello export through 2026-09-24T19:20:21.943Z. Course dates below were previously recorded as preliminary milestones; confirm changes against course communication.
 
 | Milestone | Preliminary date | Recorded scope/state |

@@ -1,170 +1,1116 @@
 # Current PostgreSQL Database Schema
 
-**Historical source for the detailed sections below:** `backend/src/database/schema/index.ts` at application commit `e7285f53`, checked 14 September 2026. That version defined **19 tables and 14 PostgreSQL enums**. SQL migrations `0000`–`0019` were inspected but were not executed during that update. The [current declaration inventory](#current-schema-declaration-inventory) is at the end of this page.
-
-**External codebase comparison (reported, not independently verified; 29 September 2026):** A separate review flagged the detailed schema diagram and counts above as based on an older 14 September source snapshot. A later schema declaration inventory is present at the end of this page, but the documentation author could not compare either section with current schema source or migrations. No current table or enum count is asserted here.
+The current Drizzle declaration contains **42 tables and 29 PostgreSQL enums**. This replaces the older table/enum snapshot as the primary schema description. Columns, typed JSON and declared indexes below come from the inspected source; migration SQL also supplies constraints, functions and triggers that a declaration alone cannot express. See the [source basis](../tech-stack/architecture-overview.md#source-basis).
 
 ## Entity relationships
 
+The diagrams group the main relationships for readability; the column inventory gives the complete declared foreign keys, including audit actors and optional links.
+
+### Identity and team scope
+
 ```mermaid
 erDiagram
-  user ||--o{ session : has
-  user ||--o{ account : has
-  user ||--o| team_members : joins
-  teams ||--o{ team_members : contains
-  teams ||--o{ athletes : owns
-  user o|--o{ athletes : claims
-  athletes ||--o{ player_claim_invites : targeted_by
-  teams ||--o{ team_invites : issues
-  teams ||--o{ game_plans : saves
-  teams ||--o{ events : schedules
-  events ||--o{ event_rsvps : receives
-  athletes ||--o{ event_rsvps : submits
-  teams ||--o{ seasons : defines
-  teams ||--o{ competitions : enters
-  seasons o|--o{ competitions : groups
-  competitions o|--o{ events : classifies
-  events ||--o| matches : becomes
-  competitions o|--o{ matches : classifies
-  game_plans o|--o{ matches : snapshots
-  matches ||--o{ opponent_match_players : contains
-  matches ||--o{ athlete_match_stats : aggregates
-  athletes ||--o{ athlete_match_stats : receives
-  competitions ||--o{ standings : contains
-  matches ||--o{ match_events : records
-  athletes o|--o{ match_events : attributed_to
-  opponent_match_players o|--o{ match_events : attributed_to
-  user ||--o{ match_events : logs
+  user ||--o{ session : authenticates
+  user ||--o{ account : providers
+  user ||--o| team_members : membership
+  teams ||--o{ team_members : has
+  teams ||--o{ athletes : roster
+  athletes ||--o{ player_claim_invites : claims
+  teams ||--o{ team_invites : invites
 ```
 
-`verification` is a stand-alone Better Auth token table. Invitation creator/consumer fields also reference `user`, although those edges are omitted above for readability.
+### Private planning and injuries
 
-## Type notation
+```mermaid
+erDiagram
+  teams ||--o{ game_plans : private_plans
+  teams ||--o{ events : calendar
+  events ||--o{ event_rsvps : responses
+  events ||--o| event_lineups : confirmed_lineup
+  athletes ||--o{ injuries : injury_history
+  injuries ||--o{ injury_timeline_entries : timeline
+  teams ||--o{ seasons : seasons
+```
 
-- `PK` primary key; `FK` foreign key; `UQ` unique constraint/index; `NN` not null.
-- All application UUID primary keys use `defaultRandom()`. Better Auth identity keys are text.
-- Unless stated otherwise, `created_at` and `updated_at` are `timestamptz NN DEFAULT now()`.
-- A column without `NN` is nullable and defaults to `NULL` unless another default is shown.
+### Competition membership and fixtures
 
-## Authentication and identity tables
+```mermaid
+erDiagram
+  competitions ||--o{ competition_teams : participant_slots
+  competitions ||--o{ competition_invites : invitations
+  competitions ||--o{ hidden_competitions : user_preferences
+  user ||--o{ hidden_competitions : personal_scope
+  competitions ||--o{ competition_fixtures : fixtures
+  competitions ||--o{ competition_matches : manual_results
+  competitions ||--o{ standings : derived_table
+```
+
+### Shared fixture and private sheets
+
+```mermaid
+erDiagram
+  competition_fixtures o|--o| match_sessions : shared_fixture
+  friendly_fixtures o|--o| match_sessions : shared_friendly
+  match_sessions ||--o{ match_session_participants : home_away
+  match_sessions o|--o{ matches : private_sheets
+  events ||--o| matches : sheet
+  matches ||--o{ athlete_match_stats : selected_squad
+  matches ||--o{ opponent_match_players : manual_opponent
+```
+
+### Evidence and canonical events
+
+```mermaid
+erDiagram
+  match_sessions o|--o{ match_events : public_timeline
+  matches ||--o{ match_event_observations : immutable_evidence
+  match_event_observations ||--o| match_event_memberships : maps_to
+  match_events ||--o{ match_event_memberships : canonical
+```
+
+### Operations, projections and publication
+
+```mermaid
+erDiagram
+  matches ||--o{ match_event_operations : decisions
+  matches ||--o{ match_clock_operations : clock_history
+  matches ||--o{ match_event_reviews : reviews
+  matches ||--o| match_projection_state : projection
+  matches ||--o{ sync_upload_receipts : receipts
+  teams o|--o{ sync_client_telemetry : queue_health
+  match_sessions ||--o{ match_amendments : proposed_changes
+  matches ||--o| match_insights : narrative
+  teams ||--o{ season_insights : season_narrative
+```
+
+## Types and persistence rules
+
+UUIDs identify domain resources, while Better Auth user/session/account identifiers are text. Integer/boolean/text/date/timestamptz/jsonb types are retained below. SQL `date` is a calendar date; timezone-aware timestamps are instants. `schedule_timezone` stores the IANA interpretation for local fixture generation. Nullable columns are marked nullable; PK implies non-null. Shared timestamp spreads supply `created_at` and `updated_at`, both non-null timestamptz with `now()` defaults. JSON shapes are TypeScript persistence annotations, not automatically database-validated schemas.
+
+Team members are coach/assistant; claimed players link through athletes. Membership uniqueness limits a user to one member team, while partial athlete team/user uniqueness permits claims on different teams. Token hashes, not raw invitation tokens, are persisted. Soft athlete archiving preserves references.
+
+## Full table and column inventory
 
 ### `user`
 
-`id text PK`; `name text NN`; `email text NN UQ`; `email_verified boolean NN DEFAULT false`; `image text`; `phone_number text`; `sex sex`; `date_of_birth date`; timestamps.
+Declaration: [user](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/database/schema/index.ts).
+
+| Column | SQL type | Null/default/key and reference |
+| --- | --- | --- |
+| `id` | `text` | PK |
+| `name` | `text` | Non-null |
+| `email` | `text` | Non-null; unique |
+| `email_verified` | `boolean` | Non-null; default `false` |
+| `image` | `text` | Nullable |
+| `phone_number` | `text` | Nullable |
+| `sex` | `sex` | Nullable |
+| `date_of_birth` | `date` | Nullable |
+| `created_at`, `updated_at` | timestamptz | Non-null; default `now()` |
 
 ### `session`
 
-`id text PK`; `expires_at timestamptz NN`; `token text NN UQ`; timestamps; `ip_address text`; `user_agent text`; `user_id text NN FK → user.id ON DELETE CASCADE`.
+Declaration: [session](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/database/schema/index.ts).
 
-Index: `session_user_id_index(user_id)`.
+| Column | SQL type | Null/default/key and reference |
+| --- | --- | --- |
+| `id` | `text` | PK |
+| `expires_at` | `timestamptz` | Non-null |
+| `token` | `text` | Non-null; unique |
+| `created_at` | `timestamptz` | Non-null; default `now()` |
+| `updated_at` | `timestamptz` | Non-null; default `now()` |
+| `ip_address` | `text` | Nullable |
+| `user_agent` | `text` | Nullable |
+| `user_id` | `text` | Non-null; FK → `user.id`; delete cascade |
+
+Declared indexes/constraints (SQL column names in Drizzle notation):
+
+- `index('session_user_id_index').on(user_id)`
 
 ### `account`
 
-`id text PK`; `account_id text NN`; `provider_id text NN`; `user_id text NN FK → user.id ON DELETE CASCADE`; `access_token text`; `refresh_token text`; `id_token text`; `access_token_expires_at timestamptz`; `refresh_token_expires_at timestamptz`; `scope text`; `password text`; timestamps.
+Declaration: [account](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/database/schema/index.ts).
 
-Index: `account_user_id_index(user_id)`.
+| Column | SQL type | Null/default/key and reference |
+| --- | --- | --- |
+| `id` | `text` | PK |
+| `account_id` | `text` | Non-null |
+| `provider_id` | `text` | Non-null |
+| `user_id` | `text` | Non-null; FK → `user.id`; delete cascade |
+| `access_token` | `text` | Nullable |
+| `refresh_token` | `text` | Nullable |
+| `id_token` | `text` | Nullable |
+| `access_token_expires_at` | `timestamptz` | Nullable |
+| `refresh_token_expires_at` | `timestamptz` | Nullable |
+| `scope` | `text` | Nullable |
+| `password` | `text` | Nullable |
+| `created_at`, `updated_at` | timestamptz | Non-null; default `now()` |
+
+Declared indexes/constraints (SQL column names in Drizzle notation):
+
+- `index('account_user_id_index').on(user_id)`
 
 ### `verification`
 
-`id text PK`; `identifier text NN`; `value text NN`; `expires_at timestamptz NN`; timestamps.
+Declaration: [verification](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/database/schema/index.ts).
 
-Index: `verification_identifier_index(identifier)`.
+| Column | SQL type | Null/default/key and reference |
+| --- | --- | --- |
+| `id` | `text` | PK |
+| `identifier` | `text` | Non-null |
+| `value` | `text` | Non-null |
+| `expires_at` | `timestamptz` | Non-null |
+| `created_at`, `updated_at` | timestamptz | Non-null; default `now()` |
 
-## Team, roster and invitation tables
+Declared indexes/constraints (SQL column names in Drizzle notation):
+
+- `index('verification_identifier_index').on(identifier)`
+
+### `auth_rate_limits`
+
+Declaration: [auth_rate_limits](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/database/schema/index.ts).
+
+| Column | SQL type | Null/default/key and reference |
+| --- | --- | --- |
+| `key` | `text` | PK |
+| `count` | `integer` | Non-null |
+| `window_started_at` | `timestamptz` | Non-null; default `now()` |
 
 ### `teams`
 
-`id uuid PK DEFAULT random`; `name text NN`; `primary_color text`; timestamps.
+Declaration: [teams](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/database/schema/index.ts).
+
+| Column | SQL type | Null/default/key and reference |
+| --- | --- | --- |
+| `id` | `uuid` | PK; default random UUID |
+| `name` | `text` | Non-null |
+| `primary_color` | `text` | Nullable |
+| `created_at`, `updated_at` | timestamptz | Non-null; default `now()` |
+
+### `match_sessions`
+
+Declaration: [match_sessions](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/database/schema/index.ts).
+
+| Column | SQL type | Null/default/key and reference |
+| --- | --- | --- |
+| `report_revision` | `integer` | Non-null; default `1` |
+| `id` | `uuid` | PK; default random UUID |
+| `home_confirmed_at` | `timestamptz` | Nullable |
+| `home_confirmed_by_user_id` | `text` | Nullable; FK → `user.id` |
+| `away_confirmed_at` | `timestamptz` | Nullable |
+| `away_confirmed_by_user_id` | `text` | Nullable; FK → `user.id` |
+| `finalised_at` | `timestamptz` | Nullable |
+| `finalised_by_user_id` | `text` | Nullable; FK → `user.id` |
+| `created_at`, `updated_at` | timestamptz | Non-null; default `now()` |
+
+### `match_session_participants`
+
+Declaration: [match_session_participants](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/database/schema/index.ts).
+
+| Column | SQL type | Null/default/key and reference |
+| --- | --- | --- |
+| `id` | `uuid` | PK; default random UUID |
+| `session_id` | `uuid` | Non-null; FK → `match_sessions.id`; delete cascade |
+| `team_id` | `uuid` | Nullable; FK → `teams.id`; delete cascade |
+| `competition_team_id` | `uuid` | Nullable; FK → `competition_teams.id`; delete cascade |
+| `side` | `match_session_side` | Non-null |
+| `confirmation_state` | `match_session_confirmation_state` | Non-null; default `'pending') .notNull(` |
+| `created_at`, `updated_at` | timestamptz | Non-null; default `now()` |
+
+Declared indexes/constraints (SQL column names in Drizzle notation):
+
+- `uniqueIndex('match_session_participants_session_side_unique').on( session_id, side, )`
+- `index('match_session_participants_team_id_index').on(team_id)`
+- `index('match_session_participants_competition_team_id_index').on( competition_team_id, )`
+- `check( 'match_session_participants_identity_check', team_id is not null or competition_team_id is not null, )`
 
 ### `team_members`
 
-`id uuid PK DEFAULT random`; `team_id uuid NN FK → teams.id ON DELETE CASCADE`; `user_id text NN FK → user.id ON DELETE CASCADE`; `role team_role NN DEFAULT assistant`; timestamps.
+Declaration: [team_members](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/database/schema/index.ts).
 
-Indexes/uniques: indexes on `team_id` and `user_id`; `team_members_user_unique(user_id)` currently limits a user to one membership; `team_members_team_user_unique(team_id,user_id)` prevents duplicate membership.
+| Column | SQL type | Null/default/key and reference |
+| --- | --- | --- |
+| `id` | `uuid` | PK; default random UUID |
+| `team_id` | `uuid` | Non-null; FK → `teams.id`; delete cascade |
+| `user_id` | `text` | Non-null; FK → `user.id`; delete cascade |
+| `role` | `team_role` | Non-null; default `'assistant'` |
+| `created_at`, `updated_at` | timestamptz | Non-null; default `now()` |
+
+Declared indexes/constraints (SQL column names in Drizzle notation):
+
+- `index('team_members_team_id_index').on(team_id)`
+- `index('team_members_user_id_index').on(user_id)`
+- `uniqueIndex('team_members_user_unique').on(user_id)`
+- `uniqueIndex('team_members_team_user_unique').on(team_id, user_id)`
 
 ### `athletes`
 
-`id uuid PK DEFAULT random`; `team_id uuid NN FK → teams.id ON DELETE CASCADE`; `first_name text NN`; `last_name text NN`; `date_of_birth date`; `position text`; `squad_number integer`; `status athlete_status NN DEFAULT available`; `archived_at timestamptz`; `user_id text FK → user.id ON DELETE SET NULL`; timestamps.
+Declaration: [athletes](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/database/schema/index.ts).
 
-Indexes/uniques: `team_id`; `(team_id,last_name,first_name)`; `user_id`; partial UQ `(team_id,user_id) WHERE user_id IS NOT NULL`. One person may therefore claim athlete records on different teams, but not two records on one team.
+| Column | SQL type | Null/default/key and reference |
+| --- | --- | --- |
+| `id` | `uuid` | PK; default random UUID |
+| `team_id` | `uuid` | Non-null; FK → `teams.id`; delete cascade |
+| `first_name` | `text` | Non-null |
+| `last_name` | `text` | Non-null |
+| `date_of_birth` | `date` | Nullable |
+| `position` | `text` | Nullable |
+| `squad_number` | `integer` | Nullable |
+| `status` | `athlete_status` | Non-null; default `'available'` |
+| `archived_at` | `timestamptz` | Nullable |
+| `user_id` | `text` | Nullable; FK → `user.id`; delete set null |
+| `created_at`, `updated_at` | timestamptz | Non-null; default `now()` |
+
+Declared indexes/constraints (SQL column names in Drizzle notation):
+
+- `index('athletes_team_id_index').on(team_id)`
+- `index('athletes_team_name_index').on( team_id, last_name, first_name, )`
+- `index('athletes_user_id_index').on(user_id)`
+- `uniqueIndex('athletes_team_user_unique') .on(team_id, user_id) .where(user_id is not null)`
 
 ### `player_claim_invites`
 
-`id uuid PK DEFAULT random`; `athlete_id uuid NN FK → athletes.id ON DELETE CASCADE`; `token_hash text NN UQ`; `status claim_invite_status NN DEFAULT pending`; `created_by_user_id text NN FK → user.id`; `expires_at timestamptz NN`; `used_at timestamptz`; `used_by_user_id text FK → user.id`; timestamps.
+Declaration: [player_claim_invites](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/database/schema/index.ts).
 
-Indexes: `athlete_id`, `token_hash`. Only a SHA-256 token hash is stored; the raw one-time token is not persisted.
+| Column | SQL type | Null/default/key and reference |
+| --- | --- | --- |
+| `id` | `uuid` | PK; default random UUID |
+| `athlete_id` | `uuid` | Non-null; FK → `athletes.id`; delete cascade |
+| `email` | `text` | Non-null |
+| `token_hash` | `text` | Non-null; unique |
+| `status` | `claim_invite_status` | Non-null; default `'pending'` |
+| `created_by_user_id` | `text` | Non-null; FK → `user.id` |
+| `expires_at` | `timestamptz` | Non-null |
+| `used_at` | `timestamptz` | Nullable |
+| `used_by_user_id` | `text` | Nullable; FK → `user.id` |
+| `created_at`, `updated_at` | timestamptz | Non-null; default `now()` |
+
+Declared indexes/constraints (SQL column names in Drizzle notation):
+
+- `index('player_claim_invites_athlete_id_index').on(athlete_id)`
+- `index('player_claim_invites_token_hash_index').on(token_hash)`
 
 ### `team_invites`
 
-`id uuid PK DEFAULT random`; `team_id uuid NN FK → teams.id ON DELETE CASCADE`; `email text NN`; `token_hash text NN UQ`; `status team_invite_status NN DEFAULT pending`; `created_by_user_id text NN FK → user.id`; `expires_at timestamptz NN`; `used_at timestamptz`; `used_by_user_id text FK → user.id`; timestamps.
+Declaration: [team_invites](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/database/schema/index.ts).
 
-Indexes: `team_id`, `token_hash`. Service logic binds acceptance to the signed-in user's matching email.
+| Column | SQL type | Null/default/key and reference |
+| --- | --- | --- |
+| `id` | `uuid` | PK; default random UUID |
+| `team_id` | `uuid` | Non-null; FK → `teams.id`; delete cascade |
+| `email` | `text` | Non-null |
+| `token_hash` | `text` | Non-null; unique |
+| `status` | `team_invite_status` | Non-null; default `'pending'` |
+| `created_by_user_id` | `text` | Non-null; FK → `user.id` |
+| `expires_at` | `timestamptz` | Non-null |
+| `used_at` | `timestamptz` | Nullable |
+| `used_by_user_id` | `text` | Nullable; FK → `user.id` |
+| `created_at`, `updated_at` | timestamptz | Non-null; default `now()` |
 
-## Planning and event tables
+Declared indexes/constraints (SQL column names in Drizzle notation):
+
+- `index('team_invites_team_id_index').on(team_id)`
+- `index('team_invites_token_hash_index').on(token_hash)`
 
 ### `game_plans`
 
-`id uuid PK DEFAULT random`; `team_id uuid NN FK → teams.id ON DELETE CASCADE`; `name text NN`; `formation_id text NN DEFAULT '4-3-3'`; `assignments jsonb NN DEFAULT {}`; `substitute_ids jsonb NN DEFAULT []`; `defensive_style defensive_style NN DEFAULT balanced`; `defensive_width integer NN DEFAULT 5`; `defensive_depth integer NN DEFAULT 5`; `offensive_style offensive_style NN DEFAULT balanced`; `offensive_width integer NN DEFAULT 5`; `players_in_box integer NN DEFAULT 4`; `corners_commitment integer NN DEFAULT 3`; `free_kicks_commitment integer NN DEFAULT 3`; `captain_id`, `free_kick_taker_id`, `penalty_taker_id`, `corner_taker_id` are nullable UUID FKs → `athletes.id ON DELETE SET NULL`; timestamps.
+Declaration: [game_plans](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/database/schema/index.ts).
 
-Indexes/uniques: `team_id`; UQ `(team_id,name)`. Athlete IDs inside the two JSON fields are application-validated references, not database foreign keys.
+| Column | SQL type | Null/default/key and reference |
+| --- | --- | --- |
+| `id` | `uuid` | PK; default random UUID |
+| `team_id` | `uuid` | Non-null; FK → `teams.id`; delete cascade |
+| `name` | `text` | Non-null |
+| `formation_id` | `text` | Non-null; default `'4-3-3'` |
+| `assignments` | `jsonb` | Non-null; default `{}) .$type<Record<string, string \| null>>(`; JSON type `Record<string, string \| null>` |
+| `custom_positions` | `jsonb` | Nullable; JSON type ` GamePlanFormationPosition[] \| null ` |
+| `substitute_ids` | `jsonb` | Non-null; default `[]) .$type<string[]>(`; JSON type `string[]` |
+| `defensive_style` | `defensive_style` | Non-null; default `'balanced'` |
+| `defensive_width` | `integer` | Non-null; default `5` |
+| `defensive_depth` | `integer` | Non-null; default `5` |
+| `offensive_style` | `offensive_style` | Non-null; default `'balanced'` |
+| `offensive_width` | `integer` | Non-null; default `5` |
+| `players_in_box` | `integer` | Non-null; default `4` |
+| `corners_commitment` | `integer` | Non-null; default `3` |
+| `free_kicks_commitment` | `integer` | Non-null; default `3` |
+| `captain_id` | `uuid` | Nullable; FK → `athletes.id`; delete set null |
+| `free_kick_taker_id` | `uuid` | Nullable; FK → `athletes.id`; delete set null |
+| `long_free_kick_taker_id` | `uuid` | Nullable; FK → `athletes.id`; delete set null |
+| `penalty_taker_id` | `uuid` | Nullable; FK → `athletes.id`; delete set null |
+| `corner_taker_id` | `uuid` | Nullable; FK → `athletes.id`; delete set null |
+| `right_corner_taker_id` | `uuid` | Nullable; FK → `athletes.id`; delete set null |
+| `player_instructions` | `jsonb` | Non-null; default `{}) .$type<PlayerInstructionsByAthlete>(`; JSON type `PlayerInstructionsByAthlete` |
+| `created_at`, `updated_at` | timestamptz | Non-null; default `now()` |
+
+Declared indexes/constraints (SQL column names in Drizzle notation):
+
+- `index('game_plans_team_id_index').on(team_id)`
+- `uniqueIndex('game_plans_team_name_unique').on(team_id, name)`
+
+### `friendly_fixtures`
+
+Declaration: [friendly_fixtures](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/database/schema/index.ts).
+
+| Column | SQL type | Null/default/key and reference |
+| --- | --- | --- |
+| `id` | `uuid` | PK; default random UUID |
+| `requester_team_id` | `uuid` | Non-null; FK → `teams.id`; delete cascade |
+| `opponent_team_id` | `uuid` | Non-null; FK → `teams.id`; delete cascade |
+| `status` | `friendly_fixture_status` | Non-null; default `'pending'` |
+| `created_by_user_id` | `text` | Non-null; FK → `user.id` |
+| `responded_by_user_id` | `text` | Nullable; FK → `user.id` |
+| `responded_at` | `timestamptz` | Nullable |
+| `shared_session_id` | `uuid` | Nullable; FK → `match_sessions.id`; delete set null |
+| `created_at`, `updated_at` | timestamptz | Non-null; default `now()` |
+
+Declared indexes/constraints (SQL column names in Drizzle notation):
+
+- `index('friendly_fixtures_requester_team_id_index').on( requester_team_id, )`
+- `index('friendly_fixtures_opponent_team_id_index').on(opponent_team_id)`
+- `index('friendly_fixtures_opponent_status_index').on( opponent_team_id, status, )`
+- `uniqueIndex('friendly_fixtures_shared_session_unique').on( shared_session_id, )`
 
 ### `events`
 
-`id uuid PK DEFAULT random`; `team_id uuid NN FK → teams.id ON DELETE CASCADE`; `title text NN`; `type event_type NN`; `status event_status NN DEFAULT scheduled`; `scheduled_at timestamptz NN`; `location text NN`; `venue_address text`; `weather_location text`; `latitude double precision`; `longitude double precision`; `timezone text`; `notes text`; `competition_id uuid FK → competitions.id ON DELETE SET NULL`; timestamps.
+Declaration: [events](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/database/schema/index.ts).
 
-Indexes: `team_id`; `(team_id,scheduled_at)`; `competition_id`. The Drizzle properties call the last three weather fields latitude/longitude/timezone for compatibility with migration `0018`.
+| Column | SQL type | Null/default/key and reference |
+| --- | --- | --- |
+| `id` | `uuid` | PK; default random UUID |
+| `team_id` | `uuid` | Non-null; FK → `teams.id`; delete cascade |
+| `title` | `text` | Non-null |
+| `type` | `event_type` | Non-null |
+| `status` | `event_status` | Non-null; default `'scheduled'` |
+| `scheduled_at` | `timestamptz` | Non-null |
+| `location` | `text` | Non-null |
+| `venue_name` | `text` | Nullable |
+| `venue_address` | `text` | Nullable |
+| `weather_location` | `text` | Nullable |
+| `latitude` | `double precision` | Nullable |
+| `longitude` | `double precision` | Nullable |
+| `timezone` | `text` | Nullable |
+| `notes` | `text` | Nullable |
+| `friendly_players_per_side` | `integer` | Nullable |
+| `competition_id` | `uuid` | Nullable; FK → `competitions.id`; delete set null |
+| `competition_fixture_id` | `uuid` | Nullable |
+| `friendly_fixture_id` | `uuid` | Nullable |
+| `created_at`, `updated_at` | timestamptz | Non-null; default `now()` |
+
+Declared indexes/constraints (SQL column names in Drizzle notation):
+
+- `index('events_team_id_index').on(team_id)`
+- `index('events_team_scheduled_at_index').on(team_id, scheduled_at)`
+- `index('events_competition_id_index').on(competition_id)`
+- `index('events_competition_fixture_id_index').on(competition_fixture_id)`
+- `uniqueIndex('events_team_competition_fixture_unique').on( team_id, competition_fixture_id, )`
+- `index('events_friendly_fixture_id_index').on(friendly_fixture_id)`
+- `uniqueIndex('events_team_friendly_fixture_unique') .on(team_id, friendly_fixture_id) .where(friendly_fixture_id is not null)`
 
 ### `event_rsvps`
 
-`id uuid PK DEFAULT random`; `event_id uuid NN FK → events.id ON DELETE CASCADE`; `athlete_id uuid NN FK → athletes.id ON DELETE CASCADE`; `status rsvp_status NN`; `note text`; `responded_at timestamptz NN DEFAULT now()`; timestamps.
+Declaration: [event_rsvps](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/database/schema/index.ts).
 
-Indexes/uniques: `event_id`; UQ `(event_id,athlete_id)`.
+| Column | SQL type | Null/default/key and reference |
+| --- | --- | --- |
+| `id` | `uuid` | PK; default random UUID |
+| `event_id` | `uuid` | Non-null; FK → `events.id`; delete cascade |
+| `athlete_id` | `uuid` | Non-null; FK → `athletes.id`; delete cascade |
+| `status` | `rsvp_status` | Non-null |
+| `note` | `text` | Nullable |
+| `responded_at` | `timestamptz` | Non-null; default `now()` |
+| `created_at`, `updated_at` | timestamptz | Non-null; default `now()` |
+
+Declared indexes/constraints (SQL column names in Drizzle notation):
+
+- `index('event_rsvps_event_id_index').on(event_id)`
+- `uniqueIndex('event_rsvps_event_athlete_unique').on( event_id, athlete_id, )`
+
+### `event_lineups`
+
+Declaration: [event_lineups](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/database/schema/index.ts).
+
+| Column | SQL type | Null/default/key and reference |
+| --- | --- | --- |
+| `id` | `uuid` | PK; default random UUID |
+| `event_id` | `uuid` | Non-null; unique; FK → `events.id`; delete cascade |
+| `team_id` | `uuid` | Non-null; FK → `teams.id`; delete cascade |
+| `starting_athlete_ids` | `jsonb` | Non-null; JSON type `string[]` |
+| `bench_athlete_ids` | `jsonb` | Non-null; JSON type `string[]` |
+| `formation_id` | `text` | Nullable |
+| `pitch_assignments` | `jsonb` | Nullable; JSON type `Record<string, string \| null>` |
+| `custom_positions` | `jsonb` | Nullable; JSON type ` GamePlanFormationPosition[] \| null ` |
+| `confirmed_by_user_id` | `text` | Non-null; FK → `user.id` |
+| `confirmed_at` | `timestamptz` | Non-null |
+| `created_at`, `updated_at` | timestamptz | Non-null; default `now()` |
+
+Declared indexes/constraints (SQL column names in Drizzle notation):
+
+- `index('event_lineups_team_id_index').on(team_id)`
 
 ### `seasons`
 
-`id uuid PK DEFAULT random`; `team_id uuid NN FK → teams.id ON DELETE CASCADE`; `name text NN`; `start_date date NN`; `end_date date NN`; `is_current boolean NN DEFAULT false`; timestamps.
+Declaration: [seasons](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/database/schema/index.ts).
 
-Indexes/uniques: `team_id`; `(team_id,start_date)`; UQ `(team_id,name)`; partial UQ `(team_id) WHERE is_current`. Date-range non-overlap is enforced by application logic, not a database exclusion constraint.
+| Column | SQL type | Null/default/key and reference |
+| --- | --- | --- |
+| `id` | `uuid` | PK; default random UUID |
+| `team_id` | `uuid` | Non-null; FK → `teams.id`; delete cascade |
+| `name` | `text` | Non-null |
+| `start_date` | `date` | Non-null |
+| `end_date` | `date` | Non-null |
+| `is_current` | `boolean` | Non-null; default `false` |
+| `created_at`, `updated_at` | timestamptz | Non-null; default `now()` |
+
+Declared indexes/constraints (SQL column names in Drizzle notation):
+
+- `index('seasons_team_id_index').on(team_id)`
+- `index('seasons_team_start_date_index').on(team_id, start_date)`
+- `uniqueIndex('seasons_team_name_unique').on(team_id, name)`
+- `uniqueIndex('seasons_team_current_unique') .on(team_id) .where(is_current)`
 
 ### `competitions`
 
-`id uuid PK DEFAULT random`; `team_id uuid NN FK → teams.id ON DELETE CASCADE`; `name text NN`; `type competition_type NN`; `season_id uuid FK → seasons.id ON DELETE SET NULL`; `season text` (deprecated free-text compatibility field); timestamps.
+Declaration: [competitions](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/database/schema/index.ts).
 
-Indexes: `team_id`, `season_id`.
+| Column | SQL type | Null/default/key and reference |
+| --- | --- | --- |
+| `id` | `uuid` | PK; default random UUID |
+| `team_id` | `uuid` | Non-null; FK → `teams.id`; delete cascade |
+| `name` | `text` | Non-null |
+| `type` | `competition_type` | Non-null |
+| `season_id` | `uuid` | Nullable; FK → `seasons.id`; delete set null |
+| `season` | `text` | Nullable |
+| `admin_user_id` | `text` | Nullable; FK → `user.id`; delete set null |
+| `archived_at` | `timestamptz` | Nullable |
+| `format` | `competition_format` | Nullable |
+| `configured_team_count` | `integer` | Nullable |
+| `players_per_side` | `integer` | Non-null; default `11` |
+| `max_substitutes` | `integer` | Non-null; default `5` |
+| `red_card_suspension_matches` | `integer` | Non-null; default `1) .notNull(` |
+| `accumulated_yellow_threshold` | `integer` | Non-null; default `5) .notNull(` |
+| `yellow_suspension_matches` | `integer` | Non-null; default `1) .notNull(` |
+| `start_date` | `date` | Nullable |
+| `schedule_timezone` | `text` | Non-null; default `'UTC'` |
+| `allowed_playing_days` | `integer` | Non-null; default `sql`ARRAY[6]::integer[]`) .notNull(` |
+| `default_kickoff_time` | `text` | Non-null; default `'15:00'` |
+| `fixtures_per_opponent` | `integer` | Non-null; default `1` |
+| `points_win` | `integer` | Non-null; default `3` |
+| `points_draw` | `integer` | Non-null; default `1` |
+| `points_loss` | `integer` | Non-null; default `0` |
+| `qualifier_count` | `integer` | Nullable |
+| `result_tracking_started_at` | `timestamptz` | Non-null; default `now()` |
+| `created_at`, `updated_at` | timestamptz | Non-null; default `now()` |
 
-## Match and statistics tables
+Declared indexes/constraints (SQL column names in Drizzle notation):
+
+- `check( 'competitions_settings_valid',  (configured_team_count is null or configured_team_count between 2 and 128) and players_per_side in (5,7,11) and max_substitutes between 0 and 99 and red_card_suspension_matches between 0 and 99 and accumulated_yellow_threshold between 1 and 99 and yellow_suspension_matches between 0 and 99 and cardinality(allowed_playing_days) between 1 and 7 and allowed_playing_days <@ ARRAY[0,1,2,3,4,5,6]::integer[] and array_position(allowed_playing_days, null) is null and default_kickoff_time ~ '^([01][0-9]\|2[0-3]):[0-5][0-9]$' and fixtures_per_opponent in (1,2) and points_win between 0 and 99 and points_draw between 0 and 99 and points_loss between 0 and 99 and (format is null or (type = 'league' and format = 'league') or (type = 'cup' and format in ('knockout','league_knockout'))) and (format is distinct from 'knockout' or configured_team_count is null or configured_team_count in (4,8,16,32)) and (qualifier_count is null or (format is not null and format = 'league_knockout' and qualifier_count in (4,8,16,32) and configured_team_count is not null and qualifier_count <= configured_team_count)) , )`
+- `index('competitions_team_id_index').on(team_id)`
+- `index('competitions_season_id_index').on(season_id)`
+- `index('competitions_admin_user_id_index').on(admin_user_id)`
+- `uniqueIndex('competitions_name_lower_unique').on(lower(name))`
+
+### `hidden_competitions`
+
+Declaration: [hidden_competitions](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/database/schema/index.ts).
+
+| Column | SQL type | Null/default/key and reference |
+| --- | --- | --- |
+| `user_id` | `text` | Non-null; FK → `user.id`; delete cascade |
+| `competition_id` | `uuid` | Non-null; FK → `competitions.id`; delete cascade |
+
+Declared indexes/constraints (SQL column names in Drizzle notation):
+
+- `primaryKey({ columns: [user_id, competition_id] })`
+
+### `competition_teams`
+
+Declaration: [competition_teams](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/database/schema/index.ts).
+
+| Column | SQL type | Null/default/key and reference |
+| --- | --- | --- |
+| `id` | `uuid` | PK; default random UUID |
+| `competition_id` | `uuid` | Non-null; FK → `competitions.id`; delete cascade |
+| `team_id` | `uuid` | Nullable; FK → `teams.id`; delete set null |
+| `display_name` | `text` | Non-null |
+| `original_display_name` | `text` | Nullable |
+| `created_at`, `updated_at` | timestamptz | Non-null; default `now()` |
+
+Declared indexes/constraints (SQL column names in Drizzle notation):
+
+- `uniqueIndex('competition_teams_competition_id_id_unique').on( competition_id, id, )`
+- `index('competition_teams_competition_id_index').on(competition_id)`
+- `index('competition_teams_team_id_index').on(team_id)`
+- `uniqueIndex('competition_teams_competition_team_unique') .on(competition_id, team_id) .where(team_id is not null)`
+- `uniqueIndex('competition_teams_competition_display_name_unique').on( competition_id, lower(display_name), )`
+
+### `competition_invites`
+
+Declaration: [competition_invites](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/database/schema/index.ts).
+
+| Column | SQL type | Null/default/key and reference |
+| --- | --- | --- |
+| `id` | `uuid` | PK; default random UUID |
+| `competition_id` | `uuid` | Non-null; FK → `competitions.id`; delete cascade |
+| `competition_team_id` | `uuid` | Non-null; FK → `competition_teams.id`; delete cascade |
+| `email` | `text` | Non-null |
+| `token_hash` | `text` | Non-null; unique |
+| `status` | `competition_invite_status` | Non-null; default `'pending'` |
+| `created_by_user_id` | `text` | Non-null; FK → `user.id` |
+| `expires_at` | `timestamptz` | Non-null |
+| `used_at` | `timestamptz` | Nullable |
+| `used_by_user_id` | `text` | Nullable; FK → `user.id` |
+| `proposed_name` | `text` | Nullable |
+| `proposed_team_id` | `uuid` | Nullable; FK → `teams.id` |
+| `requested_by_user_id` | `text` | Nullable; FK → `user.id` |
+| `created_at`, `updated_at` | timestamptz | Non-null; default `now()` |
+
+Declared indexes/constraints (SQL column names in Drizzle notation):
+
+- `index('competition_invites_competition_id_index').on(competition_id)`
+- `uniqueIndex('competition_invites_pending_slot_unique') .on(competition_team_id) .where(status in ('pending', 'verification'))`
+- `uniqueIndex('competition_invites_verification_team_unique') .on(competition_id, proposed_team_id) .where( status = 'verification' and proposed_team_id is not null, )`
+- `uniqueIndex('competition_invites_verification_user_unique') .on(competition_id, requested_by_user_id) .where(status = 'verification')`
 
 ### `matches`
 
-`id uuid PK DEFAULT random`; `event_id uuid NN UQ FK → events.id ON DELETE CASCADE`; `competition_id uuid FK → competitions.id ON DELETE SET NULL`; `opponent_name text NN`; `is_home boolean NN DEFAULT true`; `team_score integer NN DEFAULT 0`; `opponent_score integer NN DEFAULT 0`; `game_plan_id uuid FK → game_plans.id ON DELETE SET NULL`; `game_plan_snapshot jsonb`; `opponent_squad_visibility opponent_squad_visibility NN DEFAULT none`; `team_color text`; `opponent_color text`; `clock_period text NN DEFAULT not_started`; `clock_elapsed_ms integer NN DEFAULT 0`; `clock_started_at timestamptz`; timestamps.
+Declaration: [matches](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/database/schema/index.ts).
 
-Indexes: `competition_id`, `game_plan_id`. `game_plan_snapshot` deliberately preserves match-time tactics if a saved plan later changes or is deleted.
+| Column | SQL type | Null/default/key and reference |
+| --- | --- | --- |
+| `id` | `uuid` | PK; default random UUID |
+| `event_id` | `uuid` | Non-null; unique; FK → `events.id`; delete cascade |
+| `shared_match_id` | `uuid` | Nullable; FK → `match_sessions.id`; delete set null |
+| `competition_id` | `uuid` | Nullable; FK → `competitions.id`; delete set null |
+| `opponent_competition_team_id` | `uuid` | Nullable; FK → `competition_teams.id`; delete set null |
+| `opponent_team_id` | `uuid` | Nullable; FK → `teams.id`; delete set null |
+| `opponent_name` | `text` | Non-null |
+| `is_home` | `boolean` | Non-null; default `true` |
+| `team_score` | `integer` | Non-null; default `0` |
+| `opponent_score` | `integer` | Non-null; default `0` |
+| `game_plan_id` | `uuid` | Nullable; FK → `game_plans.id`; delete set null |
+| `game_plan_snapshot` | `jsonb` | Nullable; JSON type `GamePlanSnapshot` |
+| `opponent_squad_visibility` | `opponent_squad_visibility` | Non-null; default `'none') .notNull(` |
+| `team_color` | `text` | Nullable |
+| `opponent_color` | `text` | Nullable |
+| `clock_period` | `text` | Non-null; default `'not_started'` |
+| `clock_elapsed_ms` | `integer` | Non-null; default `0` |
+| `clock_started_at` | `timestamptz` | Nullable |
+| `clock_revision` | `integer` | Non-null; default `0` |
+| `created_at`, `updated_at` | timestamptz | Non-null; default `now()` |
+
+Declared indexes/constraints (SQL column names in Drizzle notation):
+
+- `index('matches_competition_id_index').on(competition_id)`
+- `index('matches_opponent_competition_team_id_index').on( opponent_competition_team_id, )`
+- `index('matches_opponent_team_id_index').on(opponent_team_id)`
+- `index('matches_game_plan_id_index').on(game_plan_id)`
+- `index('matches_shared_match_id_index').on(shared_match_id)`
+
+### `competition_matches`
+
+Declaration: [competition_matches](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/database/schema/index.ts).
+
+| Column | SQL type | Null/default/key and reference |
+| --- | --- | --- |
+| `id` | `uuid` | PK; default random UUID |
+| `competition_id` | `uuid` | Non-null; FK → `competitions.id`; delete cascade |
+| `home_competition_team_id` | `uuid` | Non-null; FK → `competition_teams.id`; delete cascade |
+| `away_competition_team_id` | `uuid` | Non-null; FK → `competition_teams.id`; delete cascade |
+| `home_score` | `integer` | Non-null; default `0` |
+| `away_score` | `integer` | Non-null; default `0` |
+| `played_at` | `timestamptz` | Non-null |
+| `created_by_user_id` | `text` | Non-null; FK → `user.id` |
+| `created_at`, `updated_at` | timestamptz | Non-null; default `now()` |
+
+Declared indexes/constraints (SQL column names in Drizzle notation):
+
+- `index('competition_matches_competition_id_index').on(competition_id)`
+- `index('competition_matches_home_team_id_index').on( home_competition_team_id, )`
+- `index('competition_matches_away_team_id_index').on( away_competition_team_id, )`
 
 ### `opponent_match_players`
 
-`id uuid PK DEFAULT random`; `match_id uuid NN FK → matches.id ON DELETE CASCADE`; `shirt_number integer NN`; `name text`; `position text`; timestamps.
+Declaration: [opponent_match_players](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/database/schema/index.ts).
 
-Indexes/uniques: `match_id`; UQ `(match_id,shirt_number)`. Application validation controls when names are forbidden/required for numbers/full modes.
+| Column | SQL type | Null/default/key and reference |
+| --- | --- | --- |
+| `id` | `uuid` | PK; default random UUID |
+| `match_id` | `uuid` | Non-null; FK → `matches.id`; delete cascade |
+| `shirt_number` | `integer` | Non-null |
+| `name` | `text` | Nullable |
+| `position` | `text` | Nullable |
+| `created_at`, `updated_at` | timestamptz | Non-null; default `now()` |
+
+Declared indexes/constraints (SQL column names in Drizzle notation):
+
+- `index('opponent_match_players_match_id_index').on(match_id)`
+- `uniqueIndex('opponent_match_players_match_number_unique').on( match_id, shirt_number, )`
 
 ### `athlete_match_stats`
 
-`id uuid PK DEFAULT random`; `match_id uuid NN FK → matches.id ON DELETE CASCADE`; `athlete_id uuid NN FK → athletes.id ON DELETE CASCADE`; `started boolean NN DEFAULT true`; `minutes_played integer`; `goals`, `assists`, `yellow_cards`, `red_cards` are integers `NN DEFAULT 0`; timestamps.
+Declaration: [athlete_match_stats](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/database/schema/index.ts).
 
-Indexes/uniques: `athlete_id`; UQ `(match_id,athlete_id)`.
+| Column | SQL type | Null/default/key and reference |
+| --- | --- | --- |
+| `id` | `uuid` | PK; default random UUID |
+| `match_id` | `uuid` | Non-null; FK → `matches.id`; delete cascade |
+| `athlete_id` | `uuid` | Non-null; FK → `athletes.id`; delete cascade |
+| `started` | `boolean` | Non-null; default `true` |
+| `minutes_played` | `integer` | Nullable |
+| `goals` | `integer` | Non-null; default `0` |
+| `assists` | `integer` | Non-null; default `0` |
+| `yellow_cards` | `integer` | Non-null; default `0` |
+| `red_cards` | `integer` | Non-null; default `0` |
+| `created_at`, `updated_at` | timestamptz | Non-null; default `now()` |
+
+Declared indexes/constraints (SQL column names in Drizzle notation):
+
+- `index('athlete_match_stats_athlete_id_index').on(athlete_id)`
+- `uniqueIndex('athlete_match_stats_match_athlete_unique').on( match_id, athlete_id, )`
 
 ### `standings`
 
-`id uuid PK DEFAULT random`; `competition_id uuid NN FK → competitions.id ON DELETE CASCADE`; `team_name text NN`; `position integer NN`; `played`, `won`, `drawn`, `lost`, `goals_for`, `goals_against`, `points` are integers `NN DEFAULT 0`; `is_own_team boolean NN DEFAULT false`; timestamps.
+Declaration: [standings](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/database/schema/index.ts).
 
-Indexes/uniques: `competition_id`; UQ `(competition_id,position)`; UQ `(competition_id,team_name)`. Coaches enter standings; the application cannot derive other clubs' results.
+| Column | SQL type | Null/default/key and reference |
+| --- | --- | --- |
+| `id` | `uuid` | PK; default random UUID |
+| `competition_id` | `uuid` | Non-null; FK → `competitions.id`; delete cascade |
+| `team_name` | `text` | Non-null |
+| `position` | `integer` | Non-null |
+| `played` | `integer` | Non-null; default `0` |
+| `won` | `integer` | Non-null; default `0` |
+| `drawn` | `integer` | Non-null; default `0` |
+| `lost` | `integer` | Non-null; default `0` |
+| `goals_for` | `integer` | Non-null; default `0` |
+| `goals_against` | `integer` | Non-null; default `0` |
+| `points` | `integer` | Non-null; default `0` |
+| `is_own_team` | `boolean` | Non-null; default `false` |
+| `created_at`, `updated_at` | timestamptz | Non-null; default `now()` |
+
+Declared indexes/constraints (SQL column names in Drizzle notation):
+
+- `index('standings_competition_id_index').on(competition_id)`
+- `uniqueIndex('standings_competition_position_unique').on( competition_id, position, )`
+- `uniqueIndex('standings_competition_team_name_unique').on( competition_id, team_name, )`
 
 ### `match_events`
 
-`id uuid PK DEFAULT random`; `match_id uuid NN FK → matches.id ON DELETE CASCADE`; `athlete_id uuid FK → athletes.id ON DELETE SET NULL`; `team match_event_team NN`; `opponent_label text`; `opponent_player_id uuid FK → opponent_match_players.id ON DELETE SET NULL`; `event_type match_event_type NN`; `minute integer NN`; `detail text`; `logged_by_user_id text NN FK → user.id`; `manually_adjusted boolean NN DEFAULT false`; `client_request_id uuid`; timestamps.
+Declaration: [match_events](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/database/schema/index.ts).
 
-Indexes/uniques: `match_id`; `opponent_player_id`; `(match_id,athlete_id,event_type)`; partial UQ `(match_id,client_request_id) WHERE client_request_id IS NOT NULL`.
+| Column | SQL type | Null/default/key and reference |
+| --- | --- | --- |
+| `id` | `uuid` | PK; default random UUID |
+| `match_id` | `uuid` | Non-null; FK → `matches.id`; delete cascade |
+| `session_id` | `uuid` | Nullable; FK → `match_sessions.id`; delete set null |
+| `side` | `match_session_side` | Nullable |
+| `athlete_id` | `uuid` | Nullable; FK → `athletes.id`; delete set null |
+| `team` | `match_event_team` | Non-null |
+| `opponent_label` | `text` | Nullable |
+| `opponent_player_id` | `uuid` | Nullable; FK → `opponent_match_players.id`; delete set null |
+| `event_type` | `match_event_type` | Non-null |
+| `minute` | `integer` | Non-null |
+| `detail` | `text` | Nullable |
+| `logged_by_user_id` | `text` | Non-null; FK → `user.id` |
+| `manually_adjusted` | `boolean` | Non-null; default `false` |
+| `client_request_id` | `uuid` | Nullable |
+| `period` | `text` | Non-null; default `'not_started'` |
+| `match_elapsed_ms` | `integer` | Nullable |
+| `structured_payload` | `jsonb` | Nullable; JSON type `Record<string, unknown>` |
+| `lifecycle_status` | `text` | Non-null; default `'provisional'` |
+| `rules_version` | `integer` | Non-null; default `1` |
+| `projection_revision` | `integer` | Non-null; default `0` |
+| `created_at`, `updated_at` | timestamptz | Non-null; default `now()` |
 
-## Enums
+Declared indexes/constraints (SQL column names in Drizzle notation):
+
+- `index('match_events_match_id_index').on(match_id)`
+- `index('match_events_session_side_index').on( session_id, side, period, match_elapsed_ms, )`
+- `index('match_events_opponent_player_id_index').on(opponent_player_id)`
+- `index('match_events_match_athlete_type_index').on( match_id, athlete_id, event_type, )`
+- `uniqueIndex('match_events_match_request_unique') .on(match_id, client_request_id) .where(client_request_id is not null)`
+
+### `injuries`
+
+Declaration: [injuries](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/database/schema/index.ts).
+
+| Column | SQL type | Null/default/key and reference |
+| --- | --- | --- |
+| `id` | `uuid` | PK; default random UUID |
+| `team_id` | `uuid` | Non-null; FK → `teams.id`; delete cascade |
+| `athlete_id` | `uuid` | Non-null; FK → `athletes.id`; delete cascade |
+| `body_region` | `injury_body_region` | Non-null |
+| `injury_type` | `injury_type` | Non-null |
+| `severity` | `injury_severity` | Non-null |
+| `status` | `injury_status` | Non-null; default `'reported'` |
+| `context` | `injury_context` | Non-null; default `'other'` |
+| `occurred_on` | `date` | Non-null |
+| `match_id` | `uuid` | Nullable; FK → `matches.id`; delete set null |
+| `match_event_id` | `uuid` | Nullable; FK → `match_events.id`; delete set null |
+| `minute` | `integer` | Nullable |
+| `estimated_return_min_days` | `integer` | Non-null |
+| `estimated_return_max_days` | `integer` | Non-null |
+| `estimated_return_from` | `date` | Non-null |
+| `estimated_return_to` | `date` | Non-null |
+| `actual_return_on` | `date` | Nullable |
+| `diagnosed_by` | `text` | Nullable |
+| `description` | `text` | Nullable |
+| `notes` | `text` | Nullable |
+| `rehab_phases` | `jsonb` | Nullable |
+| `closed_at` | `timestamptz` | Nullable |
+| `created_by_user_id` | `text` | Non-null; FK → `user.id` |
+| `created_at`, `updated_at` | timestamptz | Non-null; default `now()` |
+
+Declared indexes/constraints (SQL column names in Drizzle notation):
+
+- `index('injuries_team_id_index').on(team_id)`
+- `index('injuries_athlete_id_index').on(athlete_id)`
+- `index('injuries_team_status_index').on(team_id, status)`
+- `index('injuries_athlete_region_index').on( athlete_id, body_region, )`
+- `uniqueIndex('injuries_match_event_unique') .on(match_event_id) .where(match_event_id is not null)`
+
+### `injury_timeline_entries`
+
+Declaration: [injury_timeline_entries](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/database/schema/index.ts).
+
+| Column | SQL type | Null/default/key and reference |
+| --- | --- | --- |
+| `id` | `uuid` | PK; default random UUID |
+| `injury_id` | `uuid` | Non-null; FK → `injuries.id`; delete cascade |
+| `kind` | `injury_timeline_kind` | Non-null |
+| `occurred_on` | `date` | Non-null |
+| `title` | `text` | Non-null |
+| `detail` | `text` | Nullable |
+| `created_by_user_id` | `text` | Non-null; FK → `user.id` |
+| `created_at`, `updated_at` | timestamptz | Non-null; default `now()` |
+
+Declared indexes/constraints (SQL column names in Drizzle notation):
+
+- `index('injury_timeline_entries_injury_index').on( injury_id, occurred_on, )`
+
+### `match_event_observations`
+
+Declaration: [match_event_observations](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/database/schema/index.ts).
+
+| Column | SQL type | Null/default/key and reference |
+| --- | --- | --- |
+| `id` | `uuid` | PK |
+| `match_id` | `uuid` | Non-null; FK → `matches.id`; delete cascade |
+| `session_id` | `uuid` | Nullable; FK → `match_sessions.id`; delete set null |
+| `side` | `match_session_side` | Nullable |
+| `device_id` | `uuid` | Non-null |
+| `logged_by_user_id` | `text` | Non-null; FK → `user.id` |
+| `schema_version` | `integer` | Non-null; default `1` |
+| `event_type` | `match_event_type` | Non-null |
+| `team` | `match_event_team` | Non-null |
+| `athlete_id` | `uuid` | Nullable; FK → `athletes.id`; delete set null |
+| `opponent_label` | `text` | Nullable |
+| `opponent_player_id` | `uuid` | Nullable; FK → `opponent_match_players.id`; delete set null |
+| `period` | `text` | Non-null |
+| `match_elapsed_ms` | `integer` | Non-null |
+| `payload` | `jsonb` | Non-null; JSON type `Record<string, unknown>` |
+| `payload_hash` | `text` | Non-null |
+| `client_created_at` | `timestamptz` | Non-null |
+| `server_received_at` | `timestamptz` | Non-null; default `now()` |
+
+Declared indexes/constraints (SQL column names in Drizzle notation):
+
+- `index('match_event_observations_match_index').on( match_id, period, match_elapsed_ms, )`
+- `index('match_event_observations_session_side_index').on( session_id, side, period, match_elapsed_ms, )`
+- `index('match_event_observations_actor_index').on(logged_by_user_id)`
+
+### `match_event_memberships`
+
+Declaration: [match_event_memberships](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/database/schema/index.ts).
+
+| Column | SQL type | Null/default/key and reference |
+| --- | --- | --- |
+| `observation_id` | `uuid` | PK; FK → `match_event_observations.id`; delete cascade |
+| `canonical_event_id` | `uuid` | Non-null; FK → `match_events.id`; delete cascade |
+| `projection_revision` | `integer` | Non-null; default `0` |
+| `created_at` | `timestamptz` | Non-null; default `now()` |
+
+Declared indexes/constraints (SQL column names in Drizzle notation):
+
+- `index('match_event_memberships_canonical_index').on(canonical_event_id)`
+
+### `match_event_operations`
+
+Declaration: [match_event_operations](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/database/schema/index.ts).
+
+| Column | SQL type | Null/default/key and reference |
+| --- | --- | --- |
+| `id` | `uuid` | PK |
+| `match_id` | `uuid` | Non-null; FK → `matches.id`; delete cascade |
+| `session_id` | `uuid` | Nullable; FK → `match_sessions.id`; delete set null |
+| `actor_user_id` | `text` | Non-null; FK → `user.id` |
+| `operation_type` | `text` | Non-null |
+| `target_observation_ids` | `jsonb` | Non-null; default `[]) .notNull(`; JSON type `string[]` |
+| `canonical_event_id` | `uuid` | Nullable; FK → `match_events.id`; delete set null |
+| `public_canonical_event` | `boolean` | Non-null; default `false) .notNull(` |
+| `causal_parent_ids` | `jsonb` | Non-null; default `[]) .notNull(`; JSON type `string[]` |
+| `decision` | `jsonb` | Non-null; JSON type `Record<string, unknown>` |
+| `reason` | `text` | Nullable |
+| `schema_version` | `integer` | Non-null; default `1` |
+| `created_at` | `timestamptz` | Non-null; default `now()` |
+
+Declared indexes/constraints (SQL column names in Drizzle notation):
+
+- `index('match_event_operations_match_index').on( match_id, created_at, )`
+- `index('match_event_operations_actor_index').on(actor_user_id)`
+- `index('match_event_operations_session_index').on( session_id, created_at, )`
+- `index('match_event_operations_canonical_index').on(canonical_event_id)`
+
+### `match_clock_operations`
+
+Declaration: [match_clock_operations](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/database/schema/index.ts).
+
+| Column | SQL type | Null/default/key and reference |
+| --- | --- | --- |
+| `id` | `uuid` | PK |
+| `match_id` | `uuid` | Non-null; FK → `matches.id`; delete cascade |
+| `session_id` | `uuid` | Nullable; FK → `match_sessions.id`; delete set null |
+| `actor_user_id` | `text` | Non-null; FK → `user.id` |
+| `period` | `text` | Non-null |
+| `elapsed_ms` | `integer` | Non-null |
+| `running` | `boolean` | Non-null |
+| `base_revision` | `integer` | Non-null |
+| `applied_revision` | `integer` | Non-null |
+| `outcome` | `text` | Non-null |
+| `payload_hash` | `text` | Non-null |
+| `client_created_at` | `timestamptz` | Non-null |
+| `created_at` | `timestamptz` | Non-null; default `now()` |
+
+Declared indexes/constraints (SQL column names in Drizzle notation):
+
+- `index('match_clock_operations_match_revision_index').on( match_id, applied_revision, )`
+- `index('match_clock_operations_actor_index').on(actor_user_id)`
+- `index('match_clock_operations_session_index').on( session_id, applied_revision, )`
+
+### `match_event_reviews`
+
+Declaration: [match_event_reviews](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/database/schema/index.ts).
+
+| Column | SQL type | Null/default/key and reference |
+| --- | --- | --- |
+| `team_decision_notes` | `jsonb` | Non-null; default `{}) .notNull(`; JSON type `Record<string, string \| null>` |
+| `team_decisions` | `jsonb` | Non-null; default `{}) .notNull(`; JSON type `Record<string, string>` |
+| `id` | `uuid` | PK; default random UUID |
+| `match_id` | `uuid` | Non-null; FK → `matches.id`; delete cascade |
+| `session_id` | `uuid` | Nullable; FK → `match_sessions.id`; delete set null |
+| `canonical_event_id` | `uuid` | Non-null; FK → `match_events.id`; delete cascade |
+| `public_canonical_event` | `boolean` | Non-null; default `false) .notNull(` |
+| `observation_ids` | `jsonb` | Non-null; default `[]) .notNull(`; JSON type `string[]` |
+| `review_version` | `integer` | Non-null; default `1` |
+| `reason` | `text` | Non-null |
+| `status` | `text` | Non-null; default `'open'` |
+| `resolution` | `text` | Nullable |
+| `resolved_by_user_id` | `text` | Nullable; FK → `user.id` |
+| `resolved_at` | `timestamptz` | Nullable |
+| `disputed_by_user_id` | `text` | Nullable; FK → `user.id` |
+| `disputed_at` | `timestamptz` | Nullable |
+| `created_at`, `updated_at` | timestamptz | Non-null; default `now()` |
+
+Declared indexes/constraints (SQL column names in Drizzle notation):
+
+- `index('match_event_reviews_match_status_index').on( match_id, status, )`
+- `index('match_event_reviews_session_status_index').on( session_id, status, )`
+- `index('match_event_reviews_canonical_index').on(canonical_event_id)`
+
+### `competition_fixtures`
+
+Declaration: [competition_fixtures](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/database/schema/index.ts).
+
+| Column | SQL type | Null/default/key and reference |
+| --- | --- | --- |
+| `id` | `uuid` | PK; default random UUID |
+| `competition_id` | `uuid` | Non-null; FK → `competitions.id`; delete cascade |
+| `stage` | `competition_fixture_stage` | Non-null |
+| `round` | `integer` | Non-null |
+| `position` | `integer` | Non-null |
+| `home_competition_team_id` | `uuid` | Nullable |
+| `away_competition_team_id` | `uuid` | Nullable |
+| `scheduled_at` | `timestamptz` | Non-null |
+| `status` | `competition_fixture_status` | Non-null; default `'scheduled'` |
+| `home_score` | `integer` | Nullable |
+| `away_score` | `integer` | Nullable |
+| `home_penalty_score` | `integer` | Nullable |
+| `away_penalty_score` | `integer` | Nullable |
+| `winner_competition_team_id` | `uuid` | Nullable |
+| `next_fixture_id` | `uuid` | Nullable |
+| `next_fixture_slot` | `text` | Nullable |
+| `linked_match_id` | `uuid` | Nullable; FK → `matches.id` |
+| `shared_session_id` | `uuid` | Nullable; FK → `match_sessions.id`; delete set null |
+| `legacy_result_id` | `uuid` | Nullable; FK → `competition_matches.id` |
+| `schedule_revision` | `integer` | Non-null; default `1` |
+| `home_schedule_response` | `competition_fixture_schedule_response` | Non-null; default `'pending') .notNull(` |
+| `away_schedule_response` | `competition_fixture_schedule_response` | Non-null; default `'pending') .notNull(` |
+| `home_schedule_responded_at` | `timestamptz` | Nullable |
+| `away_schedule_responded_at` | `timestamptz` | Nullable |
+| `home_schedule_responded_by_user_id` | `text` | Nullable |
+| `away_schedule_responded_by_user_id` | `text` | Nullable |
+| `schedule_proposed_by_competition_team_id` | `uuid` | Nullable |
+| `schedule_proposal_note` | `text` | Nullable |
+| `schedule_confirmed_at` | `timestamptz` | Nullable |
+| `created_at`, `updated_at` | timestamptz | Non-null; default `now()` |
+
+Declared indexes/constraints (SQL column names in Drizzle notation):
+
+- `uniqueIndex('competition_fixtures_competition_id_id_unique').on( competition_id, id, )`
+- `uniqueIndex('competition_fixtures_round_position_unique').on( competition_id, stage, round, position, )`
+- `uniqueIndex('competition_fixtures_pair_unique').on( competition_id, stage, home_competition_team_id, away_competition_team_id, )`
+- `uniqueIndex('competition_fixtures_next_slot_unique').on( next_fixture_id, next_fixture_slot, )`
+- `uniqueIndex('competition_fixtures_linked_match_unique').on( linked_match_id, )`
+- `uniqueIndex('competition_fixtures_shared_session_unique').on( shared_session_id, )`
+- `uniqueIndex('competition_fixtures_legacy_result_unique').on( legacy_result_id, )`
+- `foreignKey({ name: 'competition_fixtures_home_participant_fk', columns: [competition_id, home_competition_team_id], foreignColumns: [competition_teams.competition_id, competition_teams.id], })`
+- `foreignKey({ name: 'competition_fixtures_away_participant_fk', columns: [competition_id, away_competition_team_id], foreignColumns: [competition_teams.competition_id, competition_teams.id], })`
+- `foreignKey({ name: 'competition_fixtures_winner_participant_fk', columns: [competition_id, winner_competition_team_id], foreignColumns: [competition_teams.competition_id, competition_teams.id], })`
+- `foreignKey({ name: 'competition_fixtures_home_schedule_user_fk', columns: [home_schedule_responded_by_user_id], foreignColumns: [user.id], }).onDelete('set null')`
+- `foreignKey({ name: 'competition_fixtures_away_schedule_user_fk', columns: [away_schedule_responded_by_user_id], foreignColumns: [user.id], }).onDelete('set null')`
+- `foreignKey({ name: 'competition_fixtures_schedule_proposer_fk', columns: [competition_id, schedule_proposed_by_competition_team_id], foreignColumns: [competition_teams.competition_id, competition_teams.id], })`
+- `foreignKey({ name: 'competition_fixtures_next_fixture_fk', columns: [competition_id, next_fixture_id], foreignColumns: [competition_id, id], })`
+- `check( 'competition_fixtures_valid',  round > 0 and position > 0 and (home_competition_team_id is null or away_competition_team_id is null or home_competition_team_id <> away_competition_team_id) and (stage = 'knockout' or (home_competition_team_id is not null and away_competition_team_id is not null and next_fixture_id is null)) and ((next_fixture_id is null and next_fixture_slot is null) or (next_fixture_id is not null and next_fixture_id <> id and next_fixture_slot is not null and next_fixture_slot in ('home','away'))) and ((home_score is null and away_score is null) or (home_score between 0 and 99 and away_score between 0 and 99 and home_score is not null and away_score is not null)) and ((home_penalty_score is null and away_penalty_score is null) or (stage = 'knockout' and home_penalty_score between 0 and 99 and away_penalty_score between 0 and 99 and home_penalty_score is not null and away_penalty_score is not null)) and (winner_competition_team_id is null or (home_competition_team_id is not null and away_competition_team_id is not null and winner_competition_team_id in (home_competition_team_id, away_competition_team_id))) and schedule_revision > 0 and (schedule_proposed_by_competition_team_id is null or (home_competition_team_id is not null and schedule_proposed_by_competition_team_id = home_competition_team_id) or (away_competition_team_id is not null and schedule_proposed_by_competition_team_id = away_competition_team_id)) and (schedule_confirmed_at is null or (home_schedule_response in ('accepted','external_confirmed') and away_schedule_response in ('accepted','external_confirmed'))) and (status <> 'completed' or (home_competition_team_id is not null and away_competition_team_id is not null and home_score is not null and away_score is not null and (stage <> 'knockout' or winner_competition_team_id is not null))) , )`
+
+### `match_projection_state`
+
+Declaration: [match_projection_state](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/database/schema/index.ts).
+
+| Column | SQL type | Null/default/key and reference |
+| --- | --- | --- |
+| `match_id` | `uuid` | PK; FK → `matches.id`; delete cascade |
+| `session_id` | `uuid` | Nullable; FK → `match_sessions.id`; delete set null |
+| `revision` | `integer` | Non-null; default `0` |
+| `input_digest` | `text` | Non-null |
+| `rules_version` | `integer` | Non-null; default `1` |
+| `confirmed_team_score` | `integer` | Non-null; default `0` |
+| `confirmed_opponent_score` | `integer` | Non-null; default `0) .notNull(` |
+| `provisional_team_score` | `integer` | Non-null; default `0) .notNull(` |
+| `provisional_opponent_score` | `integer` | Non-null; default `0) .notNull(` |
+| `possible_effects` | `jsonb` | Non-null; default `{}) .notNull(`; JSON type `Record<string, unknown>` |
+| `disciplinary_projection` | `jsonb` | Non-null; default `{}) .notNull(`; JSON type `Record<string, unknown>` |
+| `unresolved_review_count` | `integer` | Non-null; default `0) .notNull(` |
+| `finalisation_state` | `text` | Non-null; default `'open'` |
+| `finalised_by_user_id` | `text` | Nullable; FK → `user.id` |
+| `finalised_at` | `timestamptz` | Nullable |
+| `created_at`, `updated_at` | timestamptz | Non-null; default `now()` |
+
+Declared indexes/constraints (SQL column names in Drizzle notation):
+
+- `index('match_projection_state_session_index').on(session_id)`
+
+### `match_insights`
+
+Declaration: [match_insights](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/database/schema/index.ts).
+
+| Column | SQL type | Null/default/key and reference |
+| --- | --- | --- |
+| `match_id` | `uuid` | PK; FK → `matches.id`; delete cascade |
+| `status` | `match_insight_status` | Non-null; default `'pending'` |
+| `narrative_text` | `text` | Nullable |
+| `highlights` | `jsonb` | Nullable; JSON type `Record<string, unknown>` |
+| `model` | `text` | Nullable |
+| `prompt_version` | `integer` | Non-null; default `1` |
+| `input_digest` | `text` | Nullable |
+| `projection_revision` | `integer` | Nullable |
+| `generated_at` | `timestamptz` | Nullable |
+| `failure_reason` | `text` | Nullable |
+| `attempt_count` | `integer` | Non-null; default `0` |
+| `created_at`, `updated_at` | timestamptz | Non-null; default `now()` |
+
+### `season_insights`
+
+Declaration: [season_insights](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/database/schema/index.ts).
+
+| Column | SQL type | Null/default/key and reference |
+| --- | --- | --- |
+| `id` | `uuid` | PK; default random UUID |
+| `team_id` | `uuid` | Non-null; FK → `teams.id`; delete cascade |
+| `season_id` | `uuid` | Nullable; FK → `seasons.id`; delete cascade |
+| `status` | `season_insight_status` | Non-null; default `'pending'` |
+| `narrative_text` | `text` | Nullable |
+| `model` | `text` | Nullable |
+| `prompt_version` | `integer` | Non-null; default `1` |
+| `input_digest` | `text` | Nullable |
+| `generated_at` | `timestamptz` | Nullable |
+| `failure_reason` | `text` | Nullable |
+| `attempt_count` | `integer` | Non-null; default `0` |
+| `generated_by_user_id` | `text` | Nullable; FK → `user.id`; delete set null |
+| `created_at`, `updated_at` | timestamptz | Non-null; default `now()` |
+
+Declared indexes/constraints (SQL column names in Drizzle notation):
+
+- `index('season_insights_team_id_index').on(team_id)`
+- `uniqueIndex('season_insights_team_season_unique') .on(team_id, season_id) .where(season_id is not null)`
+- `uniqueIndex('season_insights_team_all_time_unique') .on(team_id) .where(season_id is null)`
+
+### `sync_upload_receipts`
+
+Declaration: [sync_upload_receipts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/database/schema/index.ts).
+
+| Column | SQL type | Null/default/key and reference |
+| --- | --- | --- |
+| `id` | `uuid` | PK |
+| `submitted_by_user_id` | `text` | Non-null; FK → `user.id` |
+| `match_id` | `uuid` | Non-null; FK → `matches.id`; delete cascade |
+| `item_type` | `text` | Non-null |
+| `payload_hash` | `text` | Non-null |
+| `outcome` | `text` | Non-null |
+| `safe_error_code` | `text` | Nullable |
+| `processing_duration_ms` | `integer` | Nullable |
+| `canonical_event_id` | `uuid` | Nullable; FK → `match_events.id`; delete set null |
+| `created_at`, `updated_at` | timestamptz | Non-null; default `now()` |
+
+Declared indexes/constraints (SQL column names in Drizzle notation):
+
+- `index('sync_upload_receipts_user_index').on( submitted_by_user_id, table.createdAt, )`
+
+### `sync_client_telemetry`
+
+Declaration: [sync_client_telemetry](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/database/schema/index.ts).
+
+| Column | SQL type | Null/default/key and reference |
+| --- | --- | --- |
+| `device_id` | `uuid` | PK |
+| `user_id` | `text` | Non-null; FK → `user.id`; delete cascade |
+| `team_id` | `uuid` | Nullable; FK → `teams.id`; delete cascade |
+| `pending_count` | `integer` | Non-null; default `0` |
+| `rejected_count` | `integer` | Non-null; default `0` |
+| `oldest_pending_at` | `timestamptz` | Nullable |
+| `last_successful_sync_at` | `timestamptz` | Nullable |
+| `deployment` | `text` | Non-null |
+| `updated_at` | `timestamptz` | Non-null; default `now()` |
+
+Declared indexes/constraints (SQL column names in Drizzle notation):
+
+- `index('sync_client_telemetry_team_index').on(team_id, updated_at)`
+
+### `match_amendments`
+
+Declaration: [match_amendments](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/database/schema/index.ts).
+
+| Column | SQL type | Null/default/key and reference |
+| --- | --- | --- |
+| `id` | `uuid` | PK |
+| `session_id` | `uuid` | Non-null; FK → `match_sessions.id`; delete cascade |
+| `match_id` | `uuid` | Non-null; FK → `matches.id`; delete cascade |
+| `proposed_by_user_id` | `text` | Non-null; FK → `user.id` |
+| `proposed_by_team_id` | `uuid` | Non-null; FK → `teams.id` |
+| `base_revision` | `integer` | Non-null |
+| `action` | `text` | Non-null |
+| `canonical_event_id` | `uuid` | Nullable; FK → `match_events.id` |
+| `observation_id` | `uuid` | Nullable; FK → `match_event_observations.id` |
+| `replacement` | `jsonb` | Non-null; default `{}) .notNull(`; JSON type `Record<string, unknown>` |
+| `before_event` | `jsonb` | Nullable; JSON type `{ eventType: string; minute: number; playerLabel: string \| null; }` |
+| `after_event` | `jsonb` | Nullable; JSON type `{ eventType: string; minute: number; playerLabel: string \| null; }` |
+| `proposed_score` | `jsonb` | Non-null; JSON type `{ home: number; away: number }` |
+| `reason` | `text` | Non-null |
+| `approvals` | `jsonb` | Non-null; default `{}) .notNull(`; JSON type `Record<string, string>` |
+| `status` | `text` | Non-null; default `'pending'` |
+| `response_reason` | `text` | Nullable |
+| `responded_by_user_id` | `text` | Nullable; FK → `user.id` |
+| `created_at`, `updated_at` | timestamptz | Non-null; default `now()` |
+
+## PostgreSQL enums
 
 | Enum | Values |
 | --- | --- |
@@ -173,150 +1119,52 @@ Indexes/uniques: `match_id`; `opponent_player_id`; `(match_id,athlete_id,event_t
 | `event_type` | `match`, `training`, `meeting` |
 | `event_status` | `scheduled`, `cancelled`, `completed` |
 | `athlete_status` | `available`, `injured`, `suspended` |
+| `match_session_side` | `home`, `away` |
+| `match_session_confirmation_state` | `pending`, `confirmed` |
 | `claim_invite_status` | `pending`, `used`, `revoked` |
 | `team_invite_status` | `pending`, `used`, `revoked` |
 | `defensive_style` | `drop_back`, `balanced`, `pressure_on_heavy_touch`, `press_after_possession_loss`, `constant_pressure` |
 | `offensive_style` | `possession`, `balanced`, `fast_build_up`, `long_ball` |
+| `friendly_fixture_status` | `pending`, `accepted`, `declined`, `cancelled` |
 | `rsvp_status` | `going`, `not_going`, `maybe` |
 | `competition_type` | `league`, `cup`, `friendly` |
 | `opponent_squad_visibility` | `none`, `numbers`, `full` |
+| `competition_format` | `league`, `knockout`, `league_knockout` |
+| `competition_fixture_stage` | `league`, `knockout` |
+| `competition_fixture_status` | `scheduled`, `in_progress`, `completed`, `cancelled` |
+| `competition_fixture_schedule_response` | `pending`, `accepted`, `external_confirmed` |
+| `competition_invite_status` | `pending`, `verification`, `used`, `revoked` |
 | `match_event_team` | `own`, `opponent` |
-| `match_event_type` | `goal`, `assist`, `key_pass`, `yellow_card`, `red_card`, `substitution`, `penalty`, `injury` |
+| `match_event_type` | `goal`, `assist`, `key_pass`, `yellow_card`, `red_card`, `substitution`, `penalty`, `injury`, `goalkeeper_save`, `tactical_change` |
+| `injury_body_region` | `head`, `neck`, `shoulder_left`, `shoulder_right`, `upper_arm_left`, `upper_arm_right`, `forearm_left`, `forearm_right`, `wrist_hand_left`, `wrist_hand_right`, `chest`, `abdomen`, `groin`, `back_upper`, `back_lower`, `glute_left`, `glute_right`, `hamstring_left`, `hamstring_right`, `quad_left`, `quad_right`, `knee_left`, `knee_right`, `calf_left`, `calf_right`, `achilles_left`, `achilles_right`, `ankle_left`, `ankle_right`, `foot_left`, `foot_right` |
+| `injury_type` | `strain`, `sprain`, `tear`, `fracture`, `contusion`, `dislocation`, `tendinopathy`, `concussion`, `laceration`, `illness`, `other` |
+| `injury_severity` | `minor`, `moderate`, `severe` |
+| `injury_status` | `reported`, `assessment`, `rehab`, `return_to_training`, `returned`, `season_ending` |
+| `injury_context` | `match`, `training`, `other` |
+| `injury_timeline_kind` | `sustained`, `assessment`, `rehab_started`, `reassessment`, `setback`, `return_to_training`, `returned`, `note`, `estimated_return` |
+| `match_insight_status` | `pending`, `ready`, `failed`, `stale` |
+| `season_insight_status` | `pending`, `ready`, `failed` |
 
-## Database constraints versus application restrictions
+## SQL constraints, functions and triggers
 
-Foreign keys ensure referenced rows exist and define delete behaviour. They do **not** prove that two referenced rows belong to the same team, that a caller is a coach, that a match event athlete was selected, that a season range does not overlap, or that an opponent name is permitted for the selected visibility mode. Those rules are enforced in Zod schemas and services using the authenticated user's resolved team. Both layers are required.
+The ordered migrations add important behavior beyond the declarations above:
 
-Athlete archiving is a soft-delete behaviour using `archived_at`. Team deletion cascades broadly through team-owned data. Deleting referenced athletes/users can be restricted where no `ON DELETE` action is declared, or can set attribution fields to null as specified above.
-
-## PostgreSQL, Neon and Drizzle
-
-PostgreSQL provides relational constraints, indexes, enums, JSONB and transactions expected by the model. Neon supplies hosted PostgreSQL and the HTTP serverless driver. Drizzle keeps a typed schema beside the application and generates/replays reviewed SQL migrations. Better Auth uses Drizzle's schema adapter; interactive transactions are disabled in its configuration because the `neon-http` driver does not support them.
-
-Required configuration and safe migration commands are in [Getting Started](../../Overview/01-getting-started.md). `GET /health/database` runs a `SELECT 1`; success returns database status `ok`, while an unavailable database produces an error response. It checks reachability, not migration completeness or data correctness.
-
-## Migration verification concerns
-
-The migration journal is not cleanly monotonic:
-
-- journal index `11` appears twice for `0011_puzzling_jackal` and `0011_add_team_invites`;
-- timestamp `1789119552109` for `0015_absurd_carnage` precedes the recorded `0014` timestamp `1789200000000`;
-- `token_hash` on each invitation table is unique and also has a separate ordinary index, which is likely redundant in PostgreSQL;
-- migration files still contain historical `lineups` migrations although the current schema uses `game_plans`.
-
-These are unresolved verification concerns, not proof of failure. No fresh-install or upgrade migration was run, so this documentation does not claim either path succeeds. Before release, test the complete migration chain and an upgrade from the deployed schema against disposable databases, record outputs, and reconcile the journal only through a reviewed application change.
-
-## Current schema declaration inventory
-
-### Newer subsystem relationships
-
-```mermaid
-erDiagram
-  competitions ||--o{ competition_teams : includes
-  competitions ||--o{ competition_invites : issues
-  competitions ||--o{ competition_fixtures : schedules
-  competitions ||--o{ competition_matches : records
-  competition_fixtures o|--o| matches : links_live_match
-  athletes ||--o{ injuries : has
-  injuries ||--o{ injury_timeline_entries : records
-  matches ||--o{ match_event_observations : receives
-  match_event_observations ||--o| match_event_memberships : maps_to
-  match_events ||--o{ match_event_memberships : groups
-  matches ||--o{ match_event_operations : corrects
-  matches ||--o{ match_clock_operations : clocks
-  matches ||--o{ match_event_reviews : reviews
-  matches ||--o| match_projection_state : projects
-  matches ||--o{ sync_upload_receipts : acknowledges
-```
-
-This diagram is a readable subsystem view of declared references, not a complete physical ERD. Not every conditional or application-enforced relationship is a foreign key. For example, an injury's `match_event_id` is optional and uses `ON DELETE SET NULL` so removing a mis-tapped event does not erase its clinical record. Observation IDs are client-generated and immutable; membership rows connect them to canonical match events. Upload receipt IDs and payload hashes support idempotent retry, while revision fields on fixture schedules and match projections guard concurrent updates. See the [schema source](https://github.com/nayan-m15/Gaffer/blob/ef2880ad0018536c2b933754148e285b2a325ec7/backend/src/database/schema/index.ts) for exact field types, constraints and index expressions, and [offline collaboration](../offline-collaboration.md) for the write path.
-
-The table below lists column names from the current Drizzle declarations. Types, nullability, indexes, defaults and foreign-key actions are defined by [`index.ts`](https://github.com/nayan-m15/Gaffer/blob/ef2880ad0018536c2b933754148e285b2a325ec7/backend/src/database/schema/index.ts) and migration SQL. The detailed descriptions above remain a 14 September snapshot and are not a complete current schema contract.
-
-**Declaration count:** 33 tables; 25 enums.
-
-| Table | Declared columns |
+| Area | Enforced behavior |
 | --- | --- |
-| `user` | `id`, `name`, `email`, `emailVerified`, `image`, `phoneNumber`, `sex`, `dateOfBirth` |
-| `session` | `id`, `expiresAt`, `token`, `createdAt`, `updatedAt`, `ipAddress`, `userAgent`, `userId` |
-| `account` | `id`, `accountId`, `providerId`, `userId`, `accessToken`, `refreshToken`, `idToken`, `accessTokenExpiresAt`, `refreshTokenExpiresAt`, `scope`, `password` |
-| `verification` | `id`, `identifier`, `value`, `expiresAt` |
-| `teams` | `id`, `name`, `primaryColor` |
-| `team_members` | `id`, `teamId`, `userId`, `role` |
-| `athletes` | `id`, `teamId`, `firstName`, `lastName`, `dateOfBirth`, `position`, `squadNumber`, `status`, `archivedAt`, `userId` |
-| `player_claim_invites` | `id`, `athleteId`, `email`, `tokenHash`, `status`, `createdByUserId`, `expiresAt`, `usedAt`, `usedByUserId` |
-| `team_invites` | `id`, `teamId`, `email`, `tokenHash`, `status`, `createdByUserId`, `expiresAt`, `usedAt`, `usedByUserId` |
-| `game_plans` | `id`, `teamId`, `name`, `formationId`, `assignments`, `substituteIds`, `defensiveStyle`, `defensiveWidth`, `defensiveDepth`, `offensiveStyle`, `offensiveWidth`, `playersInBox`, `cornersCommitment`, `freeKicksCommitment`, `captainId`, `freeKickTakerId`, `penaltyTakerId`, `cornerTakerId` |
-| `events` | `id`, `teamId`, `title`, `type`, `status`, `scheduledAt`, `location`, `venueAddress`, `weatherLocation`, `weatherLatitude`, `weatherLongitude`, `weatherTimezone`, `notes`, `competitionId`, `competitionFixtureId` |
-| `event_rsvps` | `id`, `eventId`, `athleteId`, `status`, `note`, `respondedAt` |
-| `seasons` | `id`, `teamId`, `name`, `startDate`, `endDate`, `isCurrent` |
-| `competitions` | `id`, `teamId`, `name`, `type`, `seasonId`, `season`, `adminUserId`, `format`, `configuredTeamCount`, `maxSubstitutes`, `redCardSuspensionMatches`, `accumulatedYellowThreshold`, `yellowSuspensionMatches`, `startDate`, `allowedPlayingDays`, `defaultKickoffTime`, `fixturesPerOpponent`, `pointsWin`, `pointsDraw`, `pointsLoss`, `qualifierCount`, `resultTrackingStartedAt` |
-| `competition_teams` | `id`, `competitionId`, `teamId`, `displayName` |
-| `competition_invites` | `id`, `competitionId`, `competitionTeamId`, `email`, `tokenHash`, `status`, `createdByUserId`, `expiresAt`, `usedAt`, `usedByUserId` |
-| `matches` | `id`, `eventId`, `competitionId`, `opponentCompetitionTeamId`, `opponentName`, `isHome`, `teamScore`, `opponentScore`, `gamePlanId`, `gamePlanSnapshot`, `opponentSquadVisibility`, `teamColor`, `opponentColor`, `clockPeriod`, `clockElapsedMs`, `clockStartedAt`, `clockRevision` |
-| `competition_matches` | `id`, `competitionId`, `homeCompetitionTeamId`, `awayCompetitionTeamId`, `homeScore`, `awayScore`, `playedAt`, `createdByUserId` |
-| `opponent_match_players` | `id`, `matchId`, `shirtNumber`, `name`, `position` |
-| `athlete_match_stats` | `id`, `matchId`, `athleteId`, `started`, `minutesPlayed`, `goals`, `assists`, `yellowCards`, `redCards` |
-| `standings` | `id`, `competitionId`, `teamName`, `position`, `played`, `won`, `drawn`, `lost`, `goalsFor`, `goalsAgainst`, `points`, `isOwnTeam` |
-| `match_events` | `id`, `matchId`, `athleteId`, `team`, `opponentLabel`, `opponentPlayerId`, `eventType`, `minute`, `detail`, `loggedByUserId`, `manuallyAdjusted`, `clientRequestId`, `period`, `matchElapsedMs`, `structuredPayload`, `lifecycleStatus`, `rulesVersion`, `projectionRevision` |
-| `injuries` | `id`, `teamId`, `athleteId`, `bodyRegion`, `injuryType`, `severity`, `status`, `context`, `occurredOn`, `matchId`, `matchEventId`, `minute`, `estimatedReturnMinDays`, `estimatedReturnMaxDays`, `estimatedReturnFrom`, `estimatedReturnTo`, `actualReturnOn`, `diagnosedBy`, `description`, `notes`, `rehabPhases`, `closedAt`, `createdByUserId` |
-| `injury_timeline_entries` | `id`, `injuryId`, `kind`, `occurredOn`, `title`, `detail`, `createdByUserId` |
-| `match_event_observations` | `id`, `matchId`, `deviceId`, `loggedByUserId`, `schemaVersion`, `eventType`, `team`, `athleteId`, `opponentLabel`, `opponentPlayerId`, `period`, `matchElapsedMs`, `payload`, `payloadHash`, `clientCreatedAt`, `serverReceivedAt` |
-| `match_event_memberships` | `observationId`, `canonicalEventId`, `projectionRevision`, `createdAt` |
-| `match_event_operations` | `id`, `matchId`, `actorUserId`, `operationType`, `targetObservationIds`, `canonicalEventId`, `causalParentIds`, `decision`, `reason`, `schemaVersion`, `createdAt` |
-| `match_clock_operations` | `id`, `matchId`, `actorUserId`, `period`, `elapsedMs`, `running`, `baseRevision`, `appliedRevision`, `outcome`, `payloadHash`, `clientCreatedAt`, `createdAt` |
-| `match_event_reviews` | `id`, `matchId`, `canonicalEventId`, `reason`, `status`, `resolution`, `resolvedByUserId`, `resolvedAt` |
-| `competition_fixtures` | `id`, `competitionId`, `stage`, `round`, `position`, `homeCompetitionTeamId`, `awayCompetitionTeamId`, `scheduledAt`, `status`, `homeScore`, `awayScore`, `homePenaltyScore`, `awayPenaltyScore`, `winnerCompetitionTeamId`, `nextFixtureId`, `nextFixtureSlot`, `linkedMatchId`, `legacyResultId`, `scheduleRevision`, `homeScheduleResponse`, `awayScheduleResponse`, `homeScheduleRespondedAt`, `awayScheduleRespondedAt`, `homeScheduleRespondedByUserId`, `awayScheduleRespondedByUserId`, `scheduleProposedByCompetitionTeamId`, `scheduleProposalNote`, `scheduleConfirmedAt` |
-| `match_projection_state` | `matchId`, `revision`, `inputDigest`, `rulesVersion`, `confirmedTeamScore`, `confirmedOpponentScore`, `provisionalTeamScore`, `provisionalOpponentScore`, `possibleEffects`, `disciplinaryProjection`, `unresolvedReviewCount`, `finalisationState`, `finalisedByUserId`, `finalisedAt` |
-| `sync_upload_receipts` | `id`, `submittedByUserId`, `matchId`, `itemType`, `payloadHash`, `outcome`, `safeErrorCode`, `processingDurationMs`, `canonicalEventId` |
-| `sync_client_telemetry` | `deviceId`, `userId`, `teamId`, `pendingCount`, `rejectedCount`, `oldestPendingAt`, `lastSuccessfulSyncAt`, `deployment`, `updatedAt` |
+| Authentication rate limits | `auth_rate_limits` persists shared bucket counters/window expiry for auth requests; this is distinct from in-process public-dashboard throttling. |
+| Competitions and fixtures | Case-insensitive competition-name uniqueness; participant/fixture composite foreign keys, positive rounds/positions/revisions, consistent score/winner/next-slot pairs, fixture identity uniqueness and completed-result checks. `guard_competition_settings` locks structural rules after fixtures/activity while permitting archive operational changes. |
+| Schedule and visibility | `generate_competition_fixtures` locks/checks settings/participants, rejects unsafe regeneration and saves timezone atomically. `hidden_competitions` has a composite per-user/competition PK; `archived_at` is the separate global archive state. `friendly_players_per_side` is constrained to 5/7/11. |
+| Evidence and receipts | Stable observation/operation/receipt PKs and payload hashes support idempotence and reject changed reuse. Observation memberships bind evidence to canonical events. Append-only/immutable evidence protections and transactional reconciliation preserve history. Causal parents and queued receipts are not proof of replication. |
+| Shared event identity/privacy | Session, side and originating private sheet coexist. Sanitized public projection/replication excludes private notes, injury evidence, tactical settings and roster identifiers. Participant/session constraints prevent incompatible linked identities. |
+| Duplicate reviews | `match_event_player_comparison` compares authoritative IDs, roster numbers/names and free-text fallback. `match_session_events_may_duplicate` distinguishes five-second live timing and same-minute manual entries. `refresh_match_session_duplicate_candidates` adds candidates; `reconcile_match_session_reviews` closes removed/obsolete candidates and keeps surviving warnings for other open/disputed reviews. Resolution rechecks closure under the session lock. |
+| Projection and approvals | `refresh_match_projection` derives revisions/scores/review count. Relevant changes invalidate pending confirmations and increment report revision. `confirm_shared_report` checks coach, revision, completion and unresolved public reviews; `publish_shared_report` atomically publishes score, fixture and finalisation state. Connected teams approve bilaterally; an unconnected competition opponent permits the participating coach to publish, never by timeout. |
+| Final locks and amendments | Final shared event/review guard triggers block direct writes. `propose_match_amendment` retains before/after and proposed score; `respond_match_amendment` checks base revision and valid home/away coach approvals before applying. Initial single-coach publication does not remove the bilateral amendment requirement. Pending/rejected/stale proposals preserve the published result. |
+| Clock, end and resume | `apply_match_clock_operation` serializes by session and records revision/outcome. `change_match_play_state` ends/resumes linked sheets atomically, restores latest playing half/elapsed time, and clears pending confirmations on resume. A stale full-time command cannot overwrite a later resume. Final report/projection locks and cancelled events reject incompatible changes. |
 
-**Current enums:** `sex`, `team_role`, `event_type`, `event_status`, `athlete_status`, `claim_invite_status`, `team_invite_status`, `defensive_style`, `offensive_style`, `rsvp_status`, `competition_type`, `opponent_squad_visibility`, `competition_format`, `competition_fixture_stage`, `competition_fixture_status`, `competition_fixture_schedule_response`, `competition_invite_status`, `match_event_team`, `match_event_type`, `injury_body_region`, `injury_type`, `injury_severity`, `injury_status`, `injury_context`, `injury_timeline_kind`.
+Report approvals are stored on `match_sessions` and `match_session_participants`, not in a separate approvals table. `match_amendments.approvals` records the separate amendment decisions. `match_event_reviews.team_decisions`/notes preserve coach choices. Status/action fields implemented as text with SQL checks are not PostgreSQL enums merely because their values are bounded.
 
-### Migration and deployment procedure
+## Migration and deployment requirements
 
-The schema declaration is application source, while applied SQL migrations are the database contract. When a developer intentionally changes `backend/src/database/schema/index.ts`, run `npm.cmd --prefix backend run db:generate`, review the generated SQL and journal entry, then apply it with `npm.cmd --prefix backend run db:migrate` against an isolated development database. Test both a fresh install and an upgrade from a copy of the deployed schema before promoting the migration. Record migration file names, database branch, command output and application commit. This audit did not execute that chain, inspect the production migration table or establish which migrations Render/Neon has applied. Do not repair the journal discrepancy below through a documentation-only edit.
+The current journal extends through `0067_single_coach_competition_reports`; earlier migrations provide its prerequisites. Use the journal-aware normal migration path and preserve installed history. A hosted database's migration state, installed function definitions, publication grants and sync rules must be checked separately; no hosted database was inspected for this documentation update. See [operations](../operations/offline-operations-runbook.md), [authorization](../contracts-and-authorization.md) and [collaboration](../offline-collaboration.md).
 
-### Important current uniqueness and lookup rules
-
-The table callback definitions add constraints beyond the column flags below. `competition_teams` allows one linked team per competition and case-insensitively unique display names; unlinked slots are exempt from the linked-team partial index. `competition_fixtures` uniquely identifies a round position, participant pair, downstream fixture slot, linked match and legacy result. Composite foreign keys connect fixture participants to slots in the **same competition**. A competition name has a case-insensitive unique index. `competition_invites` limits a pending invitation per participant slot. `match_event_reviews` allows only one open review per canonical event. `injuries` permits only one clinical record per non-null match event. Match event `(match_id, client_request_id)` is unique when the request ID is present. These are source declarations; migration application on the deployed database was not verified.
-
-Lookup indexes include team/status and athlete/region for injury lists and recurrence, match/period/elapsed-time for observations, match/revision for clock operations, and team/update time for sync telemetry. The exact index names and predicates are in `backend/src/database/schema/index.ts` at the linked commit.
-
-### Current column contract (source-derived)
-
-This compact inventory reads the current Drizzle column declarations. `NN` means not null; `PK` means primary key. Nullable is the default when `NN` is absent. Indexes and composite unique constraints are defined in the table callbacks and migrations; review the linked source before changing the database.
-
-- **`user`**: `id` text (PK); `name` text (NN); `email` text (NN); `email_verified` boolean (NN, default:false); `image` text; `phone_number` text; `sex` enum:sex; `date_of_birth` date; plus shared `created_at`/`updated_at`.
-- **`session`**: `id` text (PK); `expires_at` timestamp (NN); `token` text (NN); `created_at` timestamp (NN, default:now); `updated_at` timestamp (NN, default:now); `ip_address` text; `user_agent` text; `user_id` text (NN, FK→user.id, delete:cascade).
-- **`account`**: `id` text (PK); `account_id` text (NN); `provider_id` text (NN); `user_id` text (NN, FK→user.id, delete:cascade); `access_token` text; `refresh_token` text; `id_token` text; `access_token_expires_at` timestamp; `refresh_token_expires_at` timestamp; `scope` text; `password` text; plus shared `created_at`/`updated_at`.
-- **`verification`**: `id` text (PK); `identifier` text (NN); `value` text (NN); `expires_at` timestamp (NN); plus shared `created_at`/`updated_at`.
-- **`teams`**: `id` uuid (PK, default:random UUID); `name` text (NN); `primary_color` text; plus shared `created_at`/`updated_at`.
-- **`team_members`**: `id` uuid (PK, default:random UUID); `team_id` uuid (NN, FK→teams.id, delete:cascade); `user_id` text (NN, FK→user.id, delete:cascade); `role` enum:team_role (NN, default:'assistant'); plus shared `created_at`/`updated_at`.
-- **`athletes`**: `id` uuid (PK, default:random UUID); `team_id` uuid (NN, FK→teams.id, delete:cascade); `first_name` text (NN); `last_name` text (NN); `date_of_birth` date; `position` text; `squad_number` integer; `status` enum:athlete_status (NN, default:'available'); `archived_at` timestamp; `user_id` text (FK→user.id, delete:set null); plus shared `created_at`/`updated_at`.
-- **`player_claim_invites`**: `id` uuid (PK, default:random UUID); `athlete_id` uuid (NN, FK→athletes.id, delete:cascade); `email` text (NN); `token_hash` text (NN); `status` enum:claim_invite_status (NN, default:'pending'); `created_by_user_id` text (NN, FK→user.id); `expires_at` timestamp (NN); `used_at` timestamp; `used_by_user_id` text (FK→user.id); plus shared `created_at`/`updated_at`.
-- **`team_invites`**: `id` uuid (PK, default:random UUID); `team_id` uuid (NN, FK→teams.id, delete:cascade); `email` text (NN); `token_hash` text (NN); `status` enum:team_invite_status (NN, default:'pending'); `created_by_user_id` text (NN, FK→user.id); `expires_at` timestamp (NN); `used_at` timestamp; `used_by_user_id` text (FK→user.id); plus shared `created_at`/`updated_at`.
-- **`game_plans`**: `id` uuid (PK, default:random UUID); `team_id` uuid (NN, FK→teams.id, delete:cascade); `name` text (NN); `formation_id` text (NN, default:'4-3-3'); `assignments` jsonb (NN, default:{}); `substitute_ids` jsonb (NN, default:[]); `defensive_style` enum:defensive_style (NN, default:'balanced'); `defensive_width` integer (NN, default:5); `defensive_depth` integer (NN, default:5); `offensive_style` enum:offensive_style (NN, default:'balanced'); `offensive_width` integer (NN, default:5); `players_in_box` integer (NN, default:4); `corners_commitment` integer (NN, default:3); `free_kicks_commitment` integer (NN, default:3); `captain_id` uuid (FK→athletes.id, delete:set null); `free_kick_taker_id` uuid (FK→athletes.id, delete:set null); `penalty_taker_id` uuid (FK→athletes.id, delete:set null); `corner_taker_id` uuid (FK→athletes.id, delete:set null); plus shared `created_at`/`updated_at`.
-- **`events`**: `id` uuid (PK, default:random UUID); `team_id` uuid (NN, FK→teams.id, delete:cascade); `title` text (NN); `type` enum:event_type (NN); `status` enum:event_status (NN, default:'scheduled'); `scheduled_at` timestamp (NN); `location` text (NN); `venue_address` text; `weather_location` text; `latitude` doublePrecision; `longitude` doublePrecision; `timezone` text; `notes` text; `competition_id` uuid (FK→competitions.id, delete:set null); `competition_fixture_id` uuid; plus shared `created_at`/`updated_at`.
-- **`event_rsvps`**: `id` uuid (PK, default:random UUID); `event_id` uuid (NN, FK→events.id, delete:cascade); `athlete_id` uuid (NN, FK→athletes.id, delete:cascade); `status` enum:rsvp_status (NN); `note` text; `responded_at` timestamp (NN, default:now); plus shared `created_at`/`updated_at`.
-- **`seasons`**: `id` uuid (PK, default:random UUID); `team_id` uuid (NN, FK→teams.id, delete:cascade); `name` text (NN); `start_date` date (NN); `end_date` date (NN); `is_current` boolean (NN, default:false); plus shared `created_at`/`updated_at`.
-- **`competitions`**: `id` uuid (PK, default:random UUID); `team_id` uuid (NN, FK→teams.id, delete:cascade); `name` text (NN); `type` enum:competition_type (NN); `season_id` uuid (FK→seasons.id, delete:set null); `season` text; `admin_user_id` text (FK→user.id, delete:set null); `format` enum:competition_format; `configured_team_count` integer; `max_substitutes` integer (NN, default:5); `red_card_suspension_matches` integer (NN, default:1); `accumulated_yellow_threshold` integer (NN, default:5); `yellow_suspension_matches` integer (NN, default:1); `start_date` date; `allowed_playing_days` integer (NN, default:sql`ARRAY[6]::integer[]`); `default_kickoff_time` text (NN, default:'15:00'); `fixtures_per_opponent` integer (NN, default:1); `points_win` integer (NN, default:3); `points_draw` integer (NN, default:1); `points_loss` integer (NN, default:0); `qualifier_count` integer; `result_tracking_started_at` timestamp (NN, default:now); plus shared `created_at`/`updated_at`.
-- **`competition_teams`**: `id` uuid (PK, default:random UUID); `competition_id` uuid (NN, FK→competitions.id, delete:cascade); `team_id` uuid (FK→teams.id, delete:set null); `display_name` text (NN); plus shared `created_at`/`updated_at`.
-- **`competition_invites`**: `id` uuid (PK, default:random UUID); `competition_id` uuid (NN, FK→competitions.id, delete:cascade); `competition_team_id` uuid (NN, FK→competition_teams.id, delete:cascade); `email` text (NN); `token_hash` text (NN); `status` enum:competition_invite_status (NN, default:'pending'); `created_by_user_id` text (NN, FK→user.id); `expires_at` timestamp (NN); `used_at` timestamp; `used_by_user_id` text (FK→user.id); plus shared `created_at`/`updated_at`.
-- **`matches`**: `id` uuid (PK, default:random UUID); `event_id` uuid (NN, FK→events.id, delete:cascade); `competition_id` uuid (FK→competitions.id, delete:set null); `opponent_competition_team_id` uuid (FK→competition_teams.id, delete:set null); `opponent_name` text (NN); `is_home` boolean (NN, default:true); `team_score` integer (NN, default:0); `opponent_score` integer (NN, default:0); `game_plan_id` uuid (FK→game_plans.id, delete:set null); `game_plan_snapshot` jsonb; `opponent_squad_visibility` enum:opponent_squad_visibility (NN, default:'none'); `team_color` text; `opponent_color` text; `clock_period` text (NN, default:'not_started'); `clock_elapsed_ms` integer (NN, default:0); `clock_started_at` timestamp; `clock_revision` integer (NN, default:0); plus shared `created_at`/`updated_at`.
-- **`competition_matches`**: `id` uuid (PK, default:random UUID); `competition_id` uuid (NN, FK→competitions.id, delete:cascade); `home_competition_team_id` uuid (NN, FK→competition_teams.id, delete:cascade); `away_competition_team_id` uuid (NN, FK→competition_teams.id, delete:cascade); `home_score` integer (NN, default:0); `away_score` integer (NN, default:0); `played_at` timestamp (NN); `created_by_user_id` text (NN, FK→user.id); plus shared `created_at`/`updated_at`.
-- **`opponent_match_players`**: `id` uuid (PK, default:random UUID); `match_id` uuid (NN, FK→matches.id, delete:cascade); `shirt_number` integer (NN); `name` text; `position` text; plus shared `created_at`/`updated_at`.
-- **`athlete_match_stats`**: `id` uuid (PK, default:random UUID); `match_id` uuid (NN, FK→matches.id, delete:cascade); `athlete_id` uuid (NN, FK→athletes.id, delete:cascade); `started` boolean (NN, default:true); `minutes_played` integer; `goals` integer (NN, default:0); `assists` integer (NN, default:0); `yellow_cards` integer (NN, default:0); `red_cards` integer (NN, default:0); plus shared `created_at`/`updated_at`.
-- **`standings`**: `id` uuid (PK, default:random UUID); `competition_id` uuid (NN, FK→competitions.id, delete:cascade); `team_name` text (NN); `position` integer (NN); `played` integer (NN, default:0); `won` integer (NN, default:0); `drawn` integer (NN, default:0); `lost` integer (NN, default:0); `goals_for` integer (NN, default:0); `goals_against` integer (NN, default:0); `points` integer (NN, default:0); `is_own_team` boolean (NN, default:false); plus shared `created_at`/`updated_at`.
-- **`match_events`**: `id` uuid (PK, default:random UUID); `match_id` uuid (NN, FK→matches.id, delete:cascade); `athlete_id` uuid (FK→athletes.id, delete:set null); `team` enum:match_event_team (NN); `opponent_label` text; `opponent_player_id` uuid (FK→opponent_match_players.id, delete:set null); `event_type` enum:match_event_type (NN); `minute` integer (NN); `detail` text; `logged_by_user_id` text (NN, FK→user.id); `manually_adjusted` boolean (NN, default:false); `client_request_id` uuid; `period` text (NN, default:'not_started'); `match_elapsed_ms` integer; `structured_payload` jsonb; `lifecycle_status` text (NN, default:'provisional'); `rules_version` integer (NN, default:1); `projection_revision` integer (NN, default:0); plus shared `created_at`/`updated_at`.
-- **`injuries`**: `id` uuid (PK, default:random UUID); `team_id` uuid (NN, FK→teams.id, delete:cascade); `athlete_id` uuid (NN, FK→athletes.id, delete:cascade); `body_region` enum:injury_body_region (NN); `injury_type` enum:injury_type (NN); `severity` enum:injury_severity (NN); `status` enum:injury_status (NN, default:'reported'); `context` enum:injury_context (NN, default:'other'); `occurred_on` date (NN); `match_id` uuid (FK→matches.id, delete:set null); `match_event_id` uuid (FK→match_events.id, delete:set null); `minute` integer; `estimated_return_min_days` integer (NN); `estimated_return_max_days` integer (NN); `estimated_return_from` date (NN); `estimated_return_to` date (NN); `actual_return_on` date; `diagnosed_by` text; `description` text; `notes` text; `rehab_phases` jsonb; `closed_at` timestamp; `created_by_user_id` text (NN, FK→user.id); plus shared `created_at`/`updated_at`.
-- **`injury_timeline_entries`**: `id` uuid (PK, default:random UUID); `injury_id` uuid (NN, FK→injuries.id, delete:cascade); `kind` enum:injury_timeline_kind (NN); `occurred_on` date (NN); `title` text (NN); `detail` text; `created_by_user_id` text (NN, FK→user.id); plus shared `created_at`/`updated_at`.
-- **`match_event_observations`**: `id` uuid (PK); `match_id` uuid (NN, FK→matches.id, delete:cascade); `device_id` uuid (NN); `logged_by_user_id` text (NN, FK→user.id); `schema_version` integer (NN, default:1); `event_type` enum:match_event_type (NN); `team` enum:match_event_team (NN); `athlete_id` uuid (FK→athletes.id, delete:set null); `opponent_label` text; `opponent_player_id` uuid (FK→opponent_match_players.id, delete:set null); `period` text (NN); `match_elapsed_ms` integer (NN); `payload` jsonb (NN); `payload_hash` text (NN); `client_created_at` timestamp (NN); `server_received_at` timestamp (NN, default:now).
-- **`match_event_memberships`**: `observation_id` uuid (PK, FK→match_event_observations.id, delete:cascade); `canonical_event_id` uuid (NN, FK→match_events.id, delete:cascade); `projection_revision` integer (NN, default:0); `created_at` timestamp (NN, default:now).
-- **`match_event_operations`**: `id` uuid (PK); `match_id` uuid (NN, FK→matches.id, delete:cascade); `actor_user_id` text (NN, FK→user.id); `operation_type` text (NN); `target_observation_ids` jsonb (NN, default:[]); `canonical_event_id` uuid (FK→match_events.id, delete:set null); `causal_parent_ids` jsonb (NN, default:[]); `decision` jsonb (NN); `reason` text; `schema_version` integer (NN, default:1); `created_at` timestamp (NN, default:now).
-- **`match_clock_operations`**: `id` uuid (PK); `match_id` uuid (NN, FK→matches.id, delete:cascade); `actor_user_id` text (NN, FK→user.id); `period` text (NN); `elapsed_ms` integer (NN); `running` boolean (NN); `base_revision` integer (NN); `applied_revision` integer (NN); `outcome` text (NN); `payload_hash` text (NN); `client_created_at` timestamp (NN); `created_at` timestamp (NN, default:now).
-- **`match_event_reviews`**: `id` uuid (PK, default:random UUID); `match_id` uuid (NN, FK→matches.id, delete:cascade); `canonical_event_id` uuid (NN, FK→match_events.id, delete:cascade); `reason` text (NN); `status` text (NN, default:'open'); `resolution` text; `resolved_by_user_id` text (FK→user.id); `resolved_at` timestamp; plus shared `created_at`/`updated_at`.
-- **`competition_fixtures`**: `id` uuid (PK, default:random UUID); `competition_id` uuid (NN, FK→competitions.id, delete:cascade); `stage` enum:competition_fixture_stage (NN); `round` integer (NN); `position` integer (NN); `home_competition_team_id` uuid; `away_competition_team_id` uuid; `scheduled_at` timestamp (NN); `status` enum:competition_fixture_status (NN, default:'scheduled'); `home_score` integer; `away_score` integer; `home_penalty_score` integer; `away_penalty_score` integer; `winner_competition_team_id` uuid; `next_fixture_id` uuid; `next_fixture_slot` text; `linked_match_id` uuid (FK→matches.id); `legacy_result_id` uuid (FK→competition_matches.id); `schedule_revision` integer (NN, default:1); `home_schedule_response` enum:competition_fixture_schedule_response (NN, default:'pending'); `away_schedule_response` enum:competition_fixture_schedule_response (NN, default:'pending'); `home_schedule_responded_at` timestamp; `away_schedule_responded_at` timestamp; `home_schedule_responded_by_user_id` text; `away_schedule_responded_by_user_id` text; `schedule_proposed_by_competition_team_id` uuid; `schedule_proposal_note` text; `schedule_confirmed_at` timestamp; plus shared `created_at`/`updated_at`.
-- **`match_projection_state`**: `match_id` uuid (PK, FK→matches.id, delete:cascade); `revision` integer (NN, default:0); `input_digest` text (NN); `rules_version` integer (NN, default:1); `confirmed_team_score` integer (NN, default:0); `confirmed_opponent_score` integer (NN, default:0); `provisional_team_score` integer (NN, default:0); `provisional_opponent_score` integer (NN, default:0); `possible_effects` jsonb (NN, default:{}); `disciplinary_projection` jsonb (NN, default:{}); `unresolved_review_count` integer (NN, default:0); `finalisation_state` text (NN, default:'open'); `finalised_by_user_id` text (FK→user.id); `finalised_at` timestamp; plus shared `created_at`/`updated_at`.
-- **`sync_upload_receipts`**: `id` uuid (PK); `submitted_by_user_id` text (NN, FK→user.id); `match_id` uuid (NN, FK→matches.id, delete:cascade); `item_type` text (NN); `payload_hash` text (NN); `outcome` text (NN); `safe_error_code` text; `processing_duration_ms` integer; `canonical_event_id` uuid (FK→match_events.id, delete:set null); plus shared `created_at`/`updated_at`.
-- **`sync_client_telemetry`**: `device_id` uuid (PK); `user_id` text (NN, FK→user.id, delete:cascade); `team_id` uuid (FK→teams.id, delete:cascade); `pending_count` integer (NN, default:0); `rejected_count` integer (NN, default:0); `oldest_pending_at` timestamp; `last_successful_sync_at` timestamp; `deployment` text (NN); `updated_at` timestamp (NN, default:now).
+SQL authority: [ordered migration SQL](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/drizzle), [migration journal](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/drizzle/meta/_journal.json).

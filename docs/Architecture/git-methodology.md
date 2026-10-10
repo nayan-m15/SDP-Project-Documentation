@@ -1,10 +1,10 @@
 # Git Methodology and Observed Workflow
 
-## Evidence snapshot
+## Observed workflow
 
-The repositories do not contain a single enforceable workflow policy. Earlier documents conflict: some describe trunk-based work from `main` with squash merges, while the application has both `main` and `development` and its recent first-parent history contains merge commits from feature/fix branches into `development`. At the 24 September checkout, local `development` is 45 commits ahead of local `main`; this comparison does not establish what is deployed.
+The inspected application checkout uses `development`. Recent first-parent history contains merged pull requests from feature/fix branches, alongside merge commits and direct commits. This is observed repository behavior, not proof of a single mandatory merge policy or what is deployed. Older prose proposing trunk-based work from `main` with squash merges is proposed/historical policy.
 
-The application contains `.gitea/workflows/test.yml`, added by `94a8757c` and merged into `development` through `effc97cf`. It configures quality/build, API and UI CI jobs, but no successful run or branch-protection evidence was supplied. At `ef2880ad`, both push and pull-request triggers include `development`; the earlier mismatch is fixed in source. The documentation repository has a separate GitHub Actions validation workflow; neither configuration proves continuous deployment.
+The application contains Gitea Actions CI configuration and the documentation portal contains its own GitHub Actions validation. Neither configuration proves a successful run, enforced branch protection, current tracker status or deployment. Use the [architecture source basis](tech-stack/architecture-overview.md#source-basis) to identify the inspected checkout.
 
 ## Safe working convention pending confirmation
 
@@ -117,3 +117,5 @@ A tag records a Git revision; it does not establish deployment, test success or 
 - What promotion/tag/release/deployment evidence must be retained?
 
 Until those answers are recorded, documentation should describe observed history and link actual pull requests/runs rather than presenting a proposed policy as fact.
+
+Source: [.gitea/workflows/test.yml](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/.gitea/workflows/test.yml). Existing attribution and review conventions remain team policy guidance.
