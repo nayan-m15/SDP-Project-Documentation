@@ -85,8 +85,8 @@
     "path": "docs/Architecture/api-guide.md",
     "originalPath": "docs/Architecture/api-guide.md",
     "folder": "Architecture",
-    "size": 42301,
-    "date": "2026-10-10T20:45:33.879Z",
+    "size": 47284,
+    "date": "2026-10-10T20:53:55.851Z",
     "type": "md"
   },
   {
@@ -148,7 +148,7 @@
     "path": "docs/Architecture/offline-collaboration.md",
     "originalPath": "docs/Architecture/offline-collaboration.md",
     "folder": "Architecture",
-    "size": 5063,
+    "size": 15561,
     "date": "2026-09-24T21:18:54.998Z",
     "type": "md"
   },

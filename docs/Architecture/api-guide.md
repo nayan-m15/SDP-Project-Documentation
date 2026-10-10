@@ -14,7 +14,7 @@ This inventory comes from NestJS controller decorators at application commit `ed
 | Friendly fixtures | `GET /friendly-fixtures/incoming`; `POST /friendly-fixtures/:id/accept`, `/:id/decline` | Coach of the invited team only. Requests are created by `POST /events` with `friendlyOpponentTeamId`, not by this controller. |
 | AI assistant | `POST /ai-assistant/message`, `/confirm`, `/cancel` | Session; tenancy and role are resolved server-side. Nothing is written until `/confirm`, whose role check depends on the proposed action. |
 | Offline sync | `GET /sync/token`, `/jwks`; `POST /sync/upload`, `/telemetry` | Token, upload and telemetry require authorized context; JWKS exposes public verification keys. See [offline collaboration](offline-collaboration.md). |
-| Public read API | `GET /v1/formations`, `/v1/tactics`, `/v1/public-dashboard/filters`, `/matches`, `/players`, `/team-statistics` | Anonymous read endpoints; deployed URLs and contracts are documented below. |
+| Public read API | `GET /v1/formations`, `/v1/tactics`, `/v1/public-dashboard/filters`, `/matches`, `/players`, `/team-statistics`, `/competition-fixtures` | Anonymous read endpoints; deployed URLs and contracts are documented below. `competition-fixtures` comes from the deployed Swagger on 10 October 2026 and is newer than the source commit above. |
 | Health | `GET /health/database`, `GET /health/operations` | Operational status; neither proves a full user flow works. |
 
 The remaining first-party routes for auth, teams (including team search), athletes, claims, team invitations, events (including pre-match lineups), players, seasons, game plans, statistics (including season insights and the statistics assistant), dashboard, profile and location search are listed below. Route shape alone does not specify DTO validation, response shape, errors, or authorization; use controller, guard, contract and service source for those details.
@@ -39,11 +39,12 @@ The remaining first-party routes for auth, teams (including team search), athlet
 
 | Endpoint | Input and response | Access and common failure |
 | --- | --- | --- |
-| `GET /v1/public-dashboard/filters` | No query; `{success:true,data}` containing public filter choices. | Anonymous read. |
-| `GET /v1/public-dashboard/matches` | Optional UUID `teamId`, `competitionId`, `seasonId`; optional `status` (`scheduled`, `cancelled`, `completed`), `limit` 1–100 (default 50), `offset` ≥0 (default 0). Returns `{success,count,limit,offset,data}`. | Anonymous read; invalid query returns validation error. |
-| `GET /v1/public-dashboard/players` | Same UUID filters, `limit` 1–500 (default 200), `offset` ≥0 (default 0); same paged envelope. | Anonymous read; public service decides which records/fields are exposed. |
-| `GET /v1/public-dashboard/team-statistics` | Optional UUID filters; `{success,count,data}`. | Anonymous read. |
-| `GET /v1/formations` | No query; the formation catalogue. Covers 5-a-side, 7-a-side and 11-a-side shapes plus a `custom-5`/`custom-7`/`custom-11` slot each, and every entry carries `playerCount` (5, 7 or 11). | Anonymous read. |
+| `GET /v1/public-dashboard/filters` | No query; `{success:true,data:{teams,seasons,competitions}}`. | Anonymous read; can return 429. |
+| `GET /v1/public-dashboard/matches` | Optional UUID `teamId`, `competitionId`, `seasonId`; optional `status` (`scheduled`, `cancelled`, `completed`), `limit` 1–100 (default 50), `offset` ≥0 (default 0). Returns `{success,count,limit,offset,summary,data}`. | Anonymous read; an invalid query returns 400; can return 429. |
+| `GET /v1/public-dashboard/players` | Same UUID filters, plus `search` (max 100 characters) and `position` (`ALL`, `FWD`, `MID`, `DEF`, `GK`); `limit` 1–200 (default 100), `offset` ≥0 (default 0). Returns `{success,count,limit,offset,data}`. | Anonymous read; an invalid query returns 400; can return 429. |
+| `GET /v1/public-dashboard/team-statistics` | Optional UUID filters; `{success,count,data}` of competition standings rows. | Anonymous read; can return 429. |
+| `GET /v1/public-dashboard/competition-fixtures` | Optional UUID `competitionId`, `teamId`, `seasonId`; `{success,count,data}` of league and cup fixtures, not paged. | Anonymous read; can return 429. |
+| `GET /v1/formations`, `GET /v1/tactics` | Optional `id` returns one entry; without it, the whole catalogue as `{success,count,data}`. The deployed formation catalogue has 5-, 7- and 11-a-side shapes, each with `playerCount` 5, 7 or 11. | Anonymous read; 404 for an unknown `id`, 400 for an empty one. |
 | `GET /competitions/search?q=...` | Trimmed nonempty search text, max 100 characters; list from service. | **Session required** even though results are discoverable; search/detail do not grant membership. |
 | `GET /teams/search?q=...` | Trimmed nonempty search text, max 100 characters; matching Gaffer teams for the friendly-fixture opponent picker. The caller's own team is excluded server-side. | Session required. |
 | `POST /competitions` | Includes optional `playersPerSide` (`5`, `7` or `11`), `format`, `configuredTeamCount` 2–128, `maxSubstitutes` 0–99, `redCardSuspensionMatches` 0–99, `accumulatedYellowThreshold` 1–99. | Session and coach role. |
@@ -101,32 +102,49 @@ Sources: [public query schemas](https://github.com/nayan-m15/Gaffer/blob/ed28806
 | API base | [https://gaffer-api-ynaf.onrender.com](https://gaffer-api-ynaf.onrender.com) | `http://localhost:3000` |
 | Swagger UI | [deployed Swagger](https://gaffer-api-ynaf.onrender.com/api/docs) | `http://localhost:3000/api/docs` |
 | OpenAPI JSON | [deployed JSON](https://gaffer-api-ynaf.onrender.com/api/docs-json) | `http://localhost:3000/api/docs-json` |
+| OpenAPI YAML | [deployed YAML](https://gaffer-api-ynaf.onrender.com/api/docs-yaml) | `http://localhost:3000/api/docs-yaml` |
 | Database health | [deployed health](https://gaffer-api-ynaf.onrender.com/health/database) | `http://localhost:3000/health/database` |
 
-The deployed Swagger UI is the interactive reference for the running API and can be used to inspect response schemas and try requests in a browser. The deployed OpenAPI JSON is also linked above. The direct public endpoint URLs below were supplied on 10 October 2026. In this documentation update, the remote Swagger/OpenAPI response could not be fetched from the editing environment, so detailed contracts are based on the application source snapshot identified above; consult the Swagger UI for any deployment-specific differences. The 14 September 2026 404 observation in the former standalone public reference is historical and is not a statement about the current deployment.
+The deployed Swagger UI and OpenAPI documents were checked on 10 October 2026. They are titled **Gaffer Public API** (version 0.1.0) and describe only the seven anonymous `GET` operations in [Public read API](#public-read-api): formations and tactics under the *Public API* tag, and the five `/v1/public-dashboard/*` routes under *Public Dashboard*. You can inspect response schemas and try each request in the browser. None of the cookie-authenticated application routes in the inventory above appear in Swagger, so their contracts in this guide still come from the application source snapshot. The 14 September 2026 404 observation in the former standalone public reference is historical and is not a statement about the current deployment.
 
 ## Public read API
 
-These GET endpoints are intended for unauthenticated reads. They expose coaching reference data and public-dashboard data; the dashboard service controls which record fields are included. The live Swagger UI at [api/docs](https://gaffer-api-ynaf.onrender.com/api/docs) documents deployed operations and supports trying them in a browser.
+These GET endpoints need no account, API key or token. They expose coaching reference data (formations and tactics) and public-dashboard data; the dashboard service controls which records and fields are included. The live [Swagger UI](https://gaffer-api-ynaf.onrender.com/api/docs) documents them and can run each one in the browser. The details below were checked against the deployed Swagger and live responses on 10 October 2026.
 
-| Endpoint | Live URL | Query parameters and response |
-| --- | --- | --- |
-| `GET /v1/public-dashboard/filters` | [Open filters](https://gaffer-api-ynaf.onrender.com/v1/public-dashboard/filters) | No query parameters. Returns `{success:true,data}` with available public filter choices. |
-| `GET /v1/public-dashboard/matches` | [Open matches](https://gaffer-api-ynaf.onrender.com/v1/public-dashboard/matches) | Optional UUID `teamId`, `competitionId`, `seasonId`; `status` is `scheduled`, `cancelled` or `completed`; `limit` is 1–100 (default 50); `offset` is an integer ≥0 (default 0). Returns `{success,count,limit,offset,data}`. |
-| `GET /v1/public-dashboard/players` | [Open players](https://gaffer-api-ynaf.onrender.com/v1/public-dashboard/players) | Optional UUID `teamId`, `competitionId`, `seasonId`; `limit` is 1–500 (default 200); `offset` is an integer ≥0 (default 0). Returns `{success,count,limit,offset,data}`. |
-| `GET /v1/public-dashboard/team-statistics` | [Open team statistics](https://gaffer-api-ynaf.onrender.com/v1/public-dashboard/team-statistics) | Optional UUID `teamId`, `competitionId`, `seasonId`. Returns `{success,count,data}`. |
-| `GET /v1/formations` | [Open formations](https://gaffer-api-ynaf.onrender.com/v1/formations) | No query parameters. Returns the formation catalogue for 5-, 7- and 11-a-side play, including `custom-5`, `custom-7` and `custom-11` slots. Entries include `id`, `name`, `shape`, `description` and `playerCount` (5, 7 or 11). |
-| `GET /v1/tactics` | [Open tactics](https://gaffer-api-ynaf.onrender.com/v1/tactics) | No query parameters. Returns the public tactical-style catalogue. Entries include `id`, `name`, `category` (`defensive` or `offensive`), `description` and `formationId` (nullable). |
+| Endpoint | Live URL | Query parameters | Response |
+| --- | --- | --- | --- |
+| `GET /v1/formations` | [Open formations](https://gaffer-api-ynaf.onrender.com/v1/formations) | Optional `id`, such as `4-3-3`, to fetch one formation. | `{success,count,data}`. Each entry has `id`, `name`, `shape`, `playerCount` (5, 7 or 11) and `description`. The deployed catalogue has 14 shapes: three for 5-a-side (IDs such as `5v5-1-2-1`), three for 7-a-side (such as `7v7-2-3-1`) and eight for 11-a-side (such as `4-3-3`). It has no `custom-5`, `custom-7` or `custom-11` entries. |
+| `GET /v1/tactics` | [Open tactics](https://gaffer-api-ynaf.onrender.com/v1/tactics) | Optional `id`, such as `possession`, to fetch one tactic. | `{success,count,data}`. Each entry has `id`, `name`, `category` (`defensive` or `offensive`), `description` and nullable `formationId`. The deployed catalogue has nine tactics: five defensive and four offensive. |
+| `GET /v1/public-dashboard/filters` | [Open filters](https://gaffer-api-ynaf.onrender.com/v1/public-dashboard/filters) | None. | `{success:true,data:{teams,seasons,competitions}}`. `teams` are `{id,name}`. `seasons` are `{id,name,teamId,startDate,endDate,isCurrent}` with `YYYY-MM-DD` dates. `competitions` are `{id,name,type,teamId,seasonId,teamIds}`: `type` is `league` or `cup`, `teamId` is the team that runs the competition, `seasonId` is nullable and `teamIds` lists the participating Gaffer teams. |
+| `GET /v1/public-dashboard/matches` | [Open matches](https://gaffer-api-ynaf.onrender.com/v1/public-dashboard/matches) | Optional UUID `teamId`, `competitionId`, `seasonId`; `status` (`scheduled`, `cancelled` or `completed`); `limit` 1–100 (default 50); `offset` ≥0 (default 0). | `{success,count,limit,offset,summary,data}`. `count` is the number of matches on this page. `summary.total` is the number of matches that match the filters across all pages, and `summary.cleanSheets` is how many of those are completed with the opponent scoring nothing. Each match has `id`, `eventId`, `title`, `status`, `scheduledAt`, `location`, `opponentName`, `isHome`, `teamScore`, `opponentScore`, `team {id,name}`, and nullable `competition {id,name,type}` and `season {id,name}`. |
+| `GET /v1/public-dashboard/players` | [Open players](https://gaffer-api-ynaf.onrender.com/v1/public-dashboard/players) | Optional UUID `teamId`, `competitionId`, `seasonId`; `search`, up to 100 characters, matched as a literal case-insensitive substring of the full name (`%` is not a wildcard); `position` of `ALL`, `FWD`, `MID`, `DEF` or `GK`; `limit` 1–200 (default 100); `offset` ≥0 (default 0). | `{success,count,limit,offset,data}`. `count` is the page size, and there is no `summary` or total. Each player has `id`, `firstName`, `lastName`, nullable `position` and `squadNumber`, `team {id,name}` and `statistics {appearances,starts,minutesPlayed,goals,assists,saves,yellowCards,redCards}`. The `position` filter groups detailed positions: `FWD` returns `ST`, `LW` and `RW`; `MID` returns `CM`, `DM`, `AM` and similar; `DEF` returns `CB`, `LB` and `RB`. |
+| `GET /v1/public-dashboard/team-statistics` | [Open team statistics](https://gaffer-api-ynaf.onrender.com/v1/public-dashboard/team-statistics) | Optional UUID `teamId`, `competitionId`, `seasonId`. | `{success,count,data}` of competition standings, one row per participant: `id`, `competitionId`, `teamName`, `position`, `played`, `won`, `drawn`, `lost`, `goalsFor`, `goalsAgainst`, `goalDifference`, `points`, `isOwnTeam`, `ownerTeam {id,name}` (the team that runs the competition), `competition {id,name,type}` and nullable `season {id,name}`. |
+| `GET /v1/public-dashboard/competition-fixtures` | [Open competition fixtures](https://gaffer-api-ynaf.onrender.com/v1/public-dashboard/competition-fixtures) | Optional UUID `competitionId`, `teamId`, `seasonId`. `teamId` returns the fixtures of every competition that team takes part in. Not paged: `limit` and `status` are ignored. | `{success,count,data}` of league and cup fixtures. Each fixture has `id`, `competitionId`, `competitionName`, `competitionType` (`league` or `cup`), `stage` (`league` or `knockout`), `round`, `position` (its order within the round), `scheduledAt`, `status`, `homeTeamId`, `awayTeamId`, `homeTeamName`, `awayTeamName`, `homeScore`, `awayScore`, `homePenaltyScore`, `awayPenaltyScore`, `winnerTeamId` and `winnerTeamName`. Scores and the winner are `null` until a result is recorded. A knockout slot whose opponent is not decided yet has a `null` `awayTeamId` and an `awayTeamName` of `"TBD"`. |
 
-Dashboard query values are validated; malformed UUIDs, status values, limits or offsets return a client error. The public service filters and shapes returned records. The formation and tactic catalogue routes return `{success,count,data}`; public dashboard routes use the envelopes shown above. For example, a filtered request can be made without a session:
+A filtered request can be made without a session:
 
 ```http
 GET /v1/public-dashboard/matches?status=completed&limit=20&offset=0
 ```
 
-The source CORS configuration allows `*` on public API paths and does not require credentials for these GET requests. The application API retains its separate credentialed origin allow-list. Confirm the deployed CORS headers in the browser network panel when embedding these endpoints from another origin.
+**Where Swagger and the live responses differ.** Swagger is the published contract, but on 10 October 2026 it did not match the deployed responses in these places:
 
-The later application source contract represented by this guide defines both catalogue endpoints without query parameters. Use the live Swagger operation schema if the deployed version exposes additional query options. Source references: [public API query schemas](https://github.com/nayan-m15/Gaffer/blob/ed28806facdbbdff8ab2e2c57666f9dc675f5fe9/backend/src/public-api/public-api.schemas.ts), [public dashboard controller](https://github.com/nayan-m15/Gaffer/blob/ed28806facdbbdff8ab2e2c57666f9dc675f5fe9/backend/src/public-api/public-dashboard.controller.ts), and [privacy policy](privacy-policy.md).
+- `competition-fixtures` has no query parameters or response schema in Swagger. The parameters and fields above come from live responses.
+- Player `statistics.starts` and `statistics.saves`, and the standings `competitionId`, are returned but missing from the Swagger schemas.
+- Swagger declares the standings `id` as a UUID, but it is returned as `participant:<uuid>`.
+- Fixture `homeTeamId`, `awayTeamId` and `winnerTeamId` are competition participant IDs, which are the UUID after `participant:` in a standings `id`. They are not the Gaffer team IDs from `/filters`.
+
+**Errors.** Invalid query values return 400 with Nest's error body and the first validation message:
+
+```json
+{ "message": "Too big: expected number to be <=200", "error": "Bad Request", "statusCode": 400 }
+```
+
+Other messages include `Invalid UUID` and `Invalid option: expected one of "scheduled"|"cancelled"|"completed"`. On the catalogues, `?id=` with no value returns 400 `id must not be empty when provided.`, and an unknown ID returns 404, for example `No formation found with id "<id>".` The five `/v1/public-dashboard/*` routes can also return 429 `Rate limit exceeded.` Swagger does not state the limit and responses carry no rate-limit headers, so clients should wait and retry after a 429. Swagger does not list a 429 for formations or tactics.
+
+**CORS.** Live responses carry `access-control-allow-origin: *` and need no credentials, so a page on any origin can call these endpoints. The application API keeps its separate credentialed origin allow-list.
+
+The source references below describe the 28 September contract that this section has been updated from: [public API query schemas](https://github.com/nayan-m15/Gaffer/blob/ed28806facdbbdff8ab2e2c57666f9dc675f5fe9/backend/src/public-api/public-api.schemas.ts), [public dashboard controller](https://github.com/nayan-m15/Gaffer/blob/ed28806facdbbdff8ab2e2c57666f9dc675f5fe9/backend/src/public-api/public-dashboard.controller.ts) and the [privacy policy](privacy-policy.md).
 
 ## Local setup
 
@@ -147,13 +165,14 @@ Most feature controllers use `AuthGuard`. The server derives the user's team thr
 - player routes operate on the signed-in user's claimed athlete context;
 - service queries include the resolved team ID to prevent cross-team access.
 
-The **14 September deployed OpenAPI snapshot** declared no security scheme, so it did not communicate cookie requirements. That snapshot also lacked most request/response schemas and common errors; only two component schemas were published, both for starting a match. The currently deployed OpenAPI was unavailable for comparison in this audit. Use source Zod schemas as the request authority until a new deployed document is checked.
+The **10 October 2026 deployed OpenAPI** document covers only the public read API. It declares no security scheme, which is correct for those anonymous routes, and it does not include any cookie-authenticated application route, so it says nothing about cookie requirements. The earlier **14 September snapshot** also declared no security scheme and published only two component schemas, both for starting a match. Use the source Zod schemas as the request authority for application routes.
 
 ## Endpoint groups
 
 | Group | Representative routes |
 | --- | --- |
 | Health/application | `GET /`, `GET /health/database`, `GET /health/operations` |
+| Public (anonymous) | `GET /v1/formations`, `/v1/tactics`, `/v1/public-dashboard/filters`, `/matches`, `/players`, `/team-statistics`, `/competition-fixtures` |
 | Auth | `POST /auth/sign-up`, `POST /auth/sign-in`, `POST /auth/sign-out`, `GET /auth/session`, verification and Google OAuth routes |
 | Team/roster | `GET /teams/search`; `POST/PATCH /teams`; athlete CRUD/archive/restore; claim invitations; assistant team invitations |
 | Player | `GET /player/me`, `/player/team`, `/player/events`, `/player/standings` |
@@ -286,8 +305,9 @@ Request bodies are parsed with feature Zod schemas. Typical Nest responses use H
 | `400` | Invalid body/query or rule such as a starting lineup outside 1–11 or an invalid opponent mode. |
 | `401` | Missing/invalid session. |
 | `403` | Signed-in user lacks the required role/action permission. |
-| `404` | Team/resource not found in the caller's allowed scope. This also avoids leaking cross-team existence. |
+| `404` | Team/resource not found in the caller's allowed scope. This also avoids leaking cross-team existence. On the public catalogues, an unknown formation or tactic `id`. |
 | `409` | State conflict or uniqueness rule where the service reports one, including an already-resolved friendly-fixture request. |
+| `429` | Rate limit exceeded on a `/v1/public-dashboard/*` route. |
 | `503` | Database authentication dependency, geocoder or other service temporarily unavailable. |
 
 Nest defaults apply where controllers do not override them: successful `GET`, `PATCH`, `PUT` and `DELETE` handlers normally return 200; successful `POST` handlers normally return 201; Better Auth verification/OAuth handlers may redirect. Better Auth errors are mapped from the library, while application Zod failures use the first validation issue.
