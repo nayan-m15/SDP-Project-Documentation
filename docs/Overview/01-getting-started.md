@@ -41,7 +41,7 @@ npm run test:e2e
 npm run test:e2e:ui
 ```
 
-Integration tests require a migrated `TEST_DATABASE_URL` that is different from `DATABASE_URL`. Browser tests use the database configured for the launched backend and therefore must not be aimed at shared or production data. Read [Testing and QA](../Quality/testing-and-qa.md) before running stateful tests.
+Integration and browser tests both need `TEST_DATABASE_URL` set to a dedicated test database that is different from `DATABASE_URL`; they refuse to run when the two match. `npm run test:integration` resets and migrates that database itself, which wipes its contents. `npm run test:e2e:ui` starts its own backend on free ports against `TEST_DATABASE_URL` but does not reset it, so run `npm --prefix backend run db:migrate:test` before the first browser run and after pulling new migrations. Never aim either at shared or production data. Read [Testing and QA](../Quality/testing-and-qa.md) before running stateful tests.
 
 Database migration commands are run from `backend`:
 
