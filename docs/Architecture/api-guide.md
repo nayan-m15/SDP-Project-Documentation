@@ -14,7 +14,7 @@ This inventory comes from NestJS controller decorators at application commit `ed
 | Friendly fixtures | `GET /friendly-fixtures/incoming`; `POST /friendly-fixtures/:id/accept`, `/:id/decline` | Coach of the invited team only. Requests are created by `POST /events` with `friendlyOpponentTeamId`, not by this controller. |
 | AI assistant | `POST /ai-assistant/message`, `/confirm`, `/cancel` | Session; tenancy and role are resolved server-side. Nothing is written until `/confirm`, whose role check depends on the proposed action. |
 | Offline sync | `GET /sync/token`, `/jwks`; `POST /sync/upload`, `/telemetry` | Token, upload and telemetry require authorized context; JWKS exposes public verification keys. See [offline collaboration](offline-collaboration.md). |
-| Public read API | `GET /v1/formations`, `/v1/tactics`, `/v1/public-dashboard/filters`, `/matches`, `/players`, `/team-statistics` | Anonymous read endpoints; verify deployment separately. |
+| Public read API | `GET /v1/formations`, `/v1/tactics`, `/v1/public-dashboard/filters`, `/matches`, `/players`, `/team-statistics` | Anonymous read endpoints; deployed URLs and contracts are documented below. |
 | Health | `GET /health/database`, `GET /health/operations` | Operational status; neither proves a full user flow works. |
 
 The remaining first-party routes for auth, teams (including team search), athletes, claims, team invitations, events (including pre-match lineups), players, seasons, game plans, statistics (including season insights and the statistics assistant), dashboard, profile and location search are listed below. Route shape alone does not specify DTO validation, response shape, errors, or authorization; use controller, guard, contract and service source for those details.
@@ -43,7 +43,7 @@ The remaining first-party routes for auth, teams (including team search), athlet
 | `GET /v1/public-dashboard/matches` | Optional UUID `teamId`, `competitionId`, `seasonId`; optional `status` (`scheduled`, `cancelled`, `completed`), `limit` 1–100 (default 50), `offset` ≥0 (default 0). Returns `{success,count,limit,offset,data}`. | Anonymous read; invalid query returns validation error. |
 | `GET /v1/public-dashboard/players` | Same UUID filters, `limit` 1–500 (default 200), `offset` ≥0 (default 0); same paged envelope. | Anonymous read; public service decides which records/fields are exposed. |
 | `GET /v1/public-dashboard/team-statistics` | Optional UUID filters; `{success,count,data}`. | Anonymous read. |
-| `GET /v1/formations` | No query; the formation catalogue. Now covers 5-a-side, 7-a-side and 11-a-side shapes plus a `custom-5`/`custom-7`/`custom-11` slot each, and every entry carries `playerCount` (5, 7 or 11). | Anonymous read. |
+| `GET /v1/formations` | No query; the formation catalogue. Covers 5-a-side, 7-a-side and 11-a-side shapes plus a `custom-5`/`custom-7`/`custom-11` slot each, and every entry carries `playerCount` (5, 7 or 11). | Anonymous read. |
 | `GET /competitions/search?q=...` | Trimmed nonempty search text, max 100 characters; list from service. | **Session required** even though results are discoverable; search/detail do not grant membership. |
 | `GET /teams/search?q=...` | Trimmed nonempty search text, max 100 characters; matching Gaffer teams for the friendly-fixture opponent picker. The caller's own team is excluded server-side. | Session required. |
 | `POST /competitions` | Includes optional `playersPerSide` (`5`, `7` or `11`), `format`, `configuredTeamCount` 2–128, `maxSubstitutes` 0–99, `redCardSuspensionMatches` 0–99, `accumulatedYellowThreshold` 1–99. | Session and coach role. |
@@ -92,7 +92,7 @@ The remaining first-party routes for auth, teams (including team search), athlet
 
 Sources: [public query schemas](https://github.com/nayan-m15/Gaffer/blob/ed28806facdbbdff8ab2e2c57666f9dc675f5fe9/backend/src/public-api/public-api.schemas.ts), [competition controller](https://github.com/nayan-m15/Gaffer/blob/ed28806facdbbdff8ab2e2c57666f9dc675f5fe9/backend/src/competitions/competitions.controller.ts), [injury controller](https://github.com/nayan-m15/Gaffer/blob/ed28806facdbbdff8ab2e2c57666f9dc675f5fe9/backend/src/injuries/injuries.controller.ts), [sync schemas/controller](https://github.com/nayan-m15/Gaffer/tree/ed28806facdbbdff8ab2e2c57666f9dc675f5fe9/backend/src/sync), [team controller/schemas](https://github.com/nayan-m15/Gaffer/tree/ed28806facdbbdff8ab2e2c57666f9dc675f5fe9/backend/src/teams), [event controller/schemas/service](https://github.com/nayan-m15/Gaffer/tree/ed28806facdbbdff8ab2e2c57666f9dc675f5fe9/backend/src/events), [friendly-fixture controller/service](https://github.com/nayan-m15/Gaffer/tree/ed28806facdbbdff8ab2e2c57666f9dc675f5fe9/backend/src/friendly-fixtures), [match controller](https://github.com/nayan-m15/Gaffer/blob/ed28806facdbbdff8ab2e2c57666f9dc675f5fe9/backend/src/matches/matches.controller.ts), [statistics controller/schemas](https://github.com/nayan-m15/Gaffer/tree/ed28806facdbbdff8ab2e2c57666f9dc675f5fe9/backend/src/statistics), [insights service/Gemini client](https://github.com/nayan-m15/Gaffer/tree/ed28806facdbbdff8ab2e2c57666f9dc675f5fe9/backend/src/insights), and [AI assistant](https://github.com/nayan-m15/Gaffer/tree/ed28806facdbbdff8ab2e2c57666f9dc675f5fe9/backend/src/ai-assistant). These examples describe source behaviour and do not certify current deployment.
 
-> **API boundary:** this is the broad first-party application API used by the Gaffer frontend. Most routes are cookie-authenticated and team-scoped. The separate [Gaffer Public API Reference](Gaffer-Public-API-Reference.md) covers the anonymous formations, tactics and public-dashboard GET routes listed above. The 14 September 2026 deployment check returned 404 for formations/tactics; it does not establish availability of any route on a newer deployment. Open-Meteo and Google Gemini are third-party integrations consumed by Gaffer, not Gaffer endpoints.
+> **API boundary:** this guide covers both the first-party application API and the anonymous public read API. Most first-party routes are cookie-authenticated and team-scoped. Open-Meteo and Google Gemini are third-party integrations consumed by Gaffer, not Gaffer endpoints.
 
 ## URLs and availability
 
@@ -103,7 +103,30 @@ Sources: [public query schemas](https://github.com/nayan-m15/Gaffer/blob/ed28806
 | OpenAPI JSON | [deployed JSON](https://gaffer-api-ynaf.onrender.com/api/docs-json) | `http://localhost:3000/api/docs-json` |
 | Database health | [deployed health](https://gaffer-api-ynaf.onrender.com/health/database) | `http://localhost:3000/health/database` |
 
-The application root, Swagger, OpenAPI JSON and database-health links were previously observed reachable. That does not establish that every source route is deployed. On 14 September 2026, all four formations/tactics public-route URLs returned 404 and the deployed OpenAPI JSON did not list them or the `Public API` tag. **That observation is now two weeks old and has not been rechecked; treat it as historical.** None of the routes added since — AI assistant, friendly fixtures, lineups, season insight, team search, match insight and event operations — have been checked against any deployment.
+The deployed Swagger UI is the interactive reference for the running API and can be used to inspect response schemas and try requests in a browser. The deployed OpenAPI JSON is also linked above. The direct public endpoint URLs below were supplied on 10 October 2026. In this documentation update, the remote Swagger/OpenAPI response could not be fetched from the editing environment, so detailed contracts are based on the application source snapshot identified above; consult the Swagger UI for any deployment-specific differences. The 14 September 2026 404 observation in the former standalone public reference is historical and is not a statement about the current deployment.
+
+## Public read API
+
+These GET endpoints are intended for unauthenticated reads. They expose coaching reference data and public-dashboard data; the dashboard service controls which record fields are included. The live Swagger UI at [api/docs](https://gaffer-api-ynaf.onrender.com/api/docs) documents deployed operations and supports trying them in a browser.
+
+| Endpoint | Live URL | Query parameters and response |
+| --- | --- | --- |
+| `GET /v1/public-dashboard/filters` | [Open filters](https://gaffer-api-ynaf.onrender.com/v1/public-dashboard/filters) | No query parameters. Returns `{success:true,data}` with available public filter choices. |
+| `GET /v1/public-dashboard/matches` | [Open matches](https://gaffer-api-ynaf.onrender.com/v1/public-dashboard/matches) | Optional UUID `teamId`, `competitionId`, `seasonId`; `status` is `scheduled`, `cancelled` or `completed`; `limit` is 1–100 (default 50); `offset` is an integer ≥0 (default 0). Returns `{success,count,limit,offset,data}`. |
+| `GET /v1/public-dashboard/players` | [Open players](https://gaffer-api-ynaf.onrender.com/v1/public-dashboard/players) | Optional UUID `teamId`, `competitionId`, `seasonId`; `limit` is 1–500 (default 200); `offset` is an integer ≥0 (default 0). Returns `{success,count,limit,offset,data}`. |
+| `GET /v1/public-dashboard/team-statistics` | [Open team statistics](https://gaffer-api-ynaf.onrender.com/v1/public-dashboard/team-statistics) | Optional UUID `teamId`, `competitionId`, `seasonId`. Returns `{success,count,data}`. |
+| `GET /v1/formations` | [Open formations](https://gaffer-api-ynaf.onrender.com/v1/formations) | No query parameters. Returns the formation catalogue for 5-, 7- and 11-a-side play, including `custom-5`, `custom-7` and `custom-11` slots. Entries include `id`, `name`, `shape`, `description` and `playerCount` (5, 7 or 11). |
+| `GET /v1/tactics` | [Open tactics](https://gaffer-api-ynaf.onrender.com/v1/tactics) | No query parameters. Returns the public tactical-style catalogue. Entries include `id`, `name`, `category` (`defensive` or `offensive`), `description` and `formationId` (nullable). |
+
+Dashboard query values are validated; malformed UUIDs, status values, limits or offsets return a client error. The public service filters and shapes returned records. The formation and tactic catalogue routes return `{success,count,data}`; public dashboard routes use the envelopes shown above. For example, a filtered request can be made without a session:
+
+```http
+GET /v1/public-dashboard/matches?status=completed&limit=20&offset=0
+```
+
+The source CORS configuration allows `*` on public API paths and does not require credentials for these GET requests. The application API retains its separate credentialed origin allow-list. Confirm the deployed CORS headers in the browser network panel when embedding these endpoints from another origin.
+
+The later application source contract represented by this guide defines both catalogue endpoints without query parameters. Use the live Swagger operation schema if the deployed version exposes additional query options. Source references: [public API query schemas](https://github.com/nayan-m15/Gaffer/blob/ed28806facdbbdff8ab2e2c57666f9dc675f5fe9/backend/src/public-api/public-api.schemas.ts), [public dashboard controller](https://github.com/nayan-m15/Gaffer/blob/ed28806facdbbdff8ab2e2c57666f9dc675f5fe9/backend/src/public-api/public-dashboard.controller.ts), and [privacy policy](privacy-policy.md).
 
 ## Local setup
 

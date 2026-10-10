@@ -85,8 +85,8 @@
     "path": "docs/Architecture/api-guide.md",
     "originalPath": "docs/Architecture/api-guide.md",
     "folder": "Architecture",
-    "size": 39014,
-    "date": "2026-09-29T09:22:47.493Z",
+    "size": 42301,
+    "date": "2026-10-10T20:45:33.879Z",
     "type": "md"
   },
   {
@@ -132,15 +132,6 @@
     "folder": "Architecture",
     "size": 1458,
     "date": "2026-09-15T10:55:41.122Z",
-    "type": "md"
-  },
-  {
-    "name": "Gaffer Public API Reference",
-    "path": "docs/Architecture/Gaffer-Public-API-Reference.md",
-    "originalPath": "docs/Architecture/Gaffer-Public-API-Reference.md",
-    "folder": "Architecture",
-    "size": 5100,
-    "date": "2026-09-24T21:18:33.506Z",
     "type": "md"
   },
   {
