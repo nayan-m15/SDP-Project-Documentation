@@ -4,18 +4,18 @@ The public API is an anonymous, read-only coaching catalog and sporting dashboar
 
 ## Base URLs and Swagger scope
 
-Local backend: `http://localhost:3000`. Configured hosted backend: `https://gaffer-api-ynaf.onrender.com`. The frontend rewrite adds `/api` before backend paths (for example `/api/v1/formations`).
+Local backend: `http://localhost:3000`. Configured hosted backend: [Gaffer API](https://gaffer-api-ynaf.onrender.com). The frontend rewrite adds `/api` before backend paths (for example `/api/v1/formations`). Hosted documentation links: [Swagger UI](https://gaffer-api-ynaf.onrender.com/api/docs), [OpenAPI JSON](https://gaffer-api-ynaf.onrender.com/api/docs-json) and [OpenAPI YAML](https://gaffer-api-ynaf.onrender.com/api/docs-yaml). These are configured URLs; availability and the deployed schema were not verified for this update.
 
 Swagger UI at `/api/docs`, JSON at `/api/docs-json` and YAML at `/api/docs-yaml` are intended to describe **six anonymous GET endpoints** in every environment, including production. They need no session, API key or token. “Try it out” uses the backend serving the docs. Protected application APIs are documented separately in the [API guide](api-guide.md), not included in this public schema.
 
 | GET path | Query | Response |
 | --- | --- | --- |
-| `/v1/formations` | Optional `id` | `{success,count,data: PublicFormation[]}` |
-| `/v1/tactics` | Optional `id` | `{success,count,data: PublicTactic[]}` |
-| `/v1/public-dashboard/filters` | None | `{success,data:{teams,seasons,competitions}}` |
-| `/v1/public-dashboard/matches` | `teamId,competitionId,seasonId,status,limit,offset` | `{success,count,limit,offset,data,summary:{total,cleanSheets}}` |
-| `/v1/public-dashboard/players` | `teamId,competitionId,seasonId,search,position,limit,offset` | `{success,count,limit,offset,data}` |
-| `/v1/public-dashboard/team-statistics` | `teamId,competitionId,seasonId` | `{success,count,data}` |
+| [`/v1/formations`](https://gaffer-api-ynaf.onrender.com/v1/formations) | Optional `id` | `{success,count,data: PublicFormation[]}` |
+| [`/v1/tactics`](https://gaffer-api-ynaf.onrender.com/v1/tactics) | Optional `id` | `{success,count,data: PublicTactic[]}` |
+| [`/v1/public-dashboard/filters`](https://gaffer-api-ynaf.onrender.com/v1/public-dashboard/filters) | None | `{success,data:{teams,seasons,competitions}}` |
+| [`/v1/public-dashboard/matches`](https://gaffer-api-ynaf.onrender.com/v1/public-dashboard/matches) | `teamId,competitionId,seasonId,status,limit,offset` | `{success,count,limit,offset,data,summary:{total,cleanSheets}}` |
+| [`/v1/public-dashboard/players`](https://gaffer-api-ynaf.onrender.com/v1/public-dashboard/players) | `teamId,competitionId,seasonId,search,position,limit,offset` | `{success,count,limit,offset,data}` |
+| [`/v1/public-dashboard/team-statistics`](https://gaffer-api-ynaf.onrender.com/v1/public-dashboard/team-statistics) | `teamId,competitionId,seasonId` | `{success,count,data}` |
 
 `count` is the number of returned rows, not the complete filtered total. Dashboard IDs are optional UUIDs. Unavailable filter IDs return empty results rather than disclosing private existence.
 
