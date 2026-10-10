@@ -4,7 +4,7 @@
 
 | Audience | Routes | Main implementation areas |
 | --- | --- | --- |
-| Public | `/`, `/public-dashboard`, `/login`, `/signup`, `/verify-email`, `/claim/:token`, `/join-team/:token`, `/join-competition/:token` | Landing/auth, anonymous dashboard and invite/claim resumers. |
+| Public | `/`, `/public-dashboard`, `/login`, `/signup`, `/verify-email`, `/oauth/callback`, `/forgot-password`, `/reset-password`, `/email-change/approved`, `/email-change/complete`, `/claim/:token`, `/join-team/:token`, `/join-competition/:token` | Landing/auth, anonymous dashboard and invite/claim resumers. |
 | Team member | `/dashboard`, `/competitions`, `/competitions/:id`, `/athletes`, `/events`, `/events/:eventId/confirm-squad`, `/events/:eventId/confirm-squad/opponent`, `/matches/:matchId/live`, `/live-logger`, `/matches/:matchId/report`, `/statistics`, `/injuries`, `/team`; `/tactics` redirects to `/team?section=tactics` | Team shell, competition fixtures, recovery, match-day offline panels and reports. |
 | Claimed player | `/player/dashboard`, `/player/team`, `/player/events`, `/player/competitions`, `/player/competitions/:id`; `/player/standings` redirects to `/player/competitions` | Player shell, shared schedule/RSVP and competition views. |
 
@@ -19,38 +19,39 @@
 | `athletes` | Active/archive roster and athlete validation. |
 | `events`, `weather` | Calendar CRUD, match start, RSVPs, location search and event forecast. |
 | `game-plans` | Formations, selection, tactics and role assignments. |
-| `matches` | Match clock, squads, event ledger, corrections and finish workflow. |
+| `matches` | Private sheets/shared sessions, public squad and report projections, event observations/reviews/operations, clock/end/resume, approvals and amendments. |
 | `seasons`, `statistics`, `dashboard` | Date windows, aggregates/trends/comparisons, competitions/standings and dashboard summary. |
-| `database` | Neon/Drizzle client, schema and health check. |
+| `database` | Neon/Drizzle client, journaled SQL functions/triggers, database and protected operations health. |
 | `competitions`, `competition-invites` | Shared competition membership, invitations, fixture generation, scheduling responses and results. |
 | `injuries` | Injury reports, timeline, protocol and recovery reads. |
 | `sync` | Authenticated upload/token/telemetry, public JWKS, idempotent receipts and reconciliation entry points. |
-| `public-api` | Anonymous formations, tactics and public dashboard read endpoints. |
+| `public-api` | Public GET routes and their public Swagger contract, bounded dashboard filtering/cache/throttle. |
+| `friendly-fixtures` | Registered-team inbound friendly requests, coach accept/decline and paired fixture events. |
+| `ai-assistant`, `insights` | Guided draft/confirm/cancel workflows, read-only statistics Q&A, configured match and season narratives. |
+| `packages/match-domain` | Shared domain rules/projection logic imported by frontend/backend. |
 
-## Representative request flow: logging a goal while connected (legacy REST path)
+## Local capture and reconciliation flow
 
 ```mermaid
 sequenceDiagram
-  participant P as LiveMatchPage
-  participant A as frontend matches/api.ts
-  participant C as MatchesController
-  participant V as Zod validation
-  participant S as MatchesService
-  participant D as Drizzle/PostgreSQL
-  P->>A: create goal with clientRequestId
-  A->>C: POST /matches/:matchId/events + session cookie
-  C->>V: createMatchLogEventSchema
-  V-->>C: validated DTO or 400
-  C->>S: createEvent(userId, matchId, DTO)
-  S->>D: resolve membership/match team; insert ledger row
-  D-->>S: persisted event (unique match/request ID)
-  S-->>P: JSON response
-  P->>A: refetch/invalidate match queries
+  participant UI as Match browser
+  participant Local as Scoped browser queue
+  participant API as Authenticated sync API
+  participant DB as PostgreSQL reconciliation
+  participant Peer as Linked opponent
+  UI->>Local: Persist stable observation or operation ID
+  Local->>API: Upload unchanged item and causal parents
+  API->>DB: Validate contract, current membership and exact session
+  DB->>DB: Preserve evidence, reconcile candidate reviews and projections
+  API-->>Local: Per-item receipt
+  UI->>API: Authorized report/clock reads
+  API-->>UI: Revision-bound public/private projections
+  DB-->>Peer: Authorized reads or configured PowerSync replication
 ```
 
-The frontend shared `apiFetch` includes credentials and converts non-2xx responses to `ApiError`. The controller validates body/UUID parameters. The service resolves the authenticated user's team, checks match/player state and persists through Drizzle. Statistics read the event ledger; correcting the event changes derived results rather than directly editing a displayed total.
+The shared fetch wrapper includes credentials, reports errors and signals successful writes for [automatic refresh](automatic-data-refresh.md). Upload receipt acceptance, pending dependencies, rejected work and replicated state are separate. A repeated stable ID does not create another action; corrected content needs a new authorized operation. The connected REST event path validates the same canonical contracts and service rules.
 
-The current match-day offline path persists an observation in the browser before upload. `POST /sync/upload` checks user/team permission and stable IDs, records a receipt, and reconciles immutable observations and operations into canonical events and projection state. PowerSync is configured to replicate relevant data back to clients. See [offline collaboration](offline-collaboration.md) for retry and recovery behaviour. These source paths have not been verified in the deployed environment.
+Linked private sheets share fixture/session authority and sanitize opponent timeline, lineup and geometry. Private tactics, notes, injuries and roster IDs do not cross that boundary. See [collaboration](offline-collaboration.md), [permissions](contracts-and-authorization.md), [API guide](api-guide.md) and [operations](operations/offline-operations-runbook.md).
 
 ## Comparison boundaries
 
@@ -58,3 +59,5 @@ The current match-day offline path persists an observation in the browser before
 - Opponent names/results appear in match and athlete history, but no athlete-versus-opponent-player comparison aggregate exists.
 - Season trends compare periods within one team's season; there is no cross-team or cross-season side-by-side comparison endpoint.
 - Shared competition standings are calculated from completed in-app matches and admin-entered results; older manually entered standings rows remain as a legacy baseline. This is not an athlete-versus-opponent-player comparison feature. See `backend/src/competitions/competitions.service.ts` and `backend/src/common/competition-standings.ts` at the application source revision cited in the [database schema](data/database-schema.md).
+
+Sources: [frontend/src/App.tsx](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/frontend/src/App.tsx), [backend/src/app.module.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/app.module.ts), [frontend/src/offline/match-store.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/frontend/src/offline/match-store.ts).

@@ -46,13 +46,13 @@ SportCoachingTool/
 | Database change | `backend/src/database/schema/index.ts`, followed by a reviewed generated SQL migration; inject `DatabaseService` in services. |
 | Regression evidence | Focused unit/domain test, then integration or browser coverage when the behaviour crosses boundaries. Record the command and result. |
 
-For a schema change, run `npm --prefix backend run db:generate`, review the SQL, then run `npm --prefix backend run db:migrate` against an isolated development database. Existing applied migrations should not be edited casually. Swagger describes routes from controller metadata, but its current output omits some cookie security and DTO details, so check Zod contracts and the [API guide](../api-guide.md) before treating it as the full contract.
+For a schema change, run `npm --prefix backend run db:generate`, review the SQL, then run `npm --prefix backend run db:migrate` against an isolated development database. Existing applied migrations should not be edited casually. Public Swagger UI/JSON/YAML intentionally describe the intended six anonymous GET routes. Protected application contracts live in Zod schemas and the [API guide](../api-guide.md); they are excluded from the public schema.
 
 ## Boundaries to preserve
 
 - The frontend never receives database credentials or connects directly to PostgreSQL.
 - Team-scoped endpoints derive the team from the session, not an arbitrary client-supplied team ID.
-- Members may read managed team data; coach-only mutations use `requireCoachTeamId`; live match logging is available to team members.
+- Members may read team data and log matches/report injuries. Managed-resource mutations and injury amendment/closure/deletion are coach-only. Shared review, resume and final approval have their own coach/state checks; see [authorization](../contracts-and-authorization.md).
 - Authentication uses cookies, so frontend requests include credentials and CORS must allow the exact frontend origin.
 - Archive athletes where history should be retained. Do not silently remove historical evidence.
 - Never edit an existing applied migration casually. Change the schema, generate/review a new migration, and test it against a disposable database.
@@ -81,3 +81,13 @@ Environment-variable names and startup instructions are maintained in [Getting S
 ## AI declarations
 
 Preserve evidence-based declarations already supplied by the team and commit trailers. Do not infer a model/tool from code style or replace historical records with placeholder names. Historical AI-tool statements have not all been independently authenticated.
+
+## Match domain, refresh and operational changes
+
+`packages/match-domain` is the shared rules/projection package used across the application. Keep its contracts aligned with backend request schemas and frontend types. The shared Query client polls visible mounted reads every five seconds and invalidates after writes, including confirmed assistant actions; cross-tab notifications trigger authorized refetches. Feature overrides and unfinished edit drafts are preserved. See [refresh](../automatic-data-refresh.md).
+
+Local capture → stable-ID upload → server reconciliation → authorized reads/replication is the match flow. Shared fixtures keep private sheets and sanitized public session state; installed Socket.io packages are not proof of a gateway/broadcast. Do not expose private roster IDs, injury evidence, notes or tactics to an opponent.
+
+Use the full journal-aware migration path for source requirements, not a single old hardening script. Preserve pending queue/receipt/upload compatibility across releases and keep signing trust separate from operator access. Feature controls and recovery procedures are in the [operations guide](../operations/offline-operations-runbook.md); configuration names come from the root `.env.example` and [Getting Started](../../Overview/01-getting-started.md).
+
+Sources: [packages/match-domain](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/packages/match-domain), [backend/src/app.module.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/app.module.ts), [.env.example](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/.env.example).

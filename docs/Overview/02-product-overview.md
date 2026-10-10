@@ -1,14 +1,40 @@
 # Gaffer Product Overview
 
-The detailed table below records the 14 September source review. Newer functionality is summarized under **Current boundaries and planned work**. Source code alone does not establish deployment or acceptance.
+This page describes current source capabilities. The retained 14 September inventory is historical and must not be used as the current feature contract. See the [source basis](../Architecture/tech-stack/architecture-overview.md#source-basis).
 
 ## Product purpose
 
 Gaffer supports grassroots football coaches, assistants, and claimed players. The primary loop is to create a team, maintain a roster and calendar, confirm a match squad, record match events, review a report, and inspect team/player statistics.
 
+## Current application capabilities
+
+| Area | Implemented behavior |
+| --- | --- |
+| Accounts and roles | Verified email/password and Google sign-in, session management, password reset/change, email-change workflow and account deletion that anonymizes retained historical actor references. Coaches manage resources; assistants read, log matches and report injuries; claimed players use their own hub/RSVP. |
+| Roster and planning | Athlete management/archive/status, game plans, public preset and private custom formations, tactics/roles/instructions, confirmed match lineups and availability checks. Supported formats are 5, 7 and 11 per side. |
+| Registered friendlies | Scheduling a manual match against a registered team creates an inbound friendly request. The opponent coach accepts/declines; accepted fixtures link the teams' private sheets to one session when shared logging is enabled. Free-text external opponents remain supported separately. |
+| Competitions | Administrator-managed participant invitations, league/knockout/hybrid fixtures, schedule acceptance/proposals, manual or published match results and result-driven standings. Fixture generation interprets local weekdays/kickoff in the saved/requested IANA timezone. |
+| Competition lifecycle | Global archive/restore is administrator-only, preserves history and blocks ordinary mutations until restore; live fixtures prevent archiving. Participant hide/unhide is a per-user list preference. |
+| Match collaboration | Local observations and operations upload with stable IDs, reconcile into shared public events and revision-bound reviews, and return receipts; authorized API reads and configured PowerSync deliver canonical state. Both coaches can log either side. Private tactics, notes, injuries and roster IDs are excluded. |
+| Play and approval | End Match asks for confirmation; cancellation leaves play running. Resume restores the latest playing half/elapsed time and clears pending approvals. Two connected teams approve bilaterally; an unconnected competition opponent permits participating-coach publication subject to current checks. Published results change through accepted amendments, not silent edits. |
+| Statistics and insights | Team/athlete/season statistics, two/three-athlete comparisons, statistics reports, read-only statistics Q&A and configured match/season narrative insights. Guided AI conversations support roster, injury, competition and lineup workflows, with explicit confirmation and normal service authorization for proposed writes. |
+| Public information | Anonymous sporting dashboard with server-filtered incremental player/match lists, complete filtered match summaries, standings, and public GET API endpoints. Public catalogs never expose a team's saved tactics. |
+
+Competition fixture generation is not evidence that every proposed automatic season-scheduling feature exists. AI narratives require configured provider access and can be unavailable; a suggestion is not an automatic authorized write. Source implementation does not establish production deployment, field readiness or stakeholder acceptance.
+
+## Statistics reports and sharing
+
+Coaches can download a team performance report as **PDF or CSV** from Statistics. Print and Share open a review dialog containing the summary, charts, match results and player tables. The operation captures the selected team, season, competition/date scope and a generation timestamp when it starts; background refresh or a later filter change does not silently change that active report.
+
+Only one report operation runs at a time, including rapid repeated clicks. The current Print action opens an isolated PDF tab directly from the confirmation click and generates the same chart-bearing PDF as Download/Share. It does not print the surrounding application screen. Popup blocking produces an explicit error. Cancelling/closing the review or unmounting aborts preparatory work, and temporary links/object URLs are cleaned up or revoked after the viewer's loading window. Native sharing must settle before another operation starts.
+
+**Share currently sends the PDF file** using native file sharing where supported, with PDF download fallback. A native share cancellation ends the operation without a success notice. **CSV is a download**, not a native CSV-sharing flow in this checkout. Clipboard fallback belongs to the separate match-report story/link share action. These distinctions follow current source rather than an older proposed export workflow.
+
+Statistics exports are distinct from the in-app match report and its story/link sharing, the live-match report exporter, game-plan/injury PDFs, and unsent offline recovery JSON. A recovery JSON file restores queued evidence; it is not a sporting report. Each feature must be evaluated through its own source path.
+
 ## Historical 14 September implementation inventory
 
-| Area | What the current application implements | Qualification |
+| Area | What the application implemented in that snapshot | Historical qualification |
 | --- | --- | --- |
 | Authentication | Email/password registration, verification and session cookies; Google sign-in; sign-out; protected routes. | Better Auth is configured. Password reset and account deletion are not implemented. |
 | Roles and teams | Coach ownership, assistant invitations, player claim invitations, coach/member/player route separation, and server-side team scoping. | A database foreign key does not enforce role or same-team ownership; controllers/services do. |
@@ -23,7 +49,7 @@ Gaffer supports grassroots football coaches, assistants, and claimed players. Th
 | Reminders | Dashboard banner for scheduled events in the next 24 hours with per-device dismissal. | In-app only; no email, push or background delivery. |
 | Public content | Marketing landing page, features, how-it-works content, privacy policy and terms. | Team/squad data is not published publicly. |
 
-Implementation evidence: [application routes](https://github.com/nayan-m15/Gaffer/blob/main/frontend/src/App.tsx), [backend modules](https://github.com/nayan-m15/Gaffer/blob/main/backend/src/app.module.ts), [schema](https://github.com/nayan-m15/Gaffer/blob/main/backend/src/database/schema/index.ts), and [root scripts](https://github.com/nayan-m15/Gaffer/blob/main/package.json).
+Current source: [frontend/src/App.tsx](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/frontend/src/App.tsx), [frontend/src/features/statistics/ReportActions.tsx](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/frontend/src/features/statistics/ReportActions.tsx), [frontend/src/features/statistics/report-export.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/frontend/src/features/statistics/report-export.ts), [frontend/src/features/statistics/report-share.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/frontend/src/features/statistics/report-share.ts), [backend/src/ai-assistant/ai-assistant.service.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/ai-assistant/ai-assistant.service.ts), [backend/src/competitions/competitions.service.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/competitions/competitions.service.ts).
 
 ## Roles
 
@@ -33,19 +59,8 @@ Implementation evidence: [application routes](https://github.com/nayan-m15/Gaffe
 
 The API resolves team identity from the authenticated session. Clients do not choose a `teamId` for normal team-scoped operations. Resource queries are additionally scoped by that resolved team ID.
 
-## Current boundaries and planned work
+## Operational limits and related guides
 
-**External codebase comparison (reported, not independently verified; 29 September 2026):** A separate review of application checkout `03cfc17` reported source for competitions, invitations, fixtures, scheduling, results and standings; friendly fixture requests between Gaffer teams; injury tracking and recovery; offline match logging and synchronization; AI-assisted workflows and match/season insights; player claims, player-facing pages and RSVP; a public dashboard/API; and game plans, formations and tactics. Source presence does not establish production deployment, complete end-to-end behaviour, test success or stakeholder acceptance. The documentation author did not independently verify these findings against application source. The inventory above remains the historical 14 September review; tracker status is not a delivery claim.
+Prepare authorized match data while online before offline capture and export unsent work before clearing browser storage. Email/push event reminders and every proposed automatic season-scheduling capability are not established by fixture generation. Hosted configuration and acceptance remain separate from source behavior.
 
-At the 24 September source commit, browser offline logging and server upload/reconciliation code, competition membership/invitation/fixture flows, injury/recovery records and an anonymous public dashboard exist. Game-plan and injury PDF exports are also implemented in source. Their production configuration, full field behaviour and acceptance are unverified. **Match-report** file export, email/push reminders, password reset, account deletion, automatic season scheduling, AI insights and player-selection recommendations remain absent or unverified. Fixture negotiation and automatic standings have partial source implementations; see [requirements](Functional-Requirements-and-System-Analysis.md) and [backlog](../Project%20Management/product-backlog.md) for precise scope.
-
-Historical design documents may describe these as proposed tiers. Those proposals remain useful product direction but must not be read as implementation evidence.
-
-## Evidence status language
-
-- **Implemented â€” acceptance verification pending:** code and routes exist, but no supplied assessment evidence proves the complete acceptance checklist.
-- **Partial:** a useful subset exists, while a named part of the story does not.
-- **Planned:** no implementation was found in the inspected source.
-- **Verified:** reserved for a specifically identified test or review result. Procedures alone are not results.
-
-See [Product Backlog](../Project%20Management/product-backlog.md) and [Sprint 3 delivery record](../Project%20Management/sprint-3-delivery.md).
+See [authorization](../Architecture/contracts-and-authorization.md), [collaboration](../Architecture/offline-collaboration.md), [public API](../Architecture/api-guide.md#public-read-api), [operations](../Architecture/operations/offline-operations-runbook.md), [requirements](Functional-Requirements-and-System-Analysis.md) and the historical [backlog](../Project%20Management/product-backlog.md).

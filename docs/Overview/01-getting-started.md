@@ -12,7 +12,7 @@ Create an account with email/password (email verification is required) or Google
 
 ## Develop the application
 
-Application repository: [nayan-m15/Gaffer](https://github.com/nayan-m15/Gaffer)
+Application repository: [SDP-Interlude/SportCoachingTool](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool)
 
 Prerequisites: a current Node.js/npm installation, PostgreSQL (Neon is used for the hosted database), and valid local environment values. Copy the application's `.env.example` to `.env` and its `frontend/.env.example` to `frontend/.env` if a frontend override is needed. Never commit secrets.
 
@@ -59,14 +59,14 @@ Generate a migration only after intentionally changing the Drizzle schema, revie
 | `DATABASE_URL` | Backend PostgreSQL/Neon connection string. |
 | `TEST_DATABASE_URL` | Separate integration-test database. Must differ from `DATABASE_URL`. |
 | `BETTER_AUTH_SECRET` | Better Auth signing secret. |
-| `BETTER_AUTH_URL` | Backend base URL used for authentication callbacks/cookies. |
+| `BETTER_AUTH_URL` | Public authentication origin; in production use the frontend origin serving the `/auth` proxy so callbacks/cookies stay first-party. |
 | `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` | Google OAuth credentials. |
 | `FRONTEND_URL` | Allowed frontend origin. |
-| `BREVO_API_KEY` | Optional transactional email delivery; without it, development logs the verification link. |
+| `BREVO_API_KEY` | Transactional auth email; development can log verification links, but production email-required requests fail closed if unconfigured. |
 | `EMAIL_FROM_ADDRESS`, `EMAIL_FROM_NAME` | Verification-email sender identity. |
 | `WEATHER_API_URL`, `GEOCODING_API_URL` | Optional Open-Meteo endpoint overrides. |
 | `WEATHER_CACHE_MINUTES`, `WEATHER_HISTORY_DAYS`, `WEATHER_FORECAST_DAYS` | Weather cache and supported date range. |
-| `VITE_API_URL` | Frontend API base URL; defaults locally to `http://localhost:3000`. |
+| `VITE_API_URL` | Local frontend API override; production uses same-origin `/api` and `/auth` rewrites. |
 
 ## Contribute to this documentation portal
 
@@ -83,5 +83,28 @@ After editing, regenerate manifest sizes, run `npm run validate` and `npm run ch
 
 - Vercel hosts the frontend; Render hosts the NestJS API; Neon hosts PostgreSQL; GitHub Pages hosts this documentation.
 - The frontend Vercel rewrites `/auth/*` and `/api/*` to the Render API.
-- The application has a Gitea Actions CI workflow and this documentation repository has validation-only GitHub Actions. At commit `ef2880ad`, the application workflow includes `development` in push and pull-request triggers; the earlier branch-trigger defect is fixed in source. Configuration is not a successful run or deployment, and no branch-protection evidence is supplied.
+- The application has Gitea Actions CI configuration; this portal has documentation validation in GitHub Actions. Configuration alone does not prove successful runs, branch protection or deployment.
 - The current source includes a durable browser queue for match observations and operations, plus server reconciliation and PowerSync replication. Prepare the match while online, check the offline readiness panel, and export unsent observations before clearing browser data. Device field tests, production configuration and stakeholder acceptance are unverified; see [offline collaboration](../Architecture/offline-collaboration.md).
+
+## Current configuration and migration prerequisites
+
+Use the repository-root `.env.example` as the configuration name authority; Vite currently loads the root environment file. Never put database or private signing secrets into `VITE_*` variables.
+
+| Names | Purpose |
+| --- | --- |
+| `POWERSYNC_URL`, `POWERSYNC_PRIVATE_KEY`, `POWERSYNC_KID` | Service endpoint and asymmetric production token signer/public JWKS trust. |
+| `POWERSYNC_SHARED_SECRET` | Supported HS256 development signer; isolate from production trust. |
+| `VITE_POWERSYNC_URL`, `VITE_DEPLOYMENT_ENV` | Browser replication endpoint/deployment queue scope. |
+| `TWO_SIDED_LIVE_LOGGING_ENABLED` | Backend opt-in for shared sessions and token claim; trimmed case-insensitive `true` enables it. |
+| `OFFLINE_SYNC_ENABLED`, `OFFLINE_SYNC_MATCH_IDS` | Upload pause/allowlist without deleting pending work. |
+| `OPERATIONS_HEALTH_TOKEN` | Dedicated protected operational-health bearer token. |
+| `GEMINI_API_KEY`, `GEMINI_MODEL` | Optional AI provider/key and selected model/fallback chain; missing provider means insights can be unavailable. |
+| `AUTH_SIGN_IN_RATE_LIMIT`, `AUTH_EMAIL_RATE_LIMIT`, corresponding `_BACKSTOP_RATE_LIMIT` | Shared database-backed auth request budgets. |
+| `PUBLIC_DASHBOARD_RATE_LIMIT`, `PUBLIC_DASHBOARD_BACKSTOP_RATE_LIMIT`, `PUBLIC_DASHBOARD_CACHE_TTL_SECONDS`, `PUBLIC_DASHBOARD_CACHE_MAX_ENTRIES` | Anonymous database-read protection and cache configuration. |
+| `REVERSE_GEOCODING_API_URL`, `GEOCODING_USER_AGENT` | Reverse-location provider configuration and request identity. |
+
+The backend requires the complete ordered migration journal through the current shared-report, duplicate-review, end/resume, scheduling timezone, friendly format, archive/hide and single-coach publication migrations. The normal `db:migrate` tool is journal/hash aware; do not replay old migrations to repair timestamp drift. Hosted installed state is separate from source requirements. Public Swagger documents the anonymous GET endpoints (seven on the hosted API as of 10 October 2026); the [API guide](../Architecture/api-guide.md) covers both those and the protected routes.
+
+See [operations prerequisites](../Architecture/operations/offline-operations-runbook.md), [PowerSync security](../Architecture/security/powersync-security.md), [refresh](../Architecture/automatic-data-refresh.md) and [current architecture/source basis](../Architecture/tech-stack/architecture-overview.md).
+
+Configuration authority: [.env.example](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/.env.example), [frontend/vite.config.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/frontend/vite.config.ts).

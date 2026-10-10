@@ -22,9 +22,9 @@ Versions below are direct manifest ranges from the inspected repositories; lockf
 | qrcode.react `^4.2.0` | Invitation/claim QR rendering | ISC |
 | PowerSync React `^2.0.1`, Web `^2.0.0`; lockfile resolves `2.0.1` and `2.3.1` | Browser replication and local SQLite-backed data | Licence and hosted-service terms require confirmation from exact installed package/service before redistribution or launch. |
 | wa-sqlite `^1.7.2`, vite-plugin-pwa `^1.3.0` | Browser local database and PWA/service-worker build | Exact locked licences and service-worker cache behaviour require review. |
-| jsPDF `^4.2.1`, Three.js `^0.128.0` | Game-plan/injury PDF exports and injury body visualisation | Exact locked licences and any included fonts/assets require review. |
+| jsPDF `^4.2.1`, Three.js `^0.128.0` | Statistics/game-plan/injury PDFs, match-report export paths and injury/landing visualisation | Exact locked licences and any included fonts/assets require review. |
 | NestJS packages `^11.x`, RxJS `^7.8.1`, reflect-metadata `^0.2.2` | API framework, reactive/runtime metadata support | MIT; Apache-2.0; Apache-2.0 |
-| Better Auth `^1.6.27` backend / `^1.6.29` frontend / root `^1.7.1` | Authentication/session client and server | MIT |
+| Better Auth `^1.7.7` backend / `^1.6.29` frontend / root range from its manifest | Authentication/session client and server | MIT |
 | Drizzle ORM `^0.45.2`, Drizzle Kit `^0.31.10` (resolved `0.45.2`/`0.31.10`) | Typed persistence and migration tooling | Apache-2.0 / MIT, from installed metadata |
 | Neon serverless `^1.1.0` (resolved `1.1.0`) | PostgreSQL HTTP driver | MIT, from installed metadata |
 | Zod `^4.4.3` | Runtime validation | MIT |
@@ -32,6 +32,8 @@ Versions below are direct manifest ranges from the inspected repositories; lockf
 | Socket.io/client `^4.8.3`, Nest WebSockets/Socket.io platform | Installed real-time scaffolding | MIT. Not evidence of delivered broadcasting. |
 | Brevo SDK `^6.0.3` (resolved `6.0.3`) | Transactional verification email | Installed metadata does not declare a licence; confirmation required. |
 | dotenv `^17.4.2` | Local environment loading | BSD-2-Clause |
+
+Vite, TypeScript, Tailwind/Vite integration, PWA generation, Drizzle Kit and shadcn scaffolding above are build/development tools even when grouped next to runtime libraries. `packages/match-domain` is the local shared match rules/projection package. Dependency placement, overrides and accepted advisory assessment are explained in the [dependency security policy](security/dependency-security.md); installed sockets do not establish the collaboration transport.
 
 ## Test and developer tools
 
@@ -77,3 +79,11 @@ Portal mockups, wireframes, UML SVGs, screenshots, logo and meeting screenshots 
 Existing repository declarations and commit trailers are historical evidence supplied by the team. This audit does not guess additional tools/models or independently verify every declared model name. Future declarations should identify the tool only when supported by a record and describe human review without claiming approval that did not occur.
 
 For the documentation update dated 13–14 September 2026, **OpenAI Codex (GPT-5)** was used to inspect the documentation/application repositories and supplied Trello export, draft Markdown updates, adjust viewer navigation and run local checks. This records tool and purpose; it does not claim stakeholder or human approval.
+
+## Current asset attribution and source roles
+
+The application carries `frontend/public/models/landing-shirt.CREDITS.txt`. It attributes the base model to **“Hangers and Tee-shirt” by dudecon**, identifies its source and CC BY 4.0 terms, and records extraction/recoloring/UV changes and removal of the original texture. It describes `landing-shirt-kit.jpg` as an original Gaffer kit texture. Preserve that credit and its linked evidence; the author’s additional public-domain statement does not justify dropping the retained attribution. Other assets without proven provenance remain unverified as recorded above.
+
+Statistics sharing uses the same generated PDF as print/download; CSV is downloaded separately. Three.js is also used by the optional lazily constructed landing scene, while the plain background is the capability/reduced-motion fallback. PowerSync/SQLite supports configured replication; public Swagger is restricted to the anonymous GET contract. These runtime roles are source observations, not new licensing conclusions.
+
+Sources: [frontend/public/models/landing-shirt.CREDITS.txt](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/frontend/public/models/landing-shirt.CREDITS.txt), [frontend/package.json](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/frontend/package.json), [backend/package.json](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/package.json), [frontend/src/features/statistics/ReportActions.tsx](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/frontend/src/features/statistics/ReportActions.tsx), [frontend/src/components/landing/LandingScene.tsx](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/frontend/src/components/landing/LandingScene.tsx).

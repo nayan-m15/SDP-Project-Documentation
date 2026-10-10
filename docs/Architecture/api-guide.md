@@ -1,372 +1,462 @@
-# REST API Guide
+# API Guide
 
-## Controller route inventory
-
-This inventory comes from NestJS controller decorators at application commit `ed28806facdbbdff8ab2e2c57666f9dc675f5fe9` (28 September 2026, branch `development`). It describes source routes, not a verified production deployment. Path parameters require the caller to satisfy the controller guard and service authorization checks. Better Auth routes also include its mounted handler beyond the explicit controller methods below.
-
-| Area | Source routes and methods | Access boundary |
-| --- | --- | --- |
-| Competition setup | `GET /competitions/search`, `/mine`, `/:id`, `/:id/fixtures`; `POST /competitions`, `/:id/fixtures/generate`, `/:id/fixtures/:fixtureId/schedule/accept`, `/:id/fixtures/:fixtureId/schedule/propose`, `/:id/results`, `/:id/teams`; `PATCH /competitions/:id`, `/:id/results/:resultId`; `DELETE /competitions/:id`, `/:id/results/:resultId`, `/:id/teams/:competitionTeamId` | Session and competition membership or administration; search is not anonymous. |
-| Competition invitations | `GET /competition-invites`, `/:token`; `POST /competition-invites`, `/:token/accept`; `DELETE /competition-invites/:id` | Invitation token routes have a different access path from competition administration; see controller and service for exact checks. |
-| Injuries | `GET /injuries`, `/protocol`, `/recovery/:athleteId`, `/:id`; `POST /injuries`, `/:id/timeline`; `PATCH /injuries/:id`, `/:id/close`; `DELETE /injuries/:id` | Authenticated, team-scoped clinical information. Do not treat the protocol route as anonymous without checking its guard. |
-| Live matches | `GET /matches/:matchId`, `/squad`, `/opponent-squad`, `/events`, `/event-reviews`, `/event-operations`, `/clock-operations`, `/insight`; `POST /matches/:matchId/events`, `/event-reviews/:reviewId/resolve`, `/finish`, `/finalise`, `/reopen`; `PATCH /matches/:matchId/events/:eventId`, `/clock`; `DELETE /matches/:matchId/events/:eventId` | Authenticated match/team access and operation-specific permissions. |
-| Pre-match lineups | `GET /events/:eventId/lineup`, `/:eventId/opponent-lineup`, `/:eventId/friendly-opponent-lineup`; `PUT /events/:eventId/lineup` | Session and team membership; every team member may confirm a lineup, as with starting a match. |
-| Friendly fixtures | `GET /friendly-fixtures/incoming`; `POST /friendly-fixtures/:id/accept`, `/:id/decline` | Coach of the invited team only. Requests are created by `POST /events` with `friendlyOpponentTeamId`, not by this controller. |
-| AI assistant | `POST /ai-assistant/message`, `/confirm`, `/cancel` | Session; tenancy and role are resolved server-side. Nothing is written until `/confirm`, whose role check depends on the proposed action. |
-| Offline sync | `GET /sync/token`, `/jwks`; `POST /sync/upload`, `/telemetry` | Token, upload and telemetry require authorized context; JWKS exposes public verification keys. See [offline collaboration](offline-collaboration.md). |
-| Public read API | `GET /v1/formations`, `/v1/tactics`, `/v1/public-dashboard/filters`, `/matches`, `/players`, `/team-statistics`, `/competition-fixtures` | Anonymous read endpoints; deployed URLs and contracts are documented below. `competition-fixtures` comes from the deployed Swagger on 10 October 2026 and is newer than the source commit above. |
-| Health | `GET /health/database`, `GET /health/operations` | Operational status; neither proves a full user flow works. |
-
-The remaining first-party routes for auth, teams (including team search), athletes, claims, team invitations, events (including pre-match lineups), players, seasons, game plans, statistics (including season insights and the statistics assistant), dashboard, profile and location search are listed below. Route shape alone does not specify DTO validation, response shape, errors, or authorization; use controller, guard, contract and service source for those details.
-
-| Existing controller | Declared methods at the 28 September source commit |
-| --- | --- |
-| `auth` | `POST /auth/sign-up`, `/send-verification-email`, `/sign-in`, `/sign-out`, `/sign-in/social`; `GET /auth/verify-email`, `/session`, `/callback/google` |
-| `teams`, `team-invites`, `claims` | `GET /teams/search`; `POST /teams`; `PATCH /teams`; `POST /team-invites`, `/:token/accept`; `GET /team-invites`, `/assistants`, `/:token`; `DELETE /team-invites/:id`; `GET /claims/:token`; `POST /claims/:token/accept` |
-| `athletes` | `POST /athletes`, `/:athleteId/claim-invite`; `GET /athletes`, `/archived`, `/:id`; `PATCH /athletes/:id`, `/:id/restore`; `DELETE /athletes/:id`, `/:athleteId/claim-invite` |
-| `events` | `POST /events`, `/:eventId/start-match`, `/:eventId/rsvp`; `GET /events`, `/:eventId/rsvps`, `/:eventId/lineup`, `/:eventId/opponent-lineup`, `/:eventId/friendly-opponent-lineup`, `/:id`, `/:id/weather`; `PUT /events/:eventId/lineup`; `PATCH /events/:id`; `DELETE /events/:id` |
-| `friendly-fixtures` | `GET /friendly-fixtures/incoming`; `POST /friendly-fixtures/:id/accept`, `/:id/decline` |
-| `ai-assistant` | `POST /ai-assistant/message`, `/confirm`, `/cancel` |
-| `player` | `GET /player/me`, `/team`, `/events`, `/standings` |
-| `game-plans` | `GET /game-plans`, `/:id`; `POST /game-plans`; `PATCH /game-plans/:id`; `DELETE /game-plans/:id` |
-| `seasons` | `GET /seasons`; `POST /seasons`; `PATCH /seasons/:id`; `DELETE /seasons/:id` |
-| `statistics` | `GET /statistics`, `/athletes/:id`, `/compare`, `/competitions`, `/season-insight`; `POST /statistics/season-insight`, `/assistant`, `/competitions`, `/competitions/:id/standings`; `PATCH /statistics/competitions/:id`, `/standings/:id`; `DELETE /statistics/competitions/:id`, `/standings/:id` |
-| `dashboard`, `profile`, `locations` | `GET /dashboard`, `/profile`, `/locations/search`; `PATCH /profile` |
-
-`GET /events/:eventId/opponent-lineup` and `GET /events/:eventId/friendly-opponent-lineup` are two decorators on a single handler; both paths are live and behave identically. The longer name is retained as an alias for existing clients.
-
-### Current request contracts and access examples
-
-| Endpoint | Input and response | Access and common failure |
-| --- | --- | --- |
-| `GET /v1/public-dashboard/filters` | No query; `{success:true,data:{teams,seasons,competitions}}`. | Anonymous read; can return 429. |
-| `GET /v1/public-dashboard/matches` | Optional UUID `teamId`, `competitionId`, `seasonId`; optional `status` (`scheduled`, `cancelled`, `completed`), `limit` 1–100 (default 50), `offset` ≥0 (default 0). Returns `{success,count,limit,offset,summary,data}`. | Anonymous read; an invalid query returns 400; can return 429. |
-| `GET /v1/public-dashboard/players` | Same UUID filters, plus `search` (max 100 characters) and `position` (`ALL`, `FWD`, `MID`, `DEF`, `GK`); `limit` 1–200 (default 100), `offset` ≥0 (default 0). Returns `{success,count,limit,offset,data}`. | Anonymous read; an invalid query returns 400; can return 429. |
-| `GET /v1/public-dashboard/team-statistics` | Optional UUID filters; `{success,count,data}` of competition standings rows. | Anonymous read; can return 429. |
-| `GET /v1/public-dashboard/competition-fixtures` | Optional UUID `competitionId`, `teamId`, `seasonId`; `{success,count,data}` of league and cup fixtures, not paged. | Anonymous read; can return 429. |
-| `GET /v1/formations`, `GET /v1/tactics` | Optional `id` returns one entry; without it, the whole catalogue as `{success,count,data}`. The deployed formation catalogue has 5-, 7- and 11-a-side shapes, each with `playerCount` 5, 7 or 11. | Anonymous read; 404 for an unknown `id`, 400 for an empty one. |
-| `GET /competitions/search?q=...` | Trimmed nonempty search text, max 100 characters; list from service. | **Session required** even though results are discoverable; search/detail do not grant membership. |
-| `GET /teams/search?q=...` | Trimmed nonempty search text, max 100 characters; matching Gaffer teams for the friendly-fixture opponent picker. The caller's own team is excluded server-side. | Session required. |
-| `POST /competitions` | Includes optional `playersPerSide` (`5`, `7` or `11`), `format`, `configuredTeamCount` 2–128, `maxSubstitutes` 0–99, `redCardSuspensionMatches` 0–99, `accumulatedYellowThreshold` 1–99. | Session and coach role. |
-| `POST /competitions/:id/fixtures/generate` | `{ "regenerate": false }` (optional boolean). | Session and service administration checks; invalid UUID/body or unauthorized change fails. |
-| `POST /competitions/:id/fixtures/:fixtureId/schedule/accept` | `{ "expectedRevision": 1 }`, optional `competitionTeamId` UUID. | Session and participant permission; revision guards conflicting updates. |
-| `POST /competitions/:id/fixtures/:fixtureId/schedule/propose` | `{ "expectedRevision": 1, "scheduledAt": "2026-09-26T15:00:00+02:00", "note": "Optional" }`; note max 500 characters. | Session and participant permission; invalid time/revision or forbidden team fails. |
-| `PUT /events/:eventId/lineup` | `startingAthleteIds` must be **exactly 11** unique UUIDs; optional `formationId` (1–100 chars), `pitchAssignments` (position ID to athlete UUID or null), `customPositions` (`id`, `label`, `role` of `GK`/`DEF`/`MID`/`FWD`, `x`/`y` 0–100), `benchAthleteIds` (max 20, unique, no overlap with starters). When `pitchAssignments` is sent a `formationId` is required, and the assignments must place every starter exactly once. Returns the saved lineup. | Session and team membership; any team member may confirm. Note this route still requires exactly 11 while `start-match` accepts 1–11. |
-| `GET /events/:eventId/lineup` | The team's confirmed lineup for one of its own events, or `null` when none is confirmed. | Session and team membership. |
-| `GET /events/:eventId/opponent-lineup` | The opposing team's confirmed lineup for an accepted Gaffer friendly **or** a competition fixture. When unavailable, returns the neutral shape `{available:false,teamId:null,teamName:null,players:[]}`. Non-Gaffer opponents always get the neutral shape. | Session and team membership; the other team is derived from the signed-in team's own fixture. |
-| `GET /friendly-fixtures/incoming` | No body; pending inbound requests with `id`, `requesterTeamId`, `requesterTeamName`, `eventId`, `scheduledAt`, `location`, `notes`, `createdAt`. | **Coach only.** |
-| `POST /friendly-fixtures/:id/accept` | No body; UUID path param. Accepting writes the opponent's own event linked to the same fixture. | Coach only; 404 when the request is not for the caller's team, 409 on an already-resolved or conflicting fixture. |
-| `POST /friendly-fixtures/:id/decline` | No body; UUID path param. | Coach only; same failure modes. |
-| `POST /ai-assistant/message` | `{ "conversationId": "<uuid>", "context": "roster" or "injuries" or "competitions" or "lineup", "message": "<1–1000 chars>" }`, plus optional `selectedPlayerId` and `competitionId` UUIDs. `competitionId` switches the competitions assistant into "add a participating team" mode. | Session; role and team resolved server-side. A proposed create action is not executed until confirmed. |
-| `POST /ai-assistant/confirm` | `{ "conversationId": "<uuid>", "context": "roster" }` — executes the pending proposal through the app's normal services, so the underlying feature's own role checks still apply. | Session, plus whatever role the proposed action itself requires. |
-| `POST /ai-assistant/cancel` | Same body as confirm; discards the pending proposal. | Session. |
-| `POST /statistics/assistant` | `{ "question": "<3–300 chars>", "seasonId": "<optional uuid>" }`. Read-only and stateless; nothing is persisted. | Session and team membership — open to every team member, matching the rest of the controller's read philosophy. |
-| `GET /statistics/season-insight?seasonId=<uuid>` | Optional UUID; the stored season insight, or `{teamId,seasonId,status:"unavailable"}` when none exists. | Session and team membership; 403 when the account has no team. |
-| `POST /statistics/season-insight` | `{ "seasonId": "<optional uuid>" }`; generates synchronously and returns the resulting row. Coach-triggered because no automatic "season ended" event exists to hook it to. | **Coach only** (`requireCoachTeam`). |
-| `GET /matches/:matchId/insight` | The stored match insight, or `{matchId,status:"unavailable"}` when generation has not produced one. | Session and team access to the match. |
-| `GET /matches/:matchId/event-operations` | The match's event-operation log (corrections, voids, review resolutions). | Session and team access to the match. |
-| `GET /injuries?status=open&athleteId=<uuid>` | `status` is `open`, `closed` or `all`; optional athlete UUID; team-scoped list. | Session and team membership. `GET /injuries/protocol` also requires membership. |
-| `POST /injuries` | Body validated by `createInjurySchema`; created injury record. | Coach **or assistant** team member may report. Updates, close, timeline mutation and deletion require coach role. |
-| `PATCH /injuries/:id/close` | `{ "actualReturnOn": "2026-09-24", "notes": "Optional" }`; updated record. | Coach only; team scope, UUID and date validation apply. |
-| `GET /sync/token` | `{endpoint,token,expiresAt}`; token expires after five minutes and includes user/team/role claims. | Session; returns 503 when PowerSync configuration is absent. |
-| `POST /sync/upload` | `{items:[...]}` with 1–50 observation/operation items; `{receipts:[...]}` in item order. | Session; each item gets its own `accepted`, `dependency_pending` or `rejected` receipt and safe error code. Up to four items are processed concurrently; items for the same match, repeated IDs and operations with causal parents are processed in order. A server-side (5xx) failure fails the whole request instead of rejecting the item, so the client retries it; earlier items may already be committed, which is safe because IDs are immutable. A repeated ID with changed payload/user yields `ID_REUSED`. |
-| `POST /sync/telemetry` | Device UUID, pending/rejected counts (0–100000), nullable ISO timestamps and deployment name; `{accepted:true}`. | Session; server derives user/team rather than trusting client identity. |
-| `GET /sync/jwks` | Public JSON Web Key Set when signing key is configured. | No session; availability depends on server configuration. |
-| `GET /teams/search?q=...` | Trimmed search text, 1–100 characters, matched against team names and coach names. Returns up to 25 `{id,name,primaryColor}` ordered by name; the caller's own team is excluded. | Session; any signed-in user. Used to pick a friendly-fixture opponent. |
-| `POST /events` with `friendlyOpponentTeamId` | Optional Gaffer team UUID, used only for `type: "match"` events without a `competitionId`. Creates a `pending` friendly-fixture request together with the requester's event. | Coach only. Choosing the caller's own team or an unknown team returns 400. |
-| `GET /friendly-fixtures/incoming` | No query. Pending requests addressed to the caller's team, oldest first: `{id,requesterTeamId,requesterTeamName,eventId,scheduledAt,location,notes,createdAt}`. | Coach of the invited team; 403 otherwise. |
-| `POST /friendly-fixtures/:id/accept` | No body. Returns `{fixture,event}`: the accepted request and a new match event on the accepting team's calendar, copying the requester's time, location, weather location and notes. | Coach of the invited team. 404 if the request is not addressed to the team, or the requester's event was deleted or cancelled (the request is then retired as `cancelled`); 409 if it is no longer pending. |
-| `POST /friendly-fixtures/:id/decline` | No body. Returns the declined request; the requester keeps its own event. | Coach of the invited team; same 404/409 rules as accept. |
-| `PUT /events/:eventId/lineup` | `{ "startingAthleteIds": [<11 unique UUIDs>], "benchAthleteIds": [<optional, up to 20 unique UUIDs>] }`; starters and bench cannot overlap. Returns `{startingAthleteIds,benchAthleteIds,confirmedAt}` and replaces any earlier confirmation. | Any team member. 404 unless the event is the team's `match`; 400 if it is not `scheduled` or an athlete is ineligible; 409 once the match has started. |
-| `GET /events/:eventId/lineup` | The confirmed pre-match lineup in the same shape, or `null`. | Any team member; team-scoped event. |
-| `GET /events/:eventId/friendly-opponent-lineup` | `{available,teamId,teamName,players:[{id,firstName,lastName,squadNumber,position,started}]}`. Uses the opponent's live match squad once it exists, otherwise their confirmed pre-match lineup. `available` is `false` (with null team fields for non-Gaffer events) until an accepted friendly has a confirmed opponent squad. | Any team member. The opponent is derived from the fixture, never from request input. |
-| `GET /matches/:matchId/insight` | `{matchId,status,narrativeText,highlights,generatedAt}` where `status` is `pending`, `ready`, `failed` or `stale`; `{matchId,status:"unavailable"}` before any generation. Generated in the background after `/finalise`; `/reopen` marks a ready insight `stale`. | Any team member; team-scoped match. |
-| `GET /matches/:matchId/event-operations` | The match's recorded event-operation log, oldest first, at most 500 rows. | Any team member; team-scoped match. |
-| `GET /statistics/season-insight?seasonId=<uuid>` | Optional season UUID (omit for all matches). `{teamId,seasonId,status,narrativeText,generatedAt,failureReason}` with `status` `pending`, `ready` or `failed`, or `{teamId,seasonId,status:"unavailable"}` if never generated. | Any team member; 403 without a team. |
-| `POST /statistics/season-insight` | `{ "seasonId": "<optional UUID>" }`. Generates synchronously and returns the summary; an unchanged season returns the existing `ready` insight. A generation failure is stored and returned as `status: "failed"` with `failureReason`, not as an HTTP error. | Coach only. |
-| `POST /statistics/assistant` | `{ "question": "...", "seasonId": "<optional UUID>" }`; question trimmed, 3–300 characters. Returns `{status:"ready"\|"failed",answer}`; stateless and nothing is persisted. | Any team member. `failed` when the AI provider is unavailable or not configured. |
-| `POST /ai-assistant/message` | `{conversationId,context,message,selectedPlayerId?,competitionId?}`: conversation UUID, `context` of `roster`, `injuries`, `competitions` or `lineup`, message 1–1000 characters. Returns `{conversationId,message,status,requiresConfirmation,proposedAction?,playerOptions?,formationOptions?}` with `status` `collecting`, `review` or `completed`. Nothing is written. | Any team member; 404 without a team. Drafts are kept in API-process memory per user and conversation for two hours, and are lost on restart. |
-| `POST /ai-assistant/confirm` | `{conversationId,context}`. Executes the proposed action and adds `createdEntity {type,id,label}`; a lineup suggestion returns `appliedLineup` for the Team page instead of saving it. | 400 when there is nothing to confirm. Creating or updating a player and applying a lineup suggestion are coach-only; reporting an injury is open to team members; competition actions use the competition service's checks. A failed write, including a permission failure, returns a success status with `status: "collecting"` and the reason in `message`, keeping the draft. |
-| `POST /ai-assistant/cancel` | `{conversationId,context}`. Clears the draft and returns `status: "collecting"`. | Session. |
-
-**`POST /sync/upload` batching and failure handling.** Items are no longer processed strictly one at a time. The controller groups them into batches of up to four and runs each batch with `Promise.allSettled`, flushing early when an item repeats a `matchId` or receipt ID already in the batch, and processing any item carrying `causalParentIds` on its own to preserve ordering. Each item still gets its own `accepted`, `dependency_pending` or `rejected` receipt with a safe error code, and a repeated ID with a changed payload or user still yields `ID_REUSED`. However, a failure that is not an `HttpException`, or an `HttpException` with status 500 or above, is now **rethrown** rather than recorded as a rejected receipt: the whole request fails and the item stays retriable, which is safe because observation IDs are immutable. Client-error rejections (status below 500) still produce a per-item rejected receipt as before.
-
-Sources: [public query schemas](https://github.com/nayan-m15/Gaffer/blob/ed28806facdbbdff8ab2e2c57666f9dc675f5fe9/backend/src/public-api/public-api.schemas.ts), [competition controller](https://github.com/nayan-m15/Gaffer/blob/ed28806facdbbdff8ab2e2c57666f9dc675f5fe9/backend/src/competitions/competitions.controller.ts), [injury controller](https://github.com/nayan-m15/Gaffer/blob/ed28806facdbbdff8ab2e2c57666f9dc675f5fe9/backend/src/injuries/injuries.controller.ts), [sync schemas/controller](https://github.com/nayan-m15/Gaffer/tree/ed28806facdbbdff8ab2e2c57666f9dc675f5fe9/backend/src/sync), [team controller/schemas](https://github.com/nayan-m15/Gaffer/tree/ed28806facdbbdff8ab2e2c57666f9dc675f5fe9/backend/src/teams), [event controller/schemas/service](https://github.com/nayan-m15/Gaffer/tree/ed28806facdbbdff8ab2e2c57666f9dc675f5fe9/backend/src/events), [friendly-fixture controller/service](https://github.com/nayan-m15/Gaffer/tree/ed28806facdbbdff8ab2e2c57666f9dc675f5fe9/backend/src/friendly-fixtures), [match controller](https://github.com/nayan-m15/Gaffer/blob/ed28806facdbbdff8ab2e2c57666f9dc675f5fe9/backend/src/matches/matches.controller.ts), [statistics controller/schemas](https://github.com/nayan-m15/Gaffer/tree/ed28806facdbbdff8ab2e2c57666f9dc675f5fe9/backend/src/statistics), [insights service/Gemini client](https://github.com/nayan-m15/Gaffer/tree/ed28806facdbbdff8ab2e2c57666f9dc675f5fe9/backend/src/insights), and [AI assistant](https://github.com/nayan-m15/Gaffer/tree/ed28806facdbbdff8ab2e2c57666f9dc675f5fe9/backend/src/ai-assistant). These examples describe source behaviour and do not certify current deployment.
-
-> **API boundary:** this guide covers both the first-party application API and the anonymous public read API. Most first-party routes are cookie-authenticated and team-scoped. Open-Meteo and Google Gemini are third-party integrations consumed by Gaffer, not Gaffer endpoints.
-
-## URLs and availability
-
-| Purpose | Deployed | Local |
-| --- | --- | --- |
-| API base | [https://gaffer-api-ynaf.onrender.com](https://gaffer-api-ynaf.onrender.com) | `http://localhost:3000` |
-| Swagger UI | [deployed Swagger](https://gaffer-api-ynaf.onrender.com/api/docs) | `http://localhost:3000/api/docs` |
-| OpenAPI JSON | [deployed JSON](https://gaffer-api-ynaf.onrender.com/api/docs-json) | `http://localhost:3000/api/docs-json` |
-| OpenAPI YAML | [deployed YAML](https://gaffer-api-ynaf.onrender.com/api/docs-yaml) | `http://localhost:3000/api/docs-yaml` |
-| Database health | [deployed health](https://gaffer-api-ynaf.onrender.com/health/database) | `http://localhost:3000/health/database` |
-
-The deployed Swagger UI and OpenAPI documents were checked on 10 October 2026. They are titled **Gaffer Public API** (version 0.1.0) and describe only the seven anonymous `GET` operations in [Public read API](#public-read-api): formations and tactics under the *Public API* tag, and the five `/v1/public-dashboard/*` routes under *Public Dashboard*. You can inspect response schemas and try each request in the browser. None of the cookie-authenticated application routes in the inventory above appear in Swagger, so their contracts in this guide still come from the application source snapshot. The 14 September 2026 404 observation in the former standalone public reference is historical and is not a statement about the current deployment.
+This guide covers both Gaffer APIs: the anonymous [public read API](#public-read-api), and the protected application API with its canonical request contracts. Public Swagger UI/JSON/YAML describe only the public read API and exclude the protected route inventory below. The intended six-route public policy has a current source discrepancy described in [Swagger policy and current source discrepancy](#swagger-policy-and-current-source-discrepancy).
 
 ## Public read API
 
-These GET endpoints need no account, API key or token. They expose coaching reference data (formations and tactics) and public-dashboard data; the dashboard service controls which records and fields are included. The live [Swagger UI](https://gaffer-api-ynaf.onrender.com/api/docs) documents them and can run each one in the browser. The details below were checked against the deployed Swagger and live responses on 10 October 2026.
+The public API is an anonymous, read-only coaching catalog and sporting dashboard. It does not expose saved game plans, accounts, contacts, RSVP notes or authentication data. This section describes source behavior. The hosted API and its Swagger were also checked on 10 October 2026; where the deployment differs from source or from Swagger, that is noted below.
 
-| Endpoint | Live URL | Query parameters | Response |
-| --- | --- | --- | --- |
-| `GET /v1/formations` | [Open formations](https://gaffer-api-ynaf.onrender.com/v1/formations) | Optional `id`, such as `4-3-3`, to fetch one formation. | `{success,count,data}`. Each entry has `id`, `name`, `shape`, `playerCount` (5, 7 or 11) and `description`. The deployed catalogue has 14 shapes: three for 5-a-side (IDs such as `5v5-1-2-1`), three for 7-a-side (such as `7v7-2-3-1`) and eight for 11-a-side (such as `4-3-3`). It has no `custom-5`, `custom-7` or `custom-11` entries. |
-| `GET /v1/tactics` | [Open tactics](https://gaffer-api-ynaf.onrender.com/v1/tactics) | Optional `id`, such as `possession`, to fetch one tactic. | `{success,count,data}`. Each entry has `id`, `name`, `category` (`defensive` or `offensive`), `description` and nullable `formationId`. The deployed catalogue has nine tactics: five defensive and four offensive. |
-| `GET /v1/public-dashboard/filters` | [Open filters](https://gaffer-api-ynaf.onrender.com/v1/public-dashboard/filters) | None. | `{success:true,data:{teams,seasons,competitions}}`. `teams` are `{id,name}`. `seasons` are `{id,name,teamId,startDate,endDate,isCurrent}` with `YYYY-MM-DD` dates. `competitions` are `{id,name,type,teamId,seasonId,teamIds}`: `type` is `league` or `cup`, `teamId` is the team that runs the competition, `seasonId` is nullable and `teamIds` lists the participating Gaffer teams. |
-| `GET /v1/public-dashboard/matches` | [Open matches](https://gaffer-api-ynaf.onrender.com/v1/public-dashboard/matches) | Optional UUID `teamId`, `competitionId`, `seasonId`; `status` (`scheduled`, `cancelled` or `completed`); `limit` 1–100 (default 50); `offset` ≥0 (default 0). | `{success,count,limit,offset,summary,data}`. `count` is the number of matches on this page. `summary.total` is the number of matches that match the filters across all pages, and `summary.cleanSheets` is how many of those are completed with the opponent scoring nothing. Each match has `id`, `eventId`, `title`, `status`, `scheduledAt`, `location`, `opponentName`, `isHome`, `teamScore`, `opponentScore`, `team {id,name}`, and nullable `competition {id,name,type}` and `season {id,name}`. |
-| `GET /v1/public-dashboard/players` | [Open players](https://gaffer-api-ynaf.onrender.com/v1/public-dashboard/players) | Optional UUID `teamId`, `competitionId`, `seasonId`; `search`, up to 100 characters, matched as a literal case-insensitive substring of the full name (`%` is not a wildcard); `position` of `ALL`, `FWD`, `MID`, `DEF` or `GK`; `limit` 1–200 (default 100); `offset` ≥0 (default 0). | `{success,count,limit,offset,data}`. `count` is the page size, and there is no `summary` or total. Each player has `id`, `firstName`, `lastName`, nullable `position` and `squadNumber`, `team {id,name}` and `statistics {appearances,starts,minutesPlayed,goals,assists,saves,yellowCards,redCards}`. The `position` filter groups detailed positions: `FWD` returns `ST`, `LW` and `RW`; `MID` returns `CM`, `DM`, `AM` and similar; `DEF` returns `CB`, `LB` and `RB`. |
-| `GET /v1/public-dashboard/team-statistics` | [Open team statistics](https://gaffer-api-ynaf.onrender.com/v1/public-dashboard/team-statistics) | Optional UUID `teamId`, `competitionId`, `seasonId`. | `{success,count,data}` of competition standings, one row per participant: `id`, `competitionId`, `teamName`, `position`, `played`, `won`, `drawn`, `lost`, `goalsFor`, `goalsAgainst`, `goalDifference`, `points`, `isOwnTeam`, `ownerTeam {id,name}` (the team that runs the competition), `competition {id,name,type}` and nullable `season {id,name}`. |
-| `GET /v1/public-dashboard/competition-fixtures` | [Open competition fixtures](https://gaffer-api-ynaf.onrender.com/v1/public-dashboard/competition-fixtures) | Optional UUID `competitionId`, `teamId`, `seasonId`. `teamId` returns the fixtures of every competition that team takes part in. Not paged: `limit` and `status` are ignored. | `{success,count,data}` of league and cup fixtures. Each fixture has `id`, `competitionId`, `competitionName`, `competitionType` (`league` or `cup`), `stage` (`league` or `knockout`), `round`, `position` (its order within the round), `scheduledAt`, `status`, `homeTeamId`, `awayTeamId`, `homeTeamName`, `awayTeamName`, `homeScore`, `awayScore`, `homePenaltyScore`, `awayPenaltyScore`, `winnerTeamId` and `winnerTeamName`. Scores and the winner are `null` until a result is recorded. A knockout slot whose opponent is not decided yet has a `null` `awayTeamId` and an `awayTeamName` of `"TBD"`. |
+### Base URLs and Swagger scope
 
-A filtered request can be made without a session:
+Local backend: `http://localhost:3000`. Configured hosted backend: [Gaffer API](https://gaffer-api-ynaf.onrender.com). The frontend rewrite adds `/api` before backend paths (for example `/api/v1/formations`). Hosted documentation links: [Swagger UI](https://gaffer-api-ynaf.onrender.com/api/docs), [OpenAPI JSON](https://gaffer-api-ynaf.onrender.com/api/docs-json) and [OpenAPI YAML](https://gaffer-api-ynaf.onrender.com/api/docs-yaml). On 10 October 2026 all three documentation links were reachable, and every endpoint below returned 200 from the hosted backend.
 
-```http
-GET /v1/public-dashboard/matches?status=completed&limit=20&offset=0
-```
+Swagger UI at `/api/docs`, JSON at `/api/docs-json` and YAML at `/api/docs-yaml` are intended to describe **six anonymous GET endpoints** in every environment, including production. They need no session, API key or token. “Try it out” uses the backend serving the docs. The protected application routes documented later in this guide are not included in this public schema.
 
-**Where Swagger and the live responses differ.** Swagger is the published contract, but on 10 October 2026 it did not match the deployed responses in these places:
+| GET path | Query | Response |
+| --- | --- | --- |
+| [`/v1/formations`](https://gaffer-api-ynaf.onrender.com/v1/formations) | Optional `id` | `{success,count,data: PublicFormation[]}` |
+| [`/v1/tactics`](https://gaffer-api-ynaf.onrender.com/v1/tactics) | Optional `id` | `{success,count,data: PublicTactic[]}` |
+| [`/v1/public-dashboard/filters`](https://gaffer-api-ynaf.onrender.com/v1/public-dashboard/filters) | None | `{success,data:{teams,seasons,competitions}}` |
+| [`/v1/public-dashboard/matches`](https://gaffer-api-ynaf.onrender.com/v1/public-dashboard/matches) | `teamId,competitionId,seasonId,status,limit,offset` | `{success,count,limit,offset,data,summary:{total,cleanSheets}}` |
+| [`/v1/public-dashboard/players`](https://gaffer-api-ynaf.onrender.com/v1/public-dashboard/players) | `teamId,competitionId,seasonId,search,position,limit,offset` | `{success,count,limit,offset,data}` |
+| [`/v1/public-dashboard/team-statistics`](https://gaffer-api-ynaf.onrender.com/v1/public-dashboard/team-statistics) | `teamId,competitionId,seasonId` | `{success,count,data}` |
 
-- `competition-fixtures` has no query parameters or response schema in Swagger. The parameters and fields above come from live responses.
-- Player `statistics.starts` and `statistics.saves`, and the standings `competitionId`, are returned but missing from the Swagger schemas.
-- Swagger declares the standings `id` as a UUID, but it is returned as `participant:<uuid>`.
-- Fixture `homeTeamId`, `awayTeamId` and `winnerTeamId` are competition participant IDs, which are the UUID after `participant:` in a standings `id`. They are not the Gaffer team IDs from `/filters`.
+`count` is the number of returned rows, not the complete filtered total. Dashboard IDs are optional UUIDs. Unavailable filter IDs return empty results rather than disclosing private existence.
 
-**Errors.** Invalid query values return 400 with Nest's error body and the first validation message:
+### Swagger policy and current source discrepancy
 
-```json
-{ "message": "Too big: expected number to be <=200", "error": "Bad Request", "statusCode": 400 }
-```
+The reference policy intends exactly the six GET endpoints listed above. **Current source also declares `GET /v1/public-dashboard/competition-fixtures`.** `PublicApiModule` includes that controller and `configureSwagger` includes the module without filtering this route or an exclusion decorator. Consequently, source does not support an exact-six claim for the generated Swagger paths; it would include this additional endpoint. The hosted schema confirms this: on 10 October 2026 the deployed Swagger, titled **Gaffer Public API** (version 0.1.0), listed seven operations, the six above plus `competition-fixtures` under the *Public Dashboard* tag. It documents no query parameters or response schema for that path, only 200 and 429.
 
-Other messages include `Invalid UUID` and `Invalid option: expected one of "scheduled"|"cancelled"|"completed"`. On the catalogues, `?id=` with no value returns 400 `id must not be empty when provided.`, and an unknown ID returns 404, for example `No formation found with id "<id>".` The five `/v1/public-dashboard/*` routes can also return 429 `Rate limit exceeded.` Swagger does not state the limit and responses carry no rate-limit headers, so clients should wait and retry after a 429. Swagger does not list a 429 for formations or tactics.
+The additional anonymous GET accepts optional UUID `teamId`, `competitionId` and `seasonId`, returning `{success,count,data}` for generated league/cup fixtures. Records include fixture/competition identity, stage, round, position, schedule/status, home/away participant-slot IDs and names, scores/penalty scores and winner slot. Slot IDs are competition participant IDs, not private athlete IDs. It uses the controller's dashboard rate guard and public wildcard CORS, but directly invokes the service without the 30-second response-cache wrapper or paginated schema. Do not assume the cached/paged contract below applies to this additional path. This is a documented source/policy mismatch, not a newly invented endpoint or a change made by this documentation update.
 
-**CORS.** Live responses carry `access-control-allow-origin: *` and need no credentials, so a page on any origin can call these endpoints. The application API keeps its separate credentialed origin allow-list.
+The hosted endpoint ([open competition fixtures](https://gaffer-api-ynaf.onrender.com/v1/public-dashboard/competition-fixtures)) returned these record fields on 10 October 2026: `id,competitionId,competitionName,competitionType,stage,round,position,scheduledAt,status,homeTeamId,awayTeamId,homeTeamName,awayTeamName,homeScore,awayScore,homePenaltyScore,awayPenaltyScore,winnerTeamId,winnerTeamName`. `competitionType` was `league` or `cup`, `stage` was `league` or `knockout`, and `position` orders fixtures within a round. Scores and the winner are null until a result exists. A knockout slot whose opponent is not decided yet has a null `awayTeamId` and an `awayTeamName` of `"TBD"`. A slot ID is the UUID after `participant:` in a standings `id`, not a Gaffer team ID from `/filters`. `teamId` returns every fixture of each competition whose `teamIds` include that team. Invalid UUIDs return 400, but `limit` and `status` are ignored rather than rejected, and every matching fixture is returned.
 
-The source references below describe the 28 September contract that this section has been updated from: [public API query schemas](https://github.com/nayan-m15/Gaffer/blob/ed28806facdbbdff8ab2e2c57666f9dc675f5fe9/backend/src/public-api/public-api.schemas.ts), [public dashboard controller](https://github.com/nayan-m15/Gaffer/blob/ed28806facdbbdff8ab2e2c57666f9dc675f5fe9/backend/src/public-api/public-dashboard.controller.ts) and the [privacy policy](privacy-policy.md).
+### Pagination and filtering
 
-## Local setup
+| Parameter | Matches | Players |
+| --- | --- | --- |
+| `limit` | Integer 1–100; default 50 | Integer 1–200; default 100 |
+| `offset` | Integer ≥0; default 0 | Integer ≥0; default 0 |
+| `status` | `scheduled`, `cancelled`, `completed` | Not supported |
+| `search` | Not supported | Trimmed literal case-insensitive full-name substring, maximum 100 characters |
+| `position` | Not supported | `ALL`, `FWD`, `MID`, `DEF`, `GK` |
 
-Install root/frontend/backend dependencies, configure the variables in `.env.example`, migrate a development database, then run `npm run dev`. The backend listens on port 3000 and the frontend on 5173. See [Getting Started](../Overview/01-getting-started.md) and [Database Schema](data/database-schema.md).
+Limits above the ceiling return 400 rather than being clamped. Search uses literal substring matching, so `%`/`_` are not SQL wildcard operators. Team/competition/season, name and position filters apply **before** pagination. Position categories use the source's football position-code groups.
 
-## Authentication, roles and team scope
+The match `summary` covers the complete filtered set independent of pagination. `total` counts matching matches; `cleanSheets` counts completed matches with no logged opponent goal. Summary caching is shared across pages for the same filters. Player statistics use completed matches only, with grouped SQL aggregation restricted to the selected player IDs; athletes without history retain zeros.
 
-Authentication is a Better Auth HTTP-only session cookie. Browser requests send `credentials: "include"`; command-line clients must retain the cookie from sign-in and send it on later calls. Do not put the session token in query strings or documentation.
+### Response records
 
-Most feature controllers use `AuthGuard`. The server derives the user's team through membership/claim data:
-
-- coach and assistant reads use the resolved team;
-- roster/event/game-plan/season/competition mutations are coach-only;
-- friendly-fixture listing, accepting and declining are coach-only;
-- season-insight generation is coach-only, while the season-insight read and the stats assistant are open to every team member;
-- team members can operate the live match logger and confirm a pre-match lineup;
-- AI assistant routes require a session and resolve tenancy and role server-side; a confirmed action runs through the normal feature services, so that feature's own role check still applies;
-- player routes operate on the signed-in user's claimed athlete context;
-- service queries include the resolved team ID to prevent cross-team access.
-
-The **10 October 2026 deployed OpenAPI** document covers only the public read API. It declares no security scheme, which is correct for those anonymous routes, and it does not include any cookie-authenticated application route, so it says nothing about cookie requirements. The earlier **14 September snapshot** also declared no security scheme and published only two component schemas, both for starting a match. Use the source Zod schemas as the request authority for application routes.
-
-## Endpoint groups
-
-| Group | Representative routes |
+| Record | Fields |
 | --- | --- |
-| Health/application | `GET /`, `GET /health/database`, `GET /health/operations` |
-| Public (anonymous) | `GET /v1/formations`, `/v1/tactics`, `/v1/public-dashboard/filters`, `/matches`, `/players`, `/team-statistics`, `/competition-fixtures` |
-| Auth | `POST /auth/sign-up`, `POST /auth/sign-in`, `POST /auth/sign-out`, `GET /auth/session`, verification and Google OAuth routes |
-| Team/roster | `GET /teams/search`; `POST/PATCH /teams`; athlete CRUD/archive/restore; claim invitations; assistant team invitations |
-| Player | `GET /player/me`, `/player/team`, `/player/events`, `/player/standings` |
-| Events | `GET/POST /events`, `GET/PATCH/DELETE /events/:id`, RSVP, RSVP breakdown, weather, start match |
-| Lineups | `GET/PUT /events/:eventId/lineup`, `GET /events/:eventId/opponent-lineup` and its `friendly-opponent-lineup` alias |
-| Friendly fixtures | `GET /friendly-fixtures/incoming`, `POST /friendly-fixtures/:id/accept`, `/:id/decline` |
-| Tactics | CRUD under `/game-plans` |
-| Matches | match/squad/opponent/event reads; event-operation and clock-operation logs; insight; event create/update/delete; clock update; finish, finalise, reopen |
-| Statistics | summary, athlete detail, compare, season-insight read and generate, natural-language assistant, competition CRUD and standings CRUD |
-| AI assistant | `POST /ai-assistant/message`, `/confirm`, `/cancel` |
-| Seasons | CRUD under `/seasons` |
-| Other | `GET /dashboard`, `GET/PATCH /profile`, `GET /locations/search` |
+| Formation | `id,name,shape,playerCount,description` |
+| Tactic | `id,name,category,description,formationId` (`formationId` is always null; `category` is defensive/offensive) |
+| Match | `id,eventId,title,status,scheduledAt,location,opponentName,isHome,teamScore,opponentScore,team:{id,name},competition:{id,name,type}\|null,season:{id,name}\|null` |
+| Player | `id,firstName,lastName,position,squadNumber,team:{id,name},statistics:{appearances,starts,minutesPlayed,goals,assists,saves,yellowCards,redCards}` |
+| Team statistic / standing | `id,competitionId,teamName,position,played,won,drawn,lost,goalsFor,goalsAgainst,goalDifference,points,isOwnTeam,ownerTeam,competition,season` (`id` is returned as `participant:<uuid>`; `ownerTeam` is the team that runs the competition) |
+| Filters | Teams `{id,name}`; seasons include team/date/current scope; competitions include `id,name,type,teamId,seasonId,teamIds` |
 
-## Representative calls
+### Formation and tactic catalog
 
-### Create an event
-
-```http
-POST /events
-Content-Type: application/json
-Cookie: better-auth.session_token=<redacted>
-
-{
-  "title": "Training",
-  "type": "training",
-  "scheduledAt": "2026-09-15T16:00:00+02:00",
-  "location": "Wits Football Field",
-  "notes": "Bring bibs"
-}
-```
-
-The Zod contract trims text and requires title, type and an offset date-time. **`location` is now optional and defaults to an empty string** — it is no longer a required field, though it is still capped at 200 characters. Title is limited to 150 and notes to 2,000 characters, and latitude/longitude must be supplied together if weather coordinates are given. A successful response is the persisted event representation, including server IDs/timestamps and its team scope.
-
-Two optional UUID fields shape what the event becomes: `competitionId` links it to a competition, and `friendlyOpponentTeamId` schedules it against another Gaffer team, which implicitly creates a pending friendly-fixture request for that opponent's coach to accept or decline.
-
-### Confirm a pre-match lineup
-
-```http
-PUT /events/<event-uuid>/lineup
-Content-Type: application/json
-Cookie: better-auth.session_token=<redacted>
-
-{
-  "formationId": "4-3-3",
-  "startingAthleteIds": ["<exactly 11 distinct athlete UUIDs>"],
-  "pitchAssignments": { "GK": "<uuid>", "LB": "<uuid>" },
-  "benchAthleteIds": ["<optional distinct athlete UUIDs>"]
-}
-```
-
-Exactly 11 unique starters are required. When `pitchAssignments` is supplied, `formationId` is required and the assignments must place every confirmed starter exactly once. The bench holds at most 20 unique athletes and cannot overlap the starters. `customPositions` accepts `id`, `label`, a `role` of `GK`/`DEF`/`MID`/`FWD`, and `x`/`y` coordinates from 0 to 100. Every team member may confirm a lineup; it is shared with the opposing team only through an accepted Gaffer friendly or a competition fixture.
-
-### Start a match
-
-**External codebase comparison (reported, not independently verified; 29 September 2026):** A separate review of application checkout `03cfc17` reported that the request schema's accepted starter-array range does not necessarily describe what the service accepts for a successful match start. Reported service behavior requires the starter count selected by the competition, game plan or default formation; the reported pre-match lineup confirmation route has a separate exact-11 requirement. The guide's start-match description says 1–11 while its separate lineup description says exactly 11, reflecting different route requirements rather than one shared rule. The documentation author did not inspect controller, schema or service code and did not independently verify these details. The route inventory above remains as recorded.
-
-```http
-POST /events/<event-uuid>/start-match
-Content-Type: application/json
-Cookie: better-auth.session_token=<redacted>
-
-{
-  "opponentName": "Riverside FC",
-  "isHome": true,
-  "startingAthleteIds": ["<1 to 11 distinct team athlete UUIDs>"],
-  "benchAthleteIds": ["<optional distinct athlete UUIDs>"],
-  "formationId": "7v7-2-3-1",
-  "opponentSquadVisibility": "numbers",
-  "opponentSquad": [{ "shirtNumber": 9 }]
-}
-```
-
-The starting lineup now accepts **between 1 and 11** unique eligible team athletes rather than exactly 11, supporting 5-a-side and 7-a-side formats alongside the full game. Bench players cannot overlap starters and the bench is capped at 20. Optional `formationId`, `pitchAssignments` and `customPositions` mirror the lineup contract above. `opponentCompetitionTeamId` is required for shared league/cup matches, where it identifies the selected competition participant.
-
-Opponent mode `none` accepts no squad and now rejects one explicitly if sent; `numbers` requires at least one shirt number and rejects names; `full` requires a name for each supplied player. Shirt numbers must be unique across the squad in every mode, and each is 1–99.
-
-### Log and correct an event
-
-```http
-POST /matches/<match-uuid>/events
-Content-Type: application/json
-Cookie: better-auth.session_token=<redacted>
-
-{
-  "clientRequestId": "<new UUID>",
-  "team": "own",
-  "eventType": "goal",
-  "athleteId": "<selected athlete UUID>",
-  "minute": 34,
-  "detail": "Open play"
-}
-```
-
-Use a new stable request UUID per logical create so a retry cannot create the same match event twice. Corrections use `PATCH /matches/:matchId/events/:eventId`; deletion uses `DELETE` on the same resource. Minutes must be whole numbers from 0 to 150. Own events cannot refer to opponent fields and opponent events cannot refer to an own athlete. `GET /matches/:matchId/event-operations` returns the resulting operation log.
-
-### Player RSVP
-
-```http
-POST /events/<event-uuid>/rsvp
-Content-Type: application/json
-Cookie: better-auth.session_token=<redacted>
-
-{ "status": "going", "note": "Arriving 15 minutes early" }
-```
-
-Status is `going`, `not_going` or `maybe`; notes are at most 280 characters. A subsequent submission updates the player's existing response.
-
-### Ask the AI assistant
-
-```http
-POST /ai-assistant/message
-Content-Type: application/json
-Cookie: better-auth.session_token=<redacted>
-
-{
-  "conversationId": "<client-generated UUID, stable per conversation>",
-  "context": "roster",
-  "message": "Add a left-footed centre back born in 2009"
-}
-```
-
-`context` is one of `roster`, `injuries`, `competitions` or `lineup`, and the message is 1–1,000 characters. Conversation state lives server-side. When the assistant proposes a create action it is not executed until the client calls `POST /ai-assistant/confirm` with the same `conversationId` and `context`; `POST /ai-assistant/cancel` discards it. Confirmation runs through the normal feature service, so a proposal whose action is coach-only still fails for a non-coach.
-
-## Validation and errors
-
-Request bodies are parsed with feature Zod schemas. Typical Nest responses use HTTP status plus a JSON `message`; clients should branch on status rather than exact prose.
-
-| Status | Meaning in this API |
+| Player count (includes goalkeeper) | Preset IDs |
 | --- | --- |
-| `400` | Invalid body/query or rule such as a starting lineup outside 1–11 or an invalid opponent mode. |
-| `401` | Missing/invalid session. |
-| `403` | Signed-in user lacks the required role/action permission. |
-| `404` | Team/resource not found in the caller's allowed scope. This also avoids leaking cross-team existence. On the public catalogues, an unknown formation or tactic `id`. |
-| `409` | State conflict or uniqueness rule where the service reports one, including an already-resolved friendly-fixture request. |
-| `429` | Rate limit exceeded on a `/v1/public-dashboard/*` route. |
-| `503` | Database authentication dependency, geocoder or other service temporarily unavailable. |
+| 5 | `5v5-1-2-1`, `5v5-2-1-1`, `5v5-1-1-2` |
+| 7 | `7v7-2-3-1`, `7v7-3-2-1`, `7v7-2-2-2` |
+| 11 | `4-3-3`, `4-4-2`, `4-2-3-1`, `4-1-4-1`, `3-5-2`, `3-4-3`, `5-3-2`, `5-4-1` |
 
-Nest defaults apply where controllers do not override them: successful `GET`, `PATCH`, `PUT` and `DELETE` handlers normally return 200; successful `POST` handlers normally return 201; Better Auth verification/OAuth handlers may redirect. Better Auth errors are mapped from the library, while application Zod failures use the first validation issue.
+The public static catalog returns these presets with `playerCount`. The application's private formation contract also supports `custom-5`, `custom-7` and `custom-11` slots; those coach-defined coordinate layouts belong to game plans and are not returned by the public catalog. Do not infer a fixed lineup of eleven from a formation response. Tactics are the generic defensive/offensive styles, independent of formation and private team settings.
 
-### Representative JSON
+The service also returns player `starts` and `saves`; the current handwritten OpenAPI player metadata omits those additive fields. The deployed Swagger checked on 10 October 2026 omits them too. It also omits the standings `competitionId`, and declares the standings `id` as a UUID although the hosted API returns `participant:<uuid>`. Consumers should distinguish the actual service response from that metadata.
 
-These fictional examples reflect source response shapes; IDs and timestamps are illustrative.
+### Caching, throttling and CORS
 
-```json
-{ "status": "ok" }
-```
+The original four database-backed dashboard responses use a per-instance 30-second cache keyed by validated query parameters, with concurrent requests sharing the same in-flight query. Default capacity is 500 entries with oldest-first eviction. Restarting an instance clears it. `PUBLIC_DASHBOARD_CACHE_TTL_SECONDS` and `PUBLIC_DASHBOARD_CACHE_MAX_ENTRIES` configure it. Polling faster than its TTL may return unchanged data.
 
-`GET /health/database` returns this response with 200 after its database check succeeds.
+The dashboard rate limiter defaults to 120 requests per minute per client plus an edge-IP backstop with a default twenty-times budget. `PUBLIC_DASHBOARD_RATE_LIMIT` and `PUBLIC_DASHBOARD_BACKSTOP_RATE_LIMIT` configure budgets. Either exhausted budget returns 429 before database work with `{"message":"Too many requests. Please try again later."}`. Static formations/tactics are not subject to this dashboard cache/limiter. Hosted responses on 10 October 2026 carried no rate-limit headers, so clients cannot read their remaining budget.
 
-```json
-{
-  "statusCode": 400,
-  "message": "A starting XI must contain exactly 11 athletes.",
-  "error": "Bad Request"
-}
-```
+The public route prefixes, including the additional fixture endpoint, use wildcard CORS (`Access-Control-Allow-Origin: *`) without credentials; the hosted API returned this header on 10 October 2026. Protected endpoints keep credentialed CORS with the configured origin allowlist.
 
-This exact message now comes from `PUT /events/:eventId/lineup`, which still requires exactly 11. `POST /events/:eventId/start-match` instead reports `A starting lineup cannot contain more than 11 athletes.` or `A starting lineup must contain at least one athlete.` A protected call without a valid cookie returns 401 with `Sign in required.`; a non-coach mutation returns 403. Cross-team resources are generally reported as 404 to avoid exposing their existence.
+### Errors and consumer refresh
 
-```json
-{ "available": false, "teamId": null, "teamName": null, "players": [] }
-```
+Empty catalog `?id=` returns 400; an unknown catalog ID returns 404. Invalid UUIDs, enum values, lengths or paging bounds return 400. Standard Nest errors use `{statusCode,message,error}`; unhandled failures use its safe 500 response rather than raw database errors. For example, the hosted API answered `players?limit=201` with `{"message":"Too big: expected number to be <=200","error":"Bad Request","statusCode":400}` and `formations?id=nope` with 404 `No formation found with id "nope".` A 429 should prompt a delayed/manual retry, not a tight retry loop.
 
-`GET /events/:eventId/opponent-lineup` returns this neutral shape rather than an error when the opponent is not a Gaffer team, the fixture is not accepted, or no opposing lineup has been confirmed.
+The public UI starts with 40 players and 100 matches, debounces search by 300 ms, and loads additional pages on “Load more.” Failed additional pages retain earlier data and offer retry. Player/match lists disable shared five-second polling, use a 30-second stale period and refresh on focus; standings refresh every 30 seconds. See [automatic refresh](automatic-data-refresh.md) and [performance mechanisms](../Quality/performance-review.md).
 
-## Operation permissions
+Sources: [backend/src/public-api/public-api.schemas.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/public-api/public-api.schemas.ts), [backend/src/public-api/public-api.openapi.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/public-api/public-api.openapi.ts), [backend/src/public-api/formations.data.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/public-api/formations.data.ts), [backend/src/public-api/public-dashboard.service.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/public-api/public-dashboard.service.ts), [backend/src/public-api/public-dashboard-cache.service.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/public-api/public-dashboard-cache.service.ts), [backend/src/public-api/public-dashboard-rate-limit.service.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/public-api/public-dashboard-rate-limit.service.ts), [backend/src/swagger-config.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/swagger-config.ts), [backend/src/cors-config.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/cors-config.ts).
 
-| Operations | Public | Claimed player | Assistant | Coach |
-| --- | --- | --- | --- | --- |
-| Root/health, sign-up/sign-in/verification/OAuth, invite/claim preview | Yes | Yes | Yes | Yes |
-| Public read API (`/v1/formations`, `/v1/tactics`, `/v1/public-dashboard/*`) | Yes | Yes | Yes | Yes |
-| Session/sign-out/profile | No | Own account | Own account | Own account |
-| `/player/*` and RSVP | No | Own claimed context | Only if separately claimed | Only if separately claimed |
-| Team roster/events/game plans/statistics reads | No | Player endpoints instead | Team-scoped | Team-scoped |
-| Team search, season-insight read, stats assistant, match insight | No | No | Team-scoped | Team-scoped |
-| Roster/event/game-plan/season/competition/standing mutations | No | No | No | Team-scoped |
-| Match start, clock, logging and correction | No | No | Team-scoped | Team-scoped |
-| Pre-match lineup read and confirm | No | No | Team-scoped | Team-scoped |
-| Friendly-fixture incoming list, accept and decline | No | No | No | Team-scoped |
-| Season-insight generation | No | No | No | Team-scoped |
-| AI assistant conversation | No | No | Session-scoped; a confirmed action still needs that action's own role | Session-scoped |
-| Team search | No | Any session | Any session | Any session |
-| Assistant/player-claim invite management | No | No | No | Team-scoped |
+## Authentication, scope and errors
 
-See [Application Structure](application-structure.md#representative-request-flow-logging-a-goal) for the page to client to controller to validation to service to database path.
+The rest of this guide covers the protected application API. Backend paths below are relative to the backend origin. The deployed frontend uses same-origin `/api/*` rewrites for normal application calls and `/auth/*` for authentication. `apiFetch` sends the Better Auth cookie with `credentials: "include"`. Resolve user/team/role on the server; a client-selected resource ID is not an access grant. See [contracts and authorization](contracts-and-authorization.md).
 
-## External integrations and fallbacks
+Zod validates body/query contracts; UUID parameters are checked by pipes. Invalid inputs use 400, missing sessions 401, and scoped/forbidden resources 404/403 as implemented. State conflicts use the service's 400/409 response. Most responses are service DTOs rather than a universal `{success,data}` envelope. Deletes explicitly returning `{success:true}` and sync receipt envelopes are indicated by source. Controller links below resolve at the inspected application revision and provide exact parameter/schema/return delegation.
 
-- **Open-Meteo geocoding:** `GET /locations/search?q=...`, authenticated, requires 3–200 characters, returns up to five mapped places. A non-string or out-of-range `q` returns 400. A provider/network/parse failure returns 503; it does not silently invent coordinates.
-- **Open-Meteo weather:** `GET /events/:id/weather` returns explicit statuses: `available`, `missing_location`, `outside_forecast_range`, `unavailable`, or `not_applicable`. Default range is the previous five days through the next 16 days. Cache default is 30 minutes; after a provider failure an expired cached result may be returned with `stale: true` for at most another six hours.
-- **Google Gemini:** backs the generated-insight and natural-language features — `POST /statistics/assistant`, `GET`/`POST /statistics/season-insight`, `GET /matches/:matchId/insight`, and the whole `/ai-assistant` module. The client is created lazily and gated on `GEMINI_API_KEY`; when that variable is unset, insight generation is disabled and the read routes return their `status: "unavailable"` shape rather than failing. `GEMINI_MODEL` overrides the default model, and the client falls through a chain of models when one is unavailable.
-- **Brevo:** sends verification mail when `BREVO_API_KEY` is set. Local development without it logs the verification URL; this is not production delivery.
-- **Google OAuth:** configured through Better Auth client credentials and callback routes. Failure handling is delegated through the auth flow.
-- **PowerSync:** offline sync depends on `POWERSYNC_URL`, `POWERSYNC_PRIVATE_KEY`, `POWERSYNC_KID` and `POWERSYNC_SHARED_SECRET`. `GET /sync/token` returns 503 when this configuration is absent, and `GET /sync/jwks` serves keys only when a signing key is configured.
-- **Google Gemini:** generates match insights (in the background after `POST /matches/:matchId/finalise`), season insights, statistics-assistant answers, and the AI assistant's roster, injury and competition conversations; lineup suggestions are computed without it. It is enabled by `GEMINI_API_KEY`. Without the key, match and season insights are stored as `failed`, the statistics assistant returns `status: "failed"`, and the AI assistant replies that it is not configured (usually pointing to the standard form). Optional `GEMINI_MODEL` pins one model or a comma-separated chain; otherwise a built-in chain is tried with one 30-second attempt per model. Rate-limit (429) and provider 5xx responses move on to the next model, while other provider errors fail immediately. Ready match insights also appear as `recentInsights` in `GET /dashboard` (up to three) and the statistics overview (the latest one).
+## Competition and event contracts
 
-Friendly fixtures are an internal team-to-team flow, not an external fixture service. No Mapbox, OpenWeatherMap, external fixture service, push notification provider or report-export service is implemented.
+| Operation | Request / permission | Response or failure |
+| --- | --- | --- |
+| `PATCH /competitions/:id/hidden` | `{hidden:boolean}`; participant's resolved team, scoped to caller's user | `{hidden}`; bad boolean 400, absent competition 404, nonparticipant 403 |
+| `PATCH /competitions/:id/archive` | `{archived:boolean}`; competition administrator | `{archived}`; bad boolean 400, nonadmin/absent 404, live fixture 409 |
+| `POST /competitions/:id/fixtures/generate` | `{regenerate?:boolean,timezone?:string}`; admin; regenerate defaults false; timezone must be an accepted IANA zone | Service returns fixtures; unsafe regeneration/settings or participant changes reject rather than overwrite recorded play |
+| `POST /competitions/:id/fixtures/:fixtureId/schedule/accept` | `{expectedRevision:positiveInteger,competitionTeamId?:UUID}`; linked own coach, or admin for external slot | Revision-aware fixture schedule response |
+| `POST /competitions/:id/fixtures/:fixtureId/schedule/propose` | Above revision/slot plus `scheduledAt` offset ISO datetime, optional note ≤500 | New schedule proposal resets applicable acceptance states |
+| `POST /events` | Coach; title 1–150, event type, offset ISO `scheduledAt`; optional competition/friendly opponent, venue and notes fields | Creation requires a future scheduled instant for every event type; invalid/past time returns 400 |
+
+Fixture generation uses the requested timezone or saved `competitions.schedule_timezone` (legacy default UTC). It interprets local start date, weekday and kickoff in that zone and persists UTC instants plus the timezone atomically. Calendar views use local calendar dates for display/filtering. Generation supports competition formats and safe regeneration; it does not implement every proposed automatic season-scheduling feature.
+
+`friendlyPlayersPerSide` permits **5, 7 or 11**. Lineup/start services resolve the required starter count from competition format, friendly format, formation and default in the implemented order. Confirmed starters must be distinct, belong to the team and satisfy availability rules; bench cannot overlap. Formation `playerCount`/custom slot geometry must agree with the match format. The start schema's upper bound of eleven is not a fixed-eleven requirement.
+
+## Shared logging, review and play state
+
+`POST /matches/:matchId/events` uses `createMatchLogEventSchema`: required `clientRequestId` UUID, `team` own/opponent, `eventType`, integer `minute` 0–150; optional device/timestamp, period, elapsed time (0–10,800,000 ms), athlete or opponent identity, detail ≤500 and tactical-change delta. Own events cannot use opponent identity; opponent events cannot use private own-team athlete IDs. A substitution needs an incoming squad player where the roster-backed path applies. Scored penalties use a goal with `detail:"Penalty"`; misses use penalty with `detail:"Penalty missed"`. Tactical settings are own-team only, with public geometry sanitized before peer reads.
+
+`POST /sync/upload` accepts `{items:[...]}` with 1–50 observations/operations. Observations contain `{kind:"observation",matchId,payload}`. Operations contain `{kind:"operation",id,matchId,operationType,causalParentIds}` and action-specific fields: correct (`canonicalEventId,replacement`), void (`canonicalEventId,reason?`) or resolve_review (`reviewId,resolution,explanation?`). Causal parents default to `[]`, maximum 50. Response is `{receipts:[...]}` with per-item accepted, dependency_pending or rejected outcomes. Lost responses retry the original ID/payload; ID reuse with changed content/user is rejected. Missing dependencies and missing receipts remain pending. See [offline collaboration](offline-collaboration.md).
+
+| Route | Contract / result |
+| --- | --- |
+| `GET /matches/sessions/:sessionId/report`, `GET /matches/:matchId/session-report` | Authorized shared report including sporting timeline, score, clock, reviews/confirmation and revision state; private data sanitized |
+| `POST /matches/:matchId/event-reviews/:reviewId/resolve` | Coach; `{resolution:"same_event"\|"separate_events",explanation?:string,operationId?:UUID,causalParentIds?:UUID[]}`; returns review state; cross-team matching decisions required |
+| `POST /matches/:matchId/event-reviews/:reviewId/dispute` | Coach; records dispute through service; no body contract |
+| `PATCH /matches/:matchId/events/:eventId` | Coach; nonempty partial update of identity, minute, event type/detail; returns changed event; report locks enforced |
+| `DELETE /matches/:matchId/events/:eventId` | Coach; void/removal history and review cleanup; shared public event may originate on either sheet |
+| `PATCH /matches/:matchId/clock` | Member; `{period,running,elapsedMs,operationId?,baseRevision?,clientCreatedAt?}`; base revision defaults 0 in request schema; returns refreshed match DTO |
+| `POST /matches/:matchId/finish` | Member; no body; uses current authoritative revision, ends shared play, returns match DTO; UI confirms before calling |
+| `POST /matches/:matchId/resume` | Coach; `{expectedClockRevision:integer≥0}`; restores latest playing half/elapsed time and clears pending confirmations; returns match DTO |
+| `POST /matches/:matchId/finalise` | Coach; `{expectedRevision:integer≥1,expectedSessionRevision?:integer≥1}`; shared reports require the session revision; completed play, matching revisions and no unresolved public review required. Shared response `{confirmed:true,finalised:boolean}`; legacy response is the finalised projection. |
+| `POST /matches/:matchId/reopen` | Coach; `{reason:string}` trimmed 3–500; shared pre-final report withdraws confirmation and returns `{withdrawn:true}`; published shared report rejects reopening |
+| `POST /matches/:matchId/amendments` | Coach; stable `id`, `expectedSessionRevision≥1`, reason 3–500; action add + create replacement, correct + canonical ID/update replacement, or void + canonical ID; returns `{id,status:"pending"}` |
+| `POST /matches/:matchId/amendments/:amendmentId/respond` | Coach; `{response:"approve"\|"reject"\|"request_changes"\|"withdraw",reason?}`; reason required for reject/request_changes; returns `{id,status}` |
+
+Finalisation is bilateral for two connected teams. The unconnected competition opponent exception allows initial publication by the participating coach, subject to current revision, completion and review checks; it is not a timeout. Amendment acceptance **still requires valid home and away coach approvals**; the current code does not extend the single-coach exception to amendments. A pending/rejected/stale amendment preserves the published result. Queued obsolete review decisions cannot reopen reviews closed by deletion. Confirmed report locks and stale full-time checks protect a later resume.
+
+## Controller route inventory
+
+This inventory is extracted from current controller declarations. A named schema is the canonical input contract; “controller/service” means parameters or explicit validation should be read at the linked declaration. Better Auth's native catch-all paths are handled separately from controller-defined application routes. Guard presence is only the session layer; service role/state checks remain authoritative. The anonymous public-api controllers are covered in [Public read API](#public-read-api).
+
+### ai-assistant
+
+Source: [backend/src/ai-assistant/ai-assistant.controller.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/ai-assistant/ai-assistant.controller.ts).
+
+| Method | Path | Input / session layer |
+| --- | --- | --- |
+| POST | `/ai-assistant/message` | `assistantMessageSchema`; session required |
+| POST | `/ai-assistant/confirm` | `assistantConversationRefSchema`; session required |
+| POST | `/ai-assistant/cancel` | `assistantConversationRefSchema`; session required |
+
+### Application root
+
+Source: [backend/src/app.controller.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/app.controller.ts).
+
+| Method | Path | Input / session layer |
+| --- | --- | --- |
+| GET | `/` | Controller/service; see controller guard/token handling |
+
+### athletes
+
+Source: [backend/src/athletes/athletes.controller.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/athletes/athletes.controller.ts).
+
+| Method | Path | Input / session layer |
+| --- | --- | --- |
+| POST | `/athletes` | `createAthleteSchema`; session required |
+| GET | `/athletes` | Controller/service; session required |
+| GET | `/athletes/archived` | Controller/service; session required |
+| GET | `/athletes/:id` | Controller/service; session required |
+| PATCH | `/athletes/:id` | `updateAthleteSchema`; session required |
+| DELETE | `/athletes/:id` | Controller/service; session required |
+| PATCH | `/athletes/:id/restore` | Controller/service; session required |
+| POST | `/athletes/:athleteId/claim-invite` | `createClaimInviteSchema`; session required |
+| DELETE | `/athletes/:athleteId/claim-invite` | Controller/service; session required |
+
+### auth
+
+Source: [backend/src/auth/auth.controller.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/auth/auth.controller.ts).
+
+| Method | Path | Input / session layer |
+| --- | --- | --- |
+| POST | `/auth/sign-up` | `signUpSchema`; see controller guard/token handling |
+| POST | `/auth/send-verification-email` | `resendVerificationEmailSchema`; see controller guard/token handling |
+| GET | `/auth/verify-email` | Controller/service; see controller guard/token handling |
+| POST | `/auth/forgot-password` | `requestPasswordResetSchema`; see controller guard/token handling |
+| GET | `/auth/reset-password/:token` | Controller/service; see controller guard/token handling |
+| POST | `/auth/reset-password` | `resetPasswordSchema`; see controller guard/token handling |
+| POST | `/auth/sign-in` | `signInSchema`; see controller guard/token handling |
+| POST | `/auth/change-email` | `changeEmailSchema`; session required |
+| GET | `/auth/password-status` | Controller/service; session required |
+| POST | `/auth/set-password` | `setPasswordSchema`; session required |
+| POST | `/auth/change-password` | `changePasswordSchema`; session required |
+| POST | `/auth/sign-out` | Controller/service; session required |
+| GET | `/auth/session` | Controller/service; session required |
+| POST | `/auth/sign-in/social` | Controller/service; see controller guard/token handling |
+| GET | `/auth/callback/google` | Controller/service; see controller guard/token handling |
+
+### claims
+
+Source: [backend/src/claims/claims.controller.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/claims/claims.controller.ts).
+
+| Method | Path | Input / session layer |
+| --- | --- | --- |
+| GET | `/claims/:token` | Controller/service; see controller guard/token handling |
+| POST | `/claims/:token/accept` | Controller/service; session required |
+
+### competition-invites
+
+Source: [backend/src/competition-invites/competition-invites.controller.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/competition-invites/competition-invites.controller.ts).
+
+| Method | Path | Input / session layer |
+| --- | --- | --- |
+| POST | `/competition-invites` | `createCompetitionInviteSchema`; session required |
+| GET | `/competition-invites` | Controller/service; session required |
+| DELETE | `/competition-invites/:id` | Controller/service; session required |
+| POST | `/competition-invites/verification/:id/resolve` | `acceptVerificationSchema`; session required |
+| GET | `/competition-invites/:token` | Controller/service; see controller guard/token handling |
+| GET | `/competition-invites/:token/eligible-teams` | Controller/service; session required |
+| POST | `/competition-invites/:token/request-representative` | Controller/service; session required |
+| POST | `/competition-invites/:token/decline` | Controller/service; session required |
+| POST | `/competition-invites/:token/accept` | `acceptCompetitionInviteSchema`; session required |
+
+### competitions
+
+Source: [backend/src/competitions/competitions.controller.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/competitions/competitions.controller.ts).
+
+| Method | Path | Input / session layer |
+| --- | --- | --- |
+| GET | `/competitions/search` | `competitionSearchSchema`; session required |
+| GET | `/competitions/mine` | Controller/service; session required |
+| PATCH | `/competitions/:id/hidden` | Controller/service; session required |
+| PATCH | `/competitions/:id/archive` | Controller/service; session required |
+| GET | `/competitions/schedule-alerts` | Controller/service; session required |
+| POST | `/competitions` | `createCompetitionSchema`; session required |
+| GET | `/competitions/:id` | Controller/service; session required |
+| PATCH | `/competitions/:id` | `updateCompetitionSchema`; session required |
+| DELETE | `/competitions/:id` | Controller/service; session required |
+| GET | `/competitions/:id/player-stats` | Controller/service; session required |
+| GET | `/competitions/:id/fixtures` | Controller/service; session required |
+| GET | `/competitions/:id/fixtures/:fixtureId/match-centre` | Controller/service; session required |
+| POST | `/competitions/:id/fixtures/generate` | `generateFixturesSchema`; session required |
+| POST | `/competitions/:id/fixtures/:fixtureId/schedule/accept` | `fixtureScheduleAcceptSchema`; session required |
+| POST | `/competitions/:id/fixtures/:fixtureId/schedule/propose` | `fixtureScheduleProposalSchema`; session required |
+| POST | `/competitions/:id/results` | `createCompetitionResultSchema`; session required |
+| PATCH | `/competitions/:id/results/:resultId` | `updateCompetitionResultSchema`; session required |
+| DELETE | `/competitions/:id/results/:resultId` | Controller/service; session required |
+| POST | `/competitions/:id/teams` | `createCompetitionTeamSchema`; session required |
+| PATCH | `/competitions/:id/teams/:competitionTeamId` | `renameCompetitionTeamSchema`; session required |
+| DELETE | `/competitions/:id/teams/:competitionTeamId` | Controller/service; session required |
+
+### dashboard
+
+Source: [backend/src/dashboard/dashboard.controller.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/dashboard/dashboard.controller.ts).
+
+| Method | Path | Input / session layer |
+| --- | --- | --- |
+| GET | `/dashboard` | Controller/service; session required |
+
+### Database health
+
+Source: [backend/src/database/database-health.controller.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/database/database-health.controller.ts).
+
+| Method | Path | Input / session layer |
+| --- | --- | --- |
+| GET | `/health/database` | Controller/service; see controller guard/token handling |
+
+### Operations health
+
+Source: [backend/src/database/operations-health.controller.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/database/operations-health.controller.ts).
+
+| Method | Path | Input / session layer |
+| --- | --- | --- |
+| GET | `/health/operations` | Controller/service; see controller guard/token handling |
+
+### events
+
+Source: [backend/src/events/events.controller.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/events/events.controller.ts).
+
+| Method | Path | Input / session layer |
+| --- | --- | --- |
+| POST | `/events` | `createEventSchema`; session required |
+| GET | `/events` | Controller/service; session required |
+| GET | `/events/:eventId/link-diagnostic` | Controller/service; session required |
+| POST | `/events/:eventId/start-match` | `startMatchSchema`; session required |
+| POST | `/events/:eventId/rsvp` | `createRsvpSchema`; session required |
+| GET | `/events/:eventId/rsvps` | Controller/service; session required |
+| GET | `/events` | Controller/service; session required |
+| GET | `/events/:eventId/competition-suspensions` | Controller/service; session required |
+| PUT | `/events/:eventId/lineup` | `confirmLineupSchema`; session required |
+| GET | `/events/:eventId/lineup` | Controller/service; session required |
+| GET | `/events/:id` | Controller/service; session required |
+| GET | `/events/:id/weather` | Controller/service; session required |
+| PATCH | `/events/:id` | `updateEventSchema`; session required |
+| DELETE | `/events/:id` | Controller/service; session required |
+
+### friendly-fixtures
+
+Source: [backend/src/friendly-fixtures/friendly-fixtures.controller.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/friendly-fixtures/friendly-fixtures.controller.ts).
+
+| Method | Path | Input / session layer |
+| --- | --- | --- |
+| GET | `/friendly-fixtures/incoming` | Controller/service; session required |
+| POST | `/friendly-fixtures/:id/accept` | Controller/service; session required |
+| POST | `/friendly-fixtures/:id/decline` | Controller/service; session required |
+
+### game-plans
+
+Source: [backend/src/game-plans/game-plans.controller.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/game-plans/game-plans.controller.ts).
+
+| Method | Path | Input / session layer |
+| --- | --- | --- |
+| GET | `/game-plans` | Controller/service; session required |
+| GET | `/game-plans/:id` | Controller/service; session required |
+| POST | `/game-plans` | `createGamePlanSchema`; session required |
+| PATCH | `/game-plans/:id` | `updateGamePlanSchema`; session required |
+| DELETE | `/game-plans/:id` | Controller/service; session required |
+
+### injuries
+
+Source: [backend/src/injuries/injuries.controller.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/injuries/injuries.controller.ts).
+
+| Method | Path | Input / session layer |
+| --- | --- | --- |
+| POST | `/injuries` | `createInjurySchema`; session required |
+| GET | `/injuries` | `listInjuriesQuerySchema`; session required |
+| GET | `/injuries/protocol` | `injuryProtocolQuerySchema`; session required |
+| GET | `/injuries/recovery/:athleteId` | Controller/service; session required |
+| GET | `/injuries/:id` | Controller/service; session required |
+| PATCH | `/injuries/:id` | `updateInjurySchema`; session required |
+| PATCH | `/injuries/:id/close` | `closeInjurySchema`; session required |
+| POST | `/injuries/:id/timeline` | `createInjuryTimelineEntrySchema`; session required |
+| DELETE | `/injuries/:id` | Controller/service; session required |
+
+### matches
+
+Source: [backend/src/matches/matches.controller.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/matches/matches.controller.ts).
+
+| Method | Path | Input / session layer |
+| --- | --- | --- |
+| GET | `/matches/sessions/:sessionId/report` | Controller/service; session required |
+| GET | `/matches/:matchId/session-report` | Controller/service; session required |
+| GET | `/matches/:matchId/squad` | Controller/service; session required |
+| GET | `/matches/:matchId/opponent-squad` | Controller/service; session required |
+| GET | `/matches/:matchId/insight` | Controller/service; session required |
+| GET | `/matches/:matchId/events` | Controller/service; session required |
+| POST | `/matches/:matchId/events` | `createMatchLogEventSchema`; session required |
+| GET | `/matches/:matchId/event-reviews` | Controller/service; session required |
+| GET | `/matches/:matchId/event-operations` | Controller/service; session required |
+| POST | `/matches/:matchId/event-reviews/:reviewId/resolve` | `resolveMatchEventReviewRequestSchema`; session required |
+| POST | `/matches/:matchId/event-reviews/:reviewId/dispute` | Controller/service; session required |
+| PATCH | `/matches/:matchId/events/:eventId` | `updateMatchLogEventSchema`; session required |
+| DELETE | `/matches/:matchId/events/:eventId` | Controller/service; session required |
+| POST | `/matches/:matchId/finish` | Controller/service; session required |
+| POST | `/matches/:matchId/resume` | `resumeMatchSchema`; session required |
+| POST | `/matches/:matchId/finalise` | `finaliseMatchProjectionSchema`; session required |
+| GET | `/matches/:matchId/amendments` | Controller/service; session required |
+| POST | `/matches/:matchId/amendments` | `requestMatchAmendmentSchema`; session required |
+| POST | `/matches/:matchId/amendments/:amendmentId/respond` | `respondMatchAmendmentSchema`; session required |
+| POST | `/matches/:matchId/reopen` | `reopenMatchProjectionSchema`; session required |
+| PATCH | `/matches/:matchId/clock` | `updateMatchClockSchema`; session required |
+| GET | `/matches/:matchId/clock-operations` | Controller/service; session required |
+| GET | `/matches/:matchId` | Controller/service; session required |
+
+### player
+
+Source: [backend/src/player/player.controller.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/player/player.controller.ts).
+
+| Method | Path | Input / session layer |
+| --- | --- | --- |
+| GET | `/player/me` | Controller/service; session required |
+| GET | `/player/team` | Controller/service; session required |
+| GET | `/player/events` | Controller/service; session required |
+| GET | `/player/standings` | Controller/service; session required |
+
+### profile
+
+Source: [backend/src/profile/profile.controller.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/profile/profile.controller.ts).
+
+| Method | Path | Input / session layer |
+| --- | --- | --- |
+| GET | `/profile` | Controller/service; session required |
+| PATCH | `/profile` | `updateProfileSchema`; session required |
+| DELETE | `/profile` | Controller/service; session required |
+
+### seasons
+
+Source: [backend/src/seasons/seasons.controller.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/seasons/seasons.controller.ts).
+
+| Method | Path | Input / session layer |
+| --- | --- | --- |
+| GET | `/seasons` | Controller/service; session required |
+| POST | `/seasons` | `createSeasonSchema`; session required |
+| PATCH | `/seasons/:id` | `updateSeasonSchema`; session required |
+| DELETE | `/seasons/:id` | Controller/service; session required |
+
+### statistics
+
+Source: [backend/src/statistics/statistics.controller.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/statistics/statistics.controller.ts).
+
+| Method | Path | Input / session layer |
+| --- | --- | --- |
+| GET | `/statistics/season-insight` | Controller/service; session required |
+| POST | `/statistics/season-insight` | `generateSeasonInsightSchema`; session required |
+| POST | `/statistics/assistant` | `askAssistantSchema`; session required |
+| GET | `/statistics` | Controller/service; session required |
+| GET | `/statistics/athletes/:id` | Controller/service; session required |
+| GET | `/statistics/compare` | `compareAthletesSchema`; session required |
+| GET | `/statistics/competitions` | Controller/service; session required |
+| POST | `/statistics/competitions` | `createCompetitionSchema`; session required |
+| PATCH | `/statistics/competitions/:id` | `updateCompetitionSchema`; session required |
+| DELETE | `/statistics/competitions/:id` | Controller/service; session required |
+| POST | `/statistics/competitions/:id/standings` | `createStandingSchema`; session required |
+| PATCH | `/statistics/standings/:id` | `updateStandingSchema`; session required |
+| DELETE | `/statistics/standings/:id` | Controller/service; session required |
+
+### sync
+
+Source: [backend/src/sync/sync-jwks.controller.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/sync/sync-jwks.controller.ts).
+
+| Method | Path | Input / session layer |
+| --- | --- | --- |
+| GET | `/sync/jwks` | Controller/service; see controller guard/token handling |
+
+### sync
+
+Source: [backend/src/sync/sync.controller.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/sync/sync.controller.ts).
+
+| Method | Path | Input / session layer |
+| --- | --- | --- |
+| GET | `/sync/token` | Controller/service; session required |
+| POST | `/sync/upload` | `syncUploadSchema`; session required |
+| POST | `/sync/telemetry` | `syncTelemetrySchema`; session required |
+
+### team-invites
+
+Source: [backend/src/team-invites/team-invites.controller.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/team-invites/team-invites.controller.ts).
+
+| Method | Path | Input / session layer |
+| --- | --- | --- |
+| POST | `/team-invites` | `createTeamInviteSchema`; session required |
+| GET | `/team-invites` | Controller/service; session required |
+| GET | `/team-invites/assistants` | Controller/service; session required |
+| DELETE | `/team-invites/:id` | Controller/service; session required |
+| DELETE | `/team-invites/assistants/:id` | Controller/service; session required |
+| GET | `/team-invites/:token` | Controller/service; see controller guard/token handling |
+| POST | `/team-invites/:token/accept` | Controller/service; session required |
+
+### teams
+
+Source: [backend/src/teams/teams.controller.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/teams/teams.controller.ts).
+
+| Method | Path | Input / session layer |
+| --- | --- | --- |
+| GET | `/teams/search` | `teamSearchSchema`; session required |
+| POST | `/teams` | `createTeamSchema`; session required |
+| PATCH | `/teams` | `updateTeamSchema`; session required |
+
+### weather
+
+Source: [backend/src/weather/locations.controller.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/weather/locations.controller.ts).
+
+| Method | Path | Input / session layer |
+| --- | --- | --- |
+| GET | `/locations/search` | Controller/service; session required |
+| GET | `/locations/reverse` | Controller/service; session required |
+
+## Operational boundaries
+
+`GET /sync/token` is session-protected and returns `{endpoint,token,expiresAt}` with five-minute expiry. `GET /sync/jwks` is a verification-key endpoint, not a protected application write. `/health/operations` uses its dedicated bearer token. See [operations](operations/offline-operations-runbook.md), [PowerSync security](security/powersync-security.md) and [refresh](automatic-data-refresh.md).
