@@ -27,21 +27,12 @@
     "type": "md"
   },
   {
-    "name": "Source PDF Migration Record",
-    "path": "docs/Overview/pdf-migration-record.md",
-    "originalPath": "docs/Overview/pdf-migration-record.md",
-    "folder": "Overview",
-    "size": 2465,
-    "date": "2026-10-11T21:29:58.704Z",
-    "type": "md"
-  },
-  {
     "name": "Bug Tracking",
     "path": "docs/Project Management/bug-tracking.md",
     "originalPath": "docs/Project Management/bug-tracking.md",
     "folder": "Project Management",
-    "size": 122501,
-    "date": "2026-10-11T21:40:16.790Z",
+    "size": 122371,
+    "date": "2026-10-11T21:47:13.450Z",
     "type": "md"
   },
   {
@@ -49,8 +40,8 @@
     "path": "docs/Project Management/product-backlog.md",
     "originalPath": "docs/Project Management/product-backlog.md",
     "folder": "Project Management",
-    "size": 202043,
-    "date": "2026-10-11T21:40:16.778Z",
+    "size": 202000,
+    "date": "2026-10-11T21:47:13.426Z",
     "type": "md"
   },
   {
@@ -58,8 +49,8 @@
     "path": "docs/Project Management/roadmap.md",
     "originalPath": "docs/Project Management/roadmap.md",
     "folder": "Project Management",
-    "size": 2767,
-    "date": "2026-10-11T21:40:16.823Z",
+    "size": 2720,
+    "date": "2026-10-11T21:47:13.442Z",
     "type": "md"
   },
   {
@@ -72,21 +63,12 @@
     "type": "md"
   },
   {
-    "name": "Sprint 3 Delivery and Evidence Record",
-    "path": "docs/Project Management/sprint-3-delivery.md",
-    "originalPath": "docs/Project Management/sprint-3-delivery.md",
-    "folder": "Project Management",
-    "size": 14321,
-    "date": "2026-10-11T21:40:16.799Z",
-    "type": "md"
-  },
-  {
     "name": "Trello Board Snapshot and Export Reconciliation",
     "path": "docs/Project Management/trello-board-snapshot.md",
     "originalPath": "docs/Project Management/trello-board-snapshot.md",
     "folder": "Project Management",
-    "size": 7839,
-    "date": "2026-10-11T21:37:41.858Z",
+    "size": 7748,
+    "date": "2026-10-11T21:47:13.436Z",
     "type": "md"
   },
   {
@@ -274,8 +256,8 @@
     "path": "docs/Architecture/User-Feedback.md",
     "originalPath": "docs/Architecture/User-Feedback.md",
     "folder": "Architecture",
-    "size": 46172,
-    "date": "2026-10-11T21:38:53.547Z",
+    "size": 103223,
+    "date": "2026-10-11T21:44:23.398Z",
     "type": "md"
   },
   {
@@ -285,15 +267,6 @@
     "folder": "Quality",
     "size": 8239,
     "date": "2026-10-11T21:38:53.507Z",
-    "type": "md"
-  },
-  {
-    "name": "Sprint 3 test record",
-    "path": "docs/Quality/sprint-3-test-report.md",
-    "originalPath": "docs/Quality/sprint-3-test-report.md",
-    "folder": "Quality",
-    "size": 2530,
-    "date": "2026-10-11T21:38:53.500Z",
     "type": "md"
   },
   {

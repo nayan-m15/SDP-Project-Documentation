@@ -25,7 +25,7 @@ There are 34 retained sprint cards, all marked complete with all 279 checklist i
 
 ## Scope and evidence
 
-Card titles, owners, descriptions and checklist text below come from the supplied export. The card descriptions record requested work; they are not instructions executed by this update. Current source behavior is documented in the [product overview](../Overview/02-product-overview.md) and [requirements](../Overview/Functional-Requirements-and-System-Analysis.md). See [discrepancies](trello-board-snapshot.md#completion-and-checklist-discrepancies), [bug tracking](bug-tracking.md) and [Sprint 3 delivery](sprint-3-delivery.md).
+Card titles, owners, descriptions and checklist text below come from the supplied export. The card descriptions record requested work; they are not instructions executed by this update. Current source behavior is documented in the [product overview](../Overview/02-product-overview.md) and [requirements](../Overview/Functional-Requirements-and-System-Analysis.md). See [discrepancies](trello-board-snapshot.md#completion-and-checklist-discrepancies) and [bug tracking](bug-tracking.md).
 
 ## Card registers
 

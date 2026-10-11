@@ -1953,7 +1953,7 @@ _No description recorded._
 4. Record the dated result, command or scenario, and evidence link before describing a fix as independently verified.
 5. Reconcile remaining checklist discrepancies without silently rewriting the exported board.
 
-The earlier Playwright “Loading workspace...” failure remains a historical result in the [Sprint 3 test record](../Quality/sprint-3-test-report.md). This export does not provide a replacement application test run.
+The earlier Playwright “Loading workspace...” failure remains a historical result. This export does not provide a replacement application test run.
 
 <!-- trello-history:start -->
 ## Historical documentation through 24 September 2026
@@ -2023,7 +2023,7 @@ The retained records below describe earlier exports and source audits. Their lis
 | [#106 — Fix: Auto Fill on Team Selection puts players out of position when there is players on bench available to play in that position](https://trello.com/c/N21z8R3h) | Jai Parbhoo | No description in export | No dated retest supplied |
 | [#62 — Remove the Pruduct page on the landing page?](https://trello.com/c/AHwQ8yXD) | Nayan Makanjee | No description in export | No dated retest supplied |
 
-The Playwright main-flow artifact supplied with this audit failed while waiting for the Dashboard heading; the captured page remained at “Loading workspace...”. This is a failed run, not a diagnosed root cause. See [Sprint 3 test record](../Quality/sprint-3-test-report.md).
+The Playwright main-flow artifact supplied with this audit failed while waiting for the Dashboard heading; the captured page remained at “Loading workspace...”. This is a failed run, not a diagnosed root cause.
 
 ### Historical detailed snapshot (14 September 2026)
 

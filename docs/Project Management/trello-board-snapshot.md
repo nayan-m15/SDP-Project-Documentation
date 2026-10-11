@@ -87,7 +87,6 @@ Twenty unarchived cards are marked complete here, including 11 SEC cards, two HA
 
 - [Product backlog](product-backlog.md): every exported card, description and checklist.
 - [Bug tracking](bug-tracking.md): issue and security records.
-- [Sprint 3 delivery](sprint-3-delivery.md): retained sprint stories and checked criteria.
 - [Roadmap](roadmap.md) and [Scrum methodology](scrum-methodology.md): board summaries.
 - [Testing and QA](../Quality/testing-and-qa.md): execution evidence remains separate from tracker completion.
 

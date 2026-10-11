@@ -179,7 +179,6 @@ Twenty unarchived cards are marked complete here, including 11 SEC cards, two HA
 
 - [Product backlog](product-backlog.md): every exported card, description and checklist.
 - [Bug tracking](bug-tracking.md): issue and security records.
-- [Sprint 3 delivery](sprint-3-delivery.md): retained sprint stories and checked criteria.
 - [Roadmap](roadmap.md) and [Scrum methodology](scrum-methodology.md): board summaries.
 - [Testing and QA](../Quality/testing-and-qa.md): execution evidence remains separate from tracker completion.
 
@@ -199,7 +198,7 @@ ${countsTable}
 
 ## Scope and evidence
 
-Card titles, owners, descriptions and checklist text below come from the supplied export. The card descriptions record requested work; they are not instructions executed by this update. Current source behavior is documented in the [product overview](../Overview/02-product-overview.md) and [requirements](../Overview/Functional-Requirements-and-System-Analysis.md). See [discrepancies](trello-board-snapshot.md#completion-and-checklist-discrepancies), [bug tracking](bug-tracking.md) and [Sprint 3 delivery](sprint-3-delivery.md).
+Card titles, owners, descriptions and checklist text below come from the supplied export. The card descriptions record requested work; they are not instructions executed by this update. Current source behavior is documented in the [product overview](../Overview/02-product-overview.md) and [requirements](../Overview/Functional-Requirements-and-System-Analysis.md). See [discrepancies](trello-board-snapshot.md#completion-and-checklist-discrepancies) and [bug tracking](bug-tracking.md).
 
 ## Card registers
 
@@ -247,35 +246,9 @@ ${[...issues, ...security].map(detail).join('\n\n')}
 4. Record the dated result, command or scenario, and evidence link before describing a fix as independently verified.
 5. Reconcile remaining checklist discrepancies without silently rewriting the exported board.
 
-The earlier Playwright “Loading workspace...” failure remains a historical result in the [Sprint 3 test record](../Quality/sprint-3-test-report.md). This export does not provide a replacement application test run.
+The earlier Playwright “Loading workspace...” failure remains a historical result. This export does not provide a replacement application test run.
 
 ${bugsHistory}
-
-${ai}`);
-
-const deliveryFile = `${project}/sprint-3-delivery.md`;
-const deliveryHistory = historical(deliveryFile);
-write(deliveryFile, `# Sprint 3 Delivery and Evidence Record
-
-${basis(deliveryFile)}
-
-## Current sprint tracker evidence
-
-All 11 Sprint 3 cards remain in Sprint 3 Backlog, are marked complete, and have 50/50 checklist items checked. The four former In Progress stories and three former Completed stories are now retained in this sprint list. A checked criterion is reported tracker completion; deployment and test results remain governed by the linked evidence documents.
-
-${table(cardsIn('Sprint 3 Backlog'))}
-
-Card #72 is titled “S3: Performance Comparisons” but remains in Sprint 2 Backlog with 4/4 checklist items checked. It is included in the [product backlog](product-backlog.md), not counted among these 11 cards.
-
-## Recorded acceptance criteria
-
-${cardsIn('Sprint 3 Backlog').map(detail).join('\n\n')}
-
-## Associated evidence
-
-Current implementation is described in the [product overview](../Overview/02-product-overview.md), [collaboration guide](../Architecture/offline-collaboration.md), [API guide](../Architecture/api-guide.md) and [performance review](../Quality/performance-review.md). The [testing guide](../Quality/testing-and-qa.md) separates test definitions from dated runs. [Sprint 3 review](../Meetings/reviews/sprint3-review.md) and [retrospective](../Meetings/retrospectives/sprint3-retrospective.md) remain meeting records at their recorded dates.
-
-${deliveryHistory}
 
 ${ai}`);
 
@@ -287,13 +260,12 @@ const statusBlock = (file, title, body) => {
   if (updated === original && !pattern.test(original)) throw new Error(`Missing declaration insertion point in ${file}`);
   write(file, updated);
 };
-statusBlock(`${project}/roadmap.md`, 'Current board milestones', `${sprintTable}\n\nThe retained Sprint 1/2/3 lists have all 34 cards marked complete and 279/279 checklist items checked. Completed contains 20 unarchived cards, In Progress has none, and Issues/fixes retains 68 unarchived cards marked complete. Optional ideas total 25, of which 11 are not marked complete. See [backlog](product-backlog.md), [bug tracker](bug-tracking.md) and [Sprint 3 delivery](sprint-3-delivery.md). The preliminary course dates below are historical and are not changed by this export.`);
+statusBlock(`${project}/roadmap.md`, 'Current board milestones', `${sprintTable}\n\nThe retained Sprint 1/2/3 lists have all 34 cards marked complete and 279/279 checklist items checked. Completed contains 20 unarchived cards, In Progress has none, and Issues/fixes retains 68 unarchived cards marked complete. Optional ideas total 25, of which 11 are not marked complete. See [backlog](product-backlog.md) and [bug tracker](bug-tracking.md). The preliminary course dates below are historical and are not changed by this export.`);
 statusBlock(`${project}/scrum-methodology.md`, 'Current work artefacts', `The export retains 10 Sprint 1, 13 Sprint 2 and 11 Sprint 3 cards, all marked complete with fully checked criteria. It has no unarchived In Progress cards, 20 unarchived Completed cards and 68 unarchived Issues/fixes cards marked complete. Record list placement and completion independently. Card #34, agreeing a Definition of Done, is marked complete but has no description or checklist; the export supplies no agreed wording. Card #189, methodology review covering squash merges, review comments and commits after CI checks, is marked complete in Completed but has no description or review artefact. These cards do not supply the detailed adopted process.`);
-statusBlock('README.md', 'Current Trello documentation snapshot', `The latest attached full-board export contains 192 cards, including 68 unarchived Issues/fixes cards marked complete, 20 unarchived cards in Completed, and 34 retained sprint cards marked complete with 279/279 checked criteria. The Excel attachment is a matching 10-card setup subset. See [backlog](docs/Project%20Management/product-backlog.md), [bug tracking](docs/Project%20Management/bug-tracking.md) and [Sprint 3 delivery](docs/Project%20Management/sprint-3-delivery.md). The earlier source audits below retain their original dates.`);
+statusBlock('README.md', 'Current Trello documentation snapshot', `The latest attached full-board export contains 192 cards, including 68 unarchived Issues/fixes cards marked complete, 20 unarchived cards in Completed, and 34 retained sprint cards marked complete with 279/279 checked criteria. The Excel attachment is a matching 10-card setup subset. See [backlog](docs/Project%20Management/product-backlog.md) and [bug tracking](docs/Project%20Management/bug-tracking.md). The earlier source audits below retain their original dates.`);
 statusBlock('docs/Overview/Functional-Requirements-and-System-Analysis.md', 'Trello requirement traceability', `All 34 cards retained in Sprint 1/2/3 lists are marked complete with 279/279 checklist items checked. The [product backlog](../Project%20Management/product-backlog.md) preserves every supplied description and criterion. This updates tracker completion, not the source-based implementation contract above. Card #72 remains in Sprint 2 Backlog despite its S3 title; all 11 cards in Sprint 3 Backlog have 50/50 criteria checked.`);
 statusBlock('docs/Overview/02-product-overview.md', 'Trello delivery context', `All 34 retained sprint cards are marked complete with fully checked criteria. In Progress contains no unarchived cards. The [backlog](../Project%20Management/product-backlog.md) records these completion markers without replacing the source-based behavior above. Issues/fixes retains 68 unarchived cards marked complete, including refresh and report-export records; tracker completion does not supply a new execution result.`);
 statusBlock('docs/Quality/testing-and-qa.md', 'Trello testing and coverage records', `Card #184, “80% Code Coverage”, is marked complete in Completed, with no description, checklist or coverage report in the export. Card #39, Automated Testing, is marked complete in Sprint 1 Backlog with 16/16 criteria checked. Security-card checklists total 65/70 checked items, with five unchecked HARD-001 checks. These are tracker records and do not replace the dated application results above. Use [bug tracking](../Project%20Management/bug-tracking.md) to locate the associated card details.`);
-statusBlock('docs/Quality/sprint-3-test-report.md', 'Later tracker evidence', `The 11 retained Sprint 3 cards are marked complete with 50/50 criteria checked. Coverage card #184 is also marked complete, but the export contains no execution report or measured percentage. No new dated application test result is supplied by these exports; the 24 September failure and source audit above retain their historical meaning. See [Sprint 3 delivery](../Project%20Management/sprint-3-delivery.md).`);
 statusBlock('docs/Quality/performance-review.md', 'Trello performance follow-up', `Card #178, “Check Audit Performace validation doc”, is marked complete in Completed without a description, checklist or measured performance result. Public-dashboard rate-limit/cache card #172 is marked complete with 5/5 criteria checked. Current source mechanisms above remain distinct from these tracker records and from measured production performance.`);
 statusBlock('docs/Architecture/security/dependency-security.md', 'Trello dependency and security follow-up', `Dependency-chain card #175 is marked complete in Completed with 8/8 checklist items checked. All 11 SEC and two HARD cards are marked complete there; HARD-001 (#176) still has 0/5 checks. The original audit descriptions and requested commands are preserved as card content in [bug tracking](../../Project%20Management/bug-tracking.md). This export supplies no fresh npm audit output or deployed validation result.`);
 statusBlock('docs/Architecture/security/powersync-security.md', 'Trello token-hardening follow-up', `PowerSync development-token card #174 is marked complete in Completed with 4/4 criteria checked. Production-origin card #176 is also marked complete but has 0/5 checks. See [security records](../../Project%20Management/bug-tracking.md#security-and-hardening-records) for the exact exported requirements; this status does not change the documented runtime contract.`);

@@ -43,7 +43,7 @@ The 14 September 2026 audit used Trello activity through 2026-09-14T11:49:45.592
 
 **Board snapshot: 11 October 2026.** Latest recorded action: `2026-10-11T21:28:12.474Z` (UTC). See [export sources and reconciliation](docs/Project Management/trello-board-snapshot.md). List placement, the card completion marker (Trello `dueComplete`) and checked checklist items are recorded separately. They report tracker state, not an independently verified test, deployment or acceptance result.
 
-The latest attached full-board export contains 192 cards, including 68 unarchived Issues/fixes cards marked complete, 20 unarchived cards in Completed, and 34 retained sprint cards marked complete with 279/279 checked criteria. The Excel attachment is a matching 10-card setup subset. See [backlog](docs/Project%20Management/product-backlog.md), [bug tracking](docs/Project%20Management/bug-tracking.md) and [Sprint 3 delivery](docs/Project%20Management/sprint-3-delivery.md). The earlier source audits below retain their original dates.
+The latest attached full-board export contains 192 cards, including 68 unarchived Issues/fixes cards marked complete, 20 unarchived cards in Completed, and 34 retained sprint cards marked complete with 279/279 checked criteria. The Excel attachment is a matching 10-card setup subset. See [backlog](docs/Project%20Management/product-backlog.md) and [bug tracking](docs/Project%20Management/bug-tracking.md). The earlier source audits below retain their original dates.
 <!-- trello-status:end -->
 
 ## AI Declaration
