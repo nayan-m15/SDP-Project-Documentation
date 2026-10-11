@@ -67,7 +67,7 @@ body { background: var(--surface-page); color: var(--text-primary); }
 .tree-folder-header { font-weight: 600; padding: 8px 10px; }
 .tree-folder.contains-current > .tree-folder-header { color: var(--brand); }
 .tree-folder.contains-current:not(.open) > .tree-folder-header { background: var(--surface-active); }
-.folder-arrow { width: 18px; height: 18px; }
+.tree-folder-header .folder-arrow { width: 20px; height: 20px; }
 .folder-name, .document-name { min-width: 0; white-space: normal; overflow: visible; overflow-wrap: anywhere; text-overflow: clip; }
 .document-button { position: relative; font-weight: 500; }
 .document-button:hover { transform: none; }

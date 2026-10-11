@@ -253,6 +253,10 @@ function buildDocTree(documents) {
     return root;
 }
 
+function countTreeDocs(node) {
+    return node.docs.length + Object.values(node.folders).reduce((total, folder) => total + countTreeDocs(folder), 0);
+}
+
 function setFolderExpanded(folder, expanded) {
     folder.classList.toggle("open", expanded);
     folder.querySelector(":scope > .tree-folder-header").setAttribute("aria-expanded", String(expanded));
@@ -262,6 +266,7 @@ function renderTreeBranch(node, containerElement, parentPath = "") {
     // 1. Render child subfolders
     Object.keys(node.folders).forEach((folderName) => {
         const folderNode = node.folders[folderName];
+        const documentCount = countTreeDocs(folderNode);
         const folderPath = `${parentPath}/${folderName}`;
         const folderLabel = folderName.replaceAll("-", " ").replace(/\b[a-z]/g, letter => letter.toUpperCase());
 
@@ -276,6 +281,7 @@ function renderTreeBranch(node, containerElement, parentPath = "") {
         folderHeader.setAttribute("aria-controls", `folder-${encodeURIComponent(folderPath)}`);
         folderHeader.innerHTML = `
             <span class="folder-name"></span>
+            <span class="folder-count-badge" title="${documentCount} documents, including subfolders" aria-label="${documentCount} documents">${documentCount}</span>
             <i data-lucide="chevron-right" class="svg-icon-sm folder-arrow"></i>
         `;
         folderHeader.querySelector(".folder-name").textContent = folderLabel;
