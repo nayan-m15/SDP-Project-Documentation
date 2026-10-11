@@ -56,15 +56,19 @@ function refreshIcons() {
     }
 }
 
-// Initialize Mermaid.js
-if (window.mermaid) {
-    const isDark = preferredTheme() === "dark";
+// Keep labels as SVG text so the SVG-only sanitizer preserves them.
+function initializeMermaid(theme) {
+    if (!window.mermaid) return;
     mermaid.initialize({
         startOnLoad: false,
-        theme: isDark ? "dark" : "neutral",
-        securityLevel: "strict"
+        theme: theme === "dark" ? "dark" : "neutral",
+        securityLevel: "strict",
+        htmlLabels: false,
+        flowchart: { htmlLabels: false }
     });
 }
+
+initializeMermaid(preferredTheme());
 
 // Toast Helper
 function showToast(message, iconName = "check") {
@@ -110,11 +114,8 @@ themeToggleBtn.addEventListener("click", () => {
     updateThemeUI(newTheme);
 
     // Refresh mermaid diagrams if present
-    if (window.mermaid && markdownViewer.querySelector(".mermaid")) {
-        mermaid.initialize({
-            startOnLoad: false,
-            theme: newTheme === "dark" ? "dark" : "neutral"
-        });
+    initializeMermaid(newTheme);
+    if (window.mermaid && markdownViewer.querySelector(".mermaid-diagram-container")) {
         if (currentDoc) selectDocument(currentDoc);
     }
 });
