@@ -4,7 +4,7 @@
 
 The team uses Trello as its visible work board and maintains planning, standup and retrospective records in this portal. This page distinguishes recorded practice from recommended process. It does not infer attendance, stakeholder approval or named Scrum roles where records do not establish them.
 
-## Work artefacts and flow
+## Historical work artefacts and flow (24 September 2026)
 
 - **Product backlog:** future feature cards are mainly in `Backlog` and `Potential Features/Additions`; setup/process work remains in separate lists.
 - **Sprint backlog:** the 24 September export retains 10 Sprint 1, 13 Sprint 2 and four Sprint 3 backlog cards; four cards are In Progress. List placement is a current board snapshot, not a reconstruction of earlier commitments.
@@ -55,7 +55,7 @@ Review team process, identify concrete improvements and carry owned actions into
 ## Proposed Definition of Done
 
 > [!NOTE]
-> Trello card #34 still asks the team to agree a Definition of Done. The following is proposed, not confirmed adoption.
+> The earlier record proposed the Definition of Done below. Card #34 is now marked complete, but the new export does not supply the agreed wording, so adoption of this particular text remains unconfirmed.
 
 - Acceptance criteria satisfied and demonstrated on an identified revision.
 - Relevant unit/API/browser regression coverage added and required checks pass.

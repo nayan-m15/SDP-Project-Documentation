@@ -107,6 +107,14 @@ The forms include satisfaction ratings and task times, but device type, build ha
 | 09/15/2026 12:46:50 | 9/15/2026 | Football fan / supporter | Rarely | 5 | 5 | 5 | Allow a sports team coach to view, manage and optimize their team | The modern and sleek aesthetic of the entire site, its ease of access and layout of info | Success – completed without help | 01:45 | Suggestion | Email verification worked well, sign up process was seamless. Not many issues to report | Success – completed with some trial and error | 02:37 | Suggestion | Player selection/creation performed extremely well | Success – completed without help | 05:23 | No issue | Site's layout allows the manager to clearly plan a game tactic, no issues were encountered | Success – completed without help | 01:20 | No issue | No issues encountered | Creating a team | None | 4 | 4 | 4 | 4 | 5 | 5 | No | None | The data visualisation | Nothing to note | No | Squad / player management | N/A | 4 | 5 | 5 | Nothing to note |
 | 09/15/2026 12:52:25 | 9/15/2026 | Player | Very often | 5 | 4 | 4 | It’s a website to help to football coach’s be more organised and thorough | The UI | Success – completed without help | 2 minute | No issue | The live logger worked well and the website was generally well designed and user friendly | Success – completed without help | 1 minute | No issue | No issues, was easy to find | Success – completed without help | 3 minutes | No issue | It was easy to use and access | Success – completed without help | 1 minute | No issue | Worked perfectly | Athlete roster | None | 5 | 5 | 5 | 5 | 5 | 5 | No | None | Team construction | Login time | No | Navigation / finding features, Speed / performance | Login time | 5 | 5 | 5 | Would recommend to all coachs |
 
+<!-- trello-status:start -->
+## Trello follow-up to user feedback
+
+**Board snapshot: 11 October 2026.** Latest recorded action: `2026-10-11T21:28:12.474Z` (UTC). See [export sources and reconciliation](../Project Management/trello-board-snapshot.md). List placement, the card completion marker (Trello `dueComplete`) and checked checklist items are recorded separately. They report tracker state, not an independently verified test, deployment or acceptance result.
+
+Onboarding #137, squad eligibility #114, team-management status #112 and roster statistics #89 remain unarchived in Issues/fixes and are marked complete. The export contains no checklists on these four cards. These are later tracker states, not new survey responses or dated retests; preserve the respondents' original observations above and use [bug tracking](../Project%20Management/bug-tracking.md) for current records.
+<!-- trello-status:end -->
+
 ## AI Declaration
 
 OpenAI Codex was used to assist with the preparation, structure and editing of this documentation. The project team remains responsible for verifying the content and reviewing the final document.

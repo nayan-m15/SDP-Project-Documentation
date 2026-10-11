@@ -65,6 +65,14 @@ Prepare authorized match data while online before offline capture and export uns
 
 See [authorization](../Architecture/contracts-and-authorization.md), [collaboration](../Architecture/offline-collaboration.md), [public API](../Architecture/api-guide.md#public-read-api), [operations](../Architecture/operations/offline-operations-runbook.md), [requirements](Functional-Requirements-and-System-Analysis.md) and the historical [backlog](../Project%20Management/product-backlog.md).
 
+<!-- trello-status:start -->
+## Trello delivery context
+
+**Board snapshot: 11 October 2026.** Latest recorded action: `2026-10-11T21:28:12.474Z` (UTC). See [export sources and reconciliation](../Project Management/trello-board-snapshot.md). List placement, the card completion marker (Trello `dueComplete`) and checked checklist items are recorded separately. They report tracker state, not an independently verified test, deployment or acceptance result.
+
+All 34 retained sprint cards are marked complete with fully checked criteria. In Progress contains no unarchived cards. The [backlog](../Project%20Management/product-backlog.md) records these completion markers without replacing the source-based behavior above. Issues/fixes retains 68 unarchived cards marked complete, including refresh and report-export records; tracker completion does not supply a new execution result.
+<!-- trello-status:end -->
+
 ## AI Declaration
 
 OpenAI Codex was used to assist with the preparation, structure and editing of this documentation. The project team remains responsible for verifying the content and reviewing the final document.

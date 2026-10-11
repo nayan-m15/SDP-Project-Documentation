@@ -24,6 +24,14 @@ See [technology stack](../tech-stack/web-app-tool-stack.md), [third-party proven
 
 Sources: [package-lock.json](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/package-lock.json), [backend/package.json](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/package.json), [backend/package-lock.json](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/package-lock.json), [frontend/package.json](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/frontend/package.json), [frontend/package-lock.json](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/frontend/package-lock.json).
 
+<!-- trello-status:start -->
+## Trello dependency and security follow-up
+
+**Board snapshot: 11 October 2026.** Latest recorded action: `2026-10-11T21:28:12.474Z` (UTC). See [export sources and reconciliation](../../Project Management/trello-board-snapshot.md). List placement, the card completion marker (Trello `dueComplete`) and checked checklist items are recorded separately. They report tracker state, not an independently verified test, deployment or acceptance result.
+
+Dependency-chain card #175 is marked complete in Completed with 8/8 checklist items checked. All 11 SEC and two HARD cards are marked complete there; HARD-001 (#176) still has 0/5 checks. The original audit descriptions and requested commands are preserved as card content in [bug tracking](../../Project%20Management/bug-tracking.md). This export supplies no fresh npm audit output or deployed validation result.
+<!-- trello-status:end -->
+
 ## AI Declaration
 
 OpenAI Codex was used to assist with the preparation, structure and editing of this documentation. The project team remains responsible for verifying the content and reviewing the final document.

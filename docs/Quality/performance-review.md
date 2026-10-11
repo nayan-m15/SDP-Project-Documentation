@@ -38,6 +38,14 @@ Grouped player SQL and incremental server-filtered public loading are implemente
 
 Sources: [backend/src/public-api/public-dashboard.service.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/public-api/public-dashboard.service.ts), [backend/src/public-api/public-dashboard-cache.service.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/public-api/public-dashboard-cache.service.ts), [frontend/src/pages/PublicDashboard.tsx](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/frontend/src/pages/PublicDashboard.tsx), [frontend/src/components/landing/LandingScene.tsx](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/frontend/src/components/landing/LandingScene.tsx), [frontend/src/components/landing/landing-scene.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/frontend/src/components/landing/landing-scene.ts), [frontend/src/components/landing/scene-motion.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/frontend/src/components/landing/scene-motion.ts), [frontend/src/components/landing/scene-scheduler.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/frontend/src/components/landing/scene-scheduler.ts), [frontend/vercel.json](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/frontend/vercel.json).
 
+<!-- trello-status:start -->
+## Trello performance follow-up
+
+**Board snapshot: 11 October 2026.** Latest recorded action: `2026-10-11T21:28:12.474Z` (UTC). See [export sources and reconciliation](../Project Management/trello-board-snapshot.md). List placement, the card completion marker (Trello `dueComplete`) and checked checklist items are recorded separately. They report tracker state, not an independently verified test, deployment or acceptance result.
+
+Card #178, “Check Audit Performace validation doc”, is marked complete in Completed without a description, checklist or measured performance result. Public-dashboard rate-limit/cache card #172 is marked complete with 5/5 criteria checked. Current source mechanisms above remain distinct from these tracker records and from measured production performance.
+<!-- trello-status:end -->
+
 ## AI Declaration
 
 OpenAI Codex was used to assist with the preparation, structure and editing of this documentation. The project team remains responsible for verifying the content and reviewing the final document.

@@ -461,6 +461,14 @@ Source: [backend/src/weather/locations.controller.ts](https://sdp.ms.wits.ac.za/
 
 `GET /sync/token` is session-protected and returns `{endpoint,token,expiresAt}` with five-minute expiry. `GET /sync/jwks` is a verification-key endpoint, not a protected application write. `/health/operations` uses its dedicated bearer token. See [operations](operations/offline-operations-runbook.md), [PowerSync security](security/powersync-security.md) and [refresh](automatic-data-refresh.md).
 
+<!-- trello-status:start -->
+## Trello API and security records
+
+**Board snapshot: 11 October 2026.** Latest recorded action: `2026-10-11T21:28:12.474Z` (UTC). See [export sources and reconciliation](../Project Management/trello-board-snapshot.md). List placement, the card completion marker (Trello `dueComplete`) and checked checklist items are recorded separately. They report tracker state, not an independently verified test, deployment or acceptance result.
+
+Public API story #133 is marked complete in Sprint 2 Backlog with 5/5 criteria checked. API card #155 is marked complete in Completed with no description or checklist. Swagger review #177 has 4/4 criteria checked; public-dashboard rate limiting #172 has 5/5. These records do not replace the documented public Swagger contract or the dated hosted checks above. See [security records](../Project%20Management/bug-tracking.md#security-and-hardening-records).
+<!-- trello-status:end -->
+
 ## AI Declaration
 
 OpenAI Codex was used to assist with the preparation, structure and editing of this documentation. The project team remains responsible for verifying the content and reviewing the final document.

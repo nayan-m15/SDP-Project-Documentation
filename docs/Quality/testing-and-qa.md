@@ -298,6 +298,14 @@ Run each full backend e2e file from `backend/` using `node node_modules/jest/bin
 
 Never turn an unchecked template, existing test file, Trello checklist or demonstration plan into a claimed result.
 
+<!-- trello-status:start -->
+## Trello testing and coverage records
+
+**Board snapshot: 11 October 2026.** Latest recorded action: `2026-10-11T21:28:12.474Z` (UTC). See [export sources and reconciliation](../Project Management/trello-board-snapshot.md). List placement, the card completion marker (Trello `dueComplete`) and checked checklist items are recorded separately. They report tracker state, not an independently verified test, deployment or acceptance result.
+
+Card #184, “80% Code Coverage”, is marked complete in Completed, with no description, checklist or coverage report in the export. Card #39, Automated Testing, is marked complete in Sprint 1 Backlog with 16/16 criteria checked. Security-card checklists total 65/70 checked items, with five unchecked HARD-001 checks. These are tracker records and do not replace the dated application results above. Use [bug tracking](../Project%20Management/bug-tracking.md) to locate the associated card details.
+<!-- trello-status:end -->
+
 ## AI Declaration
 
 OpenAI Codex was used to assist with the preparation, structure and editing of this documentation. The project team remains responsible for verifying the content and reviewing the final document.

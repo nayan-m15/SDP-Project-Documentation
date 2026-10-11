@@ -1,0 +1,5433 @@
+{
+  "schemaVersion": 1,
+  "board": {
+    "name": "SDP-Interlude",
+    "url": "https://trello.com/b/cM6m3R0G/sdp-interlude",
+    "latestAction": "2026-10-11T21:28:12.474Z",
+    "lastActivity": "2026-10-11T21:28:12.468Z"
+  },
+  "sources": [
+    {
+      "file": "cM6m3R0G - sdp-interlude (4).json",
+      "sha256": "2b1ce2b39b83f28ecd567a82f8a4abe9312ca23e8042248e419503b64b4b08b3",
+      "role": "Full board export"
+    },
+    {
+      "file": "SDP-Interlude.xlsx",
+      "sha256": "9eb8da7264a249b33af444f3eca323935f4676271f6b60b455545155a5fe4663",
+      "role": "Partial setup-card export"
+    }
+  ],
+  "lists": [
+    {
+      "id": "6a7b0694c7595ef22feee4ee",
+      "name": "Setup",
+      "archived": true,
+      "position": 16384
+    },
+    {
+      "id": "6a7d6d6b82e16bceaa2bfe3d",
+      "name": "Register Accounts",
+      "archived": true,
+      "position": 32768
+    },
+    {
+      "id": "6a7d6dadefcbd2f37363b9a1",
+      "name": "Repo & project setup",
+      "archived": false,
+      "position": 49152
+    },
+    {
+      "id": "6a7d6e1d6c4513ffe7190825",
+      "name": "Environment & tooling init",
+      "archived": false,
+      "position": 65536
+    },
+    {
+      "id": "6a7d6e67f1eaf0d42ee139ed",
+      "name": "Team Process",
+      "archived": true,
+      "position": 81920
+    },
+    {
+      "id": "6a8acdd15ecda68b60d299c4",
+      "name": "Potential Features/Additions",
+      "archived": false,
+      "position": 86016
+    },
+    {
+      "id": "6a85acc371970b3eee52f387",
+      "name": "Issues/fixes",
+      "archived": false,
+      "position": 90112
+    },
+    {
+      "id": "6ac3695b6aa633ec908f94aa",
+      "name": "Security Issues",
+      "archived": false,
+      "position": 92160
+    },
+    {
+      "id": "6a8732a7dc42429efe8d3b92",
+      "name": "Backlog",
+      "archived": false,
+      "position": 94208
+    },
+    {
+      "id": "6a94366c29852844fdd49532",
+      "name": "In Progress",
+      "archived": false,
+      "position": 96256
+    },
+    {
+      "id": "6aabe0ffe1cee310a044ced9",
+      "name": "Completed",
+      "archived": false,
+      "position": 114688
+    },
+    {
+      "id": "6a9816303453d6ea51f4983d",
+      "name": "Sprint 3 Backlog",
+      "archived": false,
+      "position": 131072
+    },
+    {
+      "id": "6a8732ac221e561761213f35",
+      "name": "Sprint 2 Backlog",
+      "archived": false,
+      "position": 163840
+    },
+    {
+      "id": "6a835c1a06262517235f2efb",
+      "name": "Sprint 1 Backlog",
+      "archived": false,
+      "position": 180224
+    }
+  ],
+  "cards": [
+    {
+      "number": 1,
+      "title": "Project name",
+      "url": "https://trello.com/c/oYRKKkMj",
+      "listId": "6a7b0694c7595ef22feee4ee",
+      "position": 140737488355328,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-08-17T20:07:37.742Z",
+      "lastActivity": "2026-08-17T20:07:37.745Z",
+      "due": null,
+      "owners": [],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 2,
+      "title": "Project Logo",
+      "url": "https://trello.com/c/MY8eTUdS",
+      "listId": "6a7b0694c7595ef22feee4ee",
+      "position": 140737488371712,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-08-17T20:07:38.493Z",
+      "lastActivity": "2026-08-17T20:07:38.495Z",
+      "due": null,
+      "owners": [],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 4,
+      "title": "Database intergration",
+      "url": "https://trello.com/c/fL9qLiiE",
+      "listId": "6a7b0694c7595ef22feee4ee",
+      "position": 140737488404480,
+      "archived": true,
+      "markedComplete": false,
+      "dateCompleted": null,
+      "lastActivity": "2026-08-13T07:15:42.350Z",
+      "due": null,
+      "owners": [],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 5,
+      "title": "Basic UI",
+      "url": "https://trello.com/c/W1YQ9qia",
+      "listId": "6a7b0694c7595ef22feee4ee",
+      "position": 140737488420864,
+      "archived": true,
+      "markedComplete": false,
+      "dateCompleted": null,
+      "lastActivity": "2026-08-13T07:15:48.670Z",
+      "due": null,
+      "owners": [],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 16,
+      "title": "Add PR template (matches your PR description format)",
+      "url": "https://trello.com/c/GdITLLqz",
+      "listId": "6a7d6dadefcbd2f37363b9a1",
+      "position": 140737488322560,
+      "archived": false,
+      "markedComplete": false,
+      "dateCompleted": null,
+      "lastActivity": "2026-08-30T12:01:33.488Z",
+      "due": null,
+      "owners": [],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 17,
+      "title": "Add branch protection on main — require CI pass + 1 approval",
+      "url": "https://trello.com/c/Y1lzGPX7",
+      "listId": "6a7d6dadefcbd2f37363b9a1",
+      "position": 140737488330752,
+      "archived": false,
+      "markedComplete": false,
+      "dateCompleted": null,
+      "lastActivity": "2026-08-30T12:01:34.713Z",
+      "due": null,
+      "owners": [],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 20,
+      "title": "Add GitHub Actions CI skeleton (lint + test placeholder, even if empty)",
+      "url": "https://trello.com/c/bzmQcX3c",
+      "listId": "6a7d6dadefcbd2f37363b9a1",
+      "position": 140737488334848,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-10-07T19:47:33.233Z",
+      "lastActivity": "2026-10-07T19:47:49.298Z",
+      "due": null,
+      "owners": [
+        "Hemesh Parshotam",
+        "Nayan Makanjee"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 15,
+      "title": "Set up Issue templates (bug / feature)",
+      "url": "https://trello.com/c/t2mOWAQQ",
+      "listId": "6a7d6dadefcbd2f37363b9a1",
+      "position": 140737488338944,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-08-23T11:30:53.558Z",
+      "lastActivity": "2026-08-23T11:30:53.560Z",
+      "due": null,
+      "owners": [],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 18,
+      "title": "Add README skeleton with AI usage declaration section",
+      "url": "https://trello.com/c/orE9Pf8r",
+      "listId": "6a7d6dadefcbd2f37363b9a1",
+      "position": 140737488353280,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-08-24T14:17:19.748Z",
+      "lastActivity": "2026-08-24T14:17:19.750Z",
+      "due": null,
+      "owners": [],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 3,
+      "title": "Project Nest.js setup",
+      "url": "https://trello.com/c/VimbdgsG",
+      "listId": "6a7d6dadefcbd2f37363b9a1",
+      "position": 140737488354816,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-08-20T17:03:57.332Z",
+      "lastActivity": "2026-08-20T17:04:10.252Z",
+      "due": null,
+      "owners": [
+        "Nayan Makanjee"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 12,
+      "title": "Decide monorepo vs separate frontend/backend repos",
+      "url": "https://trello.com/c/NohAwdzb",
+      "listId": "6a7d6dadefcbd2f37363b9a1",
+      "position": 140737488355328,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-08-17T18:15:29.826Z",
+      "lastActivity": "2026-08-17T18:15:29.828Z",
+      "due": null,
+      "owners": [],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 13,
+      "title": "Create repo(s), initial folder structure",
+      "url": "https://trello.com/c/tcJCUZBJ",
+      "listId": "6a7d6dadefcbd2f37363b9a1",
+      "position": 140737488371712,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-08-17T18:15:31.150Z",
+      "lastActivity": "2026-08-19T19:38:36.036Z",
+      "due": null,
+      "owners": [
+        "Nayan Makanjee"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 30,
+      "title": "Share the git methodology doc",
+      "url": "https://trello.com/c/5HjiapZu",
+      "listId": "6a7d6dadefcbd2f37363b9a1",
+      "position": 140737488388096,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-08-13T07:17:10.581Z",
+      "lastActivity": "2026-09-03T08:07:47.303Z",
+      "due": null,
+      "owners": [
+        "Hemesh Parshotam"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 14,
+      "title": "Set up GitHub Projects board (Work Tracker requirement)",
+      "url": "https://trello.com/c/pSl1uf1N",
+      "listId": "6a7d6dadefcbd2f37363b9a1",
+      "position": 140737488388096,
+      "archived": true,
+      "markedComplete": false,
+      "dateCompleted": null,
+      "lastActivity": "2026-08-20T17:03:07.440Z",
+      "due": null,
+      "owners": [],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 34,
+      "title": "Agree on a \"definition of done\" for a task/PR",
+      "url": "https://trello.com/c/Zj7jztqS",
+      "listId": "6a7d6dadefcbd2f37363b9a1",
+      "position": 140737488390144,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-08-19T12:45:50.112Z",
+      "lastActivity": "2026-09-03T08:07:55.378Z",
+      "due": null,
+      "owners": [],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 33,
+      "title": "Schedule recurring check-ins with your tutor/client",
+      "url": "https://trello.com/c/vL0Kvm3C",
+      "listId": "6a7d6dadefcbd2f37363b9a1",
+      "position": 140737488392192,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-08-18T11:48:24.905Z",
+      "lastActivity": "2026-09-03T08:07:53.250Z",
+      "due": null,
+      "owners": [],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 32,
+      "title": "Set up team comms channel (Discord)",
+      "url": "https://trello.com/c/rWBnQQjv",
+      "listId": "6a7d6dadefcbd2f37363b9a1",
+      "position": 140737488396288,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-08-13T07:17:17.801Z",
+      "lastActivity": "2026-09-03T08:07:51.528Z",
+      "due": null,
+      "owners": [
+        "Jai Parbhoo"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 31,
+      "title": "Assign module ownership pairs: auth, roster, events, stats",
+      "url": "https://trello.com/c/gkdNqgJr",
+      "listId": "6a7d6dadefcbd2f37363b9a1",
+      "position": 140737488404480,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-08-18T11:48:21.294Z",
+      "lastActivity": "2026-09-03T08:07:49.763Z",
+      "due": null,
+      "owners": [],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 19,
+      "title": "Add OXLint + Prettier config",
+      "url": "https://trello.com/c/yGClbaPs",
+      "listId": "6a7d6dadefcbd2f37363b9a1",
+      "position": 140737488470016,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-08-17T18:15:22.531Z",
+      "lastActivity": "2026-08-19T13:03:59.608Z",
+      "due": null,
+      "owners": [
+        "Nayan Makanjee"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 11,
+      "title": "PowerSync (offline sync service)",
+      "url": "https://trello.com/c/n1gs99Vw",
+      "listId": "6a7d6e1d6c4513ffe7190825",
+      "position": 140737488289792,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-18T14:39:18.925Z",
+      "lastActivity": "2026-09-18T14:39:21.041Z",
+      "due": null,
+      "owners": [
+        "Hemesh Parshotam"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 10,
+      "title": "OpenWeatherMap (weather API key)",
+      "url": "https://trello.com/c/PaHsnvf3",
+      "listId": "6a7d6e1d6c4513ffe7190825",
+      "position": 140737488306176,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-11T21:12:25.374Z",
+      "lastActivity": "2026-09-11T21:12:28.346Z",
+      "due": null,
+      "owners": [
+        "Hemesh Parshotam"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 9,
+      "title": "Mapbox (maps + geocoding API key)",
+      "url": "https://trello.com/c/Vb45cjxj",
+      "listId": "6a7d6e1d6c4513ffe7190825",
+      "position": 140737488322560,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-11T21:12:22.792Z",
+      "lastActivity": "2026-09-11T21:12:32.544Z",
+      "due": null,
+      "owners": [
+        "Hemesh Parshotam"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 29,
+      "title": "Connect Vercel to frontend repo",
+      "url": "https://trello.com/c/Rq2J9JEU",
+      "listId": "6a7d6e1d6c4513ffe7190825",
+      "position": 140737488338944,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-08-24T14:17:04.170Z",
+      "lastActivity": "2026-08-24T14:17:07.692Z",
+      "due": null,
+      "owners": [
+        "Nayan Makanjee"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 21,
+      "title": "Scaffold frontend: Vite + React + TS",
+      "url": "https://trello.com/c/XiHqMsLd",
+      "listId": "6a7d6e1d6c4513ffe7190825",
+      "position": 140737488355328,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-08-13T07:17:57.471Z",
+      "lastActivity": "2026-08-13T07:18:05.141Z",
+      "due": null,
+      "owners": [
+        "Nayan Makanjee"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 22,
+      "title": "Add Tailwind + shadcn/ui",
+      "url": "https://trello.com/c/e1VTiOHL",
+      "listId": "6a7d6e1d6c4513ffe7190825",
+      "position": 140737488371712,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-08-13T07:17:58.801Z",
+      "lastActivity": "2026-08-13T07:18:13.996Z",
+      "due": null,
+      "owners": [
+        "Nayan Makanjee"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 23,
+      "title": "Scaffold backend: NestJS + TS",
+      "url": "https://trello.com/c/N2UHYREV",
+      "listId": "6a7d6e1d6c4513ffe7190825",
+      "position": 140737488388096,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-08-17T18:15:20.077Z",
+      "lastActivity": "2026-08-19T12:58:51.579Z",
+      "due": null,
+      "owners": [
+        "Nayan Makanjee"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 24,
+      "title": "Install nestjs-zod, Drizzle, better-auth",
+      "url": "https://trello.com/c/Bp1j2Ell",
+      "listId": "6a7d6e1d6c4513ffe7190825",
+      "position": 140737488404480,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-08-17T18:15:18.968Z",
+      "lastActivity": "2026-08-19T19:38:19.182Z",
+      "due": null,
+      "owners": [
+        "Nayan Makanjee"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 25,
+      "title": "Create Neon project, get connection string",
+      "url": "https://trello.com/c/mw1laYwl",
+      "listId": "6a7d6e1d6c4513ffe7190825",
+      "position": 140737488420864,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-08-17T18:15:13.330Z",
+      "lastActivity": "2026-08-19T12:58:46.793Z",
+      "due": null,
+      "owners": [
+        "Hemesh Parshotam"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 26,
+      "title": "Set up Drizzle config + first migration (base schema: users, teams, athletes, events)",
+      "url": "https://trello.com/c/MNObudO4",
+      "listId": "6a7d6e1d6c4513ffe7190825",
+      "position": 140737488437248,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-08-17T18:15:11.984Z",
+      "lastActivity": "2026-08-19T19:38:14.806Z",
+      "due": null,
+      "owners": [
+        "Hemesh Parshotam",
+        "Nayan Makanjee"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 27,
+      "title": "Add .env.example for both frontend and backend",
+      "url": "https://trello.com/c/YWJdjNpK",
+      "listId": "6a7d6e1d6c4513ffe7190825",
+      "position": 140737488453632,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-08-17T18:15:14.473Z",
+      "lastActivity": "2026-08-19T12:59:00.964Z",
+      "due": null,
+      "owners": [
+        "Hemesh Parshotam",
+        "Nayan Makanjee"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 6,
+      "title": "Neon (Postgres hosting)",
+      "url": "https://trello.com/c/cBk24ukJ",
+      "listId": "6a7d6e1d6c4513ffe7190825",
+      "position": 140737488461824,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-08-17T18:15:42.638Z",
+      "lastActivity": "2026-09-03T08:07:08.530Z",
+      "due": null,
+      "owners": [
+        "Nayan Makanjee",
+        "Hemesh Parshotam"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 7,
+      "title": "Render (backend hosting)",
+      "url": "https://trello.com/c/MiCV84mk",
+      "listId": "6a7d6e1d6c4513ffe7190825",
+      "position": 140737488465920,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-08-17T18:15:41.606Z",
+      "lastActivity": "2026-09-03T08:07:10.735Z",
+      "due": null,
+      "owners": [
+        "Hemesh Parshotam"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 8,
+      "title": "Vercel (frontend hosting)",
+      "url": "https://trello.com/c/GDwwHaSu",
+      "listId": "6a7d6e1d6c4513ffe7190825",
+      "position": 140737488467968,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-08-17T18:15:40.730Z",
+      "lastActivity": "2026-09-03T08:07:13.682Z",
+      "due": null,
+      "owners": [
+        "Nayan Makanjee"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 28,
+      "title": "Connect Railway to backend repo, add Neon connection string as secret",
+      "url": "https://trello.com/c/k0NcOL9O",
+      "listId": "6a7d6e1d6c4513ffe7190825",
+      "position": 140737488470016,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-08-17T18:15:15.682Z",
+      "lastActivity": "2026-08-19T19:38:25.419Z",
+      "due": null,
+      "owners": [
+        "Hemesh Parshotam"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 192,
+      "title": "Friendly match stats",
+      "url": "https://trello.com/c/358H7Cu5",
+      "listId": "6a8acdd15ecda68b60d299c4",
+      "position": 140737487519744,
+      "archived": false,
+      "markedComplete": false,
+      "dateCompleted": null,
+      "lastActivity": "2026-10-11T13:48:31.071Z",
+      "due": null,
+      "owners": [],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 191,
+      "title": "Live Logger Score",
+      "url": "https://trello.com/c/Z1ADSCkW",
+      "listId": "6a8acdd15ecda68b60d299c4",
+      "position": 140737487536128,
+      "archived": false,
+      "markedComplete": false,
+      "dateCompleted": null,
+      "lastActivity": "2026-10-11T13:47:51.905Z",
+      "due": null,
+      "owners": [],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 129,
+      "title": "Acceptance of privacy policy and terms of service needs to be stored server side",
+      "url": "https://trello.com/c/jJ9YyCdo",
+      "listId": "6a8acdd15ecda68b60d299c4",
+      "position": 140737487552512,
+      "archived": false,
+      "markedComplete": false,
+      "dateCompleted": null,
+      "lastActivity": "2026-10-10T21:21:11.585Z",
+      "due": null,
+      "owners": [],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 186,
+      "title": "Rework Mobile Dashboard UI",
+      "url": "https://trello.com/c/qqrBCkE6",
+      "listId": "6a8acdd15ecda68b60d299c4",
+      "position": 140737487560704,
+      "archived": false,
+      "markedComplete": false,
+      "dateCompleted": null,
+      "lastActivity": "2026-10-10T21:21:14.748Z",
+      "due": null,
+      "owners": [],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 188,
+      "title": "Fix public dashboard UI",
+      "url": "https://trello.com/c/14VmlIKk",
+      "listId": "6a8acdd15ecda68b60d299c4",
+      "position": 140737487568896,
+      "archived": false,
+      "markedComplete": false,
+      "dateCompleted": null,
+      "lastActivity": "2026-10-07T19:44:32.614Z",
+      "due": null,
+      "owners": [],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 141,
+      "title": "Fix Pre Match Team tactic selection.",
+      "url": "https://trello.com/c/VFOdUIrE",
+      "listId": "6a8acdd15ecda68b60d299c4",
+      "position": 140737488079872,
+      "archived": false,
+      "markedComplete": false,
+      "dateCompleted": null,
+      "lastActivity": "2026-10-10T21:21:22.466Z",
+      "due": null,
+      "owners": [],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 182,
+      "title": "Home ground location on coaches side",
+      "url": "https://trello.com/c/kOkGqZU3",
+      "listId": "6a8acdd15ecda68b60d299c4",
+      "position": 140737488096256,
+      "archived": false,
+      "markedComplete": false,
+      "dateCompleted": null,
+      "lastActivity": "2026-10-08T20:23:37.776Z",
+      "due": null,
+      "owners": [],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 143,
+      "title": "Ai voice assistant",
+      "url": "https://trello.com/c/2kSCeUxn",
+      "listId": "6a8acdd15ecda68b60d299c4",
+      "position": 140737488112640,
+      "archived": false,
+      "markedComplete": false,
+      "dateCompleted": null,
+      "lastActivity": "2026-09-18T14:41:37.689Z",
+      "due": null,
+      "owners": [],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 138,
+      "title": "Suspend player after accumulating 5 yellow cards in a specific competition",
+      "url": "https://trello.com/c/G1Bm1JrR",
+      "listId": "6a8acdd15ecda68b60d299c4",
+      "position": 140737488178176,
+      "archived": false,
+      "markedComplete": false,
+      "dateCompleted": null,
+      "lastActivity": "2026-09-15T11:37:59.454Z",
+      "due": null,
+      "owners": [],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 187,
+      "title": "Add light mode on sign in, sing up, t's & c's and privacy policy",
+      "url": "https://trello.com/c/cZh2TKFJ",
+      "listId": "6a8acdd15ecda68b60d299c4",
+      "position": 140737488251904,
+      "archived": false,
+      "markedComplete": false,
+      "dateCompleted": null,
+      "lastActivity": "2026-10-07T19:20:45.521Z",
+      "due": null,
+      "owners": [],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 96,
+      "title": "import calander to local mobile calendar",
+      "url": "https://trello.com/c/9u5HPrgR",
+      "listId": "6a8acdd15ecda68b60d299c4",
+      "position": 140737488268288,
+      "archived": false,
+      "markedComplete": false,
+      "dateCompleted": null,
+      "lastActivity": "2026-09-27T17:59:05.416Z",
+      "due": null,
+      "owners": [],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 179,
+      "title": "Rework live logger page",
+      "url": "https://trello.com/c/mEXCOyI9",
+      "listId": "6a8acdd15ecda68b60d299c4",
+      "position": 140737488268800,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-10-09T07:04:04.593Z",
+      "lastActivity": "2026-10-09T07:04:08.503Z",
+      "due": null,
+      "owners": [
+        "Saurav Lall",
+        "Nayan Makanjee"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 123,
+      "title": "Update Match Report Page UI",
+      "url": "https://trello.com/c/GJORvXYd",
+      "listId": "6a8acdd15ecda68b60d299c4",
+      "position": 140737488269312,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-10-05T08:36:34.773Z",
+      "lastActivity": "2026-10-05T08:36:42.925Z",
+      "due": null,
+      "owners": [
+        "Saurav Lall"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 119,
+      "title": "make match log appear as a separate tab on mobile live logger",
+      "url": "https://trello.com/c/qUQeDbF8",
+      "listId": "6a8acdd15ecda68b60d299c4",
+      "position": 140737488270336,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-10-05T08:36:18.872Z",
+      "lastActivity": "2026-10-05T08:36:27.637Z",
+      "due": null,
+      "owners": [
+        "Hemesh Parshotam"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 134,
+      "title": "Mini Map for directions",
+      "url": "https://trello.com/c/TybTtvzU",
+      "listId": "6a8acdd15ecda68b60d299c4",
+      "position": 140737488272384,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-10-02T14:19:54.606Z",
+      "lastActivity": "2026-10-02T14:20:00.451Z",
+      "due": null,
+      "owners": [
+        "Hemesh Parshotam"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 117,
+      "title": "When making a match event, the tournament should be an option for the coach to pick",
+      "url": "https://trello.com/c/6yM7Zd88",
+      "listId": "6a8acdd15ecda68b60d299c4",
+      "position": 140737488276480,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-27T17:59:04.087Z",
+      "lastActivity": "2026-09-27T17:59:04.088Z",
+      "due": null,
+      "owners": [
+        "Jai Parbhoo",
+        "Roko Vidjak"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 110,
+      "title": "Add League or friendly match option",
+      "url": "https://trello.com/c/z4VIY2DZ",
+      "listId": "6a8acdd15ecda68b60d299c4",
+      "position": 140737488338944,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-27T17:58:52.259Z",
+      "lastActivity": "2026-09-27T17:58:52.260Z",
+      "due": null,
+      "owners": [
+        "Jai Parbhoo"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 95,
+      "title": "Add more formations",
+      "url": "https://trello.com/c/3KNV8uEW",
+      "listId": "6a8acdd15ecda68b60d299c4",
+      "position": 140737488396288,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-27T17:58:36.656Z",
+      "lastActivity": "2026-09-27T17:58:36.658Z",
+      "due": null,
+      "owners": [
+        "Jai Parbhoo"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 58,
+      "title": "Make it usebale for Indoor Footy, 5,7 a side games",
+      "url": "https://trello.com/c/TUsmzRrc",
+      "listId": "6a8acdd15ecda68b60d299c4",
+      "position": 140737488399872,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-27T17:58:35.857Z",
+      "lastActivity": "2026-09-27T17:58:39.050Z",
+      "due": null,
+      "owners": [
+        "Jai Parbhoo"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 124,
+      "title": "Update Live Logger page Ui",
+      "url": "https://trello.com/c/Cm3qltKa",
+      "listId": "6a8acdd15ecda68b60d299c4",
+      "position": 140737488403712,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-18T14:44:40.870Z",
+      "lastActivity": "2026-09-19T23:00:22.700Z",
+      "due": null,
+      "owners": [
+        "Hemesh Parshotam"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 59,
+      "title": "Allow players to view their squad and coaching info when not signed  in",
+      "url": "https://trello.com/c/pBUAuzSB",
+      "listId": "6a8acdd15ecda68b60d299c4",
+      "position": 140737488403968,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-18T14:35:20.043Z",
+      "lastActivity": "2026-09-18T14:35:26.373Z",
+      "due": null,
+      "owners": [
+        "Nayan Makanjee"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 97,
+      "title": "Player dashboard - through coach invitation",
+      "url": "https://trello.com/c/Pi4GGcyM",
+      "listId": "6a8acdd15ecda68b60d299c4",
+      "position": 140737488404480,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-11T21:12:53.583Z",
+      "lastActivity": "2026-09-11T21:12:56.497Z",
+      "due": null,
+      "owners": [
+        "Jai Parbhoo"
+      ],
+      "labels": [],
+      "description": "Stats, team/individual\n\nEvents- attending\n\nTeam lineups/tactics",
+      "checklists": []
+    },
+    {
+      "number": 98,
+      "title": "Update Events page to include calander",
+      "url": "https://trello.com/c/uNwVxtaW",
+      "listId": "6a8acdd15ecda68b60d299c4",
+      "position": 140737488453632,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-04T08:22:35.559Z",
+      "lastActivity": "2026-09-11T12:36:14.485Z",
+      "due": null,
+      "owners": [
+        "Nayan Makanjee",
+        "Hemesh Parshotam"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 108,
+      "title": "Add footer to landing page",
+      "url": "https://trello.com/c/41uWFgnu",
+      "listId": "6a8acdd15ecda68b60d299c4",
+      "position": 140737488470016,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-05T08:38:43.342Z",
+      "lastActivity": "2026-09-11T12:36:17.478Z",
+      "due": null,
+      "owners": [
+        "Nayan Makanjee"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 113,
+      "title": "Add Loading Screen",
+      "url": "https://trello.com/c/8sEDirRi",
+      "listId": "6a8acdd15ecda68b60d299c4",
+      "position": 140737488486400,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-05T08:38:44.440Z",
+      "lastActivity": "2026-09-11T12:36:20.366Z",
+      "due": null,
+      "owners": [
+        "Nayan Makanjee"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 162,
+      "title": "Home and away sorting",
+      "url": "https://trello.com/c/XrEauCHQ",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737487650816,
+      "archived": true,
+      "markedComplete": false,
+      "dateCompleted": null,
+      "lastActivity": "2026-10-04T16:22:32.179Z",
+      "due": null,
+      "owners": [],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 161,
+      "title": "Friendly match, get opponent name",
+      "url": "https://trello.com/c/ln0A7Wq1",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737487667200,
+      "archived": true,
+      "markedComplete": false,
+      "dateCompleted": null,
+      "lastActivity": "2026-10-04T16:22:29.999Z",
+      "due": null,
+      "owners": [],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 160,
+      "title": "Shouldn't be able to edit opponents formation on confirming squad",
+      "url": "https://trello.com/c/Ab2S9pz1",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737487683584,
+      "archived": true,
+      "markedComplete": false,
+      "dateCompleted": null,
+      "lastActivity": "2026-10-04T16:22:26.353Z",
+      "due": null,
+      "owners": [],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 159,
+      "title": "Max squad num on league",
+      "url": "https://trello.com/c/ALUN7Bq3",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737487699968,
+      "archived": true,
+      "markedComplete": false,
+      "dateCompleted": null,
+      "lastActivity": "2026-10-04T16:22:24.850Z",
+      "due": null,
+      "owners": [],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 151,
+      "title": "Fix Location weather Input on event creation",
+      "url": "https://trello.com/c/pKyteGCV",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737487716352,
+      "archived": true,
+      "markedComplete": false,
+      "dateCompleted": null,
+      "lastActivity": "2026-09-28T19:29:27.897Z",
+      "due": null,
+      "owners": [],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 156,
+      "title": "Home and away for league side",
+      "url": "https://trello.com/c/3YPTSjnG",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737487716352,
+      "archived": true,
+      "markedComplete": false,
+      "dateCompleted": null,
+      "lastActivity": "2026-10-04T16:22:22.984Z",
+      "due": null,
+      "owners": [],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 158,
+      "title": "Fix getting opponent lineup",
+      "url": "https://trello.com/c/djC7EbsJ",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737487720448,
+      "archived": true,
+      "markedComplete": false,
+      "dateCompleted": null,
+      "lastActivity": "2026-10-04T16:22:21.365Z",
+      "due": null,
+      "owners": [],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 114,
+      "title": "Injured/Suspeneded Players appear in team roster when confirming squad for an event",
+      "url": "https://trello.com/c/Ea2RUO8v",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737487765504,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-10-10T15:03:09.347Z",
+      "lastActivity": "2026-10-10T15:03:09.348Z",
+      "due": null,
+      "owners": [
+        "Jai Parbhoo"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 163,
+      "title": "Export on Stats page + share button",
+      "url": "https://trello.com/c/O75uPEi6",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737487773184,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-10-09T14:43:05.329Z",
+      "lastActivity": "2026-10-09T14:43:07.174Z",
+      "due": null,
+      "owners": [
+        "Nayan Makanjee",
+        "Jai Parbhoo"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 145,
+      "title": "Cancelled events should cancel on all parties sides",
+      "url": "https://trello.com/c/dG44WLKr",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737487780864,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-10-09T14:42:05.956Z",
+      "lastActivity": "2026-10-09T14:42:05.956Z",
+      "due": null,
+      "owners": [
+        "Jai Parbhoo"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 181,
+      "title": "Fix calendar view on events on mobile",
+      "url": "https://trello.com/c/4n8x1SfP",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737487780896,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-10-09T12:12:46.105Z",
+      "lastActivity": "2026-10-09T13:40:49.764Z",
+      "due": null,
+      "owners": [
+        "Roko Vidjak"
+      ],
+      "labels": [],
+      "description": "Issue is when device has a navbar at the bottom",
+      "checklists": []
+    },
+    {
+      "number": 185,
+      "title": "Horizontol Scroll on Mobile Liver logger",
+      "url": "https://trello.com/c/gZxjEVaB",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737487780928,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-10-09T12:12:47.640Z",
+      "lastActivity": "2026-10-09T13:40:46.742Z",
+      "due": null,
+      "owners": [
+        "Roko Vidjak"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 146,
+      "title": "Currently injured number reports on number of injuries, not number of players injured",
+      "url": "https://trello.com/c/0TD9fbgv",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737487780992,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-10-09T07:19:22.334Z",
+      "lastActivity": "2026-10-09T09:20:01.511Z",
+      "due": null,
+      "owners": [
+        "Ayesha Ally"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 137,
+      "title": "Unclear for new user that they are required to add a team",
+      "url": "https://trello.com/c/3w1GG5Qf",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737487781120,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-10-08T21:05:31.748Z",
+      "lastActivity": "2026-10-09T12:13:02.679Z",
+      "due": null,
+      "owners": [
+        "Roko Vidjak"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 121,
+      "title": "On Roster Page, show athlete recent match log on right hand panel",
+      "url": "https://trello.com/c/UirOkW1K",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737487781376,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-10-09T07:04:30.097Z",
+      "lastActivity": "2026-10-09T07:04:30.099Z",
+      "due": null,
+      "owners": [
+        "Ayesha Ally"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 144,
+      "title": "Add revoke assistant permissions logic/button",
+      "url": "https://trello.com/c/QogNI5Lp",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737487798272,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-10-09T07:04:23.018Z",
+      "lastActivity": "2026-10-09T07:04:23.019Z",
+      "due": null,
+      "owners": [
+        "Ayesha Ally"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 183,
+      "title": "Auto Refresh on every single page",
+      "url": "https://trello.com/c/k3dVCgPb",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737487957512.25,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-10-07T14:41:33.007Z",
+      "lastActivity": "2026-10-07T14:41:42.493Z",
+      "due": null,
+      "owners": [
+        "Hemesh Parshotam"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 150,
+      "title": "Automatic refresh for match confirmation",
+      "url": "https://trello.com/c/zru0ZfXr",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737487961104.5,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-10-07T14:41:34.487Z",
+      "lastActivity": "2026-10-07T14:41:38.958Z",
+      "due": null,
+      "owners": [
+        "Hemesh Parshotam"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 157,
+      "title": "Auto refresh for opponents confirmed squad",
+      "url": "https://trello.com/c/BnS8DfRU",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737487968289,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-10-07T09:45:22.657Z",
+      "lastActivity": "2026-10-07T09:45:29.533Z",
+      "due": null,
+      "owners": [
+        "Hemesh Parshotam"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 180,
+      "title": "remove second score block on live logger, fix halftime score stuff",
+      "url": "https://trello.com/c/GMOtgoAF",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737487982658,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-10-07T09:44:56.685Z",
+      "lastActivity": "2026-10-07T09:45:07.131Z",
+      "due": null,
+      "owners": [
+        "Hemesh Parshotam"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 135,
+      "title": "Change tactics mid-match",
+      "url": "https://trello.com/c/X2SEfc3Z",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737487999042,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-10-02T21:36:53.974Z",
+      "lastActivity": "2026-10-02T21:37:00.181Z",
+      "due": null,
+      "owners": [
+        "Saurav Lall"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 148,
+      "title": "Fix location and Weather location flow on event creation",
+      "url": "https://trello.com/c/xFy8C3r0",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488015426,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-10-02T12:21:29.894Z",
+      "lastActivity": "2026-10-02T14:34:41.775Z",
+      "due": null,
+      "owners": [
+        "Hemesh Parshotam"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 152,
+      "title": "Fix Google Log in for Mobile",
+      "url": "https://trello.com/c/x2D3xf5n",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488015492,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-29T09:44:46.962Z",
+      "lastActivity": "2026-09-29T09:44:57.215Z",
+      "due": null,
+      "owners": [
+        "Hemesh Parshotam"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 149,
+      "title": "Fix Sizing on Roster Page",
+      "url": "https://trello.com/c/bxeIpGrJ",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488015624,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-28T22:17:10.696Z",
+      "lastActivity": "2026-09-28T22:17:14.715Z",
+      "due": null,
+      "owners": [
+        "Hemesh Parshotam"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 41,
+      "title": "Add a Remember me button on login",
+      "url": "https://trello.com/c/4Mcc6Do7",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488015888,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-27T21:35:08.614Z",
+      "lastActivity": "2026-09-28T19:30:34.896Z",
+      "due": null,
+      "owners": [
+        "Ayesha Ally",
+        "Hemesh Parshotam"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 147,
+      "title": "Add Filter to Live logger(Past, Upcoming and Today)",
+      "url": "https://trello.com/c/h70CVa32",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488016416,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-28T08:51:18.526Z",
+      "lastActivity": "2026-09-28T19:30:26.028Z",
+      "due": null,
+      "owners": [
+        "Saurav Lall"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 131,
+      "title": "Add Goalkeeper saves",
+      "url": "https://trello.com/c/b4qHWBkq",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488017472,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-27T20:11:04.591Z",
+      "lastActivity": "2026-09-27T21:18:46.133Z",
+      "due": null,
+      "owners": [
+        "Roko Vidjak"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 115,
+      "title": "Fix Mobile Footer",
+      "url": "https://trello.com/c/FAVaV3o3",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488019584,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-27T09:30:55.292Z",
+      "lastActivity": "2026-09-27T09:31:01.080Z",
+      "due": null,
+      "owners": [
+        "Hemesh Parshotam"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 122,
+      "title": "Events Calendar allows 1 to confirm squad of an already completed event, it should open the match report rather how the live event logging page has it",
+      "url": "https://trello.com/c/mVbNSljm",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488020992,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-26T16:15:50.655Z",
+      "lastActivity": "2026-09-26T16:15:56.038Z",
+      "due": null,
+      "owners": [
+        "Hemesh Parshotam"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 140,
+      "title": "Show Time event occured on match log on live logger and event history",
+      "url": "https://trello.com/c/XXKLEBUB",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488026624,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-26T16:02:05.923Z",
+      "lastActivity": "2026-09-26T16:02:11.539Z",
+      "due": null,
+      "owners": [
+        "Hemesh Parshotam"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 107,
+      "title": "Scroll on team page for fromation  puts the list out of screen when the last formations are selected",
+      "url": "https://trello.com/c/BvBiVfMc",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488037888,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-26T16:01:05.613Z",
+      "lastActivity": "2026-09-26T16:01:18.082Z",
+      "due": null,
+      "owners": [
+        "Hemesh Parshotam"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 127,
+      "title": "Remove the page scroll on the events page and make the scroll be just on the agenda tab",
+      "url": "https://trello.com/c/UgawFAlp",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488039936,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-26T16:01:08.329Z",
+      "lastActivity": "2026-09-26T16:01:14.021Z",
+      "due": null,
+      "owners": [
+        "Hemesh Parshotam"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 120,
+      "title": "In Live Logger, Make record opponent event button more visible",
+      "url": "https://trello.com/c/zQFy1jo7",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488044032,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-26T11:19:53.818Z",
+      "lastActivity": "2026-09-26T11:19:53.819Z",
+      "due": null,
+      "owners": [
+        "Roko Vidjak"
+      ],
+      "labels": [],
+      "description": "Also, validation, asks for an assist on a match where no opponent player details were recorded, same goes for subs red etc.\nif no opponent details were recorded, then only goal scored, red and yellows and pens can be recorded with no player selected",
+      "checklists": []
+    },
+    {
+      "number": 136,
+      "title": "Make pitch size smaller when adding opponent data",
+      "url": "https://trello.com/c/s9AgUkgN",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488060416,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-26T11:19:44.113Z",
+      "lastActivity": "2026-09-26T13:33:33.015Z",
+      "due": null,
+      "owners": [
+        "Roko Vidjak"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 142,
+      "title": "Add opponent Team Name to event creation, with league teams if available.",
+      "url": "https://trello.com/c/ZI9tZkYH",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488076800,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-23T19:02:54.872Z",
+      "lastActivity": "2026-09-23T19:03:02.584Z",
+      "due": null,
+      "owners": [
+        "Roko Vidjak",
+        "Jai Parbhoo"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 118,
+      "title": "On Landing page, tab panel on the right highlights last option on page refresh instead of \"OverView\"",
+      "url": "https://trello.com/c/sCwVvHvk",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488084992,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-24T09:02:43.903Z",
+      "lastActivity": "2026-09-24T09:02:57.323Z",
+      "due": null,
+      "owners": [
+        "Nayan Makanjee"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 132,
+      "title": "View all buttons on dashboard blocks to take you to that page, eg. View all on events block on dashbaord takes you to the events page",
+      "url": "https://trello.com/c/SRhT4Qc5",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488093184,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-18T14:30:17.294Z",
+      "lastActivity": "2026-09-19T22:52:20.685Z",
+      "due": null,
+      "owners": [
+        "Hemesh Parshotam"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 125,
+      "title": "live logger doesnt auto end at 90 minutes, mayve option of \"additional time to be added at the 90 minute mark\"",
+      "url": "https://trello.com/c/y62arVXO",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488109568,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-18T13:32:31.353Z",
+      "lastActivity": "2026-09-19T22:52:13.357Z",
+      "due": null,
+      "owners": [
+        "Roko Vidjak"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 126,
+      "title": "Fix Add event on post match",
+      "url": "https://trello.com/c/9Q2ijSxW",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488125952,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-13T10:38:22.876Z",
+      "lastActivity": "2026-09-13T15:17:05.365Z",
+      "due": null,
+      "owners": [
+        "Roko Vidjak"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 89,
+      "title": "show player stats on roster",
+      "url": "https://trello.com/c/UyOQVbi7",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488142336,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-13T09:45:53.173Z",
+      "lastActivity": "2026-09-13T15:16:59.900Z",
+      "due": null,
+      "owners": [
+        "Ayesha Ally"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 105,
+      "title": "Fix Events Page on mobile",
+      "url": "https://trello.com/c/FZDOQijn",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488158720,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-12T10:37:56.841Z",
+      "lastActivity": "2026-09-12T10:37:56.842Z",
+      "due": null,
+      "owners": [
+        "Ayesha Ally"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 116,
+      "title": "Fix Pre-Loader screen to be identical to Loading Screen",
+      "url": "https://trello.com/c/8rvHeV8u",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488166912,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-11T23:44:51.386Z",
+      "lastActivity": "2026-09-11T23:44:51.387Z",
+      "due": null,
+      "owners": [
+        "Ayesha Ally"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 93,
+      "title": "Fix Hamburger postion-Mobile",
+      "url": "https://trello.com/c/22wpys6D",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488252928,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-11T23:14:28.020Z",
+      "lastActivity": "2026-09-11T23:14:28.021Z",
+      "due": null,
+      "owners": [
+        "Ayesha Ally"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 103,
+      "title": "Player Can Score Goal After he was Given Red card",
+      "url": "https://trello.com/c/iH2LNESP",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488252966,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-11T12:57:36.273Z",
+      "lastActivity": "2026-09-11T15:00:13.776Z",
+      "due": null,
+      "owners": [
+        "Ayesha Ally"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 88,
+      "title": "Recent form and events on dashboard fix",
+      "url": "https://trello.com/c/pK5SE9Tq",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488253004,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-07T09:59:33.990Z",
+      "lastActivity": "2026-09-11T12:32:54.473Z",
+      "due": null,
+      "owners": [
+        "Ayesha Ally"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 112,
+      "title": "Injured/Suspended Players should be shown accordingly on team management as well",
+      "url": "https://trello.com/c/poV9l0zN",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488253080,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-06T16:14:31.770Z",
+      "lastActivity": "2026-09-11T12:32:49.716Z",
+      "due": null,
+      "owners": [
+        "Ayesha Ally"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 56,
+      "title": "Did not say email not found when trying to sign in on an unregistered account",
+      "url": "https://trello.com/c/8hO737f6",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488253232,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-07T09:59:48.705Z",
+      "lastActivity": "2026-09-11T12:32:46.852Z",
+      "due": null,
+      "owners": [
+        "Ayesha Ally"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 99,
+      "title": "Team tactics",
+      "url": "https://trello.com/c/3j3w53lz",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488253536,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-04T07:01:03.660Z",
+      "lastActivity": "2026-09-11T12:32:41.407Z",
+      "due": null,
+      "owners": [
+        "Saurav Lall"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 48,
+      "title": "Add Database Schema to Documentation",
+      "url": "https://trello.com/c/rfQOq4ad",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488254144,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-08-24T07:34:52.283Z",
+      "lastActivity": "2026-09-11T12:32:39.474Z",
+      "due": null,
+      "owners": [
+        "Hemesh Parshotam",
+        "Ayesha Ally"
+      ],
+      "labels": [],
+      "description": "Document the current database structure used by the Sport Coaching Tool, including the major tables and relationships between them.",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": "Review current database schema",
+              "complete": true
+            },
+            {
+              "name": " Identify all current tables",
+              "complete": true
+            },
+            {
+              "name": " Show primary keys",
+              "complete": true
+            },
+            {
+              "name": " Show foreign keys",
+              "complete": true
+            },
+            {
+              "name": " Show relationships between tables",
+              "complete": true
+            },
+            {
+              "name": " Generate/create database schema diagram",
+              "complete": true
+            },
+            {
+              "name": " Add short explanation of important tables",
+              "complete": true
+            },
+            {
+              "name": " Upload diagram to documentation",
+              "complete": true
+            },
+            {
+              "name": " Verify diagram matches current implementation",
+              "complete": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 47,
+      "title": "Add Product Backlog to Documentation",
+      "url": "https://trello.com/c/CzGaqfJV",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488255360,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-08-24T07:34:54.727Z",
+      "lastActivity": "2026-09-11T12:32:36.722Z",
+      "due": null,
+      "owners": [
+        "Ayesha Ally"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": "Gather current product backlog",
+              "complete": true
+            },
+            {
+              "name": " Include user stories/features",
+              "complete": true
+            },
+            {
+              "name": " Include priorities where applicable",
+              "complete": true
+            },
+            {
+              "name": " Include current status where applicable",
+              "complete": true
+            },
+            {
+              "name": " Format backlog clearly",
+              "complete": true
+            },
+            {
+              "name": " Add backlog page/section to documentation",
+              "complete": true
+            },
+            {
+              "name": " Add page to navigation",
+              "complete": true
+            },
+            {
+              "name": " Verify information matches the Trello backlog",
+              "complete": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 94,
+      "title": "Save Lineup to database",
+      "url": "https://trello.com/c/ScQOp0T4",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488257792,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-03T08:46:34.511Z",
+      "lastActivity": "2026-09-11T12:32:33.158Z",
+      "due": null,
+      "owners": [
+        "Saurav Lall"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 109,
+      "title": "Update Footer, Remove how it works and features buttons",
+      "url": "https://trello.com/c/riKeo0u0",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488262656,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-05T08:38:41.468Z",
+      "lastActivity": "2026-09-11T12:32:19.104Z",
+      "due": null,
+      "owners": [
+        "Nayan Makanjee"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 90,
+      "title": "Update Live logger ui",
+      "url": "https://trello.com/c/1VzhSQpc",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488272384,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-09T12:56:58.977Z",
+      "lastActivity": "2026-09-11T12:31:52.664Z",
+      "due": null,
+      "owners": [
+        "Hemesh Parshotam",
+        "Roko Vidjak"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 101,
+      "title": "Confirm Squad on Event Start should use the teams page for easier squad selection",
+      "url": "https://trello.com/c/tra86B5A",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488275456,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-11T12:16:43.322Z",
+      "lastActivity": "2026-09-11T12:31:48.146Z",
+      "due": null,
+      "owners": [
+        "Roko Vidjak"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 63,
+      "title": "Fix Light Mode on Landing Page",
+      "url": "https://trello.com/c/0axOzzNX",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488281600,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-05T08:41:51.596Z",
+      "lastActivity": "2026-09-05T08:41:54.176Z",
+      "due": null,
+      "owners": [
+        "Nayan Makanjee"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 92,
+      "title": "Add back Buttons on log in and sign up page",
+      "url": "https://trello.com/c/6UpEuoAM",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488283648,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-04T09:37:05.097Z",
+      "lastActivity": "2026-09-04T09:37:05.099Z",
+      "due": null,
+      "owners": [
+        "Hemesh Parshotam"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 64,
+      "title": "Fix status of athlete -editable",
+      "url": "https://trello.com/c/Nq9XtNDk",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488284672,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-04T10:03:54.557Z",
+      "lastActivity": "2026-09-05T08:42:17.081Z",
+      "due": null,
+      "owners": [
+        "Ayesha Ally"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 87,
+      "title": "Roster player add validation",
+      "url": "https://trello.com/c/hq2vJMEv",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488285696,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-03T11:55:12.374Z",
+      "lastActivity": "2026-09-03T15:41:21.823Z",
+      "due": null,
+      "owners": [
+        "Hemesh Parshotam"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 91,
+      "title": "Redirect from Log In to Dashboard",
+      "url": "https://trello.com/c/K6JWVSfO",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488287744,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-03T11:55:19.063Z",
+      "lastActivity": "2026-09-03T15:41:37.585Z",
+      "due": null,
+      "owners": [
+        "Hemesh Parshotam"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 102,
+      "title": "Data Validation On all Inputs",
+      "url": "https://trello.com/c/CTEUHCoC",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488288256,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-03T11:55:04.182Z",
+      "lastActivity": "2026-09-03T15:41:50.788Z",
+      "due": null,
+      "owners": [
+        "Hemesh Parshotam"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 100,
+      "title": "Fix Log out redirect - To Landing Page instead of Log in page",
+      "url": "https://trello.com/c/RrE4Q9RQ",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488288768,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-03T10:55:34.661Z",
+      "lastActivity": "2026-09-03T15:41:42.790Z",
+      "due": null,
+      "owners": [
+        "Hemesh Parshotam"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 60,
+      "title": "Update ReadMe with more info + AI declaration + doc site link",
+      "url": "https://trello.com/c/Eh8FLRdx",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488289792,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-08-23T16:49:47.575Z",
+      "lastActivity": "2026-08-23T16:49:53.152Z",
+      "due": null,
+      "owners": [
+        "Saurav Lall"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 61,
+      "title": "Get the landing page hero background to use the full page",
+      "url": "https://trello.com/c/HTOkeKZn",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488297984,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-08-24T12:21:48.397Z",
+      "lastActivity": "2026-08-24T12:21:51.413Z",
+      "due": null,
+      "owners": [
+        "Saurav Lall"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 57,
+      "title": "Deploy on vercel",
+      "url": "https://trello.com/c/Z1jkkhBD",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488306176,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-08-24T12:38:42.171Z",
+      "lastActivity": "2026-08-24T12:38:42.173Z",
+      "due": null,
+      "owners": [
+        "Hemesh Parshotam",
+        "Nayan Makanjee"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 49,
+      "title": "Upload Wireframes to Documentation",
+      "url": "https://trello.com/c/HGbKLrOF",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488338944,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-08-25T08:29:55.313Z",
+      "lastActivity": "2026-08-25T08:29:55.314Z",
+      "due": null,
+      "owners": [
+        "Roko Vidjak"
+      ],
+      "labels": [],
+      "description": "Add the project's UI wireframes/designs to the documentation site so that the intended interface and design process are clearly visible.",
+      "checklists": []
+    },
+    {
+      "number": 50,
+      "title": "Add Architecture / System Diagram",
+      "url": "https://trello.com/c/QeL3yjfQ",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488347136,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-08-25T08:29:56.820Z",
+      "lastActivity": "2026-08-25T08:29:56.821Z",
+      "due": null,
+      "owners": [
+        "Roko Vidjak"
+      ],
+      "labels": [],
+      "description": "Create and document a high-level architecture diagram showing how the main components and technologies of the Sport Coaching Tool interact. Include recognizable platform/technology logos where appropriate.",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": "Identify frontend component",
+              "complete": false
+            },
+            {
+              "name": " Identify backend/API component",
+              "complete": false
+            },
+            {
+              "name": " Identify authentication component",
+              "complete": false
+            },
+            {
+              "name": " Identify database component",
+              "complete": false
+            },
+            {
+              "name": " Show communication between components",
+              "complete": false
+            },
+            {
+              "name": " Add relevant platform/technology logos",
+              "complete": false
+            },
+            {
+              "name": " Label connections clearly",
+              "complete": false
+            },
+            {
+              "name": " Add short architecture explanation",
+              "complete": false
+            },
+            {
+              "name": " Upload diagram to documentation site",
+              "complete": false
+            },
+            {
+              "name": " Verify diagram reflects the actual implementation",
+              "complete": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 51,
+      "title": "Add Application Footer",
+      "url": "https://trello.com/c/7t3juAMk",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488351232,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-08-24T12:38:49.799Z",
+      "lastActivity": "2026-08-24T12:38:49.801Z",
+      "due": null,
+      "owners": [
+        "Saurav Lall"
+      ],
+      "labels": [],
+      "description": "Add a consistent footer to the appropriate public-facing pages of the Sport Coaching Tool.",
+      "checklists": []
+    },
+    {
+      "number": 55,
+      "title": "Add Settings Page",
+      "url": "https://trello.com/c/HikaFmPI",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488359424,
+      "archived": true,
+      "markedComplete": false,
+      "dateCompleted": null,
+      "lastActivity": "2026-08-20T17:02:13.947Z",
+      "due": null,
+      "owners": [],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 46,
+      "title": "Add Methodology Overview to Documentation",
+      "url": "https://trello.com/c/9ozyv43u",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488364032,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-08-23T21:13:57.966Z",
+      "lastActivity": "2026-08-30T12:02:40.697Z",
+      "due": null,
+      "owners": [
+        "Hemesh Parshotam",
+        "Roko Vidjak",
+        "Nayan Makanjee"
+      ],
+      "labels": [],
+      "description": "Add a methodology section to the project documentation explaining how the team manages and develops the Sport Coaching Tool. This should explain the development approach and how work progresses through the sprint.",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": "Create Methodology page",
+              "complete": true
+            },
+            {
+              "name": " Explain the methodology used by the team",
+              "complete": true
+            },
+            {
+              "name": " Explain sprint planning",
+              "complete": true
+            },
+            {
+              "name": " Explain use of the product/sprint backlog",
+              "complete": true
+            },
+            {
+              "name": " Explain standups",
+              "complete": true
+            },
+            {
+              "name": " Explain feature branch → development → main workflow",
+              "complete": true
+            },
+            {
+              "name": " Explain code review/pull request process",
+              "complete": true
+            },
+            {
+              "name": " Add page to documentation navigation",
+              "complete": true
+            },
+            {
+              "name": " Check formatting and links",
+              "complete": true
+            },
+            {
+              "name": " Deploy/update documentation site",
+              "complete": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 45,
+      "title": "Update Sprint Backlog Statuses",
+      "url": "https://trello.com/c/uwN4rp8I",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488364544,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-08-23T10:12:13.902Z",
+      "lastActivity": "2026-08-23T10:12:28.398Z",
+      "due": null,
+      "owners": [
+        "Hemesh Parshotam"
+      ],
+      "labels": [],
+      "description": "Keep the sprint backlog accurate and up to date before every standup. Each team member should update the status of their assigned user stories and technical tasks so that the board reflects the team's actual progress.",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": "Review all Sprint 1 cards",
+              "complete": true
+            },
+            {
+              "name": " Move completed tasks to Done",
+              "complete": true
+            },
+            {
+              "name": " Move active tasks to In Progress",
+              "complete": true
+            },
+            {
+              "name": " Identify blocked/incomplete tasks",
+              "complete": true
+            },
+            {
+              "name": " Make sure each card has the correct assignee",
+              "complete": true
+            },
+            {
+              "name": " Make sure completed acceptance criteria/checklists are ticked",
+              "complete": true
+            },
+            {
+              "name": " Repeat before every standup",
+              "complete": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 42,
+      "title": "Logo Update",
+      "url": "https://trello.com/c/3Yiw1TTs",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488371712,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-08-19T14:08:39.555Z",
+      "lastActivity": "2026-08-19T14:16:42.997Z",
+      "due": null,
+      "owners": [
+        "Hemesh Parshotam"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 43,
+      "title": "standarderize sixing and fonts and layout on all pages",
+      "url": "https://trello.com/c/5XXIAQGw",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488388096,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-08-20T16:34:59.724Z",
+      "lastActivity": "2026-08-20T16:35:04.816Z",
+      "due": null,
+      "owners": [
+        "Hemesh Parshotam"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 106,
+      "title": "Fix: Auto Fill on Team Selection puts players out of position when there is players on bench available to play in that position",
+      "url": "https://trello.com/c/N21z8R3h",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488404480,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-04T09:36:25.549Z",
+      "lastActivity": "2026-09-04T10:36:18.101Z",
+      "due": null,
+      "owners": [
+        "Jai Parbhoo"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 62,
+      "title": "Remove the Pruduct page on the landing page?",
+      "url": "https://trello.com/c/AHwQ8yXD",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488510976,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-03T08:33:31.667Z",
+      "lastActivity": "2026-09-03T08:48:40.886Z",
+      "due": null,
+      "owners": [
+        "Nayan Makanjee"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 153,
+      "title": "Player event calendar is stretched",
+      "url": "https://trello.com/c/fSslHyzO",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488527360,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-29T18:59:57.578Z",
+      "lastActivity": "2026-09-29T19:00:31.813Z",
+      "due": null,
+      "owners": [
+        "Jai Parbhoo"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 154,
+      "title": "Players can still rsvp to events after the events have already passed",
+      "url": "https://trello.com/c/QtrwPz2x",
+      "listId": "6a85acc371970b3eee52f387",
+      "position": 140737488543744,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-29T19:00:28.639Z",
+      "lastActivity": "2026-09-29T19:00:38.096Z",
+      "due": null,
+      "owners": [
+        "Jai Parbhoo"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 65,
+      "title": "Live Logger",
+      "url": "https://trello.com/c/WAiu7Fdk",
+      "listId": "6a94366c29852844fdd49532",
+      "position": 140737488355328,
+      "archived": true,
+      "markedComplete": false,
+      "dateCompleted": null,
+      "lastActivity": "2026-09-09T13:51:55.026Z",
+      "due": null,
+      "owners": [
+        "Roko Vidjak"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 111,
+      "title": "S2: Player Role and Permissions",
+      "url": "https://trello.com/c/D8kYmcPM",
+      "listId": "6a94366c29852844fdd49532",
+      "position": 140737488470016,
+      "archived": true,
+      "markedComplete": false,
+      "dateCompleted": null,
+      "lastActivity": "2026-09-11T12:40:32.370Z",
+      "due": null,
+      "owners": [
+        "Jai Parbhoo"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 190,
+      "title": "Block background on page names for each page",
+      "url": "https://trello.com/c/Z8Yq2XVj",
+      "listId": "6aabe0ffe1cee310a044ced9",
+      "position": 140737487745024,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-10-10T15:46:20.841Z",
+      "lastActivity": "2026-10-10T19:36:44.855Z",
+      "due": null,
+      "owners": [
+        "Nayan Makanjee"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 130,
+      "title": "Add account deletion, email change, password reset and password change",
+      "url": "https://trello.com/c/HG4lWTcB",
+      "listId": "6aabe0ffe1cee310a044ced9",
+      "position": 140737488338944,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-10-08T22:29:52.920Z",
+      "lastActivity": "2026-10-10T08:44:33.397Z",
+      "due": null,
+      "owners": [
+        "Jai Parbhoo"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 164,
+      "title": "Frontend+Backend Vulnerabilities",
+      "url": "https://trello.com/c/ry1vOuAj",
+      "listId": "6aabe0ffe1cee310a044ced9",
+      "position": 140737488343040,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-10-10T21:20:45.483Z",
+      "lastActivity": "2026-10-10T21:20:51.863Z",
+      "due": null,
+      "owners": [
+        "Ayesha Ally",
+        "Hemesh Parshotam"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 189,
+      "title": "Review methodology docs - squash merge commit, reviewed as comments, commit after CI checks",
+      "url": "https://trello.com/c/Y5uLqEnd",
+      "listId": "6aabe0ffe1cee310a044ced9",
+      "position": 140737488345088,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-10-10T21:20:54.048Z",
+      "lastActivity": "2026-10-10T21:21:01.771Z",
+      "due": null,
+      "owners": [
+        "Hemesh Parshotam"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 176,
+      "title": "HARD-001: Remove Development Origins from Production Security Configuration",
+      "url": "https://trello.com/c/k8eoIuiL",
+      "listId": "6aabe0ffe1cee310a044ced9",
+      "position": 140737488347136,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-10-09T22:05:14.003Z",
+      "lastActivity": "2026-10-09T22:05:16.190Z",
+      "due": null,
+      "owners": [
+        "Saurav Lall"
+      ],
+      "labels": [],
+      "description": "Production CORS and Better Auth trusted-origin configuration currently retains localhost/development origins.\n\n**Required Changes**\n\n- Remove localhost origins from production CORS allowlists.\n- Remove localhost from production Better Auth trusted origins.\n- Keep localhost available in development only.\n- Confirm credentialed APIs only allow expected production origins.\n- Verify unauthenticated public APIs still behave as intended.",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": "Production only trusts approved production domains.",
+              "complete": false
+            },
+            {
+              "name": "Development still works locally.",
+              "complete": false
+            },
+            {
+              "name": "Authentication works on production.",
+              "complete": false
+            },
+            {
+              "name": "Credentialed cross-origin requests from unauthorized origins fail.",
+              "complete": false
+            },
+            {
+              "name": "Vercel frontend can communicate with Render backend normally.",
+              "complete": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 155,
+      "title": "API",
+      "url": "https://trello.com/c/gsI2Be31",
+      "listId": "6aabe0ffe1cee310a044ced9",
+      "position": 140737488355328,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-10-05T19:21:33.721Z",
+      "lastActivity": "2026-10-07T09:47:29.501Z",
+      "due": null,
+      "owners": [],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 177,
+      "title": "HARD-002: Review Public Swagger Exposure",
+      "url": "https://trello.com/c/4haTTJUs",
+      "listId": "6aabe0ffe1cee310a044ced9",
+      "position": 140737488551936,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-10-07T10:24:55.823Z",
+      "lastActivity": "2026-10-07T10:30:04.225Z",
+      "due": null,
+      "owners": [
+        "Hemesh Parshotam"
+      ],
+      "labels": [],
+      "description": "Swagger documentation is currently part of the unauthenticated attack surface identified by the audit.\n\n‌\n\n**Required Changes**\n\n- Determine whether production Swagger is required.\n- If not required:\n  - Disable Swagger in production.\n- If required:\n  - Consider authentication/IP restrictions.\n  - Ensure no sensitive internal information is exposed.\n- Keep Swagger available for local development where useful.",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": "Explicit production Swagger policy exists.",
+              "complete": true
+            },
+            {
+              "name": "Public Swagger is disabled or intentionally approved.",
+              "complete": true
+            },
+            {
+              "name": "Development Swagger remains available if required.",
+              "complete": true
+            },
+            {
+              "name": "Swagger does not expose secrets or internal credentials.",
+              "complete": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 167,
+      "title": "SEC-003: Restore Login CSRF Protection",
+      "url": "https://trello.com/c/PVvbkTY6",
+      "listId": "6aabe0ffe1cee310a044ced9",
+      "position": 140737488560128,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-10-07T22:34:11.555Z",
+      "lastActivity": "2026-10-08T20:23:01.737Z",
+      "due": null,
+      "owners": [
+        "Ayesha Ally"
+      ],
+      "labels": [],
+      "description": "The custom email sign-in wrapper bypasses Better Auth’s request-based login CSRF protection because the incoming HTTP request is not passed through Better Auth’s normal HTTP middleware.\n\nA malicious website could potentially submit the attacker’s own credentials to the Gaffer login endpoint and cause the victim’s browser to become authenticated as the attacker.\n\n**Affected Code**\n\n```\nbackend/src/auth/auth.controller.ts\nBetter Auth sign-in integration\n```\n\n**Required Changes**\n\n- Restore request-aware CSRF protection.\n- Either:\n  - Validate `Origin` / Fetch Metadata on the NestJS sign-in endpoint, or\n  - Route sign-in through Better Auth’s HTTP handler.\n- Reject inappropriate cross-origin form submissions.\n- Preserve normal same-origin JSON authentication.\n- Do not break Google/OAuth login flows.",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": "Cross-site form login cannot create a session.",
+              "complete": true
+            },
+            {
+              "name": "Same-origin application login continues working.",
+              "complete": true
+            },
+            {
+              "name": "Legitimate OAuth flows continue working.",
+              "complete": true
+            },
+            {
+              "name": "Appropriate Origin/Fetch Metadata validation is covered by tests.",
+              "complete": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 184,
+      "title": "80% Code Coverage",
+      "url": "https://trello.com/c/6QoDSYLD",
+      "listId": "6aabe0ffe1cee310a044ced9",
+      "position": 140737488560640,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-10-09T18:55:03.220Z",
+      "lastActivity": "2026-10-09T18:55:09.324Z",
+      "due": null,
+      "owners": [
+        "Saurav Lall"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 172,
+      "title": "SEC-008: Rate Limit and Cache Public Dashboard Queries",
+      "url": "https://trello.com/c/ut9fRVDX",
+      "listId": "6aabe0ffe1cee310a044ced9",
+      "position": 140737488561152,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-10-08T18:48:42.641Z",
+      "lastActivity": "2026-10-08T21:03:15.994Z",
+      "due": null,
+      "owners": [
+        "Saurav Lall"
+      ],
+      "labels": [],
+      "description": "Public dashboard endpoints can perform relatively expensive database work without application-level throttling or response caching.\n\nPlayer requests can return up to 500 rows while also calculating per-player match statistics.\n\n**Affected Code**\n\n```\nbackend/src/public-api/public-dashboard.controller.ts\nbackend/src/public-api/public-dashboard.service.ts\nbackend/src/public-api/public-api.schemas.ts\n```\n\n**Required Changes**\n\n- Add rate limiting for anonymous/public dashboard endpoints.\n- Cache suitable public responses.\n- Review the maximum `500` player result limit.\n- Benchmark worst-case queries.\n- Inspect database query plans.\n- Ensure filters remain bounded.\n- Prevent repeated identical anonymous requests from repeatedly performing expensive aggregation.",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": "Anonymous requests are throttled appropriately.",
+              "complete": true
+            },
+            {
+              "name": "Frequently requested public data can be served from cache.",
+              "complete": true
+            },
+            {
+              "name": "Worst-case query latency is measured.",
+              "complete": true
+            },
+            {
+              "name": "Queries remain performant as dataset size increases.",
+              "complete": true
+            },
+            {
+              "name": "Rate limiting does not interfere with normal browsing.",
+              "complete": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 166,
+      "title": "SEC-002: Add Distributed Rate Limiting to Authentication Endpoints",
+      "url": "https://trello.com/c/N73o6VcF",
+      "listId": "6aabe0ffe1cee310a044ced9",
+      "position": 140737488561408,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-10-08T21:03:00.741Z",
+      "lastActivity": "2026-10-08T21:03:04.704Z",
+      "due": null,
+      "owners": [
+        "Ayesha Ally"
+      ],
+      "labels": [],
+      "description": "The custom NestJS authentication wrappers call Better Auth APIs directly. This bypasses Better Auth’s HTTP router rate limiter.\n\nAffected flows include:\n\n- Sign in\n- Sign up\n- Verification email resend\n\nThis could allow credential stuffing, email bombing, and excessive backend/email-provider resource usage.\n\nThe audit recommends a shared production-safe rate limiter with limits that work across backend instances.\n\n**Affected Code**\n\n```\nbackend/src/auth/auth.controller.ts\nbackend/src/auth/auth.ts\n```\n\n**Required Changes**\n\n- Add application-level rate limiting to public authentication routes.\n- Rate limit:\n  - `/auth/sign-in`\n  - Sign-up route\n  - Verification email resend route\n- Use separate policies for:\n  - Password attempts\n  - Email-sending operations\n- Rate limiting must work across multiple Render/backend instances.\n- Do not rely exclusively on in-memory counters.\n- Preserve generic/uniform authentication error messages.\n- Avoid exposing whether an email/account exists.\n\n**Security Verification**\n\n```\nExceed sign-in limit\n→ Expect 429\n\nExceed email-send limit\n→ Expect 429\n\nRepeat requests across multiple backend instances\n→ Limit must still apply\n```",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": "Repeated authentication attempts eventually return 429 Too Many Requests.",
+              "complete": true
+            },
+            {
+              "name": "Verification email abuse is throttled.",
+              "complete": true
+            },
+            {
+              "name": "Concurrent requests cannot trivially bypass the limit.",
+              "complete": true
+            },
+            {
+              "name": "A second application instance shares rate-limit state.",
+              "complete": true
+            },
+            {
+              "name": "Normal authentication remains functional.",
+              "complete": true
+            },
+            {
+              "name": "Error messages do not introduce account enumeration.",
+              "complete": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 175,
+      "title": "SEC-011: Update Vulnerable Dependency Chains",
+      "url": "https://trello.com/c/0biKPHQK",
+      "listId": "6aabe0ffe1cee310a044ced9",
+      "position": 140737488561664,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-10-08T20:54:58.550Z",
+      "lastActivity": "2026-10-08T21:03:24.274Z",
+      "due": null,
+      "owners": [
+        "Saurav Lall"
+      ],
+      "labels": [],
+      "description": "The audit found dependency advisories in both frontend and backend dependency trees.\n\n**Required Changes**\n\n- Run fresh dependency audits.\n- Inspect dependency trees.\n- Update affected package chains where safe.\n- Avoid blindly running breaking upgrades.\n- Reassess whether affected functionality is reachable.\n- Move CLI-only tooling out of production dependencies where possible.\n- Specifically review whether `shadcn` needs to exist in production dependencies.\n\n**Commands / Checks**\n\n```\nnpm audit --omit=dev\nnpm ls\n```\n\nRun separately for:\n\n```\n/backend\n/frontend\n/root\n```",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": "Dependency audits have been rerun.",
+              "complete": true
+            },
+            {
+              "name": "Applicable vulnerable dependencies are updated.",
+              "complete": true
+            },
+            {
+              "name": "Application builds successfully.",
+              "complete": true
+            },
+            {
+              "name": "Authentication works.",
+              "complete": true
+            },
+            {
+              "name": "Frontend builds successfully.",
+              "complete": true
+            },
+            {
+              "name": "Backend tests pass.",
+              "complete": true
+            },
+            {
+              "name": "Production-only dependency tree is reviewed.",
+              "complete": true
+            },
+            {
+              "name": "Remaining advisories have documented justification.",
+              "complete": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 178,
+      "title": "Check Audit Performace validation doc",
+      "url": "https://trello.com/c/STlhB3Oc",
+      "listId": "6aabe0ffe1cee310a044ced9",
+      "position": 140737488561920,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-10-09T20:00:25.467Z",
+      "lastActivity": "2026-10-09T20:00:29.919Z",
+      "due": null,
+      "owners": [
+        "Hemesh Parshotam"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 169,
+      "title": "SEC-005: Prevent CSV Formula Injection",
+      "url": "https://trello.com/c/WgfUAl4H",
+      "listId": "6aabe0ffe1cee310a044ced9",
+      "position": 140737488562176,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-10-07T22:34:15.537Z",
+      "lastActivity": "2026-10-08T20:23:04.468Z",
+      "due": null,
+      "owners": [
+        "Ayesha Ally"
+      ],
+      "labels": [],
+      "description": "CSV output escapes normal CSV characters but does not protect against spreadsheet formulas.\n\nA user-controlled value beginning with characters such as:\n\n```\n=\n+\n- \n@\n```\n\ncould be interpreted as a spreadsheet formula when an exported report is opened.\n\n**Affected Code**\n\n```\nfrontend/src/features/statistics/team-report-model.ts\nfrontend/src/features/statistics/report-export.ts\nbackend/src/statistics/statistics.service.ts\n```\n\n**Required Changes**\n\n- Harden `csvCell`.\n- Neutralize cells beginning with spreadsheet formula characters.\n- Account for leading:\n  - Whitespace\n  - Tabs\n  - Control characters\n- Continue performing normal CSV escaping for:\n  - Quotes\n  - Commas\n  - Newlines\n- Apply protection to all user-controlled report values including:\n  - Team names\n  - Competition names\n  - Opponent names\n  - Player names",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": "Values beginning with = appear as literal text.",
+              "complete": true
+            },
+            {
+              "name": "Values beginning with + appear as literal text.",
+              "complete": true
+            },
+            {
+              "name": "Values beginning with - appear as literal text.",
+              "complete": true
+            },
+            {
+              "name": "Values beginning with @ appear as literal text.",
+              "complete": true
+            },
+            {
+              "name": "Leading whitespace/control characters cannot bypass protection.",
+              "complete": true
+            },
+            {
+              "name": "Existing CSV exports remain valid.",
+              "complete": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 168,
+      "title": "SEC-004: Minimize Player Roster API Response",
+      "url": "https://trello.com/c/5EIJ7LSb",
+      "listId": "6aabe0ffe1cee310a044ced9",
+      "position": 140737488564224,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-10-07T22:34:13.931Z",
+      "lastActivity": "2026-10-08T20:23:03.122Z",
+      "due": null,
+      "owners": [
+        "Ayesha Ally"
+      ],
+      "labels": [],
+      "description": "`GET /player/team` returns significantly more athlete information than the player roster UI requires.\n\nThe current response can expose teammate fields including:\n\n- Exact date of birth\n- Internal user ID\n- Status\n- Internal timestamps\n\nThe team authorization boundary is working, but the response contains unnecessary personal information.\n\n**Affected Code**\n\n```\nbackend/src/player/player.service.ts\nbackend/src/athletes/athletes.service.ts\nbackend/src/database/schema/index.ts\n```\n\n**Required Changes**\n\n- Create an explicit player-facing roster DTO.\n- Return only fields required by the roster UI.\n- Remove:\n  - Exact `dateOfBirth`\n  - Internal `userId`\n  - Internal timestamps\n  - Other unnecessary internal fields\n- If age is required, calculate/derive it server-side rather than exposing DOB.\n- Do not return raw database athlete objects directly.",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": "Player roster UI still works.",
+              "complete": true
+            },
+            {
+              "name": "Exact date of birth is absent.",
+              "complete": true
+            },
+            {
+              "name": "Internal user ID is absent.",
+              "complete": true
+            },
+            {
+              "name": "Team scoping continues working.",
+              "complete": true
+            },
+            {
+              "name": "Internal timestamps are absent unless explicitly necessary.",
+              "complete": true
+            },
+            {
+              "name": "Tests verify the exact response contract.",
+              "complete": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 165,
+      "title": "SEC-001: Restrict Team Updates to Coaches",
+      "url": "https://trello.com/c/4P228v86",
+      "listId": "6aabe0ffe1cee310a044ced9",
+      "position": 140737488568320,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-10-07T22:34:08.999Z",
+      "lastActivity": "2026-10-08T20:23:00.261Z",
+      "due": null,
+      "owners": [
+        "Ayesha Ally"
+      ],
+      "labels": [],
+      "description": "Assistants are currently able to modify the team name and colour through the coach-level `PATCH /teams` endpoint.\n\nThe endpoint validates that the user has a session but does not enforce coach-level membership before calling the team update service. The underlying lookup accepts both coaches and assistants.\n\n**Affected Code**\n\n```\nbackend/src/teams/teams.controller.ts\nbackend/src/teams/teams.service.ts\n```\n\n**Required Changes**\n\n- Require coach membership before allowing `PATCH /teams`.\n- Do not rely only on the controller for authorization.\n- Enforce the coach requirement inside the service or a shared authorization guard.\n- Ensure assistants cannot modify:\n  - Team name\n  - Team colour\n  - Other coach-only team identity/settings\n- Ensure competition-team display names cannot indirectly be changed by an assistant.\n\n**Security Verification**\n\n```\nSign in as assistant\n→ PATCH /teams\n→ Expect 403\n→ Verify database unchanged\n\nSign in as coach\n→ PATCH /teams\n→ Expect successful update\n```",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": "Coach can update the team successfully.",
+              "complete": true
+            },
+            {
+              "name": "Assistant receives 403 Forbidden.",
+              "complete": true
+            },
+            {
+              "name": "Assistant request causes no database changes.",
+              "complete": true
+            },
+            {
+              "name": "Competition-team display names remain unchanged after an unauthorized request.",
+              "complete": true
+            },
+            {
+              "name": "Authorization is enforced server-side.",
+              "complete": true
+            },
+            {
+              "name": "Add/update automated tests covering coach and assistant roles.",
+              "complete": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 170,
+      "title": "SEC-006: Fix Failed Logout Session Handling",
+      "url": "https://trello.com/c/MWFXumTZ",
+      "listId": "6aabe0ffe1cee310a044ced9",
+      "position": 140737488584704,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-10-08T20:51:45.317Z",
+      "lastActivity": "2026-10-08T20:52:40.345Z",
+      "due": null,
+      "owners": [
+        "Ayesha Ally"
+      ],
+      "labels": [],
+      "description": "The frontend currently clears its local authentication state even when `/auth/sign-out` fails.\n\nBecause the actual session cookie is `HttpOnly`, JavaScript cannot remove it. A failed backend logout can therefore leave the server session active even though the UI appears logged out. Reloading the page may restore the session.\n\n**Affected Code**\n\n```\nfrontend/src/context/AuthContext.tsx\nbackend/src/auth/auth.controller.ts\n```\n\n**Required Changes**\n\n- Do not present logout as successfully completed when server revocation fails.\n- Detect server logout failure.\n- Inform the user appropriately.\n- Retry logout when connectivity becomes available.\n- Ensure UI state accurately represents server session state.\n- Provide safe handling for offline logout attempts.",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": "Successful logout removes/revokes server session.",
+              "complete": true
+            },
+            {
+              "name": "Failed logout is clearly detected.",
+              "complete": true
+            },
+            {
+              "name": "UI does not falsely claim that the secure session has ended.",
+              "complete": true
+            },
+            {
+              "name": "Reload after failed logout produces expected authenticated state.",
+              "complete": true
+            },
+            {
+              "name": "Retry flow successfully revokes session when connectivity returns.",
+              "complete": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 171,
+      "title": "SEC-007: Prevent Verification and Invite Tokens from Being Logged in Production",
+      "url": "https://trello.com/c/EH4DaJky",
+      "listId": "6aabe0ffe1cee310a044ced9",
+      "position": 140737488601088,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-10-08T20:51:46.862Z",
+      "lastActivity": "2026-10-08T20:52:52.962Z",
+      "due": null,
+      "owners": [
+        "Ayesha Ally"
+      ],
+      "labels": [],
+      "description": "When `BREVO_API_KEY` is missing, the email implementation logs complete verification/invitation URLs.\n\nThis development fallback is not currently restricted to development environments. If production email configuration breaks, bearer URLs could enter centralized production logs.\n\n**Affected Code**\n\n```\nbackend/src/email/email.ts\n```\n\n**Required Changes**\n\n- Fail closed in production if required email configuration is missing.\n- Never log complete:\n  - Verification URLs\n  - Invite URLs\n  - Player claim URLs\n  - Bearer tokens\n- Allow link logging only in an explicitly development environment.\n- Redact tokens from production logs.\n- Do not return success when production email delivery was not actually configured.",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": "Production startup/use without required email configuration does not expose links.",
+              "complete": true
+            },
+            {
+              "name": "Complete bearer URLs never appear in production logs",
+              "complete": true
+            },
+            {
+              "name": "Development environment can retain an intentional developer fallback.",
+              "complete": true
+            },
+            {
+              "name": "Failed production email delivery is not reported as success.",
+              "complete": true
+            },
+            {
+              "name": "Logs contain no reusable verification/invite credentials.",
+              "complete": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 173,
+      "title": "SEC-009: Add Browser Security Headers",
+      "url": "https://trello.com/c/qbVkvCTg",
+      "listId": "6aabe0ffe1cee310a044ced9",
+      "position": 140737488609280,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-10-09T11:35:48.536Z",
+      "lastActivity": "2026-10-09T11:35:56.327Z",
+      "due": null,
+      "owners": [
+        "Hemesh Parshotam"
+      ],
+      "labels": [],
+      "description": "The repository does not currently define several browser security headers.\n\nThe audit specifically mentions:\n\n- Content Security Policy\n- Frame protection / `frame-ancestors`\n- `X-Content-Type-Options`\n- `Referrer-Policy`\n\nThe live Vercel/Render responses were not tested, so existing platform-level headers should be inspected before implementing changes.\n\n**Affected Areas**\n\n```\nbackend/src/main.ts\nfrontend/vercel.json\nVercel configuration\nRender configuration\n```\n\n**Required Changes**\n\n- Inspect existing production response headers.\n- Add a tested CSP.\n- Add `frame-ancestors` protection.\n- Add `X-Content-Type-Options: nosniff`.\n- Configure an appropriate `Referrer-Policy`.\n- Consider HSTS only after confirming hosts are HTTPS-only.\n- Avoid breaking third-party integrations.\n\n**Regression Testing**\nTest:\n\n- Google OAuth\n- PWA functionality\n- Maps\n- CSV exports\n- PDF exports\n- API requests\n- Better Auth\n- External services used by Gaffer",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": "Production responses contain agreed security headers.",
+              "complete": true
+            },
+            {
+              "name": "OAuth works.",
+              "complete": true
+            },
+            {
+              "name": "PWA works.",
+              "complete": true
+            },
+            {
+              "name": "Maps work.",
+              "complete": true
+            },
+            {
+              "name": "Reporting/export features work.",
+              "complete": true
+            },
+            {
+              "name": "No required assets are blocked by CSP.",
+              "complete": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 174,
+      "title": "SEC-010: Disable PowerSync Temporary Development Tokens in Production",
+      "url": "https://trello.com/c/gikzrhiW",
+      "listId": "6aabe0ffe1cee310a044ced9",
+      "position": 140737488617472,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-10-09T09:52:17.968Z",
+      "lastActivity": "2026-10-09T10:11:53.054Z",
+      "due": null,
+      "owners": [
+        "Hemesh Parshotam"
+      ],
+      "labels": [],
+      "description": "Both PowerSync configuration templates currently allow temporary development tokens:\n\n```\nallow_temporary_tokens: true\n```\n\nThe audit could not confirm which configuration is currently deployed. Gaffer Security Audit\n\n**Affected Code**\n\n```\npowersync/service.yaml\npowersync-recovery/service.yaml\n```\n\n**Required Changes**\n\n- Inspect live PowerSync configuration.\n- Disable temporary development tokens in production.\n- Restrict PowerSync dashboard permissions.\n- Confirm only authorized operators can access token-management functionality.\n- Keep development conveniences isolated from production.",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": "Production has temporary development tokens disabled.",
+              "complete": true
+            },
+            {
+              "name": "Normal /sync/token authentication continues working.",
+              "complete": true
+            },
+            {
+              "name": "team_id continues being derived server-side.",
+              "complete": true
+            },
+            {
+              "name": "Dashboard access follows least privilege.",
+              "complete": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 139,
+      "title": "PWA & Offline support",
+      "url": "https://trello.com/c/hTk9q5jj",
+      "listId": "6aabe0ffe1cee310a044ced9",
+      "position": 140737488748544,
+      "archived": true,
+      "markedComplete": false,
+      "dateCompleted": null,
+      "lastActivity": "2026-09-17T14:52:18.378Z",
+      "due": null,
+      "owners": [],
+      "labels": [],
+      "description": "",
+      "checklists": []
+    },
+    {
+      "number": 86,
+      "title": "S3: Alternative Football Formats",
+      "url": "https://trello.com/c/clwOaaP3",
+      "listId": "6a9816303453d6ea51f4983d",
+      "position": 140737488194560,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-27T20:22:32.686Z",
+      "lastActivity": "2026-09-28T18:41:01.086Z",
+      "due": null,
+      "owners": [
+        "Jai Parbhoo"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": "Support alternative team/player formats",
+              "complete": true
+            },
+            {
+              "name": "Update formation options",
+              "complete": true
+            },
+            {
+              "name": "Validate format rules",
+              "complete": true
+            },
+            {
+              "name": "Test alternative formats",
+              "complete": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 85,
+      "title": "S3: Automatic Season Scheduling",
+      "url": "https://trello.com/c/BhSiymWN",
+      "listId": "6a9816303453d6ea51f4983d",
+      "position": 140737488210944,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-26T18:49:22.758Z",
+      "lastActivity": "2026-09-28T18:41:45.925Z",
+      "due": null,
+      "owners": [
+        "Jai Parbhoo"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": "Generate season fixtures automatically",
+              "complete": true
+            },
+            {
+              "name": "Prevent scheduling conflicts",
+              "complete": true
+            },
+            {
+              "name": "Support competition schedule requirements",
+              "complete": true
+            },
+            {
+              "name": "Test generated schedules",
+              "complete": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 81,
+      "title": "S3: Automated Performance Insights",
+      "url": "https://trello.com/c/tyi8IZ7F",
+      "listId": "6a9816303453d6ea51f4983d",
+      "position": 140737488215040,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-27T09:29:42.701Z",
+      "lastActivity": "2026-09-28T18:42:09.349Z",
+      "due": null,
+      "owners": [
+        "Saurav Lall"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": "Generate performance insights from match data",
+              "complete": true
+            },
+            {
+              "name": "Display insights to coaches",
+              "complete": true
+            },
+            {
+              "name": "Handle insufficient/no data",
+              "complete": true
+            },
+            {
+              "name": "Test generated insights",
+              "complete": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 82,
+      "title": "S3: Player Selection Suggestions",
+      "url": "https://trello.com/c/2UP8CQAb",
+      "listId": "6a9816303453d6ea51f4983d",
+      "position": 140737488219136,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-27T09:29:38.746Z",
+      "lastActivity": "2026-09-28T18:42:34.243Z",
+      "due": null,
+      "owners": [
+        "Ayesha Ally",
+        "Saurav Lall"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": []
+        },
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": "Generate suggested player selections",
+              "complete": true
+            },
+            {
+              "name": "Consider player position/role fit",
+              "complete": true
+            },
+            {
+              "name": "Consider RSVP and lineup continuity",
+              "complete": true
+            },
+            {
+              "name": "Exclude injured/suspended players",
+              "complete": true
+            },
+            {
+              "name": "Keep suggestions editable by coach",
+              "complete": true
+            },
+            {
+              "name": "Test player suggestions",
+              "complete": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 104,
+      "title": "S3: Injured player - detailed injury reports and 3D model",
+      "url": "https://trello.com/c/FWH0WhOe",
+      "listId": "6a9816303453d6ea51f4983d",
+      "position": 140737488227328,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-24T19:20:20.785Z",
+      "lastActivity": "2026-09-28T18:43:19.799Z",
+      "due": null,
+      "owners": [
+        "Saurav Lall"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": "Display detailed injury information",
+              "complete": true
+            },
+            {
+              "name": "Show affected area on 3D model",
+              "complete": true
+            },
+            {
+              "name": "Track injury/recovery status",
+              "complete": true
+            },
+            {
+              "name": "Test injury reporting",
+              "complete": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 73,
+      "title": "S3: Fixtures Setup with Opponents",
+      "url": "https://trello.com/c/aX7Zsfza",
+      "listId": "6a9816303453d6ea51f4983d",
+      "position": 140737488338944,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-26T08:24:16.301Z",
+      "lastActivity": "2026-09-28T18:43:50.578Z",
+      "due": null,
+      "owners": [
+        "Ayesha Ally",
+        "Jai Parbhoo"
+      ],
+      "labels": [],
+      "description": "‌\n\nAs a coach, I want to organise fixtures with other teams so that upcoming competitions can be coordinated through the platform.",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": "earch for Gaffer opponent teams",
+              "complete": true
+            },
+            {
+              "name": "Send friendly fixture requests",
+              "complete": true
+            },
+            {
+              "name": "Accept/decline fixture requests",
+              "complete": true
+            },
+            {
+              "name": "Add accepted fixture to both teams' calendars",
+              "complete": true
+            },
+            {
+              "name": "Allow lineup confirmation before match",
+              "complete": true
+            },
+            {
+              "name": "Share confirmed lineup with opponent",
+              "complete": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 83,
+      "title": "S3: Public Squad and Player Information",
+      "url": "https://trello.com/c/zO3SXWRm",
+      "listId": "6a9816303453d6ea51f4983d",
+      "position": 140737488355328,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-18T14:27:43.560Z",
+      "lastActivity": "2026-09-28T18:44:14.217Z",
+      "due": null,
+      "owners": [
+        "Nayan Makanjee"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": "Create public squad view",
+              "complete": true
+            },
+            {
+              "name": "Display public player information",
+              "complete": true
+            },
+            {
+              "name": "Protect private player information",
+              "complete": true
+            },
+            {
+              "name": "Test public views",
+              "complete": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 84,
+      "title": "S3: Sharing and Report Export",
+      "url": "https://trello.com/c/7dWBTlFi",
+      "listId": "6a9816303453d6ea51f4983d",
+      "position": 140737488551936,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-27T09:29:31.413Z",
+      "lastActivity": "2026-09-28T18:44:37.657Z",
+      "due": null,
+      "owners": [
+        "Nayan Makanjee"
+      ],
+      "labels": [],
+      "description": "As a coach, I want to share results and export reports so that team and performance information can be distributed outside the platform.",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": "Allow reports to be exported",
+              "complete": true
+            },
+            {
+              "name": "Support report sharing",
+              "complete": true
+            },
+            {
+              "name": "Verify exported report content",
+              "complete": true
+            },
+            {
+              "name": "Test sharing/export",
+              "complete": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 78,
+      "title": "S3: Offline Event Logging",
+      "url": "https://trello.com/c/cCbQvUoL",
+      "listId": "6a9816303453d6ea51f4983d",
+      "position": 140737488568320,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-23T20:02:00.212Z",
+      "lastActivity": "2026-09-28T18:45:04.213Z",
+      "due": null,
+      "owners": [
+        "Hemesh Parshotam"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": "Allow match events to be logged offline",
+              "complete": true
+            },
+            {
+              "name": "Store offline events locally",
+              "complete": true
+            },
+            {
+              "name": "Sync events when connection returns",
+              "complete": true
+            },
+            {
+              "name": "Prevent duplicate events",
+              "complete": true
+            },
+            {
+              "name": "Test offline/online flow",
+              "complete": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 79,
+      "title": "S3: Concurrent Event Logging",
+      "url": "https://trello.com/c/VENCiu0p",
+      "listId": "6a9816303453d6ea51f4983d",
+      "position": 140737488576512,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-26T16:01:37.465Z",
+      "lastActivity": "2026-09-28T18:45:24.160Z",
+      "due": null,
+      "owners": [
+        "Hemesh Parshotam"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": "Support simultaneous event logging",
+              "complete": true
+            },
+            {
+              "name": "Resolve conflicting updates",
+              "complete": true
+            },
+            {
+              "name": "Prevent duplicate/inconsistent events",
+              "complete": true
+            },
+            {
+              "name": "Test concurrent logging",
+              "complete": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 80,
+      "title": "S3: League and Standings Management",
+      "url": "https://trello.com/c/DQMVQqjx",
+      "listId": "6a9816303453d6ea51f4983d",
+      "position": 140737488592896,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-27T17:01:17.111Z",
+      "lastActivity": "2026-09-28T18:45:48.609Z",
+      "due": null,
+      "owners": [
+        "Jai Parbhoo"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": "Create/manage league competitions",
+              "complete": true
+            },
+            {
+              "name": "Record league results",
+              "complete": true
+            },
+            {
+              "name": "Calculate standings automatically",
+              "complete": true
+            },
+            {
+              "name": "Update standings after matches",
+              "complete": true
+            },
+            {
+              "name": "Test league table calculations",
+              "complete": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 67,
+      "title": "S2: Live Event Logging",
+      "url": "https://trello.com/c/FeahTBSE",
+      "listId": "6a8732ac221e561761213f35",
+      "position": 140737488338944,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-09T13:51:38.907Z",
+      "lastActivity": "2026-09-17T12:45:20.406Z",
+      "due": null,
+      "owners": [
+        "Roko Vidjak"
+      ],
+      "labels": [],
+      "description": "**User Story:**\nAs a coach, I want to record events during a live match so that match activity and player performance can be tracked accurately.\n\nThe live event logger should allow coaches to record important match events against the relevant athletes while a match is taking place.\n\n### Acceptance Criteria\n\n- Coaches can start/use the logger for a match.\n- Match events can be recorded against the appropriate athlete.\n- Supported events include relevant actions such as goals/scores and penalties.\n- Logged events are saved and associated with the correct match.\n- The interface is suitable for quick use during a live game.",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": "Implement live match event logger",
+              "complete": true
+            },
+            {
+              "name": " Support required event types",
+              "complete": true
+            },
+            {
+              "name": " Link logged events to athletes and matches",
+              "complete": true
+            },
+            {
+              "name": " Save event data through the backend",
+              "complete": true
+            },
+            {
+              "name": " Test the complete live-logging flow",
+              "complete": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 66,
+      "title": "S2: Assistant Role and Permissions",
+      "url": "https://trello.com/c/kCKi09ea",
+      "listId": "6a8732ac221e561761213f35",
+      "position": 140737488355328,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-09T10:00:22.548Z",
+      "lastActivity": "2026-09-17T12:45:18.152Z",
+      "due": null,
+      "owners": [
+        "Ayesha Ally"
+      ],
+      "labels": [],
+      "description": "As a coach, I want assistants and players to join with appropriate permissions so that access is controlled.",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": "Define supported roles and permissions",
+              "complete": true
+            },
+            {
+              "name": " Implement backend permission checks",
+              "complete": true
+            },
+            {
+              "name": " Add role-management functionality",
+              "complete": true
+            },
+            {
+              "name": " Restrict relevant UI/actions based on permissions",
+              "complete": true
+            },
+            {
+              "name": " Test authorised and unauthorised access",
+              "complete": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 70,
+      "title": "S2: Event and Team Statistics",
+      "url": "https://trello.com/c/KFDDIj0d",
+      "listId": "6a8732ac221e561761213f35",
+      "position": 140737488392192,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-11T12:37:15.767Z",
+      "lastActivity": "2026-09-13T21:54:44.351Z",
+      "due": null,
+      "owners": [
+        "Hemesh Parshotam",
+        "Roko Vidjak"
+      ],
+      "labels": [],
+      "description": "**User Story:**\nAs a coach, I want to view event and team statistics so that I can analyse the team's overall performance.\n\nThe system should calculate and display useful statistics using data recorded from matches and logged events.\n\n### Acceptance Criteria\n\n- Team statistics are derived from recorded match/event data.\n- Statistics correspond to the appropriate team.\n- Coaches can view useful performance information from completed events.\n- Statistics update as relevant match data becomes available.\n- Missing data is handled appropriately.",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": "Determine required team/event statistics",
+              "complete": true
+            },
+            {
+              "name": " Calculate statistics from logged data",
+              "complete": true
+            },
+            {
+              "name": " Implement statistics API/data retrieval",
+              "complete": true
+            },
+            {
+              "name": " Display statistics in the frontend",
+              "complete": true
+            },
+            {
+              "name": " Test statistics against known match data",
+              "complete": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 69,
+      "title": "S2: Athlete Statistics",
+      "url": "https://trello.com/c/L6mvVSzk",
+      "listId": "6a8732ac221e561761213f35",
+      "position": 140737488398336,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-09T10:00:25.294Z",
+      "lastActivity": "2026-09-13T21:54:50.022Z",
+      "due": null,
+      "owners": [
+        "Ayesha Ally"
+      ],
+      "labels": [],
+      "description": "**User Story:**\nAs a coach, I want to view statistics for individual athletes so that I can evaluate player performance and make informed coaching decisions.\n\nAthlete statistics should be calculated from recorded match events and presented clearly for each player.\n\n### Acceptance Criteria\n\n- Coaches can view statistics for an individual athlete.\n- Statistics are derived from the athlete's recorded match events.\n- Statistics correspond to the correct athlete and team.\n- Relevant performance measures are displayed clearly.\n- Athletes with limited/no data are handled appropriately.",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": "Define required athlete statistics",
+              "complete": true
+            },
+            {
+              "name": " Calculate statistics from event data",
+              "complete": true
+            },
+            {
+              "name": " Connect statistics to individual athletes",
+              "complete": true
+            },
+            {
+              "name": " Display statistics on the athlete/statistics UI",
+              "complete": true
+            },
+            {
+              "name": " Test calculations using known event data",
+              "complete": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 71,
+      "title": "S2: Season Statistics and Trends",
+      "url": "https://trello.com/c/1vhuPSwf",
+      "listId": "6a8732ac221e561761213f35",
+      "position": 140737488414720,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-11T14:59:47.959Z",
+      "lastActivity": "2026-09-13T21:54:55.095Z",
+      "due": null,
+      "owners": [
+        "Saurav Lall"
+      ],
+      "labels": [],
+      "description": "**User Story:**\nAs a coach, I want to view statistics and performance trends across a season so that I can understand how my team and athletes are performing over time.\n\nThe system should aggregate data from multiple matches and present meaningful season-level statistics and trends.\n\n### Acceptance Criteria\n\n- Statistics can be aggregated across multiple matches.\n- Season statistics use data from the appropriate team and season.\n- Coaches can identify changes or trends in performance over time.\n- Team and/or athlete performance can be compared across relevant matches.\n- The information is presented in an understandable format.",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": "Define season-level statistics",
+              "complete": true
+            },
+            {
+              "name": " Aggregate statistics across matches",
+              "complete": true
+            },
+            {
+              "name": " Implement trend calculations",
+              "complete": true
+            },
+            {
+              "name": " Display season statistics and trends",
+              "complete": true
+            },
+            {
+              "name": " Test aggregation using multiple matches",
+              "complete": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 133,
+      "title": "S2: API for Team Formation and Tactics",
+      "url": "https://trello.com/c/YZMvbXlb",
+      "listId": "6a8732ac221e561761213f35",
+      "position": 140737488431104,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-14T09:17:18.427Z",
+      "lastActivity": "2026-09-14T09:17:33.205Z",
+      "due": null,
+      "owners": [
+        "Saurav Lall"
+      ],
+      "labels": [],
+      "description": "Implement and document a **public, read-only API** for Gaffer’s football formations and tactical approaches.\n\nThe API must allow external users/applications to retrieve supported formation and tactic reference data without authentication, while ensuring that **no team, player, coach, account, email or session data is exposed**.\n\nThe implementation includes the `/v1/formations` and `/v1/tactics` endpoints, optional filtering by ID, consistent JSON response structures, error handling, CORS configuration for the public routes, and interactive Swagger API documentation.\n\nThe API should be accessible through both the Gaffer frontend proxy and the deployed backend and must remain `GET`-only.",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": "Implement public GET /v1/formations and GET /v1/tactics endpoints",
+              "complete": true
+            },
+            {
+              "name": "Support filtering by ID and return the correct formation/tactic data",
+              "complete": true
+            },
+            {
+              "name": "Add proper response structure and error handling for 400, 404, and 500",
+              "complete": true
+            },
+            {
+              "name": "Keep the API read-only and ensure no private team, player, coach, or account data is exposed",
+              "complete": true
+            },
+            {
+              "name": "Add Swagger/API documentation and test that both endpoints work externally",
+              "complete": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 72,
+      "title": "S3: Performance Comparisons",
+      "url": "https://trello.com/c/gMYOG8Fe",
+      "listId": "6a8732ac221e561761213f35",
+      "position": 140737488447488,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-14T10:27:39.163Z",
+      "lastActivity": "2026-09-14T11:47:51.738Z",
+      "due": null,
+      "owners": [
+        "Saurav Lall"
+      ],
+      "labels": [],
+      "description": "As a coach, I want to compare athletes and team performance so that I can make more informed coaching decisions.",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": "Competition CRUD and season link exist.",
+              "complete": true
+            },
+            {
+              "name": "Standings rows can be created, changed and deleted with unique position/name rules.",
+              "complete": true
+            },
+            {
+              "name": "Player standings view exists.",
+              "complete": true
+            },
+            {
+              "name": "Demonstrate validation and ordering.",
+              "complete": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 74,
+      "title": "S2: Player RSVPs, Roles and permissions",
+      "url": "https://trello.com/c/rHGqemSt",
+      "listId": "6a8732ac221e561761213f35",
+      "position": 140737488502784,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-11T12:38:06.771Z",
+      "lastActivity": "2026-09-13T21:55:00.686Z",
+      "due": null,
+      "owners": [
+        "Jai Parbhoo"
+      ],
+      "labels": [],
+      "description": "As a coach, I want players to indicate their availability for upcoming activities so that I can plan attendance and team selection.",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": "Allow players to RSVP to upcoming activities",
+              "complete": true
+            },
+            {
+              "name": " Support available/unavailable response",
+              "complete": true
+            },
+            {
+              "name": " Display RSVP status to coach",
+              "complete": true
+            },
+            {
+              "name": " Restrict actions based on user role",
+              "complete": true
+            },
+            {
+              "name": " Test player and coach permissions",
+              "complete": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 75,
+      "title": "S2: Shared Calendar",
+      "url": "https://trello.com/c/4rqouzCz",
+      "listId": "6a8732ac221e561761213f35",
+      "position": 140737488519168,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-11T12:38:42.458Z",
+      "lastActivity": "2026-09-13T21:55:06.334Z",
+      "due": null,
+      "owners": [
+        "Hemesh Parshotam",
+        "Nayan Makanjee"
+      ],
+      "labels": [],
+      "description": "As a user, I want upcoming training sessions, fixtures and competitions displayed on a shared calendar so that I can keep track of the team's schedule.",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": "Display upcoming team events in calendar",
+              "complete": true
+            },
+            {
+              "name": " Show training, fixtures and competitions",
+              "complete": true
+            },
+            {
+              "name": " Allow users to view event details",
+              "complete": true
+            },
+            {
+              "name": " Keep calendar updated when events change",
+              "complete": true
+            },
+            {
+              "name": " Test coach/player calendar access",
+              "complete": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 68,
+      "title": "S2: Event Log Correction",
+      "url": "https://trello.com/c/wy2UgcLj",
+      "listId": "6a8732ac221e561761213f35",
+      "position": 140737488535552,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-11T12:30:26.342Z",
+      "lastActivity": "2026-09-13T21:55:11.097Z",
+      "due": null,
+      "owners": [
+        "Roko Vidjak"
+      ],
+      "labels": [],
+      "description": "**User Story:**\nAs a coach, I want to correct incorrectly logged match events so that match records and derived statistics remain accurate.\n\nMistakes may occur while quickly recording a live match. Coaches therefore need a controlled way to correct erroneous event-log entries.\n\n### Acceptance Criteria\n\n- Coaches can identify previously logged events.\n- Incorrect events can be corrected where permitted.\n- Corrections are saved correctly.\n- Statistics affected by a correction reflect the corrected information.\n- Corrections do not corrupt unrelated match data.",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": "Add ability to select logged events for correction",
+              "complete": true
+            },
+            {
+              "name": " Implement event correction functionality",
+              "complete": true
+            },
+            {
+              "name": " Persist corrected event data",
+              "complete": true
+            },
+            {
+              "name": " Ensure derived statistics reflect corrections",
+              "complete": true
+            },
+            {
+              "name": " Test common correction scenarios",
+              "complete": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 76,
+      "title": "S2: Weather and Location Information",
+      "url": "https://trello.com/c/4yss4qLJ",
+      "listId": "6a8732ac221e561761213f35",
+      "position": 140737488543744,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-11T21:11:17.254Z",
+      "lastActivity": "2026-09-13T21:55:16.671Z",
+      "due": null,
+      "owners": [
+        "Hemesh Parshotam"
+      ],
+      "labels": [],
+      "description": "As a coach, I want weather and location information for upcoming events so that I can prepare the team appropriately.",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": "Display event location",
+              "complete": true
+            },
+            {
+              "name": " Show weather for upcoming events",
+              "complete": true
+            },
+            {
+              "name": " Link weather/location to correct event",
+              "complete": true
+            },
+            {
+              "name": " Handle unavailable weather/location data",
+              "complete": true
+            },
+            {
+              "name": " Test event information display",
+              "complete": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 128,
+      "title": "S2: Add Privacy Policy and Terms of Service",
+      "url": "https://trello.com/c/KrQufWs6",
+      "listId": "6a8732ac221e561761213f35",
+      "position": 140737488547840,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-13T10:37:15.442Z",
+      "lastActivity": "2026-09-13T21:55:21.058Z",
+      "due": null,
+      "owners": [
+        "Nayan Makanjee"
+      ],
+      "labels": [],
+      "description": "",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": "Create Privacy Policy page",
+              "complete": true
+            },
+            {
+              "name": " Create Terms of Service page",
+              "complete": true
+            },
+            {
+              "name": " Add links to policies in app",
+              "complete": true
+            },
+            {
+              "name": " Make pages accessible before sign-in",
+              "complete": true
+            },
+            {
+              "name": " Test links and mobile layout",
+              "complete": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 77,
+      "title": "S2: Event Reminders",
+      "url": "https://trello.com/c/IUtmDU9s",
+      "listId": "6a8732ac221e561761213f35",
+      "position": 140737488551936,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-09-13T09:33:25.714Z",
+      "lastActivity": "2026-09-13T21:55:27.287Z",
+      "due": null,
+      "owners": [
+        "Ayesha Ally"
+      ],
+      "labels": [],
+      "description": "As a user, I want reminders about upcoming team activities so that I do not miss important events.",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": "Detect events within next 24 hours",
+              "complete": true
+            },
+            {
+              "name": " Display reminder on coach dashboard",
+              "complete": true
+            },
+            {
+              "name": " Display reminder on player dashboard",
+              "complete": true
+            },
+            {
+              "name": " Allow reminders to be dismissed",
+              "complete": true
+            },
+            {
+              "name": " Persist dismissed reminders",
+              "complete": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 40,
+      "title": "S1-01: Documentation Site",
+      "url": "https://trello.com/c/O2f6vDPm",
+      "listId": "6a835c1a06262517235f2efb",
+      "position": 140737488355328,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-08-17T20:07:21.322Z",
+      "lastActivity": "2026-09-03T08:05:37.373Z",
+      "due": null,
+      "owners": [
+        "Hemesh Parshotam",
+        "Nayan Makanjee"
+      ],
+      "labels": [],
+      "description": "**Description**\n\n> Create and maintain a central documentation site so that the development team can easily access the project's technical and development documentation.\n\n**Acceptance Criteria**\n\n- Documentation site is available to the development team.\n- Existing project documentation is included.\n- Documentation is organised and easy to navigate.\n- Team members can update documentation as the project develops.\n\n‌\n\n**Priority:** Can be completed in parallel with development.",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": "Set up Document Website",
+              "complete": true
+            },
+            {
+              "name": "Create docs-site/ folder.",
+              "complete": true
+            },
+            {
+              "name": "Add existing tech stack documentation.",
+              "complete": true
+            },
+            {
+              "name": "Add database schema documentation.",
+              "complete": true
+            },
+            {
+              "name": "Add Sprint backlog documentation.",
+              "complete": true
+            },
+            {
+              "name": "Add Git methodology/workflow documentation.",
+              "complete": true
+            },
+            {
+              "name": "Organise documentation navigation.",
+              "complete": true
+            },
+            {
+              "name": "Confirm documentation site runs locally.",
+              "complete": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 35,
+      "title": "S1-02: User Authentication",
+      "url": "https://trello.com/c/3ZIEzf2l",
+      "listId": "6a835c1a06262517235f2efb",
+      "position": 140737488371712,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-08-18T13:27:54.117Z",
+      "lastActivity": "2026-09-03T08:05:40.052Z",
+      "due": null,
+      "owners": [
+        "Nayan Makanjee",
+        "Saurav Lall",
+        "Roko Vidjak",
+        "Jai Parbhoo"
+      ],
+      "labels": [],
+      "description": "**Description**\n\n> As a coach, I want to securely register, log in and log out of the Sporting Coach system so that I can access and manage my team's information.\n\n**Acceptance Criteria**\n\n- Coach can register using an email address and password.\n- Coach can provide a team name during registration.\n- A team is automatically created when the coach registers.\n- The coach is linked to the created team as its owner.\n- Coach can log in using valid credentials.\n- Coach can log out.\n- Unauthenticated users cannot access protected pages.\n- Unauthenticated users attempting to access protected pages are redirected to the login page.\n\n‌\n\n**Priority:** Highest",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": "Create Better Auth instance.",
+              "complete": true
+            },
+            {
+              "name": "Connect Better Auth to Neon DB using the Drizzle adapter.",
+              "complete": true
+            },
+            {
+              "name": "Implement POST /auth/sign-up.",
+              "complete": true
+            },
+            {
+              "name": "Implement POST /auth/sign-in.",
+              "complete": true
+            },
+            {
+              "name": "Implement POST /auth/sign-out.",
+              "complete": true
+            },
+            {
+              "name": "Create NestJS authentication guard.",
+              "complete": true
+            },
+            {
+              "name": "Validate sessions on protected routes.",
+              "complete": true
+            },
+            {
+              "name": "Automatically create a team during coach registration.",
+              "complete": true
+            },
+            {
+              "name": "Link coach as team owner using the team_members table.",
+              "complete": true
+            },
+            {
+              "name": "Checklist — Frontend",
+              "complete": true
+            },
+            {
+              "name": "Create Login page.",
+              "complete": true
+            },
+            {
+              "name": "Add email and password fields to Login form.",
+              "complete": true
+            },
+            {
+              "name": "Connect Login form to sign-in endpoint.",
+              "complete": true
+            },
+            {
+              "name": "Create Register page.",
+              "complete": true
+            },
+            {
+              "name": "Add email, password and team name fields to Register form.",
+              "complete": true
+            },
+            {
+              "name": "Connect Register form to sign-up endpoint.",
+              "complete": true
+            },
+            {
+              "name": "Add authentication state management.",
+              "complete": true
+            },
+            {
+              "name": "Create Google OAuth client",
+              "complete": true
+            },
+            {
+              "name": "Configure Google sign in and log in",
+              "complete": true
+            },
+            {
+              "name": "Add email verification for manual sign up",
+              "complete": true
+            },
+            {
+              "name": "Store/manage user session.",
+              "complete": true
+            },
+            {
+              "name": "Add protected route wrapper.",
+              "complete": true
+            },
+            {
+              "name": "Redirect unauthenticated users to /login.",
+              "complete": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 36,
+      "title": "S1-03: Athlete Roster Management",
+      "url": "https://trello.com/c/AU3nh5bK",
+      "listId": "6a835c1a06262517235f2efb",
+      "position": 140737488388096,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-08-19T10:00:46.321Z",
+      "lastActivity": "2026-09-03T08:05:41.261Z",
+      "due": null,
+      "owners": [
+        "Ayesha Ally"
+      ],
+      "labels": [],
+      "description": "**Description**\n\n> As a coach, I want to add, view, edit, search and archive athletes so that I can maintain an accurate and organised team roster.\n\n**Acceptance Criteria**\n\n- Coach can add a new athlete.\n- Coach can view all athletes belonging to their team.\n- Coach can view an individual athlete.\n- Coach can edit athlete information.\n- Coach can search/filter athletes by name.\n- Coach can archive an athlete without permanently deleting their information.\n- Archived athletes can be restored.\n- Coaches cannot access athletes belonging to another team.\n- Invalid athlete information is rejected.",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": " Create athletes NestJS module.",
+              "complete": true
+            },
+            {
+              "name": " Create athletes controller.",
+              "complete": true
+            },
+            {
+              "name": " Create athletes service.",
+              "complete": true
+            },
+            {
+              "name": " Implement POST /athletes.",
+              "complete": true
+            },
+            {
+              "name": " Implement GET /athletes.",
+              "complete": true
+            },
+            {
+              "name": " Implement GET /athletes/:id.",
+              "complete": true
+            },
+            {
+              "name": " Implement PATCH /athletes/:id.",
+              "complete": true
+            },
+            {
+              "name": " Implement DELETE /athletes/:id.",
+              "complete": true
+            },
+            {
+              "name": " Implement soft-delete/archive functionality.",
+              "complete": true
+            },
+            {
+              "name": " Scope athlete data to the logged-in coach's team.",
+              "complete": true
+            },
+            {
+              "name": " Use authentication guard on athlete routes.",
+              "complete": true
+            },
+            {
+              "name": " Add Zod validation for create/update DTOs.",
+              "complete": true
+            },
+            {
+              "name": "Checklist — Frontend",
+              "complete": true
+            },
+            {
+              "name": " Create Athletes List page.",
+              "complete": true
+            },
+            {
+              "name": " Display athlete name.",
+              "complete": true
+            },
+            {
+              "name": " Display athlete position.",
+              "complete": true
+            },
+            {
+              "name": " Display athlete status.",
+              "complete": true
+            },
+            {
+              "name": " Create Add Athlete form.",
+              "complete": true
+            },
+            {
+              "name": " Add athlete name field.",
+              "complete": true
+            },
+            {
+              "name": " Add jersey number field.",
+              "complete": true
+            },
+            {
+              "name": " Add position field.",
+              "complete": true
+            },
+            {
+              "name": " Add other required athlete information.",
+              "complete": true
+            },
+            {
+              "name": " Add Edit Athlete functionality.",
+              "complete": true
+            },
+            {
+              "name": " Add athlete search/filter by name.",
+              "complete": true
+            },
+            {
+              "name": " Add archive athlete option.",
+              "complete": true
+            },
+            {
+              "name": " Add restore athlete option.",
+              "complete": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 37,
+      "title": "S1-04: Event Management",
+      "url": "https://trello.com/c/opUO7Scg",
+      "listId": "6a835c1a06262517235f2efb",
+      "position": 140737488404480,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-08-19T19:38:02.297Z",
+      "lastActivity": "2026-09-03T08:05:42.596Z",
+      "due": null,
+      "owners": [
+        "Roko Vidjak"
+      ],
+      "labels": [],
+      "description": "**Description**\n\n> As a coach, I want to create, view, edit and cancel team events so that I can organise training sessions, matches and meetings for my team.\n\n**Acceptance Criteria**\n\n- Coach can create an event.\n- Coach can view their team's events.\n- Coach can view an individual event.\n- Coach can edit an existing event.\n- Coach can cancel an event.\n- Events can be classified as training, match or meeting.\n- Events can have scheduled, cancelled or completed statuses.\n- Upcoming events are displayed chronologically.\n- Cancelled events are visually distinguishable.\n- Coaches cannot access another team's events.\n\n‌\n\n**Priority:** High",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": "Create events NestJS module.",
+              "complete": true
+            },
+            {
+              "name": "Create events controller.",
+              "complete": true
+            },
+            {
+              "name": "Create events service.",
+              "complete": true
+            },
+            {
+              "name": "Implement POST /events.",
+              "complete": true
+            },
+            {
+              "name": "Implement GET /events.",
+              "complete": true
+            },
+            {
+              "name": "Implement GET /events/:id.",
+              "complete": true
+            },
+            {
+              "name": "Implement PATCH /events/:id.",
+              "complete": true
+            },
+            {
+              "name": "Implement DELETE /events/:id.",
+              "complete": true
+            },
+            {
+              "name": "Support training event type.",
+              "complete": true
+            },
+            {
+              "name": "Support match event type.",
+              "complete": true
+            },
+            {
+              "name": "Support meeting event type.",
+              "complete": true
+            },
+            {
+              "name": "Support scheduled status.",
+              "complete": true
+            },
+            {
+              "name": "Support cancelled status.",
+              "complete": true
+            },
+            {
+              "name": "Support completed status.",
+              "complete": true
+            },
+            {
+              "name": "Scope events to the logged-in coach's team.",
+              "complete": true
+            },
+            {
+              "name": "Protect event routes using authentication.",
+              "complete": true
+            },
+            {
+              "name": "Checklist — Frontend",
+              "complete": true
+            },
+            {
+              "name": "Create Events List page.",
+              "complete": true
+            },
+            {
+              "name": "Display events chronologically with upcoming events first.",
+              "complete": true
+            },
+            {
+              "name": "Create Create Event form.",
+              "complete": true
+            },
+            {
+              "name": "Add event title field.",
+              "complete": true
+            },
+            {
+              "name": "Add event type field.",
+              "complete": true
+            },
+            {
+              "name": "Add date/time field.",
+              "complete": true
+            },
+            {
+              "name": "Add location field.",
+              "complete": true
+            },
+            {
+              "name": "Add notes field.",
+              "complete": true
+            },
+            {
+              "name": "Add Edit Event functionality.",
+              "complete": true
+            },
+            {
+              "name": "Add Cancel Event functionality.",
+              "complete": true
+            },
+            {
+              "name": "Display cancelled events differently (greyed out/strikethrough).",
+              "complete": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 38,
+      "title": "S1-05: Dashboard Summary",
+      "url": "https://trello.com/c/jzuY2wxk",
+      "listId": "6a835c1a06262517235f2efb",
+      "position": 140737488420864,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-08-19T19:38:01.246Z",
+      "lastActivity": "2026-09-03T10:26:58.401Z",
+      "due": null,
+      "owners": [
+        "Nayan Makanjee",
+        "Jai Parbhoo"
+      ],
+      "labels": [],
+      "description": "**Description**\n\n> As a coach, I want to see a summary of my athletes and upcoming events so that I can quickly understand the current state of my team and upcoming activities.\n\n**Acceptance Criteria**\n\n- Dashboard displays the number of active athletes.\n- Dashboard displays the number of events.\n- Dashboard displays the next five upcoming events.\n- Upcoming events are ordered by date/time.\n- Appropriate empty states are displayed when there are no athletes or events.\n- Dashboard information only relates to the logged-in coach's team.\n\n‌\n\n**Priority:** Medium / Do after Athlete and Event functionality",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": "Create dashboard aggregation functionality.",
+              "complete": true
+            },
+            {
+              "name": "Implement GET /dashboard.",
+              "complete": true
+            },
+            {
+              "name": "Return total number of active athletes.",
+              "complete": true
+            },
+            {
+              "name": "Return total number of events.",
+              "complete": true
+            },
+            {
+              "name": "Return next 5 upcoming events.",
+              "complete": true
+            },
+            {
+              "name": "Scope dashboard data to the logged-in coach's team.",
+              "complete": true
+            },
+            {
+              "name": "Checklist — Frontend",
+              "complete": true
+            },
+            {
+              "name": "Create Dashboard page.",
+              "complete": true
+            },
+            {
+              "name": "Create Active Athletes stat card.",
+              "complete": true
+            },
+            {
+              "name": "Create Events stat card.",
+              "complete": true
+            },
+            {
+              "name": "Create Upcoming Events section.",
+              "complete": true
+            },
+            {
+              "name": "Display next 5 upcoming events.",
+              "complete": true
+            },
+            {
+              "name": "Add empty state when there are no athletes.",
+              "complete": true
+            },
+            {
+              "name": "Add empty state when there are no upcoming events.",
+              "complete": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 44,
+      "title": "S1-06: Statistical Overview",
+      "url": "https://trello.com/c/1JfVLaM8",
+      "listId": "6a835c1a06262517235f2efb",
+      "position": 140737488429056,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-08-24T13:42:04.849Z",
+      "lastActivity": "2026-09-03T08:05:45.423Z",
+      "due": null,
+      "owners": [
+        "Jai Parbhoo"
+      ],
+      "labels": [],
+      "description": "As a coach, I want to view an overview of my team's and athletes' statistics so that I can quickly understand performance and identify trends across events.\n\n**Acceptance Criteria**\n\n- Coach can view an overview of team statistics.\n- Coach can view statistics for individual athletes.\n- Statistics are derived from recorded event data.\n- Athlete statistics can be viewed across individual events.\n- Team statistics can be viewed across events.\n- Statistics are limited to athletes and events belonging to the coach's team.\n- Appropriate empty states are displayed when no statistics are available.\n- Statistics are presented in a clear and understandable format.\n\n‌\n\n**Priority:** Medium / Do after Athlete and Event functionality",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": "Create statistics NestJS module.",
+              "complete": true
+            },
+            {
+              "name": "Create statistics controller.",
+              "complete": true
+            },
+            {
+              "name": "Create statistics service.",
+              "complete": true
+            },
+            {
+              "name": "Implement GET /statistics.",
+              "complete": true
+            },
+            {
+              "name": "Implement GET /statistics/athletes/.",
+              "complete": true
+            },
+            {
+              "name": "Calculate statistics from recorded event data.",
+              "complete": true
+            },
+            {
+              "name": "Calculate per-athlete statistics.",
+              "complete": true
+            },
+            {
+              "name": "Calculate team-level statistics.",
+              "complete": true
+            },
+            {
+              "name": "Scope statistics to the logged-in coach's team.",
+              "complete": true
+            },
+            {
+              "name": "Protect statistics routes using authentication.",
+              "complete": true
+            },
+            {
+              "name": "Add validation for statistic queries.",
+              "complete": true
+            },
+            {
+              "name": "Create Statistics Overview page.",
+              "complete": true
+            },
+            {
+              "name": "Display team statistics.",
+              "complete": true
+            },
+            {
+              "name": "Display per-athlete statistics.",
+              "complete": true
+            },
+            {
+              "name": "Add athlete selection/filtering.",
+              "complete": true
+            },
+            {
+              "name": "Add event selection/filtering.",
+              "complete": true
+            },
+            {
+              "name": "Display statistics in clear summary cards/tables.",
+              "complete": true
+            },
+            {
+              "name": "Add appropriate empty states when no statistics are available.",
+              "complete": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 39,
+      "title": "S1-07: Automated Testing",
+      "url": "https://trello.com/c/IPDaf8KK",
+      "listId": "6a835c1a06262517235f2efb",
+      "position": 140737488437248,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-08-19T19:37:54.301Z",
+      "lastActivity": "2026-09-03T08:05:46.974Z",
+      "due": null,
+      "owners": [
+        "Saurav Lall"
+      ],
+      "labels": [],
+      "description": "**Description**\n\n> Implement automated testing for the core Sprint 1 functionality to ensure authentication, athlete management, event management and team isolation work correctly and reliably.\n\n**Acceptance Criteria**\n\n- Authentication flow has automated integration tests.\n- Athlete CRUD operations are tested.\n- Event CRUD operations are tested.\n- Team isolation is tested.\n- At least one end-to-end test covers the main user flow.\n- Instructions for running tests are documented.\n\n‌\n\n**Priority:** Medium",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": "Set up API integration testing with Supertest.",
+              "complete": true
+            },
+            {
+              "name": "Test user registration.",
+              "complete": true
+            },
+            {
+              "name": "Test user sign-in.",
+              "complete": true
+            },
+            {
+              "name": "Test user sign-out/authentication flow.",
+              "complete": true
+            },
+            {
+              "name": "Test athlete creation.",
+              "complete": true
+            },
+            {
+              "name": "Test retrieving athletes.",
+              "complete": true
+            },
+            {
+              "name": "Test updating athletes.",
+              "complete": true
+            },
+            {
+              "name": "Test archiving/deleting athletes.",
+              "complete": true
+            },
+            {
+              "name": "Test event creation.",
+              "complete": true
+            },
+            {
+              "name": "Test retrieving events.",
+              "complete": true
+            },
+            {
+              "name": "Test updating events.",
+              "complete": true
+            },
+            {
+              "name": "Test deleting/cancelling events.",
+              "complete": true
+            },
+            {
+              "name": "Test team isolation.",
+              "complete": true
+            },
+            {
+              "name": "Set up Playwright e2e testing.",
+              "complete": true
+            },
+            {
+              "name": "Create at least one e2e test: Register → Create Athlete → See Athlete/Data on Dashboard.",
+              "complete": true
+            },
+            {
+              "name": "Document how to run tests in README.",
+              "complete": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 52,
+      "title": "S1-08 How It Works Page",
+      "url": "https://trello.com/c/B9P9W2ON",
+      "listId": "6a835c1a06262517235f2efb",
+      "position": 140737488443392,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-08-20T16:58:56.882Z",
+      "lastActivity": "2026-09-04T09:34:01.549Z",
+      "due": null,
+      "owners": [
+        "Nayan Makanjee"
+      ],
+      "labels": [],
+      "description": "As a user, I want to view a How It Works page so that I can understand how to use the Sport Coaching Tool and its main functionality.",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": "User can access the How It Works page",
+              "complete": true
+            },
+            {
+              "name": " Page explains how to get started with the application",
+              "complete": true
+            },
+            {
+              "name": " Page explains the Dashboard",
+              "complete": true
+            },
+            {
+              "name": " Page explains Athlete Roster management",
+              "complete": true
+            },
+            {
+              "name": " Page explains Events management",
+              "complete": true
+            },
+            {
+              "name": " Page explains Team/Lineup management",
+              "complete": true
+            },
+            {
+              "name": " Information is presented clearly and logically",
+              "complete": true
+            },
+            {
+              "name": " Page follows the existing application design",
+              "complete": true
+            },
+            {
+              "name": " Page is responsive",
+              "complete": true
+            },
+            {
+              "name": " Navigation to/from the page works correctly",
+              "complete": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 53,
+      "title": "S1-09 User Profile Management",
+      "url": "https://trello.com/c/PpO7KIjF",
+      "listId": "6a835c1a06262517235f2efb",
+      "position": 140737488445440,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-08-20T18:22:45.233Z",
+      "lastActivity": "2026-09-03T08:05:50.521Z",
+      "due": null,
+      "owners": [
+        "Ayesha Ally"
+      ],
+      "labels": [],
+      "description": "**User Story:**\n**As a logged-in user, I want to view and edit my profile so that I can keep my personal/account information up to date.**\n\n\nImplement a profile page where the authenticated user can view their existing profile information and update the fields that are allowed to be edited.",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": "Logged-in user can access their Profile page",
+              "complete": true
+            },
+            {
+              "name": " Existing profile information is displayed",
+              "complete": true
+            },
+            {
+              "name": " Existing information is pre-filled when editing",
+              "complete": true
+            },
+            {
+              "name": " User can edit permitted profile fields",
+              "complete": true
+            },
+            {
+              "name": " Invalid information is rejected",
+              "complete": true
+            },
+            {
+              "name": " User can save valid changes",
+              "complete": true
+            },
+            {
+              "name": " Saved changes persist",
+              "complete": true
+            },
+            {
+              "name": " User receives success feedback after updating",
+              "complete": true
+            },
+            {
+              "name": " Errors are clearly displayed",
+              "complete": true
+            },
+            {
+              "name": " User cannot edit another user's profile",
+              "complete": true
+            },
+            {
+              "name": " Profile page matches existing application styling",
+              "complete": true
+            },
+            {
+              "name": " Page is responsive",
+              "complete": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 54,
+      "title": "S1-10 Features Page",
+      "url": "https://trello.com/c/O92Dliwx",
+      "listId": "6a835c1a06262517235f2efb",
+      "position": 140737488461824,
+      "archived": false,
+      "markedComplete": true,
+      "dateCompleted": "2026-08-23T18:01:21.635Z",
+      "lastActivity": "2026-09-04T09:34:03.594Z",
+      "due": null,
+      "owners": [
+        "Hemesh Parshotam"
+      ],
+      "labels": [],
+      "description": "**User Story:**\n**As a user, I want to view the features offered by the Sport Coaching Tool so that I can understand what the application can help me do.**\n\n\nCreate a user-facing Features page that presents and explains the main capabilities available within the Sport Coaching Tool.",
+      "checklists": [
+        {
+          "name": "Checklist",
+          "items": [
+            {
+              "name": "User can access the Features page",
+              "complete": true
+            },
+            {
+              "name": " Athlete Roster Management is described",
+              "complete": true
+            },
+            {
+              "name": " Events Management is described",
+              "complete": true
+            },
+            {
+              "name": " Team/Lineup Management is described",
+              "complete": true
+            },
+            {
+              "name": " Dashboard functionality is described",
+              "complete": true
+            },
+            {
+              "name": " Each feature has a clear description",
+              "complete": true
+            },
+            {
+              "name": " Appropriate icons/visual elements are included where useful",
+              "complete": true
+            },
+            {
+              "name": " Page follows existing application branding",
+              "complete": true
+            },
+            {
+              "name": " Page is responsive",
+              "complete": true
+            },
+            {
+              "name": " Navigation to/from the Features page works correctly",
+              "complete": true
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "workbookReconciliation": {
+    "sheet": "Cards",
+    "rowCount": 10,
+    "matchedCards": [
+      16,
+      17,
+      20,
+      15,
+      18,
+      3,
+      12,
+      13,
+      30,
+      34
+    ],
+    "comparedFields": [
+      "title",
+      "list",
+      "description",
+      "archived"
+    ],
+    "blankCompletionMarkers": 10
+  }
+}

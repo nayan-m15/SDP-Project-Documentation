@@ -24,6 +24,14 @@ Publish a new public key before changing the private signer, allow overlap beyon
 
 Sources: [backend/src/sync/sync.controller.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/sync/sync.controller.ts), [backend/src/sync/sync-jwks.controller.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/sync/sync-jwks.controller.ts), [powersync/sync-config.yaml](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/powersync/sync-config.yaml), [powersync/service.yaml](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/powersync/service.yaml), [powersync-recovery/service.yaml](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/powersync-recovery/service.yaml).
 
+<!-- trello-status:start -->
+## Trello token-hardening follow-up
+
+**Board snapshot: 11 October 2026.** Latest recorded action: `2026-10-11T21:28:12.474Z` (UTC). See [export sources and reconciliation](../../Project Management/trello-board-snapshot.md). List placement, the card completion marker (Trello `dueComplete`) and checked checklist items are recorded separately. They report tracker state, not an independently verified test, deployment or acceptance result.
+
+PowerSync development-token card #174 is marked complete in Completed with 4/4 criteria checked. Production-origin card #176 is also marked complete but has 0/5 checks. See [security records](../../Project%20Management/bug-tracking.md#security-and-hardening-records) for the exact exported requirements; this status does not change the documented runtime contract.
+<!-- trello-status:end -->
+
 ## AI Declaration
 
 OpenAI Codex was used to assist with the preparation, structure and editing of this documentation. The project team remains responsible for verifying the content and reviewing the final document.

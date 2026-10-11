@@ -120,6 +120,14 @@ Until those answers are recorded, documentation should describe observed history
 
 Source: [.gitea/workflows/test.yml](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/.gitea/workflows/test.yml). Existing attribution and review conventions remain team policy guidance.
 
+<!-- trello-status:start -->
+## Trello process follow-up
+
+**Board snapshot: 11 October 2026.** Latest recorded action: `2026-10-11T21:28:12.474Z` (UTC). See [export sources and reconciliation](../Project Management/trello-board-snapshot.md). List placement, the card completion marker (Trello `dueComplete`) and checked checklist items are recorded separately. They report tracker state, not an independently verified test, deployment or acceptance result.
+
+Methodology review card #189 is marked complete in Completed. Its title records squash merging, reviews as comments and commits after CI checks, but it has no description, checklist or linked review evidence in this export. Definition-of-Done card #34 is also marked complete without agreed wording. This supplies tracker context for the decisions above, not proof of configured branch protections or an approved detailed policy.
+<!-- trello-status:end -->
+
 ## AI Declaration
 
 OpenAI Codex was used to assist with the preparation, structure and editing of this documentation. The project team remains responsible for verifying the content and reviewing the final document.

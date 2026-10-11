@@ -84,6 +84,14 @@ The code contains responsive layouts, semantic labels and component-level access
 
 Earlier requirements proposed offline capture, collaboration, public pages, automatic scheduling, reports and AI-assisted analysis. The implemented scope is described above: shared evidence requires explicit duplicate review, competition generation is narrower than every proposed season-scheduling feature, and each report/export workflow has its own contract. See the [historical stack proposal](../Architecture/tech-stack/tool-stack-plan.md) and preserved [backlog snapshot](../Project%20Management/product-backlog.md).
 
+<!-- trello-status:start -->
+## Trello requirement traceability
+
+**Board snapshot: 11 October 2026.** Latest recorded action: `2026-10-11T21:28:12.474Z` (UTC). See [export sources and reconciliation](../Project Management/trello-board-snapshot.md). List placement, the card completion marker (Trello `dueComplete`) and checked checklist items are recorded separately. They report tracker state, not an independently verified test, deployment or acceptance result.
+
+All 34 cards retained in Sprint 1/2/3 lists are marked complete with 279/279 checklist items checked. The [product backlog](../Project%20Management/product-backlog.md) preserves every supplied description and criterion. This updates tracker completion, not the source-based implementation contract above. Card #72 remains in Sprint 2 Backlog despite its S3 title; all 11 cards in Sprint 3 Backlog have 50/50 criteria checked.
+<!-- trello-status:end -->
+
 ## AI Declaration
 
 OpenAI Codex was used to assist with the preparation, structure and editing of this documentation. The project team remains responsible for verifying the content and reviewing the final document.

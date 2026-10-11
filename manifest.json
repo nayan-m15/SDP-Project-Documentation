@@ -13,8 +13,8 @@
     "path": "docs/Overview/02-product-overview.md",
     "originalPath": "docs/Overview/02-product-overview.md",
     "folder": "Overview",
-    "size": 10727,
-    "date": "2026-10-11T21:31:10.094Z",
+    "size": 11636,
+    "date": "2026-10-11T21:38:53.483Z",
     "type": "md"
   },
   {
@@ -22,8 +22,8 @@
     "path": "docs/Overview/Functional-Requirements-and-System-Analysis.md",
     "originalPath": "docs/Overview/Functional-Requirements-and-System-Analysis.md",
     "folder": "Overview",
-    "size": 13484,
-    "date": "2026-10-11T21:29:58.695Z",
+    "size": 14403,
+    "date": "2026-10-11T21:38:53.474Z",
     "type": "md"
   },
   {
@@ -40,8 +40,8 @@
     "path": "docs/Project Management/bug-tracking.md",
     "originalPath": "docs/Project Management/bug-tracking.md",
     "folder": "Project Management",
-    "size": 56125,
-    "date": "2026-10-11T21:29:58.712Z",
+    "size": 122501,
+    "date": "2026-10-11T21:40:16.790Z",
     "type": "md"
   },
   {
@@ -49,8 +49,8 @@
     "path": "docs/Project Management/product-backlog.md",
     "originalPath": "docs/Project Management/product-backlog.md",
     "folder": "Project Management",
-    "size": 61706,
-    "date": "2026-10-11T21:29:58.721Z",
+    "size": 202043,
+    "date": "2026-10-11T21:40:16.778Z",
     "type": "md"
   },
   {
@@ -58,8 +58,8 @@
     "path": "docs/Project Management/roadmap.md",
     "originalPath": "docs/Project Management/roadmap.md",
     "folder": "Project Management",
-    "size": 2631,
-    "date": "2026-10-11T21:29:58.731Z",
+    "size": 2767,
+    "date": "2026-10-11T21:40:16.823Z",
     "type": "md"
   },
   {
@@ -67,17 +67,26 @@
     "path": "docs/Project Management/scrum-methodology.md",
     "originalPath": "docs/Project Management/scrum-methodology.md",
     "folder": "Project Management",
-    "size": 4486,
-    "date": "2026-10-11T21:29:58.738Z",
+    "size": 4602,
+    "date": "2026-10-11T21:40:16.829Z",
     "type": "md"
   },
   {
-    "name": "Sprint 3 delivery and evidence record",
+    "name": "Sprint 3 Delivery and Evidence Record",
     "path": "docs/Project Management/sprint-3-delivery.md",
     "originalPath": "docs/Project Management/sprint-3-delivery.md",
     "folder": "Project Management",
-    "size": 4655,
-    "date": "2026-10-11T21:29:58.745Z",
+    "size": 14321,
+    "date": "2026-10-11T21:40:16.799Z",
+    "type": "md"
+  },
+  {
+    "name": "Trello Board Snapshot and Export Reconciliation",
+    "path": "docs/Project Management/trello-board-snapshot.md",
+    "originalPath": "docs/Project Management/trello-board-snapshot.md",
+    "folder": "Project Management",
+    "size": 7839,
+    "date": "2026-10-11T21:37:41.858Z",
     "type": "md"
   },
   {
@@ -85,8 +94,8 @@
     "path": "docs/Architecture/api-guide.md",
     "originalPath": "docs/Architecture/api-guide.md",
     "folder": "Architecture",
-    "size": 41397,
-    "date": "2026-10-11T21:29:58.438Z",
+    "size": 42347,
+    "date": "2026-10-11T21:38:53.529Z",
     "type": "md"
   },
   {
@@ -103,8 +112,8 @@
     "path": "docs/Architecture/automatic-data-refresh.md",
     "originalPath": "docs/Architecture/automatic-data-refresh.md",
     "folder": "Architecture",
-    "size": 3026,
-    "date": "2026-10-11T21:29:58.453Z",
+    "size": 3868,
+    "date": "2026-10-11T21:38:53.538Z",
     "type": "md"
   },
   {
@@ -157,8 +166,8 @@
     "path": "docs/Architecture/git-methodology.md",
     "originalPath": "docs/Architecture/git-methodology.md",
     "folder": "Architecture",
-    "size": 6544,
-    "date": "2026-10-11T21:29:58.497Z",
+    "size": 7460,
+    "date": "2026-10-11T21:38:53.560Z",
     "type": "md"
   },
   {
@@ -193,8 +202,8 @@
     "path": "docs/Architecture/security/dependency-security.md",
     "originalPath": "docs/Architecture/security/dependency-security.md",
     "folder": "Architecture",
-    "size": 4323,
-    "date": "2026-10-11T21:29:58.559Z",
+    "size": 5242,
+    "date": "2026-10-11T21:38:53.514Z",
     "type": "md"
   },
   {
@@ -202,8 +211,8 @@
     "path": "docs/Architecture/security/powersync-security.md",
     "originalPath": "docs/Architecture/security/powersync-security.md",
     "folder": "Architecture",
-    "size": 4118,
-    "date": "2026-10-11T21:29:58.567Z",
+    "size": 4980,
+    "date": "2026-10-11T21:38:53.521Z",
     "type": "md"
   },
   {
@@ -265,8 +274,8 @@
     "path": "docs/Architecture/User-Feedback.md",
     "originalPath": "docs/Architecture/User-Feedback.md",
     "folder": "Architecture",
-    "size": 45254,
-    "date": "2026-10-11T21:29:58.428Z",
+    "size": 46172,
+    "date": "2026-10-11T21:38:53.547Z",
     "type": "md"
   },
   {
@@ -274,8 +283,8 @@
     "path": "docs/Quality/performance-review.md",
     "originalPath": "docs/Quality/performance-review.md",
     "folder": "Quality",
-    "size": 7389,
-    "date": "2026-10-11T21:29:58.752Z",
+    "size": 8239,
+    "date": "2026-10-11T21:38:53.507Z",
     "type": "md"
   },
   {
@@ -283,8 +292,8 @@
     "path": "docs/Quality/sprint-3-test-report.md",
     "originalPath": "docs/Quality/sprint-3-test-report.md",
     "folder": "Quality",
-    "size": 1635,
-    "date": "2026-10-11T21:29:58.762Z",
+    "size": 2530,
+    "date": "2026-10-11T21:38:53.500Z",
     "type": "md"
   },
   {
@@ -292,8 +301,8 @@
     "path": "docs/Quality/testing-and-qa.md",
     "originalPath": "docs/Quality/testing-and-qa.md",
     "folder": "Quality",
-    "size": 28967,
-    "date": "2026-10-11T21:29:58.771Z",
+    "size": 29965,
+    "date": "2026-10-11T21:38:53.491Z",
     "type": "md"
   },
   {

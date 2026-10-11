@@ -24,6 +24,14 @@ See [offline collaboration](offline-collaboration.md), [application structure](a
 
 Source: [frontend/src/lib/query-client.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/frontend/src/lib/query-client.ts), [frontend/src/lib/api.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/frontend/src/lib/api.ts), [frontend/src/context/AuthContext.tsx](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/frontend/src/context/AuthContext.tsx).
 
+<!-- trello-status:start -->
+## Trello refresh follow-up
+
+**Board snapshot: 11 October 2026.** Latest recorded action: `2026-10-11T21:28:12.474Z` (UTC). See [export sources and reconciliation](../Project Management/trello-board-snapshot.md). List placement, the card completion marker (Trello `dueComplete`) and checked checklist items are recorded separately. They report tracker state, not an independently verified test, deployment or acceptance result.
+
+Cards #150 (match confirmation), #157 (opponent confirmed squad) and #183 (page refresh) remain unarchived in Issues/fixes and are marked complete. None has a checklist. These markers record reported completion without adding a refresh execution result; source behavior above remains unchanged. See [bug tracking](../Project%20Management/bug-tracking.md).
+<!-- trello-status:end -->
+
 ## AI Declaration
 
 OpenAI Codex was used to assist with the preparation, structure and editing of this documentation. The project team remains responsible for verifying the content and reviewing the final document.
