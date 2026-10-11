@@ -1,4 +1,4 @@
-# Sprint 3 Review
+# Sprint 3 Review Meeting
 
 **Date:** Mon, 28 Sept 26
 

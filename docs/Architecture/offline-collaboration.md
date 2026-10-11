@@ -1,4 +1,4 @@
-# Offline and concurrent match logging
+# Offline and Concurrent Match Logging
 
 This page describes the implemented source model. Hosted deployment and physical-device behavior are separate from the source contract. See the [source basis](tech-stack/architecture-overview.md#source-basis) for the inspected checkout.
 

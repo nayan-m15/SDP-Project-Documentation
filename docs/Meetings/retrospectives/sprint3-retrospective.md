@@ -1,4 +1,4 @@
-# Sprint 3 Retrospective
+# Sprint 3 Retrospective Meeting
 
 **Date:** Mon, 28 Sept 26
 

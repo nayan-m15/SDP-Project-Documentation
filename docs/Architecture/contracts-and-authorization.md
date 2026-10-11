@@ -1,4 +1,4 @@
-# Contracts and authorization
+# Contracts and Authorization
 
 Backend **Zod request schemas** are canonical for bodies and query parameters validated with `zodValidate`. UUID route parameters use `ParseUUIDPipe`. The hidden/archive controllers explicitly validate their boolean body fields. Frontend request types and form constraints mirror these contracts; persistence and response types derive from Drizzle and service projections. Swagger metadata describes only the anonymous public API and does not replace runtime validation.
 

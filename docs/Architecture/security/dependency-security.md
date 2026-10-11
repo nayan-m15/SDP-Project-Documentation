@@ -1,4 +1,4 @@
-# Dependency security policy
+# Dependency Security Policy
 
 The root, backend and frontend are separate npm projects with separate lockfiles. Review the resolved lockfile graph, installation mode and actual executed path together; a manifest category alone is not proof of reachability or safety.
 

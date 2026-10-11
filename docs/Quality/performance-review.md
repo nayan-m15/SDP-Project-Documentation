@@ -1,4 +1,4 @@
-# Application performance mechanisms
+# Application Performance Mechanisms
 
 This page explains the inspected source mechanisms, not measured speedups, current production load or device readiness. See the [source basis](../Architecture/tech-stack/architecture-overview.md#source-basis). Older landing audit measurements are not results for the current plain-background fallback or this checkout.
 

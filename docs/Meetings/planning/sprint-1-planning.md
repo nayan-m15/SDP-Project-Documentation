@@ -1,4 +1,4 @@
-# Sprint Planning Meeting
+# Sprint 1 Planning Meeting
 
 **Fri, 14 Aug 26**
 

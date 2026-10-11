@@ -1,4 +1,4 @@
-# Gaffer — Formal User Feedback & Assessment Evidence
+# User Feedback and Assessment Evidence
 
 This document summarises the supplied feedback workbook and retains each participant’s recorded answers in a readable format.
 

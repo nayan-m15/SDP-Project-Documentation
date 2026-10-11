@@ -1,4 +1,4 @@
-# Automatic data refresh
+# Automatic Data Refresh
 
 The shared React Query client polls mounted pages and dialogs every **five seconds while visible**. Existing data stays on screen during background requests. These updates use polling and invalidation, not application-wide server push.
 

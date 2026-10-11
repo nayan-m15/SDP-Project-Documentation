@@ -1,4 +1,4 @@
-# Third-party Code and Assets
+# Third-Party Code and Assets
 
 ## Scope and licence method
 

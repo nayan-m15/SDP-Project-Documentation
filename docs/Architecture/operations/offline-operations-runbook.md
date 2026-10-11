@@ -1,4 +1,4 @@
-# Offline collaboration operations runbook
+# Offline Collaboration Runbook
 
 This guide describes prerequisites and recovery procedures for the browser queue, authenticated upload, reconciliation and PowerSync replication. It does not establish which migrations or configuration are installed on a hosted service. Telemetry carries queue counts and timings, not match-event payloads.
 

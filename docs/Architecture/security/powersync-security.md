@@ -1,4 +1,4 @@
-# PowerSync authentication and access
+# PowerSync Authentication and Access
 
 ## Backend-issued client tokens
 

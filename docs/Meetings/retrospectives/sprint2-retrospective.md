@@ -1,4 +1,4 @@
-# Sprint 2 Retrospective
+# Sprint 2 Retrospective Meeting
 
 **Mon, 14 Sept 26**
 

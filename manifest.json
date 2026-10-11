@@ -50,7 +50,7 @@
     "originalPath": "docs/Project Management/roadmap.md",
     "folder": "Project Management",
     "size": 2720,
-    "date": "2026-10-11T21:47:13.442Z",
+    "date": "2026-10-11T21:58:43.013Z",
     "type": "md"
   },
   {
@@ -90,21 +90,21 @@
     "type": "md"
   },
   {
-    "name": "Automatic data refresh",
+    "name": "Automatic Data Refresh",
     "path": "docs/Architecture/automatic-data-refresh.md",
     "originalPath": "docs/Architecture/automatic-data-refresh.md",
     "folder": "Architecture",
     "size": 3868,
-    "date": "2026-10-11T21:38:53.538Z",
+    "date": "2026-10-11T21:58:43.018Z",
     "type": "md"
   },
   {
-    "name": "Contracts and authorization",
+    "name": "Contracts and Authorization",
     "path": "docs/Architecture/contracts-and-authorization.md",
     "originalPath": "docs/Architecture/contracts-and-authorization.md",
     "folder": "Architecture",
     "size": 5573,
-    "date": "2026-10-11T21:29:58.460Z",
+    "date": "2026-10-11T21:58:43.024Z",
     "type": "md"
   },
   {
@@ -153,21 +153,21 @@
     "type": "md"
   },
   {
-    "name": "Offline and concurrent match logging",
+    "name": "Offline and Concurrent Match Logging",
     "path": "docs/Architecture/offline-collaboration.md",
     "originalPath": "docs/Architecture/offline-collaboration.md",
     "folder": "Architecture",
     "size": 17261,
-    "date": "2026-10-11T21:29:58.506Z",
+    "date": "2026-10-11T21:58:43.030Z",
     "type": "md"
   },
   {
-    "name": "Offline collaboration operations runbook",
+    "name": "Offline Collaboration Runbook",
     "path": "docs/Architecture/operations/offline-operations-runbook.md",
     "originalPath": "docs/Architecture/operations/offline-operations-runbook.md",
     "folder": "Architecture",
-    "size": 8386,
-    "date": "2026-10-11T21:29:58.524Z",
+    "size": 8375,
+    "date": "2026-10-11T21:58:43.047Z",
     "type": "md"
   },
   {
@@ -180,21 +180,21 @@
     "type": "md"
   },
   {
-    "name": "Dependency security policy",
+    "name": "Dependency Security Policy",
     "path": "docs/Architecture/security/dependency-security.md",
     "originalPath": "docs/Architecture/security/dependency-security.md",
     "folder": "Architecture",
     "size": 5242,
-    "date": "2026-10-11T21:38:53.514Z",
+    "date": "2026-10-11T21:58:43.054Z",
     "type": "md"
   },
   {
-    "name": "PowerSync authentication and access",
+    "name": "PowerSync Authentication and Access",
     "path": "docs/Architecture/security/powersync-security.md",
     "originalPath": "docs/Architecture/security/powersync-security.md",
     "folder": "Architecture",
     "size": 4980,
-    "date": "2026-10-11T21:38:53.521Z",
+    "date": "2026-10-11T21:58:43.058Z",
     "type": "md"
   },
   {
@@ -243,30 +243,30 @@
     "type": "md"
   },
   {
-    "name": "Third-party Code and Assets",
+    "name": "Third-Party Code and Assets",
     "path": "docs/Architecture/third-party-code-and-assets.md",
     "originalPath": "docs/Architecture/third-party-code-and-assets.md",
     "folder": "Architecture",
     "size": 10346,
-    "date": "2026-10-11T21:29:58.630Z",
+    "date": "2026-10-11T21:58:43.064Z",
     "type": "md"
   },
   {
-    "name": "Gaffer — Formal User Feedback & Assessment Evidence",
+    "name": "User Feedback and Assessment Evidence",
     "path": "docs/Architecture/User-Feedback.md",
     "originalPath": "docs/Architecture/User-Feedback.md",
     "folder": "Architecture",
-    "size": 103223,
-    "date": "2026-10-11T21:44:23.398Z",
+    "size": 103207,
+    "date": "2026-10-11T21:58:43.072Z",
     "type": "md"
   },
   {
-    "name": "Application performance mechanisms",
+    "name": "Application Performance Mechanisms",
     "path": "docs/Quality/performance-review.md",
     "originalPath": "docs/Quality/performance-review.md",
     "folder": "Quality",
     "size": 8239,
-    "date": "2026-10-11T21:38:53.507Z",
+    "date": "2026-10-11T21:58:43.079Z",
     "type": "md"
   },
   {
@@ -297,12 +297,12 @@
     "type": "md"
   },
   {
-    "name": "Sprint Planning Meeting",
+    "name": "Sprint 1 Planning Meeting",
     "path": "docs/Meetings/planning/sprint-1-planning.md",
     "originalPath": "docs/Meetings/planning/sprint-1-planning.md",
     "folder": "Meetings",
-    "size": 3137,
-    "date": "2026-09-15T11:17:33.688Z",
+    "size": 3139,
+    "date": "2026-10-11T21:58:43.086Z",
     "type": "md"
   },
   {
@@ -333,39 +333,39 @@
     "type": "md"
   },
   {
-    "name": "Sprint 2 Retrospective",
+    "name": "Sprint 2 Retrospective Meeting",
     "path": "docs/Meetings/retrospectives/sprint2-retrospective.md",
     "originalPath": "docs/Meetings/retrospectives/sprint2-retrospective.md",
     "folder": "Meetings",
-    "size": 2236,
-    "date": "2026-09-15T11:17:33.712Z",
+    "size": 2244,
+    "date": "2026-10-11T21:58:43.092Z",
     "type": "md"
   },
   {
-    "name": "Sprint 3 Retrospective",
+    "name": "Sprint 3 Retrospective Meeting",
     "path": "docs/Meetings/retrospectives/sprint3-retrospective.md",
     "originalPath": "docs/Meetings/retrospectives/sprint3-retrospective.md",
     "folder": "Meetings",
-    "size": 2228,
-    "date": "2026-10-11T21:29:58.647Z",
+    "size": 2236,
+    "date": "2026-10-11T21:58:43.097Z",
     "type": "md"
   },
   {
-    "name": "Sprint 2 Review with Client (Jan)",
+    "name": "Sprint 2 Client Review",
     "path": "docs/Meetings/reviews/sprint-2-review.md",
     "originalPath": "docs/Meetings/reviews/sprint-2-review.md",
     "folder": "Meetings",
-    "size": 4849,
-    "date": "2026-09-25T10:03:05.879Z",
+    "size": 4838,
+    "date": "2026-10-11T21:58:43.102Z",
     "type": "md"
   },
   {
-    "name": "Sprint 3 Review",
+    "name": "Sprint 3 Review Meeting",
     "path": "docs/Meetings/reviews/sprint3-review.md",
     "originalPath": "docs/Meetings/reviews/sprint3-review.md",
     "folder": "Meetings",
-    "size": 4086,
-    "date": "2026-10-11T21:29:58.652Z",
+    "size": 4094,
+    "date": "2026-10-11T21:58:43.108Z",
     "type": "md"
   },
   {

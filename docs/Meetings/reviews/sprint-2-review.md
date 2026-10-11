@@ -1,4 +1,4 @@
-# Sprint 2 Review with Client (Jan)
+# Sprint 2 Client Review
 
 **Mon, 14 Sept 26**
 
