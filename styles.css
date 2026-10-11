@@ -310,7 +310,7 @@ svg.lucide {
     transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.tree-folder.open .folder-arrow {
+.tree-folder.open > .tree-folder-header > .folder-arrow {
     transform: rotate(90deg);
 }
 
@@ -339,13 +339,12 @@ svg.lucide {
     display: none;
     flex-direction: column;
     gap: 2px;
-    padding-left: 14px;
+    padding-left: 12px;
     margin-top: 2px;
-    border-left: 1px solid var(--border);
-    margin-left: 12px;
+    margin-left: 0;
 }
 
-.tree-folder.open .tree-folder-contents {
+.tree-folder.open > .tree-folder-contents {
     display: flex;
 }
 

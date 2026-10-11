@@ -64,7 +64,11 @@ body { background: var(--surface-page); color: var(--text-primary); }
 .section-title { font-size: 12px; color: var(--text-muted); }
 .tree-stats-badge, .folder-count-badge { font-size: 12px; color: var(--text-muted); }
 .tree-folder-header, .document-button { min-height: 40px; border-radius: var(--radius-md); font-size: 13px; line-height: 1.45; }
-.tree-folder-header { font-weight: 600; }
+.tree-folder-header { font-weight: 600; padding: 8px 10px; }
+.tree-folder.contains-current > .tree-folder-header { color: var(--brand); }
+.tree-folder.contains-current:not(.open) > .tree-folder-header { background: var(--surface-active); }
+.folder-arrow { width: 18px; height: 18px; }
+.folder-name, .document-name { min-width: 0; white-space: normal; overflow: visible; overflow-wrap: anywhere; text-overflow: clip; }
 .document-button { position: relative; font-weight: 500; }
 .document-button:hover { transform: none; }
 .document-button.active { background: var(--surface-active); color: var(--text-primary); }

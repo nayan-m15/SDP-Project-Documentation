@@ -253,43 +253,43 @@ function buildDocTree(documents) {
     return root;
 }
 
-function countTreeDocs(node) {
-    let total = node.docs.length;
-    Object.values(node.folders).forEach(childFolder => {
-        total += countTreeDocs(childFolder);
-    });
-    return total;
+function setFolderExpanded(folder, expanded) {
+    folder.classList.toggle("open", expanded);
+    folder.querySelector(":scope > .tree-folder-header").setAttribute("aria-expanded", String(expanded));
 }
 
-function renderTreeBranch(node, containerElement) {
+function renderTreeBranch(node, containerElement, parentPath = "") {
     // 1. Render child subfolders
     Object.keys(node.folders).forEach((folderName) => {
         const folderNode = node.folders[folderName];
-        const count = countTreeDocs(folderNode);
+        const folderPath = `${parentPath}/${folderName}`;
+        const folderLabel = folderName.replaceAll("-", " ").replace(/\b[a-z]/g, letter => letter.toUpperCase());
 
         const folderDiv = document.createElement("div");
-        folderDiv.className = "tree-folder open";
+        folderDiv.className = "tree-folder";
         folderDiv.dataset.folder = folderName.toLowerCase();
 
         const folderHeader = document.createElement("button");
         folderHeader.className = "tree-folder-header";
         folderHeader.type = "button";
+        folderHeader.setAttribute("aria-expanded", "false");
+        folderHeader.setAttribute("aria-controls", `folder-${encodeURIComponent(folderPath)}`);
         folderHeader.innerHTML = `
+            <span class="folder-name"></span>
             <i data-lucide="chevron-right" class="svg-icon-sm folder-arrow"></i>
-            <i data-lucide="folder" class="svg-icon-sm folder-icon"></i>
-            <span class="folder-name">${folderName}</span>
-            <span class="folder-count-badge">${count}</span>
         `;
+        folderHeader.querySelector(".folder-name").textContent = folderLabel;
 
         folderHeader.addEventListener("click", (e) => {
             e.stopPropagation();
-            folderDiv.classList.toggle("open");
+            setFolderExpanded(folderDiv, !folderDiv.classList.contains("open"));
         });
 
         const contentsDiv = document.createElement("div");
         contentsDiv.className = "tree-folder-contents";
+        contentsDiv.id = folderHeader.getAttribute("aria-controls");
 
-        renderTreeBranch(folderNode, contentsDiv);
+        renderTreeBranch(folderNode, contentsDiv, folderPath);
 
         folderDiv.appendChild(folderHeader);
         folderDiv.appendChild(contentsDiv);
@@ -304,10 +304,11 @@ function renderTreeBranch(node, containerElement) {
         docBtn.dataset.path = doc.path;
         docBtn.dataset.name = doc.name.toLowerCase();
 
-        docBtn.innerHTML = `
-            <span class="doc-badge md">MD</span>
-            <span class="document-name">${doc.name}</span>
-        `;
+        const docName = document.createElement("span");
+        docName.className = "document-name";
+        docName.textContent = doc.name;
+        docBtn.appendChild(docName);
+        docBtn.title = doc.name;
 
         docBtn.addEventListener("click", (e) => {
             e.stopPropagation();
@@ -332,6 +333,9 @@ treeSearch.addEventListener("input", (e) => {
     const folderElements = treeContainer.querySelectorAll(".tree-folder");
 
     folderElements.forEach((folderEl) => {
+        if (query && folderEl.dataset.expandedBeforeSearch === undefined) {
+            folderEl.dataset.expandedBeforeSearch = String(folderEl.classList.contains("open"));
+        }
         let hasVisibleDoc = false;
         const docBtns = folderEl.querySelectorAll(".document-button");
 
@@ -348,9 +352,13 @@ treeSearch.addEventListener("input", (e) => {
 
         if (hasVisibleDoc || !query) {
             folderEl.style.display = "block";
-            if (query) folderEl.classList.add("open");
+            if (query) setFolderExpanded(folderEl, true);
         } else {
             folderEl.style.display = "none";
+        }
+        if (!query && folderEl.dataset.expandedBeforeSearch !== undefined) {
+            setFolderExpanded(folderEl, folderEl.dataset.expandedBeforeSearch === "true");
+            delete folderEl.dataset.expandedBeforeSearch;
         }
     });
 });
@@ -483,12 +491,22 @@ async function selectDocument(doc, activeBtn = null, sectionId = null, updateHis
     currentDoc = doc;
 
     // Highlight active button in sidebar
-    document.querySelectorAll(".document-button").forEach(btn => btn.classList.remove("active"));
-    if (activeBtn) {
-        activeBtn.classList.add("active");
-    } else {
-        const matchingBtn = document.querySelector(`.document-button[data-path="${CSS.escape(doc.path)}"]`);
-        if (matchingBtn) matchingBtn.classList.add("active");
+    treeContainer.querySelectorAll(".document-button").forEach(btn => {
+        btn.classList.remove("active");
+        btn.removeAttribute("aria-current");
+    });
+    treeContainer.querySelectorAll(".tree-folder").forEach(folder => folder.classList.remove("contains-current"));
+    const matchingBtn = activeBtn || treeContainer.querySelector(`.document-button[data-path="${CSS.escape(doc.path)}"]`);
+    if (matchingBtn) {
+        matchingBtn.classList.add("active");
+        matchingBtn.setAttribute("aria-current", "page");
+        let folder = matchingBtn.closest(".tree-folder");
+        while (folder) {
+            folder.classList.add("contains-current");
+            setFolderExpanded(folder, true);
+            if (folder.dataset.expandedBeforeSearch !== undefined) folder.dataset.expandedBeforeSearch = "true";
+            folder = folder.parentElement.closest(".tree-folder");
+        }
     }
 
     if (updateHistory) {
