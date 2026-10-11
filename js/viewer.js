@@ -203,12 +203,12 @@ async function loadDocuments() {
         if (initialTarget.path) {
             const found = allDocuments.find(d => d.path === initialTarget.path);
             if (found) {
-                await selectDocument(found, null, initialTarget.section, false);
+                await selectDocument(found, null, initialTarget.section, false, false);
             } else if (allDocuments.length > 0) {
-                await selectDocument(allDocuments[0], null, null, false);
+                await selectDocument(allDocuments[0], null, null, false, false);
             }
         } else if (allDocuments.length > 0) {
-            await selectDocument(allDocuments[0], null, null, false);
+            await selectDocument(allDocuments[0], null, null, false, false);
         }
     } catch (error) {
         console.error("Error loading document manifest:", error);
@@ -487,7 +487,7 @@ function rewriteDocumentImages(container, sourcePath) {
 }
 
 // Select and Display Document
-async function selectDocument(doc, activeBtn = null, sectionId = null, updateHistory = true) {
+async function selectDocument(doc, activeBtn = null, sectionId = null, updateHistory = true, expandSubfolders = true) {
     currentDoc = doc;
 
     // Highlight active button in sidebar
@@ -503,8 +503,10 @@ async function selectDocument(doc, activeBtn = null, sectionId = null, updateHis
         let folder = matchingBtn.closest(".tree-folder");
         while (folder) {
             folder.classList.add("contains-current");
-            setFolderExpanded(folder, true);
-            if (folder.dataset.expandedBeforeSearch !== undefined) folder.dataset.expandedBeforeSearch = "true";
+            // On launch, reveal only the top-level section, even for a nested document link.
+            const expanded = expandSubfolders || folder.parentElement === treeContainer;
+            setFolderExpanded(folder, expanded);
+            if (folder.dataset.expandedBeforeSearch !== undefined) folder.dataset.expandedBeforeSearch = String(expanded);
             folder = folder.parentElement.closest(".tree-folder");
         }
     }
