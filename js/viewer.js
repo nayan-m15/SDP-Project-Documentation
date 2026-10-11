@@ -197,6 +197,7 @@ async function loadDocuments() {
         }
 
         renderTree(allDocuments);
+        const startingDoc = allDocuments.find(doc => doc.path === "docs/Overview/01-getting-started.md") || allDocuments[0];
 
         // Check URL hash for an initial document and optional section.
         const initialTarget = parseDocumentHash();
@@ -204,11 +205,11 @@ async function loadDocuments() {
             const found = allDocuments.find(d => d.path === initialTarget.path);
             if (found) {
                 await selectDocument(found, null, initialTarget.section, false, false);
-            } else if (allDocuments.length > 0) {
-                await selectDocument(allDocuments[0], null, null, false, false);
+            } else if (startingDoc) {
+                await selectDocument(startingDoc, null, null, false, false);
             }
-        } else if (allDocuments.length > 0) {
-            await selectDocument(allDocuments[0], null, null, false, false);
+        } else if (startingDoc) {
+            await selectDocument(startingDoc, null, null, false, false);
         }
     } catch (error) {
         console.error("Error loading document manifest:", error);
@@ -330,6 +331,8 @@ function renderTree(documents) {
     treeContainer.innerHTML = "";
     const rootNode = buildDocTree(documents);
     renderTreeBranch(rootNode, treeContainer);
+    const projectManagement = treeContainer.querySelector(':scope > .tree-folder[data-folder="project management"]');
+    if (projectManagement) setFolderExpanded(projectManagement, true);
     refreshIcons();
 }
 
@@ -493,7 +496,7 @@ function rewriteDocumentImages(container, sourcePath) {
 }
 
 // Select and Display Document
-async function selectDocument(doc, activeBtn = null, sectionId = null, updateHistory = true, expandSubfolders = true) {
+async function selectDocument(doc, activeBtn = null, sectionId = null, updateHistory = true, revealFolders = true) {
     currentDoc = doc;
 
     // Highlight active button in sidebar
@@ -509,10 +512,11 @@ async function selectDocument(doc, activeBtn = null, sectionId = null, updateHis
         let folder = matchingBtn.closest(".tree-folder");
         while (folder) {
             folder.classList.add("contains-current");
-            // On launch, reveal only the top-level section, even for a nested document link.
-            const expanded = expandSubfolders || folder.parentElement === treeContainer;
-            setFolderExpanded(folder, expanded);
-            if (folder.dataset.expandedBeforeSearch !== undefined) folder.dataset.expandedBeforeSearch = String(expanded);
+            // Initial document selection preserves the launch layout.
+            if (revealFolders) {
+                setFolderExpanded(folder, true);
+                if (folder.dataset.expandedBeforeSearch !== undefined) folder.dataset.expandedBeforeSearch = "true";
+            }
             folder = folder.parentElement.closest(".tree-folder");
         }
     }
