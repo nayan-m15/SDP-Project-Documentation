@@ -1207,3 +1207,7 @@ _No description or user story recorded in the export._
 **Exported checklist state**
 
 _No checklist recorded in the export._
+
+## AI Declaration
+
+OpenAI Codex was used to assist with the preparation, structure and editing of this documentation. The project team remains responsible for verifying the content and reviewing the final document.

@@ -18,3 +18,7 @@ On 14 September 2026, all 12 repository PDFs were inventoried before removal. Te
 | `Standup_Meeting2.pdf` | [Standup Meeting 5](../Meetings/standups/2026-09-13-standup-5.md) |
 
 The migration retains source statements as historical evidence. It does not independently verify meeting attendance, Trello completion, implementation, deployment or stakeholder acceptance.
+
+## AI Declaration
+
+OpenAI Codex was used to assist with the preparation, structure and editing of this documentation. The project team remains responsible for verifying the content and reviewing the final document.

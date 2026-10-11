@@ -17,3 +17,7 @@ See [current product behavior](../Overview/02-product-overview.md), [requirement
 | Final submission | 11 October 2026 | Integrated, documented and evidenced submission. |
 
 Sprint 3 work covers opponent fixtures, league/standings management, concurrent logging and sharing/report export. The Trello Completed list contains injury reporting/3D model, public squad/player information and offline event logging. Code presence and tracker placement do not prove deployment, test pass or stakeholder acceptance. Optional ideas and open issues are recorded in the [backlog](product-backlog.md) and [bug register](bug-tracking.md).
+
+## AI Declaration
+
+OpenAI Codex was used to assist with the preparation, structure and editing of this documentation. The project team remains responsible for verifying the content and reviewing the final document.

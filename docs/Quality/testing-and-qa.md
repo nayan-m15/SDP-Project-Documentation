@@ -297,3 +297,7 @@ Run each full backend e2e file from `backend/` using `node node_modules/jest/bin
 | Reviewer/stakeholder decision, if recorded | |
 
 Never turn an unchecked template, existing test file, Trello checklist or demonstration plan into a claimed result.
+
+## AI Declaration
+
+OpenAI Codex was used to assist with the preparation, structure and editing of this documentation. The project team remains responsible for verifying the content and reviewing the final document.

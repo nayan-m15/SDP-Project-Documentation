@@ -71,4 +71,6 @@ WhatsApp voice call — SDP(Sports) Group (60:02 elapsed):
 
 ---
 
-*AI Declaration: Meeting transcription and notes were generated with the assistance of Granola AI and subsequently reviewed by the team for accuracy.*
+## AI Declaration
+
+Meeting transcription and notes were generated with the assistance of Granola AI and subsequently reviewed by the team for accuracy.

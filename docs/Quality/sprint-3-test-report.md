@@ -10,3 +10,7 @@
 | Physical Android/iOS offline field test | Checklist in application `docs/offline-field-test.md`. | Checklist is not a completed field run. |
 
 Before claiming a pass, record the exact command, commit, environment, isolated database, date, totals, failure artifacts and CI run URL. Keep CI configuration, deployment verification and stakeholder acceptance distinct. [Testing and QA](testing-and-qa.md) gives the commands.
+
+## AI Declaration
+
+OpenAI Codex was used to assist with the preparation, structure and editing of this documentation. The project team remains responsible for verifying the content and reviewing the final document.

@@ -37,3 +37,7 @@ Invalid input returns 400; absent authentication returns 401. Depending on the s
 See [API guide](api-guide.md), [database schema](data/database-schema.md) and [PowerSync security](security/powersync-security.md).
 
 Sources: [backend/src/common/team-access.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/common/team-access.ts), [backend/src/injuries/injuries.controller.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/injuries/injuries.controller.ts), [backend/src/matches/matches.service.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/matches/matches.service.ts), [backend/src/competitions/competitions.service.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/competitions/competitions.service.ts).
+
+## AI Declaration
+
+OpenAI Codex was used to assist with the preparation, structure and editing of this documentation. The project team remains responsible for verifying the content and reviewing the final document.

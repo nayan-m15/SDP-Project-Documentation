@@ -26,3 +26,7 @@ The proposal correctly favoured a separate frontend/backend, server-owned databa
 - The current source has a persistent browser queue, retry receipts, reconciliation, review state and PowerSync configuration. Verify two-device behaviour, recovery and production configuration before claiming the complete offline and concurrent workflow is delivered; see [offline collaboration](../offline-collaboration.md).
 - Socket rooms were part of this historical proposal. Current shared logging uses authenticated upload and PowerSync replication; Socket.io remains installed scaffolding. Add socket delivery only if a later requirement calls for it.
 - Maps, notification channels and **match-report** file export still need separate acceptance criteria and provenance/privacy review. Game-plan and injury PDF exports have different purposes and do not establish match-report export.
+
+## AI Declaration
+
+OpenAI Codex was used to assist with the preparation, structure and editing of this documentation. The project team remains responsible for verifying the content and reviewing the final document.

@@ -64,3 +64,7 @@ The API resolves team identity from the authenticated session. Clients do not ch
 Prepare authorized match data while online before offline capture and export unsent work before clearing browser storage. Email/push event reminders and every proposed automatic season-scheduling capability are not established by fixture generation. Hosted configuration and acceptance remain separate from source behavior.
 
 See [authorization](../Architecture/contracts-and-authorization.md), [collaboration](../Architecture/offline-collaboration.md), [public API](../Architecture/api-guide.md#public-read-api), [operations](../Architecture/operations/offline-operations-runbook.md), [requirements](Functional-Requirements-and-System-Analysis.md) and the historical [backlog](../Project%20Management/product-backlog.md).
+
+## AI Declaration
+
+OpenAI Codex was used to assist with the preparation, structure and editing of this documentation. The project team remains responsible for verifying the content and reviewing the final document.

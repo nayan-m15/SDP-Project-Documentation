@@ -68,3 +68,7 @@ We may revise these terms to reflect changes in Gaffer or the law. We will updat
 South African law governs these terms. Please contact us first if you have a concern so we can try to resolve it. This does not prevent you from using a court, regulator or other remedy available by law. Questions may be sent to [2801261@students.wits.ac.za](mailto:2801261@students.wits.ac.za).
 
 [Return to Gaffer](/) | [Privacy Policy](privacy-policy.md)
+
+## AI Declaration
+
+OpenAI Codex was used to assist with the preparation, structure and editing of this documentation. The project team remains responsible for verifying the content and reviewing the final document.

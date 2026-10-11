@@ -61,3 +61,7 @@ Linked private sheets share fixture/session authority and sanitize opponent time
 - Shared competition standings are calculated from completed in-app matches and admin-entered results; older manually entered standings rows remain as a legacy baseline. This is not an athlete-versus-opponent-player comparison feature. See `backend/src/competitions/competitions.service.ts` and `backend/src/common/competition-standings.ts` at the application source revision cited in the [database schema](data/database-schema.md).
 
 Sources: [frontend/src/App.tsx](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/frontend/src/App.tsx), [backend/src/app.module.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/app.module.ts), [frontend/src/offline/match-store.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/frontend/src/offline/match-store.ts).
+
+## AI Declaration
+
+OpenAI Codex was used to assist with the preparation, structure and editing of this documentation. The project team remains responsible for verifying the content and reviewing the final document.

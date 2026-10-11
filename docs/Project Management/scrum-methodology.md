@@ -67,3 +67,7 @@ Review team process, identify concrete improvements and carry owned actions into
 ## Feedback and defects
 
 Stakeholder/user feedback should be linked to a new or existing backlog card, assessed for scope and priority, and selected in a later planning decision. Defects follow the [proposed bug workflow](bug-tracking.md#proposed-bug-workflow) and return to planning when they cannot be resolved immediately.
+
+## AI Declaration
+
+OpenAI Codex was used to assist with the preparation, structure and editing of this documentation. The project team remains responsible for verifying the content and reviewing the final document.

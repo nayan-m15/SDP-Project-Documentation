@@ -460,3 +460,7 @@ Source: [backend/src/weather/locations.controller.ts](https://sdp.ms.wits.ac.za/
 ## Operational boundaries
 
 `GET /sync/token` is session-protected and returns `{endpoint,token,expiresAt}` with five-minute expiry. `GET /sync/jwks` is a verification-key endpoint, not a protected application write. `/health/operations` uses its dedicated bearer token. See [operations](operations/offline-operations-runbook.md), [PowerSync security](security/powersync-security.md) and [refresh](automatic-data-refresh.md).
+
+## AI Declaration
+
+OpenAI Codex was used to assist with the preparation, structure and editing of this documentation. The project team remains responsible for verifying the content and reviewing the final document.

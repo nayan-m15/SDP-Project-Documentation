@@ -1168,3 +1168,7 @@ Report approvals are stored on `match_sessions` and `match_session_participants`
 The current journal extends through `0067_single_coach_competition_reports`; earlier migrations provide its prerequisites. Use the journal-aware normal migration path and preserve installed history. A hosted database's migration state, installed function definitions, publication grants and sync rules must be checked separately; no hosted database was inspected for this documentation update. See [operations](../operations/offline-operations-runbook.md), [authorization](../contracts-and-authorization.md) and [collaboration](../offline-collaboration.md).
 
 SQL authority: [ordered migration SQL](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/drizzle), [migration journal](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/drizzle/meta/_journal.json).
+
+## AI Declaration
+
+OpenAI Codex was used to assist with the preparation, structure and editing of this documentation. The project team remains responsible for verifying the content and reviewing the final document.

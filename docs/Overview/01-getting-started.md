@@ -108,3 +108,7 @@ The backend requires the complete ordered migration journal through the current 
 See [operations prerequisites](../Architecture/operations/offline-operations-runbook.md), [PowerSync security](../Architecture/security/powersync-security.md), [refresh](../Architecture/automatic-data-refresh.md) and [current architecture/source basis](../Architecture/tech-stack/architecture-overview.md).
 
 Configuration authority: [.env.example](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/.env.example), [frontend/vite.config.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/frontend/vite.config.ts).
+
+## AI Declaration
+
+OpenAI Codex was used to assist with the preparation, structure and editing of this documentation. The project team remains responsible for verifying the content and reviewing the final document.

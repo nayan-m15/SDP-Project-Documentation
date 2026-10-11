@@ -83,3 +83,7 @@ The code contains responsive layouts, semantic labels and component-level access
 ## Historical product direction
 
 Earlier requirements proposed offline capture, collaboration, public pages, automatic scheduling, reports and AI-assisted analysis. The implemented scope is described above: shared evidence requires explicit duplicate review, competition generation is narrower than every proposed season-scheduling feature, and each report/export workflow has its own contract. See the [historical stack proposal](../Architecture/tech-stack/tool-stack-plan.md) and preserved [backlog snapshot](../Project%20Management/product-backlog.md).
+
+## AI Declaration
+
+OpenAI Codex was used to assist with the preparation, structure and editing of this documentation. The project team remains responsible for verifying the content and reviewing the final document.

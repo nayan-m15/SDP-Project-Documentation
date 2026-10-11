@@ -119,3 +119,7 @@ A tag records a Git revision; it does not establish deployment, test success or 
 Until those answers are recorded, documentation should describe observed history and link actual pull requests/runs rather than presenting a proposed policy as fact.
 
 Source: [.gitea/workflows/test.yml](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/.gitea/workflows/test.yml). Existing attribution and review conventions remain team policy guidance.
+
+## AI Declaration
+
+OpenAI Codex was used to assist with the preparation, structure and editing of this documentation. The project team remains responsible for verifying the content and reviewing the final document.

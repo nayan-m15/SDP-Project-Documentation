@@ -78,3 +78,7 @@ Links to external sites are provided for convenience. Their operators handle inf
 We may update this policy as Gaffer changes. We will revise the effective date and take reasonable steps to draw material changes to users' attention. For privacy questions, requests or concerns, contact [2801261@students.wits.ac.za](mailto:2801261@students.wits.ac.za).
 
 [Return to Gaffer](/) | [Terms of Service](terms-of-service.md)
+
+## AI Declaration
+
+OpenAI Codex was used to assist with the preparation, structure and editing of this documentation. The project team remains responsible for verifying the content and reviewing the final document.

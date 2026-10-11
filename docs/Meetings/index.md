@@ -20,3 +20,7 @@ This register is chronological. “Proof available” means the Markdown contain
 | 24 Sep 2026 | Sprint 3 client standup | [Daily Standup Meeting 7](standups/2026-09-24-standup-7.md) | WhatsApp | Image and time | Discussed planned features, backend test blockers, coverage evidence and two-account concurrency testing. |
 | 27 Sep 2026 | Sprint 3 standup | [Daily Standup Meeting 8](standups/2026-09-27-standup-8.md) | Discord | Image and time | Reviewed PWA install feedback, alternative formats, automatic scheduling and work for the sprint review. |
 | 28 Sep 2026 | Sprint 3 standup | [Daily Standup Meeting 9](standups/2026-09-28-standup-9.md) | Discord | Image and time | Reviewed SonarQube blockers, stats and injury page work, landing-page updates and browser download issues. |
+
+## AI Declaration
+
+OpenAI Codex was used to assist with the preparation, structure and editing of this documentation. The project team remains responsible for verifying the content and reviewing the final document.

@@ -57,3 +57,7 @@ The root, frontend and backend `package.json` files express requested direct dep
 Vite, TypeScript, Tailwind/Vite integration, PWA generation and shadcn scaffolding are development/build tools. React, Query, PowerSync/SQLite, charts and PDF rendering execute in the client. Backend Nest/Better Auth/Drizzle/Neon/Zod execute in the server. Installed sockets do not establish collaboration transport. See [dependency policy](../security/dependency-security.md), [refresh](../automatic-data-refresh.md) and [operations prerequisites](../operations/offline-operations-runbook.md).
 
 Sources: [package.json](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/package.json), [backend/package.json](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/package.json), [frontend/package.json](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/frontend/package.json), [packages/match-domain/package.json](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/packages/match-domain/package.json).
+
+## AI Declaration
+
+OpenAI Codex was used to assist with the preparation, structure and editing of this documentation. The project team remains responsible for verifying the content and reviewing the final document.

@@ -20,3 +20,7 @@ See [current product behavior](../Overview/02-product-overview.md), [requirement
 | [Offline Event Logging](https://trello.com/c/cCbQvUoL), Completed on Trello | Sync controllers, local offline store, PowerSync config and operations runbook | Offline API/PWA tests exist; no passing run recorded here | Unverified | Verify physical Android/iOS field run and deployed sync service. |
 
 The four cards in Sprint 3 Backlog—alternative football formats, automated insights, selection suggestions and automatic season scheduling—remain backlog in the export. Do not present them as delivered without later implementation evidence. The supplied [Sprint 3 planning](../Meetings/planning/sprint-3-planning.md) and [Standup 7](../Meetings/standups/2026-09-24-standup-7.md) notes record discussion and actions, not acceptance. See [Product Backlog](product-backlog.md), [offline architecture](../Architecture/offline-collaboration.md) and [Sprint 3 test record](../Quality/sprint-3-test-report.md).
+
+## AI Declaration
+
+OpenAI Codex was used to assist with the preparation, structure and editing of this documentation. The project team remains responsible for verifying the content and reviewing the final document.

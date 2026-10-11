@@ -46,3 +46,7 @@ Created by extracting architectural information available at the time using Curs
 ## 7. Use Case Diagram
 
 <img src="https://github.com/nayan-m15/SDP-Project-Documentation/blob/main/assets/usecase-diagram.svg?raw=true" alt="Use case diagram" width="700">
+
+## AI Declaration
+
+OpenAI Codex was used to assist with the preparation, structure and editing of this documentation. The project team remains responsible for verifying the content and reviewing the final document.

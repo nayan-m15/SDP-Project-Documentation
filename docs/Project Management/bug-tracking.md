@@ -1024,3 +1024,7 @@ _No checklist recorded in the export._
 3. Retest the original steps plus a relevant regression path.
 4. Record the exact result and evidence link; only then describe the issue as verified fixed.
 5. Archive or move the Trello card according to the team's agreed workflow.
+
+## AI Declaration
+
+OpenAI Codex was used to assist with the preparation, structure and editing of this documentation. The project team remains responsible for verifying the content and reviewing the final document.

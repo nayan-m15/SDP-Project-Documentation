@@ -23,3 +23,7 @@ Application coach/admin roles do not control PowerSync dashboard or CLI permissi
 Publish a new public key before changing the private signer, allow overlap beyond the five-minute token lifetime, and retire old trust after legitimate clients refresh. See the [operations runbook](../operations/offline-operations-runbook.md) for rotation and recovery, and [authorization](../contracts-and-authorization.md) for role boundaries.
 
 Sources: [backend/src/sync/sync.controller.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/sync/sync.controller.ts), [backend/src/sync/sync-jwks.controller.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/sync/sync-jwks.controller.ts), [powersync/sync-config.yaml](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/powersync/sync-config.yaml), [powersync/service.yaml](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/powersync/service.yaml), [powersync-recovery/service.yaml](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/powersync-recovery/service.yaml).
+
+## AI Declaration
+
+OpenAI Codex was used to assist with the preparation, structure and editing of this documentation. The project team remains responsible for verifying the content and reviewing the final document.

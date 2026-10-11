@@ -40,3 +40,7 @@ Created in Figma to outline page layout, with prompting assistance from Claude [
 ## 6. Team Management
 
 <img src="https://github.com/nayan-m15/SDP-Project-Documentation/blob/main/assets/team.wireframe.png?raw=true" alt="Team Management wireframe" width="500">
+
+## AI Declaration
+
+OpenAI Codex was used to assist with the preparation, structure and editing of this documentation. The project team remains responsible for verifying the content and reviewing the final document.

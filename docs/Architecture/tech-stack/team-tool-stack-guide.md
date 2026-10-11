@@ -91,3 +91,7 @@ Local capture → stable-ID upload → server reconciliation → authorized read
 Use the full journal-aware migration path for source requirements, not a single old hardening script. Preserve pending queue/receipt/upload compatibility across releases and keep signing trust separate from operator access. Feature controls and recovery procedures are in the [operations guide](../operations/offline-operations-runbook.md); configuration names come from the root `.env.example` and [Getting Started](../../Overview/01-getting-started.md).
 
 Sources: [packages/match-domain](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/packages/match-domain), [backend/src/app.module.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/backend/src/app.module.ts), [.env.example](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/.env.example).
+
+## AI Declaration
+
+OpenAI Codex was used to assist with the preparation, structure and editing of this documentation. The project team remains responsible for verifying the content and reviewing the final document.

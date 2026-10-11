@@ -23,3 +23,7 @@ Event and statistics edit forms initialize when opened and preserve unfinished d
 See [offline collaboration](offline-collaboration.md), [application structure](application-structure.md) and [public API caching](api-guide.md#caching-throttling-and-cors).
 
 Source: [frontend/src/lib/query-client.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/frontend/src/lib/query-client.ts), [frontend/src/lib/api.ts](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/frontend/src/lib/api.ts), [frontend/src/context/AuthContext.tsx](https://sdp.ms.wits.ac.za/SDP-Interlude/SportCoachingTool/src/commit/f23cbd1c53fbc14dd4579467bcb38f43df0335d0/frontend/src/context/AuthContext.tsx).
+
+## AI Declaration
+
+OpenAI Codex was used to assist with the preparation, structure and editing of this documentation. The project team remains responsible for verifying the content and reviewing the final document.
