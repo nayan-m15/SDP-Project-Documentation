@@ -27,7 +27,7 @@
   --shadow-lg: 0 18px 50px -20px rgba(0,0,0,.9);
   --shadow-xl: 0 28px 80px -28px rgba(0,0,0,.95);
   --shadow-modal: var(--shadow-xl);
-  --sidebar-width: 272px; --toc-width: 224px; --space-page: 24px;
+  --sidebar-width: min(340px, calc(100vw - 32px)); --toc-width: 224px; --space-page: 24px;
   --radius-sm: 6.4px; --radius-md: 8px; --radius-lg: 11.2px; --radius-xl: 14.4px;
 }
 [data-theme="dark"] {
@@ -63,7 +63,7 @@ body { background: var(--surface-page); color: var(--text-primary); }
 .search-shortcut-pill { font-size: 11px; color: var(--text-secondary); background: var(--surface-card); }
 .section-title { font-size: 12px; color: var(--text-muted); }
 .tree-stats-badge, .folder-count-badge { font-size: 12px; color: var(--text-muted); }
-.tree-folder-header, .document-button { min-height: 40px; border-radius: var(--radius-md); font-size: 14px; }
+.tree-folder-header, .document-button { min-height: 40px; border-radius: var(--radius-md); font-size: 13px; line-height: 1.45; }
 .tree-folder-header { font-weight: 600; }
 .document-button { position: relative; font-weight: 500; }
 .document-button:hover { transform: none; }

@@ -320,12 +320,13 @@ svg.lucide {
 
 .folder-name {
     flex: 1;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    min-width: 0;
+    white-space: normal;
+    overflow-wrap: anywhere;
 }
 
 .folder-count-badge {
+    flex-shrink: 0;
     font-size: 10.5px;
     font-weight: 600;
     padding: 1px 6px;
@@ -379,6 +380,7 @@ svg.lucide {
 }
 
 .doc-badge {
+    flex-shrink: 0;
     padding: 2px 5px;
     border-radius: 4px;
     font-size: 9px;
@@ -397,9 +399,9 @@ svg.lucide {
 
 .document-name {
     flex: 1;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    min-width: 0;
+    white-space: normal;
+    overflow-wrap: anywhere;
 }
 
 /* Sidebar Footer */
