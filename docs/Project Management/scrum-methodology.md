@@ -13,14 +13,9 @@ The team uses Trello as its visible work board and maintains planning, standup a
 
 Observed movement is broadly:
 
-```mermaid
-flowchart LR
-  P[Backlog or Potential Features] --> S[Sprint backlog]
-  S --> I[In Progress]
-  I --> C[Completed]
-  C --> F[Issues/fixes when rework is identified]
-  F --> I
-```
+![Work moves from Backlog or Potential Features to Sprint backlog, In Progress and Completed. When rework is identified, it moves to Issues/fixes and returns to In Progress.](../../assets/diagrams/scrum-workflow.svg)
+
+**Flow:** Backlog or Potential Features → Sprint backlog → In Progress → Completed. When rework is identified, it moves to Issues/fixes and returns to In Progress.
 
 ## Ceremonies
 
@@ -30,7 +25,7 @@ Planning should select refined stories, state a sprint goal, confirm capacity/ow
 
 ### Standups
 
-The original product-requirements record states a cadence of every three days. The same meeting-derived page also records â€œ3 per week,â€ and the Sprint 1 retrospective says the wording should be corrected from â€œevery 3 daysâ€ to â€œ3 per week.â€ The definitive current cadence therefore requires team confirmation; both records are preserved rather than silently choosing one.
+The original product-requirements record states a cadence of every three days. The same meeting-derived page also records "3 per week", and the Sprint 1 retrospective says the wording should be corrected from "every 3 days" to "3 per week". The definitive current cadence therefore requires team confirmation; both records are preserved rather than silently choosing one.
 
 Standups should cover completed work, next work, blockers and board changes. Existing standup records remain under Meetings; none are created by this update.
 

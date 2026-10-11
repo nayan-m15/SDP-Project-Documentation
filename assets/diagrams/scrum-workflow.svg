@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="660" height="510" viewBox="0 0 660 510" role="img" aria-labelledby="title description">
+  <title id="title">Observed Scrum workflow</title>
+  <desc id="description">Backlog or Potential Features moves to Sprint backlog, then In Progress and Completed. When rework is identified, Completed moves to Issues/fixes, which returns to In Progress.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 Z" fill="#334155"/>
+    </marker>
+  </defs>
+  <rect x="1" y="1" width="658" height="508" rx="12" fill="#f8fafc" stroke="#cbd5e1"/>
+  <g fill="none" stroke="#334155" stroke-width="2.5" marker-end="url(#arrow)">
+    <path d="M 195 105 V 150"/>
+    <path d="M 195 220 V 265"/>
+    <path d="M 195 335 V 400"/>
+    <path d="M 340 435 H 410"/>
+    <path d="M 510 400 V 300 H 340"/>
+  </g>
+  <g fill="#ffffff" stroke="#64748b" stroke-width="1.5">
+    <rect x="50" y="35" width="290" height="70" rx="8"/>
+    <rect x="50" y="150" width="290" height="70" rx="8"/>
+    <rect x="50" y="265" width="290" height="70" rx="8"/>
+    <rect x="50" y="400" width="290" height="70" rx="8"/>
+    <rect x="410" y="400" width="200" height="70" rx="8"/>
+  </g>
+  <g fill="#0f172a" font-family="Arial, Helvetica, sans-serif" font-size="21" text-anchor="middle">
+    <text x="195" y="64">Backlog or</text>
+    <text x="195" y="89">Potential Features</text>
+    <text x="195" y="192">Sprint backlog</text>
+    <text x="195" y="307">In Progress</text>
+    <text x="195" y="442">Completed</text>
+    <text x="510" y="442">Issues/fixes</text>
+  </g>
+  <g fill="#334155" font-family="Arial, Helvetica, sans-serif" font-size="16" text-anchor="middle">
+    <text x="430" y="354">When rework</text>
+    <text x="430" y="376">is identified</text>
+    <text x="426" y="286">Return to work</text>
+  </g>
+</svg>
