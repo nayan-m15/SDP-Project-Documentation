@@ -331,8 +331,7 @@ function renderTree(documents) {
     treeContainer.innerHTML = "";
     const rootNode = buildDocTree(documents);
     renderTreeBranch(rootNode, treeContainer);
-    const projectManagement = treeContainer.querySelector(':scope > .tree-folder[data-folder="project management"]');
-    if (projectManagement) setFolderExpanded(projectManagement, true);
+    treeContainer.querySelectorAll(":scope > .tree-folder").forEach(folder => setFolderExpanded(folder, true));
     refreshIcons();
 }
 
